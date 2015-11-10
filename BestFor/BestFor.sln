@@ -15,6 +15,8 @@ Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "BestFor", "src\BestFor\Best
 EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Junk5WebApi", "src\Junk5WebApi\Junk5WebApi.xproj", "{33F3E8E5-48B7-4157-BC55-CEEFAF416CCF}"
 EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Junk5Mvc", "src\Junk5Mvc\Junk5Mvc.xproj", "{7F4507ED-3ADC-4552-AF44-8117B056CB61}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,6 +31,10 @@ Global
 		{33F3E8E5-48B7-4157-BC55-CEEFAF416CCF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{33F3E8E5-48B7-4157-BC55-CEEFAF416CCF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{33F3E8E5-48B7-4157-BC55-CEEFAF416CCF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7F4507ED-3ADC-4552-AF44-8117B056CB61}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7F4507ED-3ADC-4552-AF44-8117B056CB61}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7F4507ED-3ADC-4552-AF44-8117B056CB61}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7F4507ED-3ADC-4552-AF44-8117B056CB61}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -36,5 +42,6 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{DD56183A-8388-46F2-A8D6-6BEC76913C43} = {2971FE59-8965-4135-A860-33D07E4BD8FB}
 		{33F3E8E5-48B7-4157-BC55-CEEFAF416CCF} = {2971FE59-8965-4135-A860-33D07E4BD8FB}
+		{7F4507ED-3ADC-4552-AF44-8117B056CB61} = {2971FE59-8965-4135-A860-33D07E4BD8FB}
 	EndGlobalSection
 EndGlobal
