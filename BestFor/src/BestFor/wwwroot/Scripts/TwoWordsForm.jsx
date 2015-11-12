@@ -1,4 +1,4 @@
-﻿{ /* Control to show two text box fields search form */ }
+﻿ /* Control to show two text box fields search form */ 
 var TwoWordsForm = React.createClass({
     render: function () {
         return (
@@ -14,6 +14,7 @@ var SearchTextBox = React.createClass({
         );
     }
 });
+/*
 var CommentForm = React.createClass({
     handleSubmit: function(e) {
         e.preventDefault();
@@ -37,7 +38,7 @@ var CommentForm = React.createClass({
             </form>
         );
     }
-});
+});*/
 /*var CommentBox = React.createClass({
     loadCommentsFromServer: function() {
         var xhr = new XMLHttpRequest();
