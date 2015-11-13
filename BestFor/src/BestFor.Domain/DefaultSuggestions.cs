@@ -6,6 +6,9 @@ using BestFor.Domain.Interfaces;
 
 namespace BestFor.Domain
 {
+    /// <summary>
+    /// Implements the default storage of word phrase suggestions
+    /// </summary>
     public class DefaultSuggestions : ISuggestionDataSource
     {
         private static Dictionary<string, string> _data = new Dictionary<string, string>
@@ -15,8 +18,14 @@ namespace BestFor.Domain
             ["IBM"] = "IBM"
         };
 
+        /// <summary>
+        /// Implmentation of suggestion search based on word start
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
         public IEnumerable<Suggestion> FindSuggestions(string input)
         {
+            // Search default dictionary and return the list of suggestions
             return _data.Where(x => x.Key.StartsWith(input)).Select(x => new Suggestion() { Phrase = x.Value });
         }
     }

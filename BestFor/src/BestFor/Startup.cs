@@ -108,6 +108,7 @@ namespace BestFor
                 //    .AddScript("~/Scripts/First.jsx")
                 //    .AddScript("~/Scripts/Second.jsx");
                 config
+                    .AddScript("~/Scripts/SearchTextBox.jsx")
                     .AddScript("~/Scripts/TwoWordsForm.jsx");
 
                 // If you use an external build too (for example, Babel, Webpack,

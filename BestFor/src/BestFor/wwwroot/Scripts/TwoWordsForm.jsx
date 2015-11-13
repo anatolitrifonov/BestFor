@@ -1,16 +1,80 @@
-﻿ /* Control to show two text box fields search form */ 
+﻿// If you need to interact with the browser, perform your work in componentDidMount() or the other lifecycle methods instead.
+
+/* Control to show two text box fields search form */
 var TwoWordsForm = React.createClass({
+    something: "asd",
+
+    handleUserTyping: function (userInput) {
+        console.log("user typing was handled");
+        //var comments = this.state.data;
+        //var newComments = comments.concat([comment]);
+        //this.setState({ data: newComments });
+
+        //var data = new FormData();
+        //data.append('Author', comment.Author);
+        //data.append('Text', comment.Text);
+
+        //var xhr = new XMLHttpRequest();
+        //xhr.open('post', this.props.submitUrl, true);
+        //xhr.onload = function () {
+        //    this.loadCommentsFromServer();
+        //}.bind(this);
+        //xhr.send(data);
+    },
     render: function () {
         return (
-            <SearchTextBox />
+            <div>
+            <SearchTextBox onUserTyping={this.handleUserTyping} />
+            <SearchAllButton />
+            <SearchResultList data={randomSuggestionsData} />
+            </div>
         );
     }
 });
 
-var SearchTextBox = React.createClass({
+
+var SearchAllButton = React.createClass({
     render: function () {
+        return(
+            <input type="button" value="Search" />
+        );
+    }
+});
+
+var randomSuggestionsData = [
+  { Phrase: "Daniel Lo Nigro" },
+  { Phrase: "Z" },
+  { Phrase: "FGDDD" }
+];
+
+// Displays search result list
+// Properties:
+//      data - list of items to render - needs to be set by instantiator
+var SearchResultList = React.createClass({
+    render: function () {
+        // this.props is built in
+        // this.props.data needs to be set by instance creator
+        // this.props.data.map
+        // this.props is react object. Any property of reach object is a child of this reach object.
+        // In this case property "data" is a child
+        // React exposes .map for child objects
+        // array React.Children.map(object children, function fn [, object thisArg])
+        //    Invoke fn on every immediate child contained within children with this set to thisArg.
+        //    If children is a nested object or array it will be traversed: fn will never be passed the container objects. 
+        //    If children is null or undefined returns null or undefined rather than an array.
+        // suggestion would be an element of data
+        // We know that it has property Phrase
+        // someArray is array of items function is executed for each item in array during rendering
+        var someArray = this.props.data.map(function (suggestion) {
+            return (
+                <span>{suggestion.Phrase}</span>
+                );
+        });
+        // render list on items in data
         return (
-            <input type="text" placeholder="Your name" ref="author" />
+            <div>
+                {someArray}      
+            </div>
         );
     }
 });
