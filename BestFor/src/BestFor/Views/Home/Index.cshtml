@@ -9,10 +9,11 @@
     <title>Hello React</title>
 </head>
 <body>
-    @Html.React("TwoWordsForm", new { })
+    @Html.React("TwoWordsForm", new { suggestionsUrl = "/api/suggestion" })
     <script src="https://fb.me/react-0.14.0.min.js"></script>
     <script src="https://fb.me/react-dom-0.14.0.min.js"></script>
     <script src="@Url.Content("~/Scripts/SearchTextBox.jsx")"></script>
+    <script src="@Url.Content("~/Scripts/SuggestionLineItem.jsx")"></script>
     <script src="@Url.Content("~/Scripts/TwoWordsForm.jsx")"></script>
     @Html.ReactInitJavaScript()
 </body>

@@ -9,7 +9,7 @@ namespace BestFor.Services
 {
     public class DataLocator
     {
-        private static ISuggestionDataSource _suggestiosDataSource = new DefaultSuggestions();
+        private static ISuggestionDataSource _suggestiosDataSource = new ShortSuggestions();
 
         public static ISuggestionDataSource GetSuggestionsDataSource()
         {
