@@ -9,12 +9,16 @@
     <title>Hello React</title>
 </head>
 <body>
-    @Html.React("TwoWordsForm", new { suggestionsUrl = "/api/suggestion" })
+    <div style="text-align:center;padding-top:150px">
+        @Html.React("SuggestionControl", new { suggestionsUrl = "/api/suggestion" }, "span")
+        @Html.React("SuggestionControl", new { suggestionsUrl = "/api/suggestion" }, "span")
+    </div>
     <script src="https://fb.me/react-0.14.0.min.js"></script>
     <script src="https://fb.me/react-dom-0.14.0.min.js"></script>
-    <script src="@Url.Content("~/Scripts/SearchTextBox.jsx")"></script>
+    <script src="@Url.Content("~/Scripts/SuggestionControl.jsx")"></script>
     <script src="@Url.Content("~/Scripts/SuggestionLineItem.jsx")"></script>
-    <script src="@Url.Content("~/Scripts/TwoWordsForm.jsx")"></script>
+    <script src="@Url.Content("~/Scripts/SuggestionResultList.jsx")"></script>
+    <script src="@Url.Content("~/Scripts/SuggestionTextBox.jsx")"></script>
     @Html.ReactInitJavaScript()
 </body>
 </html>

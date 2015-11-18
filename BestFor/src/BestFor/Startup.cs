@@ -108,9 +108,10 @@ namespace BestFor
                 //    .AddScript("~/Scripts/First.jsx")
                 //    .AddScript("~/Scripts/Second.jsx");
                 config
-                    .AddScript("~/Scripts/SearchTextBox.jsx")
+                    .AddScript("~/Scripts/SuggestionControl.jsx")
                     .AddScript("~/Scripts/SuggestionLineItem.jsx")
-                    .AddScript("~/Scripts/TwoWordsForm.jsx");
+                    .AddScript("~/Scripts/SuggestionResultList.jsx")
+                    .AddScript("~/Scripts/SuggestionTextBox.jsx");
 
                 // If you use an external build too (for example, Babel, Webpack,
                 // Browserify or Gulp), you can improve performance by disabling

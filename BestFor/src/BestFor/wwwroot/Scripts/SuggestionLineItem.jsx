@@ -42,7 +42,11 @@ var SuggestionLineItem = React.createClass({
 
     render: function () {
         var styles = {
-            backgroundColor: this.state.isMouseOver ? "yellow" : "green"
+            paddingLeft: 2,
+            paddingRight: 2,
+            paddingTop: 2,
+            paddingBottom: 2,
+            backgroundColor: this.state.isMouseOver ? "#f5f5dc" : ""
         };
         return (
             <li style={styles} onMouseOver={this.handleMouseOver} onMouseOut={this.handleMouseOut}
