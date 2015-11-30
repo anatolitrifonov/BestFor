@@ -1,0 +1,19 @@
+﻿@using BestFor.Dto
+@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+// ViewBag.Title = "Home Page";
+}
+<p>SuggestionResultList.</p>
+
+@{ 
+    var data = new SuggestionDto[] {
+        new SuggestionDto() { Phrase = "A" },
+        new SuggestionDto() { Phrase = "B" },
+        new SuggestionDto() { Phrase = "C" },
+        new SuggestionDto() { Phrase = "D" }
+    };
+}
+@Html.React("SuggestionAnswerList", new { answers = data })
+

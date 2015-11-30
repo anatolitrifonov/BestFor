@@ -108,9 +108,12 @@ namespace BestFor
                 //    .AddScript("~/Scripts/First.jsx")
                 //    .AddScript("~/Scripts/Second.jsx");
                 config
+                    .AddScript("~/Scripts/MenuControl.jsx")
                     .AddScript("~/Scripts/SuggestionControl.jsx")
                     .AddScript("~/Scripts/SuggestionLineItem.jsx")
                     .AddScript("~/Scripts/SuggestionResultList.jsx")
+                    .AddScript("~/Scripts/SuggestionAnswerList.jsx")
+                    .AddScript("~/Scripts/SuggestionPanel.jsx")
                     .AddScript("~/Scripts/SuggestionTextBox.jsx");
 
                 // If you use an external build too (for example, Babel, Webpack,

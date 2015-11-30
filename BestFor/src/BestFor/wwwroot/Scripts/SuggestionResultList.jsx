@@ -1,4 +1,5 @@
-﻿// Displays search result list of suggestions
+﻿// List of SuggestionLineItem components
+// Displays search result list of suggestions
 // Captures onClick from each item and bubbles it up as onListClicked event
 // Parent drives the logic of show or hyde list through showList property because it depends on data being loaded or not and user typing
 // or not typing on the list
@@ -15,7 +16,7 @@ var SuggestionResultList = React.createClass({
     handleItemClicked: function (phrase) {
         // bubble up passing the phrase
         if (this.props.onListClicked != null) this.props.onListClicked({ Phrase: phrase });
-        console.log("SearchResultList handleItemClicked: function (" + phrase + ")");
+        console.log("SuggestionResultList handleItemClicked: function (" + phrase + ")");
     },
 
     // Builds a style object for pop up div

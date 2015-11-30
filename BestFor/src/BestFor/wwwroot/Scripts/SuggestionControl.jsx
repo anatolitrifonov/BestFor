@@ -1,5 +1,5 @@
-﻿// If you need to interact with the browser, perform your work in componentDidMount() or the other lifecycle methods instead.
-
+﻿// One SuggestionTextBox and one SuggestionResultList
+// If you need to interact with the browser, perform your work in componentDidMount() or the other lifecycle methods instead.
 /*
 Control to show two text box fields search form
 State: suggestionsData - last list of suggestions loaded from the server
