@@ -4,6 +4,7 @@
 <head>
     <meta name="viewport" content="width=device-width" />
     <title>@ViewBag.Title</title>
+    <link rel="stylesheet" href="~/css/site.css" />
 </head>
 <body>
     @Html.React("MenuControl", new { })
@@ -15,6 +16,7 @@
     <script src="@Url.Content("~/Scripts/SuggestionResultList.jsx")"></script>
     <script src="@Url.Content("~/Scripts/SuggestionTextBox.jsx")"></script>
     <script src="@Url.Content("~/Scripts/SuggestionAnswerList.jsx")"></script>
+    <script src="@Url.Content("~/Scripts/SuggestionPanel.jsx")"></script>
     <script src="@Url.Content("~/Scripts/MenuControl.jsx")"></script>
     @Html.ReactInitJavaScript()
 </body>

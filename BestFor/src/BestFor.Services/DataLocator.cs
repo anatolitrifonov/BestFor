@@ -10,10 +10,16 @@ namespace BestFor.Services
     public class DataLocator
     {
         private static ISuggestionDataSource _suggestiosDataSource = new ShortSuggestions();
+        private static IAnswerDataSource _answersDataSource = new RandomAnswers();
 
         public static ISuggestionDataSource GetSuggestionsDataSource()
         {
             return _suggestiosDataSource;
+        }
+
+        public static IAnswerDataSource GetAnswersDataSource()
+        {
+            return _answersDataSource;
         }
     }
 }

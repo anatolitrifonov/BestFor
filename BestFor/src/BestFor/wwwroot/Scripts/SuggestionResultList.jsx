@@ -24,7 +24,7 @@ var SuggestionResultList = React.createClass({
         return {
             border: "1px solid #ddd",
             position: "absolute",
-            //backgroundColor: "red",
+            backgroundColor: "white",
             zIndex: 1000,
             top: this.props.listTop,
             left: this.props.listLeft,

@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using BestFor.Services;
+﻿using BestFor.Services;
+using BestFor.Services.Interfaces;
 
 namespace BestFor
 {
@@ -14,6 +11,10 @@ namespace BestFor
         public static ISuggestionService GetSuggestionService()
         {
             return new SuggestionService();
+        }
+        public static IAnswerService GetAnswerService()
+        {
+            return new AnswerService();
         }
     }
 }

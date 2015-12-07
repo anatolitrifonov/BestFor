@@ -1,4 +1,6 @@
-﻿using BestFor.Dto;
+﻿using System;
+using BestFor.Dto;
+using BestFor.Domain;
 using BestFor.Services.Interfaces;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,10 +12,10 @@ namespace BestFor.Services
     /// <summary>
     /// Suggestion service implementation
     /// </summary>
-    public class SuggestionService: ISuggestionService
+    public class AnswerService : IAnswerService
     {
         // private static 
-        public SuggestionService()
+        public AnswerService()
         {
         }
         
@@ -22,12 +24,19 @@ namespace BestFor.Services
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        public IEnumerable<SuggestionDto> FindSuggestions(string input)
+        public IEnumerable<AnswerDto> FindAnswers(string leftWord, string rightWord)
         {
             // Find data source for suggestions
             // Call its find suggestions method
             // Ask results to convert itselft to Dto 
-            return DataLocator.GetSuggestionsDataSource().FindSuggestions(input).Select(x => x.ToDto());
+            return DataLocator.GetAnswersDataSource().FindAnswers(leftWord, rightWord).Select(x => x.ToDto());
+        }
+
+        public Guid AddAnswer(AnswerDto answer)
+        {
+            var answerObject = new Answer();
+            answerObject.FromDto(answer);
+            return DataLocator.GetAnswersDataSource().AddAnswer(answerObject);
         }
 
     }
