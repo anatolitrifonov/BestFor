@@ -7,6 +7,6 @@ namespace BestFor.Domain.Interfaces
     {
         T ToDto();
 
-        string FromDto(T dto);
+        ObjectsIdentifier FromDto(T dto);
     }
 }

@@ -15,7 +15,7 @@ namespace BestFor.Domain
             return new SuggestionDto() { Phrase = this.Phrase };
         }
 
-        public string FromDto(SuggestionDto dto)
+        public ObjectsIdentifier FromDto(SuggestionDto dto)
         {
             Phrase = dto.Phrase;
             return Id;

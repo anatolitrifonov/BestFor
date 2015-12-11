@@ -111,6 +111,7 @@ namespace BestFor
                     .AddScript("~/Scripts/MenuControl.jsx")
                     .AddScript("~/Scripts/SuggestionControl.jsx")
                     .AddScript("~/Scripts/SuggestionLineItem.jsx")
+                    .AddScript("~/Scripts/SuggestionAnswerItem.jsx")
                     .AddScript("~/Scripts/SuggestionResultList.jsx")
                     .AddScript("~/Scripts/SuggestionAnswerList.jsx")
                     .AddScript("~/Scripts/SuggestionPanel.jsx")

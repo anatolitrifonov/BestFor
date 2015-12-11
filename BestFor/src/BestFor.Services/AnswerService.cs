@@ -32,7 +32,7 @@ namespace BestFor.Services
             return DataLocator.GetAnswersDataSource().FindAnswers(leftWord, rightWord).Select(x => x.ToDto());
         }
 
-        public Guid AddAnswer(AnswerDto answer)
+        public Answer AddAnswer(AnswerDto answer)
         {
             var answerObject = new Answer();
             answerObject.FromDto(answer);

@@ -5,14 +5,14 @@ Control to show two text box fields search form
 State: suggestionsData - last list of suggestions loaded from the server
 */
 var SuggestionControl = React.createClass({
-    // built in ability to verify type of each property
+    // Built in ability to verify type of each property
     propTypes: {
         // not required but very useful
-        // onUserTyping event handler should be a function
-        suggestionsUrl: React.PropTypes.string
+        suggestionsUrl: React.PropTypes.string, // suggestionsUrl event handler should be a string
+        onValueChange: React.PropTypes.func // onValueChange event handler should be a function
     },
 
-    // built in ablity to set initial state
+    // Built in ability to set initial state
     getInitialState: function () {
         // Invoked once before the component is mounted. The return value will be used as the initial value of this.state.
         // initial set of suggestions is blank
@@ -25,27 +25,38 @@ var SuggestionControl = React.createClass({
         };
     },
 
-    // Convert request readyState from number to text
-    readyStateToText: function (readyState) {
-        if (readyState == 0) return "UNSENT open() has not been called yet.";
-        if (readyState == 1) return "OPENED send() has been called.";
-        if (readyState == 2) return "HEADERS_RECEIVED send() has been called, and headers and status are available.";
-        if (readyState == 3) return "LOADING Downloading; responseText holds partial data.";
-        if (readyState == 1) return "DONE The operation is complete.";
-        return "Unknown";
+    // Static functions that are ... welll just static functions ... they can not access state
+    statics: {
+        // Convert request readyState from number to text        
+        readyStateToText: function (readyState) {
+            if (readyState == 0) return "UNSENT open() has not been called yet.";
+            if (readyState == 1) return "OPENED send() has been called.";
+            if (readyState == 2) return "HEADERS_RECEIVED send() has been called, and headers and status are available.";
+            if (readyState == 3) return "LOADING Downloading; responseText holds partial data.";
+            if (readyState == 1) return "DONE The operation is complete.";
+            return "Unknown";
+        },
     },
 
-    // handle user typing text in the word box load data and show in usggestions popup
+    //Get the current value
+    getCurrentValue: function () {
+        return this.state.currentValue;
+    },
+
+    // Handle user typing text in the word box load data and show in usggestions popup
     handleUserTyping: function (userInputObject) {
         // update the state no matter what. even if we are not launching the server request
         this.setState({ currentValue: userInputObject.Phrase });
+
+        // Let the listeners know that something has changed
+        this.notifyListenersOnValueChange(userInputObject.Phrase);
 
         // console.log("user typing was handled");
         // We are going to handle only one request at a time.
         // check if there is a request is process already
         // will not do anything if xht is not done. Could be anything but as we said only one at a time.
         if (this.xhr != null && this.xhr.readyState != 4) {
-            console.log("xhr is busy with state " + this.xhr.readyState + " " + this.readyStateToText(this.xhr.readyState));
+            console.log("xhr is busy with state " + this.xhr.readyState + " " + readyStateToText(this.xhr.readyState));
             return;
         }
 
@@ -75,12 +86,22 @@ var SuggestionControl = React.createClass({
         this.xhr.send();
     },
 
-    // handle user clicking on the suggestions list. hide it and set the text
+    // Handle user clicking on the suggestions list. hide it and set the text
     handleListClicked: function (phrase) {
         this.setState({
             showList: false, // hide list
             currentValue: phrase.Phrase // set the value in the text box
         });
+        // Let the listeners know that something has changed
+        this.notifyListenersOnValueChange(phrase);
+    },
+
+    // Fire event if anyone is listening
+    notifyListenersOnValueChange: function (phrase) {
+        if (this.props.onValueChange == null)
+            console.log("SuggestionControl, no onValueChange listener.");
+        else
+            this.props.onValueChange(phrase);
     },
 
     render: function () {

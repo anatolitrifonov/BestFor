@@ -9,6 +9,6 @@ namespace BestFor.Domain.Interfaces
     {
         IEnumerable<Answer> FindAnswers(string leftWord, string rightWord);
 
-        Guid AddAnswer(Answer answer);
+        Answer AddAnswer(Answer answer);
     }
 }

@@ -8,3 +8,11 @@
     border:3px solid #73AD21;
     padding: 10px;
 }
+
+.SuggestionTextBox {
+    width: 400px
+}
+
+.AnswerTextBox {
+    width: 400px
+}

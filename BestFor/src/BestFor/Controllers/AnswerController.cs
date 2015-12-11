@@ -29,9 +29,9 @@ namespace BestFor.Controllers
         }
 
         [HttpPost]
-        public int AddAnswer(AnswerDto answer)
+        public AnswerDto AddAnswer(AnswerDto answer)
         {
-            return ServiceLocator.GetAnswerService().FindAnswers(leftWord, rightWord);
+            return ServiceLocator.GetAnswerService().AddAnswer(answer).ToDto();
         }
 
         /// <summary>

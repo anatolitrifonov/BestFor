@@ -27,7 +27,7 @@ var SuggestionTextBox = React.createClass({
     },
     render: function () {
         return (
-            <input type="text" placeholder="first word" onChange={this.handleChange} value={this.props.textValue} />
+            <input type="text" placeholder="first word" onChange={this.handleChange} value={this.props.textValue} className="SuggestionTextBox" />
         );
     }
 });
