@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.ComponentModel;
+//using System.ComponentModel.DataAnnotations;
 
-namespace BestFor.Domain
+namespace BestFor.Domain.Entities
 {
     public abstract class BaseDomainObject
     {
+ //       [Key]
         public ObjectsIdentifier Id { get; set; }
 
         public BaseDomainObject()

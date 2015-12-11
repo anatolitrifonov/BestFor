@@ -1,7 +1,7 @@
 ﻿using BestFor.Domain.Interfaces;
 using BestFor.Dto;
 
-namespace BestFor.Domain
+namespace BestFor.Domain.Entities
 {
     /// <summary>
     /// Represents a simple word suggestion object

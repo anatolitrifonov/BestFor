@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Xunit;
 using BestFor.Domain;
 using BestFor.Dto;
+using BestFor.Domain.Entities;
 
 namespace BestFor.Domain.Tests
 {

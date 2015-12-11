@@ -2,7 +2,7 @@
 using BestFor.Domain.Interfaces;
 using BestFor.Dto;
 
-namespace BestFor.Domain
+namespace BestFor.Domain.Entities
 {
     public class Answer : BaseDomainObject, IDtoConvertable<AnswerDto>
     {
