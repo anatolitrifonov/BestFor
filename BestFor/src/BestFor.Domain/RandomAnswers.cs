@@ -15,7 +15,7 @@ namespace BestFor.Domain
         {
             public int Count { get; set; }
 
-            public ObjectsIdentifier Id { get; set; }
+            public int Id { get; set; }
         }
         #region Some Data
         private static Dictionary<string, Dictionary<string, AnswerProperties>> _data = new Dictionary<string, Dictionary<string, AnswerProperties>>();
@@ -26,24 +26,24 @@ namespace BestFor.Domain
         {
             if (!_dictionaryInitialized)
             {
-                _data.Add(Answer.FormKey("abc", "def"), new Dictionary<string, AnswerProperties>
-                {
-                    ["test1"] = new AnswerProperties() { Count = 5, Id = new ObjectsIdentifier() },
-                    ["test2"] = new AnswerProperties() { Count = 7, Id = new ObjectsIdentifier() },
-                    ["test3"] = new AnswerProperties() { Count = 1, Id = new ObjectsIdentifier() }
-                });
-                _data.Add(Answer.FormKey("qwe", "qwe"), new Dictionary<string, AnswerProperties>
-                {
-                    ["test1"] = new AnswerProperties() { Count = 3, Id = new ObjectsIdentifier() },
-                    ["test2"] = new AnswerProperties() { Count = 57, Id = new ObjectsIdentifier() },
-                    ["test3"] = new AnswerProperties() { Count = 2, Id = new ObjectsIdentifier() }
-                });
-                _data.Add(Answer.FormKey("asd", "asd"), new Dictionary<string, AnswerProperties>
-                {
-                    ["test1"] = new AnswerProperties() { Count = 52, Id = new ObjectsIdentifier() },
-                    ["test2"] = new AnswerProperties() { Count = 73, Id = new ObjectsIdentifier() },
-                    ["test3"] = new AnswerProperties() { Count = 41, Id = new ObjectsIdentifier() }
-                });
+                //_data.Add(Answer.FormKey("abc", "def"), new Dictionary<string, AnswerProperties>
+                //{
+                //    ["test1"] = new AnswerProperties() { Count = 5, Id = new ObjectsIdentifier() },
+                //    ["test2"] = new AnswerProperties() { Count = 7, Id = new ObjectsIdentifier() },
+                //    ["test3"] = new AnswerProperties() { Count = 1, Id = new ObjectsIdentifier() }
+                //});
+                //_data.Add(Answer.FormKey("qwe", "qwe"), new Dictionary<string, AnswerProperties>
+                //{
+                //    ["test1"] = new AnswerProperties() { Count = 3, Id = new ObjectsIdentifier() },
+                //    ["test2"] = new AnswerProperties() { Count = 57, Id = new ObjectsIdentifier() },
+                //    ["test3"] = new AnswerProperties() { Count = 2, Id = new ObjectsIdentifier() }
+                //});
+                //_data.Add(Answer.FormKey("asd", "asd"), new Dictionary<string, AnswerProperties>
+                //{
+                //    ["test1"] = new AnswerProperties() { Count = 52, Id = new ObjectsIdentifier() },
+                //    ["test2"] = new AnswerProperties() { Count = 73, Id = new ObjectsIdentifier() },
+                //    ["test3"] = new AnswerProperties() { Count = 41, Id = new ObjectsIdentifier() }
+                //});
             }
         }
 

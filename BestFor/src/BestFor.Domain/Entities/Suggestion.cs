@@ -1,4 +1,5 @@
-﻿using BestFor.Domain.Interfaces;
+﻿using System.ComponentModel.DataAnnotations;
+using BestFor.Domain.Interfaces;
 using BestFor.Dto;
 
 namespace BestFor.Domain.Entities
@@ -6,8 +7,11 @@ namespace BestFor.Domain.Entities
     /// <summary>
     /// Represents a simple word suggestion object
     /// </summary>
-    public class Suggestion : BaseDomainObject, IDtoConvertable<SuggestionDto>
+    public class Suggestion : IDtoConvertable<SuggestionDto>
     {
+        [Key]
+        public int Id { get; set; }
+
         public string Phrase { get; set; }
 
         public SuggestionDto ToDto()
@@ -15,7 +19,7 @@ namespace BestFor.Domain.Entities
             return new SuggestionDto() { Phrase = this.Phrase };
         }
 
-        public ObjectsIdentifier FromDto(SuggestionDto dto)
+        public int FromDto(SuggestionDto dto)
         {
             Phrase = dto.Phrase;
             return Id;

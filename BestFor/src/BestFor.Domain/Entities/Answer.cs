@@ -1,11 +1,14 @@
-﻿using System;
+﻿using System.ComponentModel.DataAnnotations;
 using BestFor.Domain.Interfaces;
 using BestFor.Dto;
 
 namespace BestFor.Domain.Entities
 {
-    public class Answer : BaseDomainObject, IDtoConvertable<AnswerDto>
+    public class Answer : IDtoConvertable<AnswerDto>
     {
+        [Key]
+        public int Id { get; set; }
+
         public string LeftWord { get; set; }
 
         public string RightWord { get; set; }
@@ -29,7 +32,7 @@ namespace BestFor.Domain.Entities
             };
         }
 
-        public ObjectsIdentifier FromDto(AnswerDto dto)
+        public int FromDto(AnswerDto dto)
         {
             Phrase = dto.Phrase;
             LeftWord = dto.LeftWord;

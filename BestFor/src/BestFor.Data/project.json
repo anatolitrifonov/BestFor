@@ -8,8 +8,12 @@
 
   "dependencies": {
     "BestFor.Domain": "1.0.0-*",
-    "EntityFramework.Commands": "7.0.0-beta8",
-    "EntityFramework.SqlServer": "7.0.0-beta8"
+    "EntityFramework.MicrosoftSqlServer": "7.0.0-rc1-final",
+    "EntityFramework.Commands": "7.0.0-rc1-final",
+    "EntityFramework.Core": "7.0.0-rc1-final",
+    "Microsoft.Extensions.DependencyInjection": "1.0.0-rc1-*",
+    "Microsoft.Extensions.Configuration": "1.0.0-rc1-*",
+    "Microsoft.Extensions.Configuration.Json": "1.0.0-rc1-*"
   },
 
   "commands": {

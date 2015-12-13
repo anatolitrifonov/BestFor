@@ -1,5 +1,5 @@
 ﻿using Microsoft.Data.Entity;
-using Microsoft.Framework.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Linq;
 using Microsoft.Data.Entity.Storage;

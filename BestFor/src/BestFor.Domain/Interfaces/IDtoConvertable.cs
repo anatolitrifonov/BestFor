@@ -1,5 +1,6 @@
 ﻿using System;
 using BestFor.Dto;
+using BestFor.Domain.Entities;
 
 namespace BestFor.Domain.Interfaces
 {
@@ -7,6 +8,6 @@ namespace BestFor.Domain.Interfaces
     {
         T ToDto();
 
-        ObjectsIdentifier FromDto(T dto);
+        int FromDto(T dto);
     }
 }

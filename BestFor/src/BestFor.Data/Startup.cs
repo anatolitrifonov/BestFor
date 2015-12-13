@@ -1,7 +1,7 @@
 ﻿using Microsoft.Dnx.Runtime;
-using Microsoft.Framework.Configuration;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Data.Entity;
-using Microsoft.Framework.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNet.Hosting;
 
 namespace BestFor.Data

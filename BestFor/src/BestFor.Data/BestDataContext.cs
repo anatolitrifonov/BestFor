@@ -1,5 +1,5 @@
 ﻿using BestFor.Domain.Entities;
-
+using Microsoft.Extensions.Configuration;
 using Microsoft.Data.Entity;
 
 namespace BestFor.Data
@@ -11,13 +11,16 @@ namespace BestFor.Data
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(@"Server=.\SQLEXPRESS;Database=Blogging;integrated security=True;");
+            var builder = new ConfigurationBuilder()
+                .AddJsonFile("appsettings.json");
+            var configuration = builder.Build();
+
+            optionsBuilder.UseSqlServer(configuration["Data:DefaultConnection:ConnectionString"]);
         }
 
-        //protected override void OnConfiguring(DbContextOptions options)
-        //{
-        //    options.UseSqlServer(Startup.Configuration.Get("Data:DefaultConnection:ConnectionString"));
-
-        //}
+        public void DebugCallOnConfiguring()
+        {
+            OnConfiguring(null);
+        }
     }
 }

@@ -46,7 +46,7 @@ namespace BestFor
         // Use this method to add services to the container
         public void ConfigureServices(IServiceCollection services)
         {
-            //// Add Entity Framework services to the services container.
+            ////Add Entity Framework services to the services container.
             //services.AddEntityFramework()
             //    .AddSqlServer()
             //    .AddDbContext<ApplicationDbContext>(options =>
