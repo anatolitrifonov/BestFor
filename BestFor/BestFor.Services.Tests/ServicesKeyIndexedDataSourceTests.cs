@@ -1,0 +1,49 @@
+﻿using BestFor.Services.DatSources;
+using BestFor.Data;
+using BestFor.Data.Fakes;
+using BestFor.Domain;
+using BestFor.Domain.Entities;
+using System.Collections.Generic;
+using System.Linq;
+using Xunit;
+
+namespace BestFor.Domain.Tests
+{
+    /// <summary>
+    /// Unit tests for DefaultSuggestions object
+    /// </summary>
+    public class ServicesKeyIndexedDataSourceTests
+    {
+        [Fact]
+        public void KeyIndexedDataSource_FakeInitialize_Initializes()
+        {
+            var indexDataSource = new KeyIndexedDataSource<Answer>();
+
+            var fakeDataContext = new FakeDataContext();
+            fakeDataContext.AddFakeDbSet<Answer, FakeAnswers>();
+
+            var repo = new Repository<Answer>(fakeDataContext);
+            indexDataSource.Initialize(repo);
+            //var suggestions = new DefaultSuggestions();
+            //var result = suggestions.FindSuggestions("B");
+            //Assert.True(result != null);
+            //Assert.Equal(result.Count(), 0);
+        }
+
+        [Fact]
+        public void KeyIndexedDataSource_LiveInitialize_Initializes()
+        {
+            var indexDataSource = new KeyIndexedDataSource<Answer>();
+
+            var dataContext = new BestDataContext();
+
+            // var repo = new Repository<Answer>(fakeDataContext);
+            var repo = new Repository<Answer>(dataContext);
+            indexDataSource.Initialize(repo);
+            //var suggestions = new DefaultSuggestions();
+            //var result = suggestions.FindSuggestions("B");
+            //Assert.True(result != null);
+            //Assert.Equal(result.Count(), 0);
+        }
+    }
+}

@@ -1,6 +1,7 @@
 ﻿using BestFor.Dto;
 using Microsoft.AspNet.Mvc;
 using System.Collections.Generic;
+using Microsoft.Extensions.Caching.Memory;
 
 // For more information on enabling Web API for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -15,7 +16,7 @@ namespace BestFor.Controllers
 
         // GET: api/values
         [HttpGet]
-        public IEnumerable<AnswerDto> Get()
+        public IEnumerable<AnswerDto> Get([FromServices] IMemoryCache cache)
         {
             // validate input
             var leftWord = ValidateInputForGet(QUERY_STRING_PARAMETER_LEFT_WORD);
@@ -24,7 +25,8 @@ namespace BestFor.Controllers
             if (rightWord == null) return null;
             // get and call the service
             //Thread.Sleep(4000);
-
+            //this.ActionContext.HttpContext.Features.c
+            // CacheProfile[]
             return ServiceLocator.GetAnswerService().FindAnswers(leftWord, rightWord);
         }
 

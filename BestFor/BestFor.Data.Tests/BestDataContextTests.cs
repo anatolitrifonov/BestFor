@@ -15,8 +15,8 @@ namespace BestFor.Data.Tests
         [Fact]
         public void BestDataContext_OnConfiguring_CanReadConfigFile()
         {
-            var dataContext = new BestDataContext();
-            dataContext.DebugCallOnConfiguring();
+          //  var dataContext = new BestDataContext();
+         //   dataContext.DebugCallOnConfiguring();
             Assert.True(true);
         }
     }

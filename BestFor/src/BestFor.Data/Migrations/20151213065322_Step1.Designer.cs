@@ -8,8 +8,8 @@ using BestFor.Data;
 namespace BestFor.Data.Migrations
 {
     [DbContext(typeof(BestDataContext))]
-    [Migration("20151213030729_Initial")]
-    partial class Initial
+    [Migration("20151213065322_Step1")]
+    partial class Step1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -23,8 +23,6 @@ namespace BestFor.Data.Migrations
                         .ValueGeneratedOnAdd();
 
                     b.Property<int>("Count");
-
-                    b.Property<string>("Key");
 
                     b.Property<string>("LeftWord");
 

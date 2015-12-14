@@ -6,8 +6,9 @@ namespace GeneralTests
     {
         public static void Main(string[] args)
         {
-            var dataContext = new BestDataContext();
-            dataContext.DebugCallOnConfiguring();
+            SampleData.Initialize();
+            //var dataContext = new BestDataContext();
+            //dataContext.DebugCallOnConfiguring();
         }
     }
 }

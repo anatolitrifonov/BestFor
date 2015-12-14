@@ -65,7 +65,7 @@ namespace BestFor.Domain
 
         public Answer AddAnswer(Answer answer)
         {
-            var key = answer.Key;
+            var key = answer.IndexKey;
             if (_data.ContainsKey(key))
                 AddAnswerInternal(_data[key], answer);
             else

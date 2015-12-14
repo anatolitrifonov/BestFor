@@ -8,9 +8,10 @@ using BestFor.Data;
 namespace BestFor.Data.Migrations
 {
     [DbContext(typeof(BestDataContext))]
-    partial class BestDataContextModelSnapshot : ModelSnapshot
+    [Migration("20151213064909_Initial")]
+    partial class Initial
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "7.0.0-rc1-16348")
@@ -22,6 +23,8 @@ namespace BestFor.Data.Migrations
                         .ValueGeneratedOnAdd();
 
                     b.Property<int>("Count");
+
+                    b.Property<string>("Key");
 
                     b.Property<string>("LeftWord");
 

@@ -1,13 +1,14 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using BestFor.Domain.Interfaces;
 using BestFor.Dto;
 
 namespace BestFor.Domain.Entities
 {
-    public class Answer : IDtoConvertable<AnswerDto>
+    public class Answer : IndexableEntity, IDtoConvertable<AnswerDto>
     {
         [Key]
-        public int Id { get; set; }
+        public override int Id { get; set; }
 
         public string LeftWord { get; set; }
 
@@ -17,7 +18,8 @@ namespace BestFor.Domain.Entities
 
         public int Count { get; set; }
 
-        public string Key { get { return Answer.FormKey(LeftWord , RightWord); } }
+        [NotMapped]
+        public override string IndexKey { get { return Answer.FormKey(LeftWord , RightWord); } }
 
         public static string FormKey(string leftWord, string rightWord) { return leftWord + " " + rightWord; }
 

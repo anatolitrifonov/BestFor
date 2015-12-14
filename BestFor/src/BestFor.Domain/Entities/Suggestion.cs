@@ -7,7 +7,7 @@ namespace BestFor.Domain.Entities
     /// <summary>
     /// Represents a simple word suggestion object
     /// </summary>
-    public class Suggestion : IDtoConvertable<SuggestionDto>
+    public class Suggestion : EntityBase, IDtoConvertable<SuggestionDto>
     {
         [Key]
         public int Id { get; set; }
