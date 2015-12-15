@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Linq;
 using Xunit;
-using BestFor.Services;
+using BestFor.Services.Service;
 
 namespace BestFor.Services.Tests
 {

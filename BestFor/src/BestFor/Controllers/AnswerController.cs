@@ -2,6 +2,7 @@
 using Microsoft.AspNet.Mvc;
 using System.Collections.Generic;
 using Microsoft.Extensions.Caching.Memory;
+using BestFor.Services.Service;
 
 // For more information on enabling Web API for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -14,9 +15,16 @@ namespace BestFor.Controllers
         private const string QUERY_STRING_PARAMETER_RIGHT_WORD = "rightWord";
         private const int MINIMAL_WORD_LENGTH = 2;
 
+        private IAnswerService _answerService;
+
+        public AnswerController(IAnswerService answerService)
+        {
+            _answerService = answerService;
+        }
+
         // GET: api/values
         [HttpGet]
-        public IEnumerable<AnswerDto> Get([FromServices] IMemoryCache cache)
+        public IEnumerable<AnswerDto> Get() // [FromServices] IMemoryCache cache
         {
             // validate input
             var leftWord = ValidateInputForGet(QUERY_STRING_PARAMETER_LEFT_WORD);
@@ -25,17 +33,16 @@ namespace BestFor.Controllers
             if (rightWord == null) return null;
             // get and call the service
             //Thread.Sleep(4000);
-            //this.ActionContext.HttpContext.Features.c
-            // CacheProfile[]
-            return ServiceLocator.GetAnswerService().FindAnswers(leftWord, rightWord);
+            return _answerService.FindAnswers(leftWord, rightWord);
         }
 
         [HttpPost]
         public AnswerDto AddAnswer(AnswerDto answer)
         {
-            return ServiceLocator.GetAnswerService().AddAnswer(answer).ToDto();
+            return _answerService.AddAnswer(answer).ToDto();
         }
 
+        #region Private Members
         /// <summary>
         /// Returns validated query string for GET method or null.
         /// </summary>
@@ -54,5 +61,6 @@ namespace BestFor.Controllers
             if (!Util.IsAlphaNumeric(userInput)) return null;
             return userInput;
         }
+        #endregion Private Members
     }
 }

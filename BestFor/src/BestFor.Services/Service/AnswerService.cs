@@ -1,6 +1,6 @@
 ﻿using System;
 using BestFor.Dto;
-using BestFor.Services.Interfaces;
+using BestFor.Services.Service;
 using BestFor.Services.DatSources;
 using BestFor.Services.Cache;
 using BestFor.Data;
@@ -8,7 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using BestFor.Domain.Entities;
 
-namespace BestFor.Services
+namespace BestFor.Services.Service
 {
     // This project can output the Class library as a NuGet Package.
     // To enable this option, right-click on the project and select the Properties menu item. In the Build tab select "Produce outputs on build".

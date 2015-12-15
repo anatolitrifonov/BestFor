@@ -99,7 +99,8 @@
         // check if there is a request is process already
         // will not do anything if xht is not done. Could be anything but as we said only one at a time.
         if (this.xhr != null && this.xhr.readyState != 4) {
-            console.log("SuggestionPanel xhr is busy with state " + this.xhr.readyState + " " + SuggestionControl.readyStateToText(this.xhr.readyState));
+            console.log("SuggestionPanel xhr is busy with state " + this.xhr.readyState +
+                " " + SuggestionControl.readyStateToText(this.xhr.readyState));
             return;
         }
 

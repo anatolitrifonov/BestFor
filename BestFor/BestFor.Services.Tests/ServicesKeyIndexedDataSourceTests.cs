@@ -6,23 +6,23 @@ using BestFor.Domain.Entities;
 using System.Collections.Generic;
 using System.Linq;
 using Xunit;
+using Autofac;
+using Autofac.Core;
 
-namespace BestFor.Domain.Tests
+namespace BestFor.Services.Tests
 {
     /// <summary>
     /// Unit tests for DefaultSuggestions object
     /// </summary>
-    public class ServicesKeyIndexedDataSourceTests
+    public class ServicesKeyIndexedDataSourceTests : BaseTest
     {
         [Fact]
         public void KeyIndexedDataSource_FakeInitialize_Initializes()
         {
             var indexDataSource = new KeyIndexedDataSource<Answer>();
 
-            var fakeDataContext = new FakeDataContext();
-            fakeDataContext.AddFakeDbSet<Answer, FakeAnswers>();
+            var repo = new Repository<Answer>(resolver.Resolve<IDataContext>());
 
-            var repo = new Repository<Answer>(fakeDataContext);
             indexDataSource.Initialize(repo);
             //var suggestions = new DefaultSuggestions();
             //var result = suggestions.FindSuggestions("B");

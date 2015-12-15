@@ -2,25 +2,26 @@
 
 namespace BestFor.Services.Cache
 {
-    public class CacheManager
+    public class CacheManager : ICacheManager
     {
 
-        public CacheManager(IMemoryCache cache)
+        public CacheManager() //IMemoryCache cache)
         {
         }
 
-        private static MemoryCache _cache = new MemoryCache(new MemoryCacheOptions());
+       // private static MemoryCache _cache = new MemoryCache(new MemoryCacheOptions());
 
-        public static void Add(string key, object value)
+        public object Add(string key, object value)
         {
-            _cache.Set(key, value);
+            //         _cache.Set(key, value);
+            return value;
         }
 
-        public static object Get(string key)
+        public object Get(string key)
         {
-            object value;
-            if (_cache.TryGetValue(key, out value))
-                return value;
+      //      object value;
+     //       if (_cache.TryGetValue(key, out value))
+      //          return value;
             return null;
         }
     }

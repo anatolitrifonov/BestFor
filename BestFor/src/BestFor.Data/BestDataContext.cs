@@ -25,6 +25,9 @@ namespace BestFor.Data
             return this.Set<TEntity>();
         }
 
-        public Task<int> SaveChangesAsync() { return new Task<int>(() => default(int)); }
+        public Task<int> SaveChangesAsync()
+        {
+            return new Task<int>(() => default(int));
+        }
     }
 }

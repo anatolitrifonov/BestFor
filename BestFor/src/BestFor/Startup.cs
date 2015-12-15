@@ -11,7 +11,7 @@ using Microsoft.AspNet.Diagnostics.Entity;
 using Microsoft.AspNet.Hosting;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.Data.Entity;
-using Microsoft.Dnx.Runtime;
+using Microsoft.Extensions.PlatformAbstractions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -46,6 +46,11 @@ namespace BestFor
         // Use this method to add services to the container
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddEntityFramework()
+                .AddSqlServer()
+                .AddDbContext<BestFor.Data.BestDataContext>(); // (options =>
+                    // options.UseSqlServer(Configuration["Data:DefaultConnection:ConnectionString"]));
+
             ////Add Entity Framework services to the services container.
             //services.AddEntityFramework()
             //    .AddSqlServer()
@@ -71,6 +76,13 @@ namespace BestFor
             //services.AddTransient<ISmsSender, AuthMessageSender>();
 
             services.AddCaching();
+
+            // Add my services
+            services.AddScoped<BestFor.Data.IDataContext, BestFor.Data.BestDataContext>();
+            services.AddScoped<BestFor.Data.IRepository<BestFor.Domain.Entities.Answer>, BestFor.Data.Repository<BestFor.Domain.Entities.Answer>>();
+            services.AddScoped<BestFor.Services.Cache.ICacheManager, BestFor.Services.Cache.CacheManager>();
+            services.AddScoped<BestFor.Services.Service.IAnswerService, BestFor.Services.Service.AnswerService>();
+            services.AddScoped<BestFor.Services.Service.ISuggestionService, BestFor.Services.Service.SuggestionService>();
         }
 
         // Configure is called after ConfigureServices is called.

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Microsoft.AspNet.Mvc;
 using BestFor.Dto;
-using System.Threading;
+using BestFor.Services.Service;
 
 // For more information on enabling Web API for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -12,6 +12,13 @@ namespace BestFor.Controllers
     {
         private const string QUERY_STRING_PARAMETER_USER_INPUT = "userInput";
         private const int MINIMAL_WORD_LENGTH = 2;
+
+        private ISuggestionService _suggestionService;
+        public SuggestionController(ISuggestionService suggestionService)
+        {
+            _suggestionService = suggestionService;
+        }
+
         // GET: api/values
         [HttpGet]
         public IEnumerable<SuggestionDto> Get()
@@ -22,7 +29,7 @@ namespace BestFor.Controllers
             // get and call the service
             //Thread.Sleep(4000);
 
-            return ServiceLocator.GetSuggestionService().FindSuggestions(userInput);
+            return _suggestionService.FindSuggestions(userInput);
         }
 
         // GET api/values/5

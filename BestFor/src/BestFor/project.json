@@ -28,7 +28,8 @@
     "Microsoft.Extensions.Logging.Debug": "1.0.0-rc1-*",
     "Microsoft.VisualStudio.Web.BrowserLink.Loader": "14.0.0-beta8",
     "Microsoft.Extensions.Caching.Memory": "1.0.0-*",
-    "React.AspNet": "2.1.2"
+    "React.AspNet": "2.1.2",
+    "BestFor.Data": "1.0.0-*"
   },
 
   "commands": {
