@@ -1,28 +1,41 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using BestFor.Domain.Interfaces;
 using BestFor.Dto;
 
 namespace BestFor.Domain.Entities
 {
-    public class Answer : IndexableEntity, IDtoConvertable<AnswerDto>
+    public class Answer : EntityBase, IFirstIndex, ISecondIndex, IDtoConvertable<AnswerDto>
     {
-        [Key]
+        [Key, Required, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public override int Id { get; set; }
 
+        [Required]
         public string LeftWord { get; set; }
 
+        [Required]
         public string RightWord { get; set; }
 
+        [Required]
         public string Phrase { get; set; }
 
         public int Count { get; set; }
 
-        [NotMapped]
-        public override string IndexKey { get { return Answer.FormKey(LeftWord , RightWord); } }
-
         public static string FormKey(string leftWord, string rightWord) { return leftWord + " " + rightWord; }
 
+        #region IFirstIndex implementation
+        [NotMapped]
+        public string IndexKey { get { return Answer.FormKey(LeftWord , RightWord); } }
+        #endregion
+
+        #region ISecondIndex implementation
+        [NotMapped]
+        public string SecondIndexKey { get { return Phrase; } }
+
+        [NotMapped]
+        public int NumberOfEntries { get { return Count; } set { Count = value; } }
+        #endregion
+
+        #region IDtoConvertable implementation
         public AnswerDto ToDto()
         {
             return new AnswerDto()
@@ -43,5 +56,6 @@ namespace BestFor.Domain.Entities
 
             return Id;
         }
+        #endregion
     }
 }

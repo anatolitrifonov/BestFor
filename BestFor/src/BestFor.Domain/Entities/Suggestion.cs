@@ -1,5 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using BestFor.Domain.Interfaces;
+using System.ComponentModel.DataAnnotations.Schema;
 using BestFor.Dto;
 
 namespace BestFor.Domain.Entities
@@ -9,9 +9,10 @@ namespace BestFor.Domain.Entities
     /// </summary>
     public class Suggestion : EntityBase, IDtoConvertable<SuggestionDto>
     {
-        [Key]
-        public int Id { get; set; }
+        [Key, Required, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public override int Id { get; set; }
 
+        [Required]
         public string Phrase { get; set; }
 
         public SuggestionDto ToDto()

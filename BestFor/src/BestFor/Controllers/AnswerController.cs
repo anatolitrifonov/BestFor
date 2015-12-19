@@ -1,21 +1,22 @@
-﻿using BestFor.Dto;
+﻿using System;
+using System.Linq;
+using System.Threading.Tasks;
+using BestFor.Dto;
 using Microsoft.AspNet.Mvc;
 using System.Collections.Generic;
-using Microsoft.Extensions.Caching.Memory;
-using BestFor.Services.Service;
-
-// For more information on enabling Web API for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+using BestFor.Services.Services;
 
 namespace BestFor.Controllers
 {
     [Route("api/[controller]")]
-    public class AnswerController : Controller
+    public class AnswerController : BaseApiController
     {
         private const string QUERY_STRING_PARAMETER_LEFT_WORD = "leftWord";
         private const string QUERY_STRING_PARAMETER_RIGHT_WORD = "rightWord";
         private const int MINIMAL_WORD_LENGTH = 2;
 
         private IAnswerService _answerService;
+
 
         public AnswerController(IAnswerService answerService)
         {
@@ -24,22 +25,36 @@ namespace BestFor.Controllers
 
         // GET: api/values
         [HttpGet]
-        public IEnumerable<AnswerDto> Get() // [FromServices] IMemoryCache cache
+        public IEnumerable<AnswerDto> Get()
         {
+            // This might throw exception if there was a header but invalid. But if someone is just messing with us we will return nothing.
+            if (!ParseAntiForgeryHeader()) return Enumerable.Empty<AnswerDto>();
+
             // validate input
             var leftWord = ValidateInputForGet(QUERY_STRING_PARAMETER_LEFT_WORD);
-            if (leftWord == null) return null;
+            if (leftWord == null) return Enumerable.Empty<AnswerDto>(); ;
             var rightWord = ValidateInputForGet(QUERY_STRING_PARAMETER_RIGHT_WORD);
-            if (rightWord == null) return null;
-            // get and call the service
-            //Thread.Sleep(4000);
-            return _answerService.FindAnswers(leftWord, rightWord);
+            if (rightWord == null) return Enumerable.Empty<AnswerDto>(); ;
+
+            // Thread.Sleep(4000);
+            // call the service
+            return _answerService.FindTopAnswers(leftWord, rightWord);
         }
 
+        /// <summary>
+        /// error indication will be no id assigned to the answer
+        /// </summary>
+        /// <param name="answer"></param>
+        /// <returns></returns>
         [HttpPost]
-        public AnswerDto AddAnswer(AnswerDto answer)
+        public async Task<AnswerDto> AddAnswer(AnswerDto answer)
         {
-            return _answerService.AddAnswer(answer).ToDto();
+            // This might throw exception if there was a header but invalid. But if someone is just messing with us we will return nothing.
+            if (!ParseAntiForgeryHeader()) return answer;
+
+            var addedAnswer = await _answerService.AddAnswer(answer);
+            
+            return addedAnswer.ToDto();
         }
 
         #region Private Members

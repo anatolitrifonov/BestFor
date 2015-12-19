@@ -23,11 +23,14 @@ namespace BestFor.Data.Migrations
 
                     b.Property<int>("Count");
 
-                    b.Property<string>("LeftWord");
+                    b.Property<string>("LeftWord")
+                        .IsRequired();
 
-                    b.Property<string>("Phrase");
+                    b.Property<string>("Phrase")
+                        .IsRequired();
 
-                    b.Property<string>("RightWord");
+                    b.Property<string>("RightWord")
+                        .IsRequired();
 
                     b.HasKey("Id");
                 });
@@ -37,7 +40,8 @@ namespace BestFor.Data.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("Phrase");
+                    b.Property<string>("Phrase")
+                        .IsRequired();
 
                     b.HasKey("Id");
                 });

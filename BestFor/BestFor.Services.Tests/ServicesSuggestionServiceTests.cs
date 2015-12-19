@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 using Xunit;
-using BestFor.Services.Service;
+using BestFor.Services.Services;
 
 namespace BestFor.Services.Tests
 {

@@ -17,9 +17,5 @@ namespace BestFor.Services
             return _suggestiosDataSource;
         }
 
-        public static IAnswerDataSource GetAnswersDataSource()
-        {
-            return _answersDataSource;
-        }
     }
 }

@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
 using Microsoft.AspNet.Mvc;
 using BestFor.Dto;
-using BestFor.Services.Service;
+using BestFor.Services.Services;
+using Microsoft.AspNet.Antiforgery;
 
 // For more information on enabling Web API for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -14,6 +15,11 @@ namespace BestFor.Controllers
         private const int MINIMAL_WORD_LENGTH = 2;
 
         private ISuggestionService _suggestionService;
+
+        [FromServices]
+        public IAntiforgery Antiforgery { get; set; }
+
+
         public SuggestionController(ISuggestionService suggestionService)
         {
             _suggestionService = suggestionService;
@@ -23,6 +29,9 @@ namespace BestFor.Controllers
         [HttpGet]
         public IEnumerable<SuggestionDto> Get()
         {
+
+        //    Antiforgery.ValidateTokens(HttpContext, new AntiforgeryTokenSet("formToken", "cookieToken"));
+            
             // validate input
             var userInput = ValidateInputForGet();
             if (userInput == null) return null;

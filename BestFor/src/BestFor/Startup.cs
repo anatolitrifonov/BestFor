@@ -81,8 +81,8 @@ namespace BestFor
             services.AddScoped<BestFor.Data.IDataContext, BestFor.Data.BestDataContext>();
             services.AddScoped<BestFor.Data.IRepository<BestFor.Domain.Entities.Answer>, BestFor.Data.Repository<BestFor.Domain.Entities.Answer>>();
             services.AddScoped<BestFor.Services.Cache.ICacheManager, BestFor.Services.Cache.CacheManager>();
-            services.AddScoped<BestFor.Services.Service.IAnswerService, BestFor.Services.Service.AnswerService>();
-            services.AddScoped<BestFor.Services.Service.ISuggestionService, BestFor.Services.Service.SuggestionService>();
+            services.AddScoped<BestFor.Services.Services.IAnswerService, BestFor.Services.Services.AnswerService>();
+            services.AddScoped<BestFor.Services.Services.ISuggestionService, BestFor.Services.Services.SuggestionService>();
         }
 
         // Configure is called after ConfigureServices is called.
@@ -98,6 +98,9 @@ namespace BestFor
             if (env.IsDevelopment())
             {
                 // app.UseBrowserLink();
+                // Captures synchronous and asynchronous exceptions from the pipeline and generates HTML error responses. 
+                // Full error details are only displayed by default if 'host.AppMode' is set to 'development' 
+                // in the IApplicationBuilder.Properties.  
                 app.UseDeveloperExceptionPage();
                 app.UseDatabaseErrorPage(options => { options.EnableAll(); });
             }

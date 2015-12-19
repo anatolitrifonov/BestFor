@@ -16,10 +16,9 @@ namespace BestFor.Data.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Count = table.Column<int>(nullable: false),
-                    Key = table.Column<string>(nullable: true),
-                    LeftWord = table.Column<string>(nullable: true),
-                    Phrase = table.Column<string>(nullable: true),
-                    RightWord = table.Column<string>(nullable: true)
+                    LeftWord = table.Column<string>(nullable: false),
+                    Phrase = table.Column<string>(nullable: false),
+                    RightWord = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -31,7 +30,7 @@ namespace BestFor.Data.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Phrase = table.Column<string>(nullable: true)
+                    Phrase = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {

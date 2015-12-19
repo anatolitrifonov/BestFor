@@ -2,7 +2,7 @@
 using BestFor.Dto;
 using BestFor.Domain.Entities;
 
-namespace BestFor.Domain.Interfaces
+namespace BestFor.Domain.Entities
 {
     public interface IDtoConvertable<T> where T : BaseDto
     {

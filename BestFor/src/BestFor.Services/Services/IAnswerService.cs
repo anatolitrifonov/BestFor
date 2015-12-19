@@ -1,9 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System.Threading;
+using System.Threading.Tasks;
+using System.Collections.Generic;
 using BestFor.Dto;
 using BestFor.Domain;
 using BestFor.Domain.Entities;
 
-namespace BestFor.Services.Service
+namespace BestFor.Services.Services
 {
     /// <summary>
     /// Interface for suggestions service
@@ -18,6 +20,10 @@ namespace BestFor.Services.Service
         /// <returns></returns>
         IEnumerable<AnswerDto> FindAnswers(string leftWord, string rightWord);
 
-        Answer AddAnswer(AnswerDto answer);
+        IEnumerable<AnswerDto> FindTopAnswers(string leftWord, string rightWord);
+
+        AnswerDto FindExact(string leftWord, string rightWord, string phrase);
+
+        Task<Answer> AddAnswer(AnswerDto answer);
     }
 }

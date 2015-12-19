@@ -5,7 +5,11 @@
         // URL to load suggestions 
         suggestionsUrl: React.PropTypes.string,
         // URL to load answers
-        answersUrl: React.PropTypes.string
+        answersUrl: React.PropTypes.string,
+        // token given by the controller to send back as verification
+        antiForgeryToken: React.PropTypes.string,
+        // token is expected to be sent in this header
+        antiForgeryHeaderName: React.PropTypes.string
     },
 
     // built in ablity to set initial state
@@ -13,8 +17,10 @@
         // Invoked once before the component is mounted. The return value will be used as the initial value of this.state.
         // initial set of suggestions is blank
         return {
-            statusMessage: "Enter the first word",
-            answers: []
+            statusMessage: "Enter the first word", // used for guiding users on what to do
+            answers: [], // data loaded from servers
+            showErrorPane: true, // helps displaying error panel
+            errorMessage: this.props.antiForgeryToken // error message to show
         };
     },
 
@@ -95,6 +101,10 @@
     // Launch the search for existing answers
     doAnswersSearch: function(leftWord, rightWord) {
         console.log("click the search button was handled leftWord:" + leftWord + " rightWord:" + rightWord);
+
+        // No point in doing anything if answer URL was not given
+        if (this.props.answersUrl === null || this.props.answersUrl === "") return null;
+
         // We are going to handle only one request at a time.
         // check if there is a request is process already
         // will not do anything if xht is not done. Could be anything but as we said only one at a time.
@@ -112,20 +122,39 @@
         var url = this.props.answersUrl + "?" + userInput;
         this.xhr = new XMLHttpRequest();
         this.xhr.open("get", url, true);
+        // add header for antiforgery validation if header was set as a property
+        if (this.props.antiForgeryHeaderName != null || this.props.antiForgeryHeaderName != "")
+            this.xhr.setRequestHeader(this.props.antiForgeryHeaderName, this.props.antiForgeryToken);
         // handle received data.
+        // onreadystatechange
         this.xhr.onload = function (e) { // e is of type XMLHttpRequestProgressEvent
-            console.log("SuggestionPanel xhr onload returned " + this.xhr.responseText);
-            var httpResultData = JSON.parse(this.xhr.responseText); // could also go through event
-            // this is expected to update the list that is bound to this state data.
-            this.setState({
-                answers: httpResultData
-            });
+            // if all good
+            if (this.xhr.status === 200) {
+                console.log("SuggestionPanel xhr onload returned " + this.xhr.responseText);
+                var httpResultData = JSON.parse(this.xhr.responseText); // could also go through event
+                // this is expected to update the list that is bound to this state data.
+                this.setState({
+                    statusMessage: "Answers found", // message
+                    answers: httpResultData, // set aswers data
+                    showErrorPane: false, // hide errors
+                    errorMessage: "" // blank the error 
+                });
+            }
+            // all is bad
+            else
+            {
+                console.log("SuggestionPanel xhr onload errored out. Error text is probably too long.");
+                this.setState({
+                    statusMessage: "Error happened searching for answers", // message
+                    answers: [], // blank out the aswers
+                    showErrorPane: true, // show errors
+                    errorMessage: this.xhr.responseText // show error details
+                });
+            }
             // without this xhr event handler will not have access to this.xhr
             // I guess it bind function to component context
         }.bind(this);
-        this.xhr.onerror = function () {
-            console.log("xhr onerror returned " + this.xhr.responseText);
-        };
+        // this.xhr.onerror -> Chrome does not implement onerror
         this.xhr.send();
     },
 
@@ -161,24 +190,42 @@
         // build url passing user input
         this.xhr = new XMLHttpRequest();
         this.xhr.open("post", this.props.answersUrl, true);
+        // add header for antiforgery validation if header was set as a property
+        if (this.props.antiForgeryHeaderName != null || this.props.antiForgeryHeaderName != "")
+            this.xhr.setRequestHeader(this.props.antiForgeryHeaderName, this.props.antiForgeryToken);
         // handle received data.
         this.xhr.onload = function (e) { // e is of type XMLHttpRequestProgressEvent
-            console.log("SuggestionPanel handleAddButtonClick xhr onload returned " + this.xhr.responseText);
-            //var httpResultData = JSON.parse(this.xhr.responseText); // could also go through event
-            // this is expected to update the list that is bound to this state data.
-            //this.setState({
-            //    answers: httpResultData
-            //});
+            // if all good
+            if (this.xhr.status === 200) {
+                console.log("SuggestionPanel handleAddButtonClick xhr onload returned " + this.xhr.responseText);
+                this.setState({
+                    statusMessage: "Answer was added.", // message
+                    showErrorPane: false, // hide errors
+                    errorMessage: "" // blank the error 
+                });
+            }
+            // all is bad
+            else {
+                console.log("SuggestionPanel handleAddButtonClick xhr onload errored out. Error text is probably too long.");
+                this.setState({
+                    statusMessage: "Error happened searching for answers.", // message
+                    showErrorPane: true, // show errors
+                    errorMessage: this.xhr.responseText // show error details
+                });
+            }
             // without this xhr event handler will not have access to this.xhr
             // I guess it bind function to component context
         }.bind(this);
-        this.xhr.onerror = function () {
-            console.log("SuggestionPanel handleAddButtonClick xhr onerror returned " + this.xhr.responseText);
-        };
         this.xhr.send(postData);
     },
 
     render: function () {
+        var errorDisplayStyle =
+            {
+                display: this.state.showErrorPane ? "" : "none",
+                width: 500,
+                height:500
+            };
         return (
             <div>
                 <span>{ this.state.statusMessage }</span><br />
@@ -196,7 +243,8 @@
                        className="AnswerTextBox"/>
                 <input type="button" value="Add" onClick={this.handleAddButtonClick} />
                 <input type="button" value="Search" onClick={this.doAnswersSearchFromButton} /><br /><br />
-                <SuggestionAnswerList answers={this.state.answers} onListClicked={this.handleOnListClicked}/>
+                <SuggestionAnswerList answers={this.state.answers} onListClicked={this.handleOnListClicked}/><br />
+                <textarea style={errorDisplayStyle} ref={(ref) => this.errorDisplay = ref} value={this.state.errorMessage} readOnly />
             </div>
         );
     }

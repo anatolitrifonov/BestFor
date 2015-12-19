@@ -10,6 +10,7 @@ dnx ef migrations add Initial
 Looks like the startup is needed to bootstrap the dnx services anyway. It will not be used when dll is referenced from another project.
 dnx ef migrations add Initial <- needs to be executed from project folder, not solution folder
 dnu restore <- restores packages
+run dnmv upgrade to add dnx to path
 dnvm use 1.0.0-rc1-update1
 dnx ef migrations add Initial
 dnx ef database update

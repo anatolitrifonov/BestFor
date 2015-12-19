@@ -1,8 +1,7 @@
-﻿using System.Threading;
-using System.Threading.Tasks;
-using BestFor.Domain.Entities;
+﻿using BestFor.Domain.Entities;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Data.Entity;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace BestFor.Data
 {
@@ -25,9 +24,16 @@ namespace BestFor.Data
             return this.Set<TEntity>();
         }
 
-        public Task<int> SaveChangesAsync()
+        public void SyncObjectState<TEntity>(TEntity entity) where TEntity : class, IObjectState
         {
-            return new Task<int>(() => default(int));
+            Entry(entity).State = StateHelper.ConvertState(entity.ObjectState);
+        }
+
+        public void ConfigureServices(IServiceCollection services)
+        {
+            services.AddEntityFramework()
+                .AddSqlServer()
+                .AddDbContext<BestFor.Data.BestDataContext>(); // (options =>
         }
     }
 }

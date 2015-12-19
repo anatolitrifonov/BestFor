@@ -1,10 +1,26 @@
-﻿@*
+﻿@inject Microsoft.AspNet.Antiforgery.IAntiforgery Xsrf
+@*
     For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 *@
 @{
 // ViewBag.Title = "Home Page";
 }
+@functions
+{
+    // Generate the token that we will use in requests sending data to server in headers.
+    public string GetAntiXsrfToken()
+    {
+        var tokens = Xsrf.GetTokens(Context);
+        return tokens.CookieToken + ":" + tokens.FormToken;
+    }
+}
 <p>Home.</p>
 <div class="center">
-    @Html.React("SuggestionPanel", new { suggestionsUrl = "/api/suggestion", answersUrl = "/api/answer" })
+    @Html.React("SuggestionPanel",
+        new {
+            suggestionsUrl = "/api/suggestion",
+            answersUrl = "/api/answer",
+            antiForgeryHeaderName = BestFor.Controllers.BaseApiController.ANTI_FORGERY_HEADER_NAME,
+            antiForgeryToken = GetAntiXsrfToken()
+        })
 </div>

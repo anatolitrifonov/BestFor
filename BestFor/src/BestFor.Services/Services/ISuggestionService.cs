@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using BestFor.Dto;
 
-namespace BestFor.Services.Service
+namespace BestFor.Services.Services
 {
     /// <summary>
     /// Interface for suggestions service
