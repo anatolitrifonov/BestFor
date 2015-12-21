@@ -9,7 +9,8 @@ var SuggestionResultList = React.createClass({
         listTop: React.PropTypes.number,        // top position of this list
         listLeft: React.PropTypes.number,       // left position of this list
         onListClicked: React.PropTypes.func,    // onListClicked event handler functon
-        isVisible: React.PropTypes.bool        // parent's inditation to show or hide the list
+        isVisible: React.PropTypes.bool,        // parent's indication to show or hide the list
+        onListActive: React.PropTypes.func      // onListActive event handler functon
     },
 
     // Handle click event from an item
@@ -54,6 +55,16 @@ var SuggestionResultList = React.createClass({
         return someArray;
     },
 
+    // List is considred active while mouse is moving over it.
+    handleMouseOver: function(e) {
+        if (this.props.onListActive != null) this.props.onListActive(true);
+    },
+
+    // List is considred not active if mouse it out.
+    handleMouseOut: function (e) {
+        if (this.props.onListActive != null) this.props.onListActive(false);
+    },
+
     render: function () {
         // this.props is built in
         // this.props.suggestions needs to be set by instance creator
@@ -75,15 +86,15 @@ var SuggestionResultList = React.createClass({
                 <SuggestionLineItem phrase={suggestion.Phrase}
                                     onItemClicked={this.handleItemClicked.bind(this, suggestion.Phrase)} key={i}></SuggestionLineItem>
             );
-    }, this);
+        }, this);
         
-    // render list on items in suggestions
-    return (
-        <div style={this.getPopUpDivStyle()}>
-            <ul style={this.getUnsortedListStyle()}>
-            {someArray}      
-            </ul>
-        </div>
-        );
+        // render list on items in suggestions
+        return (
+            <div style={this.getPopUpDivStyle()} onMouseOver={this.handleMouseOver} onMouseOut={this.handleMouseOut} >
+                <ul style={this.getUnsortedListStyle()}>
+                {someArray}      
+                </ul>
+            </div>
+            );
     }
 });

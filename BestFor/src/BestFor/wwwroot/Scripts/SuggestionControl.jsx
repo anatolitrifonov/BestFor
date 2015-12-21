@@ -9,7 +9,9 @@ var SuggestionControl = React.createClass({
     propTypes: {
         // not required but very useful
         suggestionsUrl: React.PropTypes.string, // suggestionsUrl event handler should be a string
-        onValueChange: React.PropTypes.func // onValueChange event handler should be a function
+        onValueChange: React.PropTypes.func,    // onValueChange event handler should be a function
+        onGotFocus: React.PropTypes.func,       // onGotFocus event handler should be a function
+        focusOnLoad: React.PropTypes.bool    // focusOnLoad is aboolean
     },
 
     // Built in ability to set initial state
@@ -25,6 +27,11 @@ var SuggestionControl = React.createClass({
         };
     },
 
+    // Built in notification allowing to know that we need to clean thigs up
+    componentWillUnmount: function () {
+        if (this.interval != null) clearInterval(this.interval);
+    },
+
     // Static functions that are ... welll just static functions ... they can not access state
     statics: {
         // Convert request readyState from number to text        
@@ -38,9 +45,36 @@ var SuggestionControl = React.createClass({
         },
     },
 
+    // list of suggestions is shown -> start ticking and checking if we need to autohide the list
+    startTicking: function () {
+        // if we are already ticking let it tick 
+        if (this.interval != null) clearInterval(this.interval);
+        this.interval = setInterval(this.tick, 1000);
+        console.log("started ticking");
+    },
+
+    // Check if list is inactive and close it
+    tick: function () {
+        console.log("ticked this.listIsActive = " + this.listIsActive + " interval = " + this.interval);
+        if (this.interval != null && !this.listIsActive) {
+            clearInterval(this.interval);
+            // hide the list
+            this.setState({ showList: false });
+        }
+    },
+
     //Get the current value
     getCurrentValue: function () {
         return this.state.currentValue;
+    },
+
+    // Blank out the value
+    blankCurrentValue: function () {
+        this.listIsActive = false;
+        this.setState({
+            showList: false, // hide list
+            currentValue: ""
+        });
     },
 
     // Handle user typing text in the word box load data and show in usggestions popup
@@ -65,7 +99,7 @@ var SuggestionControl = React.createClass({
 
         // build url passing user input
         var url = this.props.suggestionsUrl + "?userInput=" + userInputObject.Phrase;
-        this.xhr = new XMLHttpRequest();
+        if (this.xhr == null) this.xhr = new XMLHttpRequest();
         this.xhr.open("get", url, true);
         // handle received data.
         this.xhr.onload = function (e) { // e is of type XMLHttpRequestProgressEvent
@@ -78,17 +112,18 @@ var SuggestionControl = React.createClass({
                 listLeft: userInputObject.x,
                 showList: true
             });
+            this.listIsActive = false;
+            if (httpResultData.length > 0) this.startTicking();
+
             // without this xhr event handler will not have access to this.xhr
             // I guess it bind function to component context
         }.bind(this); 
-        this.xhr.onerror = function () {
-            console.log("xhr onerror returned " + this.xhr.responseText);
-        };
         this.xhr.send();
     },
 
     // Handle user clicking on the suggestions list. hide it and set the text
     handleListClicked: function (phrase) {
+        this.listIsActive = false;
         this.setState({
             showList: false, // hide list
             currentValue: phrase.Phrase // set the value in the text box
@@ -97,7 +132,20 @@ var SuggestionControl = React.createClass({
         this.notifyListenersOnValueChange(phrase);
     },
 
-    // Fire event if anyone is listening
+    // Monitor the list mouse movements
+    handleListActive: function(active) {
+        this.listIsActive = active;
+    },
+
+    // Monitor the textbox navigation keys
+    handleTextBoxTabOrEscPressed: function() {
+        this.listIsActive = false;
+        this.setState({
+            showList: false // hide list
+        });
+    },
+
+    // Fire value change event if anyone is listening
     notifyListenersOnValueChange: function (phrase) {
         if (this.props.onValueChange == null)
             console.log("SuggestionControl, no onValueChange listener.");
@@ -108,12 +156,15 @@ var SuggestionControl = React.createClass({
     render: function () {
         return (
             <span>
-                <SuggestionTextBox onUserTyping={this.handleUserTyping} textValue={this.state.currentValue} />
+                <SuggestionTextBox onUserTyping={this.handleUserTyping} textValue={this.state.currentValue}
+                                   onTabOrEscPressed={this.handleTextBoxTabOrEscPressed}
+                                   focusOnLoad={this.props.focusOnLoad} />
                 <SuggestionResultList suggestions={this.state.suggestionsData}
                                   listTop={this.state.listTop}
                                   listLeft={this.state.listLeft}
                                   onListClicked={this.handleListClicked}
-                                  isVisible={this.state.showList}/>
+                                  isVisible={this.state.showList}
+                                  onListActive={this.handleListActive}/>
             </span>
         );
     }

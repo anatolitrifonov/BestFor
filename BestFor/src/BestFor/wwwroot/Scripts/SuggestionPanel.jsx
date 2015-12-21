@@ -1,5 +1,5 @@
 ﻿var SuggestionPanel = React.createClass({
-    // built in ability to verify type of each property
+    // Built in ability to verify type of each property
     propTypes: {
         // not required but very useful
         // URL to load suggestions 
@@ -12,15 +12,15 @@
         antiForgeryHeaderName: React.PropTypes.string
     },
 
-    // built in ablity to set initial state
+    // Built in ability to set initial state
     getInitialState: function () {
         // Invoked once before the component is mounted. The return value will be used as the initial value of this.state.
         // initial set of suggestions is blank
         return {
             statusMessage: "Enter the first word", // used for guiding users on what to do
             answers: [], // data loaded from servers
-            showErrorPane: true, // helps displaying error panel
-            errorMessage: this.props.antiForgeryToken // error message to show
+            showErrorPane: false, // helps displaying error panel
+            errorMessage: "" // this.props.antiForgeryToken // error message to show
         };
     },
 
@@ -80,7 +80,22 @@
             }
             
             return "leftWord=" + leftValue + "&rightWord=" + rightValue;
-        }
+        },
+
+        // Check if we anready have this answer in the list
+        updateAnswersLocally: function (leftValue, rightValue, phrase, answers) {
+            // assume that current answers are for this left word and this right word and simply loop the array
+            if (answers == null) return;
+            if (answers.length == null) return;
+            for (var i = 0; i < answers.length; i++)
+                if (answers[i].Phrase == phrase) {
+                    // found it in the list. Up the count. This actually does reflect on UI.
+                    answers[i].Count++;
+                    return;
+                }
+            // add to the end
+            answers.push({ LeftWord: leftValue, RightWord: rightValue, Phrase: phrase, Count: 1 });
+        },
     },
 
     // Handles answers search launch from buttons
@@ -120,7 +135,7 @@
         if (userInput == null) return;
 
         var url = this.props.answersUrl + "?" + userInput;
-        this.xhr = new XMLHttpRequest();
+        if (this.xhr == null) this.xhr = new XMLHttpRequest();
         this.xhr.open("get", url, true);
         // add header for antiforgery validation if header was set as a property
         if (this.props.antiForgeryHeaderName != null || this.props.antiForgeryHeaderName != "")
@@ -132,10 +147,15 @@
             if (this.xhr.status === 200) {
                 console.log("SuggestionPanel xhr onload returned " + this.xhr.responseText);
                 var httpResultData = JSON.parse(this.xhr.responseText); // could also go through event
+                var message = "No answers found. Be the first!";
+                if (httpResultData != null && httpResultData.length > 0)
+                    message = httpResultData.length + " answers found. Do you have your own? Or vote for the answer below?";
+                // Save the answers to use later
+                this.answers = httpResultData;
                 // this is expected to update the list that is bound to this state data.
                 this.setState({
-                    statusMessage: "Answers found", // message
-                    answers: httpResultData, // set aswers data
+                    statusMessage: message, // message
+                    answers: this.answers, // set aswers data
                     showErrorPane: false, // hide errors
                     errorMessage: "" // blank the error 
                 });
@@ -144,9 +164,10 @@
             else
             {
                 console.log("SuggestionPanel xhr onload errored out. Error text is probably too long.");
+                this.answers = [];
                 this.setState({
-                    statusMessage: "Error happened searching for answers", // message
-                    answers: [], // blank out the aswers
+                    statusMessage: "Error happened while searching for answers", // message
+                    answers: this.answers, // blank out the aswers
                     showErrorPane: true, // show errors
                     errorMessage: this.xhr.responseText // show error details
                 });
@@ -187,8 +208,12 @@
         // return if could not create form data
         if (postData == null) return;
         
+        // Since the post if happening let's optimiztically update the list
+        SuggestionPanel.updateAnswersLocally(this.leftTextBox.getCurrentValue(), this.rightTextBox.getCurrentValue(),
+            this.answerTextBox.getDOMNode().value, this.answers);
+
         // build url passing user input
-        this.xhr = new XMLHttpRequest();
+        if (this.xhr == null) this.xhr = new XMLHttpRequest();
         this.xhr.open("post", this.props.answersUrl, true);
         // add header for antiforgery validation if header was set as a property
         if (this.props.antiForgeryHeaderName != null || this.props.antiForgeryHeaderName != "")
@@ -198,10 +223,19 @@
             // if all good
             if (this.xhr.status === 200) {
                 console.log("SuggestionPanel handleAddButtonClick xhr onload returned " + this.xhr.responseText);
+                var addedAnswer = JSON.parse(this.xhr.responseText);
+                var message = "You were the first to say that \"Best " + addedAnswer.LeftWord + " for " + addedAnswer.RightWord +
+                        " is " + addedAnswer.Phrase + "\"!";
+                if (addedAnswer.Count > 1)
+                    message = "Your answer \"Best " + addedAnswer.LeftWord + " for " + addedAnswer.RightWord +
+                        " is " + addedAnswer.Phrase + "\" was added. This answer was given " + addedAnswer.Count + " times";
+                // clear the form
+                this.clearTheForm();
                 this.setState({
-                    statusMessage: "Answer was added.", // message
-                    showErrorPane: false, // hide errors
-                    errorMessage: "" // blank the error 
+                    statusMessage: message, // message
+                    showErrorPane: false,   // hide errors
+                    errorMessage: "",       // blank the error,
+                    answers: this.answers   // set aswers data
                 });
             }
             // all is bad
@@ -219,6 +253,14 @@
         this.xhr.send(postData);
     },
 
+    // Clear the form
+    clearTheForm: function () {
+        this.answerTextBox.getDOMNode().value = "";
+        this.leftTextBox.blankCurrentValue();
+        this.rightTextBox.blankCurrentValue();
+        this.answers = [];
+    },
+
     render: function () {
         var errorDisplayStyle =
             {
@@ -226,17 +268,20 @@
                 width: 500,
                 height:500
             };
+        var overAllDivStyle = {
+            
+        };
         return (
-            <div>
+            <div style={overAllDivStyle}>
                 <span>{ this.state.statusMessage }</span><br />
                 Best<br />
                 {/* This will be knows as leftTextBox */}
                 <SuggestionControl suggestionsUrl={this.props.suggestionsUrl} onValueChange={this.doAnswersSearchFromLeftTextBox}
-                                   ref={(ref) => this.leftTextBox = ref} /><br />
+                                   ref={(ref) => this.leftTextBox = ref} focusOnLoad={ true }/><br />
                 for<br />
                 {/* This will be knows as rightTextBox */}
                 <SuggestionControl suggestionsUrl={this.props.suggestionsUrl} onValueChange={this.doAnswersSearchFromRightTextBox}
-                                   ref={(ref) => this.rightTextBox = ref} /><br />
+                                   ref={(ref) => this.rightTextBox = ref} focusOnLoad={ false } /><br />
                 is<br />
                 {/* This will be knows as answerTextBox */}
                 <input type="text" placeholder="your answer" ref={(ref) => this.answerTextBox = ref} onChange={this.doAnswersSearchFromButton}

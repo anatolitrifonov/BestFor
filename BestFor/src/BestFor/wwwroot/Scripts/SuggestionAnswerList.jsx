@@ -1,7 +1,7 @@
 ﻿// Displays list of items people suggested already
 // Captures onClick from each item and bubbles it up as onListClicked event
 var SuggestionAnswerList = React.createClass({
-    // built in ability to verify type of each property not required but very useful
+    // Built in ability to verify type of each property not required but very useful
     propTypes: {
         onListClicked: React.PropTypes.func    // onListClicked event handler functon
     },
@@ -16,7 +16,8 @@ var SuggestionAnswerList = React.createClass({
     // Builds a style object for the div containing list of items
     getListDivStyle: function() {
         return {
-            border: "1px solid #ddd"
+            border: "0px solid #ddd",
+            width: 500
         };
     },
 
