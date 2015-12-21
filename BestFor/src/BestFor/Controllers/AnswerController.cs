@@ -17,7 +17,6 @@ namespace BestFor.Controllers
 
         private IAnswerService _answerService;
 
-
         public AnswerController(IAnswerService answerService)
         {
             _answerService = answerService;

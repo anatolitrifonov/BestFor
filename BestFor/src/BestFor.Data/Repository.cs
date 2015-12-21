@@ -31,6 +31,11 @@ namespace BestFor.Data
             return _dbSet;
         }
 
+        public virtual int Count()
+        {
+            return _dbSet.Count();
+        }
+
         public virtual void Insert(TEntity entity)
         {
             // This whole business about object state is decaoupling domain and data

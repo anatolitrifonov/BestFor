@@ -11,6 +11,8 @@ namespace BestFor.Data
 
         IEnumerable<TEntity> List();
 
+        int Count();
+
         void Insert(TEntity entity);
 
         void Update(TEntity entity);

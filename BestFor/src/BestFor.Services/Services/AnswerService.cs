@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using System;
 using BestFor.Dto;
 using BestFor.Services.Services;
-using BestFor.Services.DatSources;
+using BestFor.Services.DataSources;
 using BestFor.Services.Cache;
 using BestFor.Data;
 using System.Collections.Generic;
@@ -31,12 +31,12 @@ namespace BestFor.Services.Services
         
         private KeyIndexedDataSource<Answer> GetCachedData()
         {
-            object data = _cacheManager.Get("Answers Cache");
+            object data = _cacheManager.Get(CacheConstants.CACHE_KEY_ANSWERS_DATA);
             if (data == null)
             {
                 var dataSource = new KeyIndexedDataSource<Answer>();
                 dataSource.Initialize(_repository);
-                _cacheManager.Add("Answers Cache", dataSource);
+                _cacheManager.Add(CacheConstants.CACHE_KEY_ANSWERS_DATA, dataSource);
                 return dataSource;
             }
             return (KeyIndexedDataSource<Answer>)data;
@@ -59,7 +59,7 @@ namespace BestFor.Services.Services
             var cachedData = GetCachedData();
             // This is just getting a list of answers with number of "votes" for each. Cache stored answers, not votes.
             // Each answer in cache has number of votes.
-            var result = cachedData.FindTopAnswers(Answer.FormKey(leftWord, rightWord));
+            var result = cachedData.FindTopItems(Answer.FormKey(leftWord, rightWord));
             if (result == null) return Enumerable.Empty<AnswerDto>();
             return result.Select(x => x.ToDto());
         }

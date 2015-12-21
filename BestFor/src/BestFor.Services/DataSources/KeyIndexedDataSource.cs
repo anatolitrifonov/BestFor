@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using BestFor.Domain.Entities;
 using BestFor.Data;
 
-namespace BestFor.Services.DatSources
+namespace BestFor.Services.DataSources
 {
     /// <summary>
     /// Indexes data by index. All elements having the same index value are grouped one item.
@@ -18,7 +17,16 @@ namespace BestFor.Services.DatSources
         private Dictionary<string, Dictionary<string, TEntity>> _data;
         private bool _initialized;
 
+        /// <summary>
+        /// Was this set initialized? It will not load itself if already loaded
+        /// </summary>
         public bool IsInitialized { get { return _initialized; } }
+
+        /// <summary>
+        /// How many answers in cache
+        /// </summary>
+        public int Size {  get { return _data.Count; } }
+
         public KeyIndexedDataSource()
         {
 
@@ -51,7 +59,7 @@ namespace BestFor.Services.DatSources
             return _data[key].Values.AsEnumerable();
         }
 
-        public IEnumerable<TEntity> FindTopAnswers(string key)
+        public IEnumerable<TEntity> FindTopItems(string key)
         {
             if (_data == null) return null;
 

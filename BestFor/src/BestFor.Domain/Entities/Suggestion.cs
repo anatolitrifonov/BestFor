@@ -7,7 +7,7 @@ namespace BestFor.Domain.Entities
     /// <summary>
     /// Represents a simple word suggestion object
     /// </summary>
-    public class Suggestion : EntityBase, IDtoConvertable<SuggestionDto>
+    public class Suggestion : EntityBase, IFirstIndex, IDtoConvertable<SuggestionDto>
     {
         [Key, Required, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public override int Id { get; set; }
@@ -15,6 +15,12 @@ namespace BestFor.Domain.Entities
         [Required]
         public string Phrase { get; set; }
 
+        #region IFirstIndex implementation
+        [NotMapped]
+        public string IndexKey { get { return Phrase; } }
+        #endregion
+
+        #region IDtoConvertable implementation
         public SuggestionDto ToDto()
         {
             return new SuggestionDto() { Phrase = this.Phrase };
@@ -25,5 +31,6 @@ namespace BestFor.Domain.Entities
             Phrase = dto.Phrase;
             return Id;
         }
+        #endregion
     }
 }

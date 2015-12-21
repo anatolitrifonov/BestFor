@@ -1,0 +1,36 @@
+﻿@model BestFor.Dto.SystemStateDto
+@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+<div>
+    <h4>Admin. System status</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.AnswersCacheStatus)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.AnswersCacheStatus) @Html.ActionLink("LoadAnswers", "LoadAnswers")
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.AnswersCacheNumberItems)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.AnswersCacheNumberItems)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.SuggestionsCacheStatus)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.SuggestionsCacheStatus) @Html.ActionLink("LoadSuggestions", "LoadSuggestions")
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.SuggestionsCacheNumberItems)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.SuggestionsCacheNumberItems)
+        </dd>
+    </dl>
+</div>
