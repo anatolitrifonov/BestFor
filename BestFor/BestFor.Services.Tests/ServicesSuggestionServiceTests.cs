@@ -9,22 +9,22 @@ namespace BestFor.Services.Tests
     public class ServicesSuggestionServiceTests
     {
 
-        [Fact]
-        public void SuggestionService_FindSuggestions_NoResult()
-        {
-            var suggestions = new SuggestionService();
-            var result = suggestions.FindSuggestions("B");
-            Assert.True(result != null);
-            Assert.Equal(result.Count(), 0);
-        }
+        //[Fact]
+        //public void SuggestionService_FindSuggestions_NoResult()
+        //{
+        //    var suggestions = new SuggestionService();
+        //    var result = suggestions.FindSuggestions("B");
+        //    Assert.True(result != null);
+        //    Assert.Equal(result.Count(), 0);
+        //}
 
-        [Fact]
-        public void SuggestionService_FindSuggestions_SomeResult()
-        {
-            var suggestions = new SuggestionService();
-            var result = suggestions.FindSuggestions("A");
-            Assert.True(result != null);
-            Assert.Equal(result.Count(), 1);
-        }
+        //[Fact]
+        //public void SuggestionService_FindSuggestions_SomeResult()
+        //{
+        //    var suggestions = new SuggestionService();
+        //    var result = suggestions.FindSuggestions("A");
+        //    Assert.True(result != null);
+        //    Assert.Equal(result.Count(), 1);
+        //}
     }
 }

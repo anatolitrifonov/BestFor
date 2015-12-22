@@ -12,12 +12,12 @@ namespace BestFor.Data.Tests
     public class BestDataContextTests
     {
 
-        [Fact]
-        public void BestDataContext_OnConfiguring_CanReadConfigFile()
-        {
-          //  var dataContext = new BestDataContext();
-         //   dataContext.DebugCallOnConfiguring();
-            Assert.True(true);
-        }
+        //[Fact]
+        //public void BestDataContext_OnConfiguring_CanReadConfigFile()
+        //{
+        //  //  var dataContext = new BestDataContext();
+        // //   dataContext.DebugCallOnConfiguring();
+        //    Assert.True(true);
+        //}
     }
 }

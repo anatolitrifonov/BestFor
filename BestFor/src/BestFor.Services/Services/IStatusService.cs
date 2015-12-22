@@ -9,5 +9,7 @@ namespace BestFor.Services.Services
         int InitAnswers();
 
         int InitSuggestions();
+
+        int InitBadWords();
     }
 }

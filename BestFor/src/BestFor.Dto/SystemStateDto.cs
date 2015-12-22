@@ -14,5 +14,9 @@ namespace BestFor.Dto
         public string SuggestionsCacheStatus { get; set; }
 
         public int SuggestionsCacheNumberItems { get; set; }
+
+        public string BadWordsCacheStatus { get; set; }
+
+        public int BadWordsCacheNumberItems { get; set; }
     }
 }

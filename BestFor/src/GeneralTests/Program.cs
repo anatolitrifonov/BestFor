@@ -6,9 +6,8 @@ namespace GeneralTests
     {
         public static void Main(string[] args)
         {
-            SuggestionsData.Initialize();
-            //var dataContext = new BestDataContext();
-            //dataContext.DebugCallOnConfiguring();
+            //SuggestionsData.Initialize();
+            BadWordsData.Initialize();
         }
     }
 }

@@ -35,5 +35,12 @@ namespace BestFor.Controllers
             _statusService.InitSuggestions();
             return RedirectToAction("Index");
         }
+
+        // GET: /<controller>/LoadBadWords
+        public IActionResult LoadBadWords()
+        {
+            _statusService.InitBadWords();
+            return RedirectToAction("Index");
+        }
     }
 }

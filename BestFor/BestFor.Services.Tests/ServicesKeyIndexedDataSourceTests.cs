@@ -1,13 +1,8 @@
 ﻿using BestFor.Services.DataSources;
 using BestFor.Data;
-using BestFor.Data.Fakes;
-using BestFor.Domain;
 using BestFor.Domain.Entities;
-using System.Collections.Generic;
-using System.Linq;
 using Xunit;
 using Autofac;
-using Autofac.Core;
 
 namespace BestFor.Services.Tests
 {
@@ -16,34 +11,34 @@ namespace BestFor.Services.Tests
     /// </summary>
     public class ServicesKeyIndexedDataSourceTests : BaseTest
     {
-        [Fact]
-        public void KeyIndexedDataSource_FakeInitialize_Initializes()
-        {
-            var indexDataSource = new KeyIndexedDataSource<Answer>();
+        //[Fact]
+        //public void KeyIndexedDataSource_FakeInitialize_Initializes()
+        //{
+        //    var indexDataSource = new KeyIndexedDataSource<Answer>();
 
-            var repo = new Repository<Answer>(resolver.Resolve<IDataContext>());
+        //    var repo = new Repository<Answer>(resolver.Resolve<IDataContext>());
 
-            indexDataSource.Initialize(repo);
-            //var suggestions = new DefaultSuggestions();
-            //var result = suggestions.FindSuggestions("B");
-            //Assert.True(result != null);
-            //Assert.Equal(result.Count(), 0);
-        }
+        //    indexDataSource.Initialize(repo);
+        //    //var suggestions = new DefaultSuggestions();
+        //    //var result = suggestions.FindSuggestions("B");
+        //    //Assert.True(result != null);
+        //    //Assert.Equal(result.Count(), 0);
+        //}
 
-        [Fact]
-        public void KeyIndexedDataSource_LiveInitialize_Initializes()
-        {
-            var indexDataSource = new KeyIndexedDataSource<Answer>();
+        //[Fact]
+        //public void KeyIndexedDataSource_LiveInitialize_Initializes()
+        //{
+        //    var indexDataSource = new KeyIndexedDataSource<Answer>();
 
-            var dataContext = new BestDataContext();
+        //    var dataContext = new BestDataContext();
 
-            // var repo = new Repository<Answer>(fakeDataContext);
-            var repo = new Repository<Answer>(dataContext);
-            indexDataSource.Initialize(repo);
-            //var suggestions = new DefaultSuggestions();
-            //var result = suggestions.FindSuggestions("B");
-            //Assert.True(result != null);
-            //Assert.Equal(result.Count(), 0);
-        }
+        //    // var repo = new Repository<Answer>(fakeDataContext);
+        //    var repo = new Repository<Answer>(dataContext);
+        //    indexDataSource.Initialize(repo);
+        //    //var suggestions = new DefaultSuggestions();
+        //    //var result = suggestions.FindSuggestions("B");
+        //    //Assert.True(result != null);
+        //    //Assert.Equal(result.Count(), 0);
+        //}
     }
 }

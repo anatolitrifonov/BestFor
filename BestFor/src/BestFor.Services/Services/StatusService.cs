@@ -11,12 +11,15 @@ namespace BestFor.Services.Services
         private ICacheManager _cacheManager;
         private IRepository<Answer> _answersRepository;
         private IRepository<Suggestion> _suggestionRepository;
+        private IRepository<BadWord> _badWordsRepository;
 
-        public StatusService(ICacheManager cacheManager, IRepository<Answer> answersRepository, IRepository<Suggestion> suggestionRepository)
+        public StatusService(ICacheManager cacheManager, IRepository<Answer> answersRepository, IRepository<Suggestion> suggestionRepository,
+            IRepository<BadWord> badWordsRepository)
         {
             _cacheManager = cacheManager;
             _answersRepository = answersRepository;
             _suggestionRepository = suggestionRepository;
+            _badWordsRepository = badWordsRepository;
         }
 
         public SystemStateDto GetSystemStatus()
@@ -45,6 +48,17 @@ namespace BestFor.Services.Services
                 result.SuggestionsCacheNumberItems = ((KeyDataSource<Suggestion>)suggestionsData).Size;
             }
 
+            var badWordsData = _cacheManager.Get(CacheConstants.CACHE_KEY_BADWORDS_DATA);
+            if (badWordsData == null)
+            {
+                result.BadWordsCacheStatus = "Not loaded";
+            }
+            else
+            {
+                result.BadWordsCacheStatus = "Loaded";
+                result.BadWordsCacheNumberItems = ((KeyDataSource<BadWord>)badWordsData).Size;
+            }
+
             return result;
         }
 
@@ -59,8 +73,16 @@ namespace BestFor.Services.Services
         public int InitSuggestions()
         {
             var dataSource = new KeyDataSource<Suggestion>();
+            // Limit to 10k for now.
             dataSource.Initialize(_suggestionRepository, 10000);
             _cacheManager.Add(CacheConstants.CACHE_KEY_SUGGESTIONS_DATA, dataSource);
+            return dataSource.Size;
+        }
+        public int InitBadWords()
+        {
+            var dataSource = new KeyDataSource<BadWord>();
+            dataSource.Initialize(_badWordsRepository, 0);
+            _cacheManager.Add(CacheConstants.CACHE_KEY_BADWORDS_DATA, dataSource);
             return dataSource.Size;
         }
     }

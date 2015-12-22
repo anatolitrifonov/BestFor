@@ -14,12 +14,12 @@ namespace BestFor.Domain.Tests
     public class DomainSuggestionTests
     {
 
-        [Fact]
-        public void Suggestion_ToDto()
-        {
-            var suggestion = new Suggestion();
-            var suggestionDto = suggestion.ToDto();
-            Assert.Equal(suggestion.Phrase, suggestionDto.Phrase);
-        }
+        //[Fact]
+        //public void Suggestion_ToDto()
+        //{
+        //    var suggestion = new Suggestion();
+        //    var suggestionDto = suggestion.ToDto();
+        //    Assert.Equal(suggestion.Phrase, suggestionDto.Phrase);
+        //}
     }
 }

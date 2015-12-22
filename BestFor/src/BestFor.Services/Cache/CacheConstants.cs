@@ -9,5 +9,6 @@ namespace BestFor.Services.Cache
     {
         public const string CACHE_KEY_ANSWERS_DATA = "Answers Cache";
         public const string CACHE_KEY_SUGGESTIONS_DATA = "Suggestions Cache";
+        public const string CACHE_KEY_BADWORDS_DATA = "BadWords Cache";
     }
 }

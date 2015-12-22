@@ -9,6 +9,8 @@ namespace BestFor.Data
     {
         public DbSet<Answer> Answers { get; set; }
         public DbSet<Suggestion> Suggestions { get; set; }
+        public DbSet<BadWord> BadWords { get; set; }
+
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

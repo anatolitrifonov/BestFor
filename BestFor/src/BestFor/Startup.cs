@@ -81,6 +81,7 @@ namespace BestFor
             services.AddScoped<BestFor.Data.IDataContext, BestFor.Data.BestDataContext>();
             services.AddScoped<BestFor.Data.IRepository<BestFor.Domain.Entities.Answer>, BestFor.Data.Repository<BestFor.Domain.Entities.Answer>>();
             services.AddScoped<BestFor.Data.IRepository<BestFor.Domain.Entities.Suggestion>, BestFor.Data.Repository<BestFor.Domain.Entities.Suggestion>>();
+            services.AddScoped<BestFor.Data.IRepository<BestFor.Domain.Entities.BadWord>, BestFor.Data.Repository<BestFor.Domain.Entities.BadWord>>();
             services.AddScoped<BestFor.Services.Cache.ICacheManager, BestFor.Services.Cache.CacheManager>();
             services.AddScoped<BestFor.Services.Services.IAnswerService, BestFor.Services.Services.AnswerService>();
             services.AddScoped<BestFor.Services.Services.ISuggestionService, BestFor.Services.Services.SuggestionService>();
