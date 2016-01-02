@@ -147,36 +147,50 @@
             if (this.xhr.status === 200) {
                 console.log("SuggestionPanel xhr onload returned " + this.xhr.responseText);
                 var httpResultData = JSON.parse(this.xhr.responseText); // could also go through event
-                var message = "No answers found. Be the first!";
-                if (httpResultData != null && httpResultData.length > 0)
-                    message = httpResultData.length + " answers found. Do you have your own? Or vote for the answer below?";
-                // Save the answers to use later
-                this.answers = httpResultData;
-                // this is expected to update the list that is bound to this state data.
-                this.setState({
-                    statusMessage: message, // message
-                    answers: this.answers, // set aswers data
-                    showErrorPane: false, // hide errors
-                    errorMessage: "" // blank the error 
-                });
+                if (httpResultData == null || httpResultData.ErrorMessage != null) {
+                    this.processErrorInAnswersSearch(httpResultData.ErrorMessage);
+                }
+                else {
+                    this.processFoundAnswers(httpResultData.Answers);
+                }
             }
             // all is bad
             else
             {
-                console.log("SuggestionPanel xhr onload errored out. Error text is probably too long.");
-                this.answers = [];
-                this.setState({
-                    statusMessage: "Error happened while searching for answers", // message
-                    answers: this.answers, // blank out the aswers
-                    showErrorPane: true, // show errors
-                    errorMessage: this.xhr.responseText // show error details
-                });
+                this.processErrorInAnswersSearch(this.xhr.responseText);
             }
             // without this xhr event handler will not have access to this.xhr
             // I guess it bind function to component context
         }.bind(this);
         // this.xhr.onerror -> Chrome does not implement onerror
         this.xhr.send();
+    },
+
+    // Handles successful search for suggestions
+    processFoundAnswers: function (answers) {
+        var message = "No answers found. Be the first!";
+        if (answers != null && answers.length > 0)
+            message = answers.length + " answers found. Do you have your own? Or vote for the answer below?";
+        // Save the answers to use later
+        this.answers = answers;
+        // this is expected to update the list that is bound to this state data.
+        this.setState({
+            statusMessage: message, // message
+            answers: this.answers, // set aswers data
+            showErrorPane: false, // hide errors
+            errorMessage: "" // blank the error 
+        });
+    },
+
+    processErrorInAnswersSearch: function (errorMessage) {
+        console.log("SuggestionPanel xhr onload errored out. Error text is probably too long.");
+        this.answers = [];
+        this.setState({
+            statusMessage: "Error happened while searching for answers", // message
+            answers: this.answers, // blank out the aswers
+            showErrorPane: true, // show errors
+            errorMessage: errorMessage // show error details
+        });
     },
 
     // Handle user clicking on the list of answers to fill in the right textbox
@@ -222,21 +236,7 @@
         this.xhr.onload = function (e) { // e is of type XMLHttpRequestProgressEvent
             // if all good
             if (this.xhr.status === 200) {
-                console.log("SuggestionPanel handleAddButtonClick xhr onload returned " + this.xhr.responseText);
-                var addedAnswer = JSON.parse(this.xhr.responseText);
-                var message = "You were the first to say that \"Best " + addedAnswer.LeftWord + " for " + addedAnswer.RightWord +
-                        " is " + addedAnswer.Phrase + "\"!";
-                if (addedAnswer.Count > 1)
-                    message = "Your answer \"Best " + addedAnswer.LeftWord + " for " + addedAnswer.RightWord +
-                        " is " + addedAnswer.Phrase + "\" was added. This answer was given " + addedAnswer.Count + " times";
-                // clear the form
-                this.clearTheForm();
-                this.setState({
-                    statusMessage: message, // message
-                    showErrorPane: false,   // hide errors
-                    errorMessage: "",       // blank the error,
-                    answers: this.answers   // set aswers data
-                });
+                this.processAddedResult();
             }
             // all is bad
             else {
@@ -251,6 +251,33 @@
             // I guess it bind function to component context
         }.bind(this);
         this.xhr.send(postData);
+    },
+
+    // Handles successful answer addition
+    processAddedResult: function() {
+        console.log("SuggestionPanel handleAddButtonClick xhr onload returned " + this.xhr.responseText);
+        var httpResultData = JSON.parse(this.xhr.responseText);
+        // Let's look at the data. May be there was an error
+        var message = "You were the first to say that \"Best " + httpResultData.Answer.LeftWord +
+            " for " + httpResultData.Answer.RightWord +
+            " is " + httpResultData.Answer.Phrase + "\"!";
+        var showErrorPane = false;
+        if (httpResultData.ErrorMessage != null) {
+            showErrorPane = true;
+            message = httpResultData.ErrorMessage;
+        }
+        else if (httpResultData.Answer.Count > 1) {
+            message = "Your answer \"Best " + httpResultData.Answer.LeftWord + " for " + httpResultData.Answer.RightWord +
+                " is " + httpResultData.Answer.Phrase + "\" was added. This answer was given " + httpResultData.Answer.Count + " times";
+        }
+        // clear the form
+        this.clearTheForm();
+        this.setState({
+            statusMessage: message,         // message
+            showErrorPane: showErrorPane,   // hide errors
+            errorMessage: message,          // blank the error,
+            answers: this.answers           // set aswers data
+        });
     },
 
     // Clear the form
@@ -268,6 +295,10 @@
                 width: 500,
                 height:500
             };
+        var searchButtonStyle =
+            {
+                display: "none"
+            };
         var overAllDivStyle = {
             
         };
@@ -277,17 +308,19 @@
                 Best<br />
                 {/* This will be knows as leftTextBox */}
                 <SuggestionControl suggestionsUrl={this.props.suggestionsUrl} onValueChange={this.doAnswersSearchFromLeftTextBox}
+                                   antiForgeryToken={this.props.antiForgeryToken} antiForgeryHeaderName={this.props.antiForgeryHeaderName}
                                    ref={(ref) => this.leftTextBox = ref} focusOnLoad={ true }/><br />
                 for<br />
                 {/* This will be knows as rightTextBox */}
                 <SuggestionControl suggestionsUrl={this.props.suggestionsUrl} onValueChange={this.doAnswersSearchFromRightTextBox}
+                                   antiForgeryToken={this.props.antiForgeryToken} antiForgeryHeaderName={this.props.antiForgeryHeaderName}
                                    ref={(ref) => this.rightTextBox = ref} focusOnLoad={ false } /><br />
                 is<br />
                 {/* This will be knows as answerTextBox */}
                 <input type="text" placeholder="your answer" ref={(ref) => this.answerTextBox = ref} onChange={this.doAnswersSearchFromButton}
                        className="AnswerTextBox"/>
                 <input type="button" value="Add" onClick={this.handleAddButtonClick} />
-                <input type="button" value="Search" onClick={this.doAnswersSearchFromButton} /><br /><br />
+                <input type="button" value="Search" onClick={this.doAnswersSearchFromButton} style={ searchButtonStyle } /><br /><br />
                 <SuggestionAnswerList answers={this.state.answers} onListClicked={this.handleOnListClicked}/><br />
                 <textarea style={errorDisplayStyle} ref={(ref) => this.errorDisplay = ref} value={this.state.errorMessage} readOnly />
             </div>

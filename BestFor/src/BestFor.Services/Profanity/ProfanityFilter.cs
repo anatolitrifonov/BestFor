@@ -1,21 +1,91 @@
-﻿using System.Text.RegularExpressions;
+﻿using System.Collections.Generic;
+using System.Text.RegularExpressions;
+using BestFor.Domain.Entities;
 
 namespace BestFor.Services.Profanity
 {
     public class ProfanityFilter
     {
+        //private static Dictionary<string, string> _data = new Dictionary<string, string>
+        //{
+        //    ["a"] = "[aA@]",
+        //    ["b"] = "[b B I3 l3 i3]",
+        //    ["c"] = "(?:[c C (]|[k K])",
+        //    ["d"] = "[d D]",
+        //    ["e"] = "[e E 3]",
+        //    ["f"] = "(?:[f F]|[ph pH Ph PH])",
+        //    ["g"] = "[g G 6]",
+        //    ["h"] = "[h H]",
+        //    ["i"] = "[i I l ! 1]",
+        //    ["j"] = "[j J]",
+        //    ["k"] = "(?:[c C (]|[k K])",
+        //    ["l"] = "[l L 1 ! i]",
+        //    ["m"] = "[m M]",
+        //    ["n"] = "[n N]",
+        //    ["o"] = "[o O 0]",
+        //    ["p"] = "[p P]",
+        //    ["q"] = "[q Q 9]",
+        //    ["r"] = "[r R]",
+        //    ["s"] = "[s S $ 5]",
+        //    ["t"] = "[t T 7]",
+        //    ["u"] = "[u U v V]",
+        //    ["v"] = "[v V u U]",
+        //    ["w"] = "[w W vv VV]",
+        //    ["x"] = "[x X]",
+        //    ["y"] = "[y Y]",
+        //    ["z"] = "[z Z 2]"
+        //};
+        public static bool IsAlphaNumeric(string strToCheck)
+        {
+            Regex rg = new Regex(@"^[a-zA-Z0-9\s,]*$");
+            return rg.IsMatch(strToCheck);
+        }
+
         /// <summary>
         /// Checks if line has unprintable characters.
         /// Linebreaks are allowed.
         /// </summary>
         /// <param name="data"></param>
         /// <returns></returns>
-        public static bool AllChractersAllowed(string data)
+        public static bool AllCharactersAllowed(string data)
         {
-            Regex r = new Regex("[^\x20-\x7e\r\n\t]");
-            var matches = r.Matches(data);
+            Regex r = new Regex("[^\x20-\x7e\r\n\t\xa1-\x10fffd]");
+            // var matches = r.Matches(data);
             return !r.IsMatch(data);
         }
+
+        public static string FirstDisallowedCharacter(string data)
+        {
+            Regex r = new Regex("[^\x20-\x7e\r\n\t\xa1-\x10fffd]");
+            var matches = r.Matches(data);
+            if (matches.Count > 0)
+                return matches[0].Value;
+            return null;
+        }
+
+        public static string CleanupData(string input)
+        {
+            // first level cleanup. Change C0m to com. D!nk to dink.
+            // TODO speed this up
+            //var result = input;
+            //foreach(var key in _data.Keys)
+            //    result = Regex.Replace(result, _data[key], key);
+            //return result;
+            if (string.IsNullOrEmpty(input)) return input;
+            if (string.IsNullOrWhiteSpace(input)) return input;
+            // For now just to lower. Regular expressions still do not work
+            return input.ToLower();
+        }
+
+        public static string GetProfanity(string input, IEnumerable<BadWord> badwords)
+        {
+            var localInput = CleanupData(input);
+            if (localInput == null) return null;
+            foreach (var word in badwords)
+                if (input.Contains(word.Phrase)) return word.Phrase;
+            return null;
+        }
+
         //<?php
 
         ///**

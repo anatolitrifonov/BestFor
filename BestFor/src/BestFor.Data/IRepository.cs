@@ -2,6 +2,7 @@
 using BestFor.Domain.Entities;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Linq;
 
 namespace BestFor.Data
 {
@@ -10,6 +11,9 @@ namespace BestFor.Data
         TEntity GetById(int id);
 
         IEnumerable<TEntity> List();
+
+        IQueryable<TEntity> Queryable();
+
 
         int Count();
 

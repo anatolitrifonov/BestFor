@@ -28,6 +28,11 @@ namespace BestFor.Services.DataSources
         }
 
         /// <summary>
+        /// Get all items
+        /// </summary>
+        public IEnumerable<TEntity> Items { get { return _data.Values.AsEnumerable<TEntity>(); } }
+
+        /// <summary>
         /// Load all entities from repository.
         /// </summary>
         /// <param name="repository"></param>

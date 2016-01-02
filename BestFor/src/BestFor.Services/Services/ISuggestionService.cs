@@ -1,8 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using BestFor.Dto;
+using BestFor.Domain.Entities;
 
 namespace BestFor.Services.Services
 {
@@ -17,5 +16,7 @@ namespace BestFor.Services.Services
         /// <param name="input"></param>
         /// <returns></returns>
         IEnumerable<SuggestionDto> FindSuggestions(string input);
+
+        Task<Suggestion> AddSuggestion(SuggestionDto suggestion);
     }
 }

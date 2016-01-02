@@ -2,43 +2,60 @@
 using Microsoft.AspNet.Mvc;
 using BestFor.Dto;
 using BestFor.Services.Services;
-using Microsoft.AspNet.Antiforgery;
+using System.Linq;
+using BestFor.Services.Profanity;
 
 // For more information on enabling Web API for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace BestFor.Controllers
 {
     [Route("api/[controller]")]
-    public class SuggestionController : Controller
+    public class SuggestionController : BaseApiController
     {
+        /// <summary>
+        /// Makes working with validation more comfortable
+        /// </summary>
+        private class ValidationResult
+        {
+            public bool Passed { get; set; } = true;
+
+            public string ErrorMessage { get; set; }
+
+            public string CleanedInput { get; set; }
+        }
+
         private const string QUERY_STRING_PARAMETER_USER_INPUT = "userInput";
         private const int MINIMAL_WORD_LENGTH = 2;
 
         private ISuggestionService _suggestionService;
+        private IProfanityService _profanityService;
 
-        [FromServices]
-        public IAntiforgery Antiforgery { get; set; }
-
-
-        public SuggestionController(ISuggestionService suggestionService)
+        public SuggestionController(ISuggestionService suggestionService, IProfanityService profanityService)
         {
             _suggestionService = suggestionService;
+            _profanityService = profanityService;
         }
 
         // GET: api/values
         [HttpGet]
-        public IEnumerable<SuggestionDto> Get()
+        public SuggestionsDto Get()
         {
+            var result = new SuggestionsDto();
+            if (!ParseAntiForgeryHeader()) return result;
 
-        //    Antiforgery.ValidateTokens(HttpContext, new AntiforgeryTokenSet("formToken", "cookieToken"));
-            
             // validate input
-            var userInput = ValidateInputForGet();
-            if (userInput == null) return null;
+            var validationResult = ValidateInputForGet();
+            if (!validationResult.Passed)
+            {
+                result.ErrorMessage = validationResult.ErrorMessage;
+                return result;
+            }
             // get and call the service
             //Thread.Sleep(4000);
 
-            return _suggestionService.FindSuggestions(userInput);
+            result.Suggestions = _suggestionService.FindSuggestions(validationResult.CleanedInput);
+
+            return result;
         }
 
         // GET api/values/5
@@ -70,7 +87,7 @@ namespace BestFor.Controllers
         /// Returns validated query string for GET method or null.
         /// </summary>
         /// <returns></returns>
-        private string ValidateInputForGet()
+        private ValidationResult ValidateInputForGet()
         {
             // do not return anything on empty input
             if (!Request.Query.ContainsKey(QUERY_STRING_PARAMETER_USER_INPUT)) return null;
@@ -80,9 +97,21 @@ namespace BestFor.Controllers
             userInput = userInput.Trim();
             // Check minimal length
             if (userInput.Length < MINIMAL_WORD_LENGTH + 1) return null;
+            // This is what we will return
+            var result = new ValidationResult() { CleanedInput = userInput };
+            // Check for bad characters.
+            string badCharacter = ProfanityFilter.FirstDisallowedCharacter(result.CleanedInput);
             // let's only serve alphanumeric for now.
-            if (!Util.IsAlphaNumeric(userInput)) return null;
-            return userInput;
+            if (badCharacter != null)
+            {
+                result.Passed = false;
+                result.ErrorMessage = badCharacter;
+            }
+
+            // if (ProfanityFilter.AllCharactersAllowed(userInput)) return userInput;
+            // if (!ProfanityFilter.IsAlphaNumeric(userInput)) return null;
+            // return null;
+            return result;
         }
     }
 }

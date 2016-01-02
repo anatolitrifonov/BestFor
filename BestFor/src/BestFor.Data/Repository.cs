@@ -31,6 +31,11 @@ namespace BestFor.Data
             return _dbSet;
         }
 
+        public IQueryable<TEntity> Queryable()
+        {
+            return _dbSet;
+        }
+
         public virtual int Count()
         {
             return _dbSet.Count();

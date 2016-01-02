@@ -21,6 +21,7 @@ namespace BestFor.Data.Fakes
         {
             _fakeDbSets = new Dictionary<Type, object>();
             AddFakeDbSet<Answer, FakeAnswers>();
+            AddFakeDbSet<BadWord, FakeBadWords>();
         }
 
         public virtual DbSet<TEntity> EntitySet<TEntity>() where TEntity : class

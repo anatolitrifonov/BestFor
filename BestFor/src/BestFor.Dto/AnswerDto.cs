@@ -8,6 +8,7 @@
         public AnswerDto()
         {
         }
+
         public string LeftWord { get; set; }
 
         public string RightWord { get; set; }
@@ -15,5 +16,6 @@
         public string Phrase { get; set; }
 
         public int Count { get; set; }
+
     }
 }

@@ -11,7 +11,11 @@ var SuggestionControl = React.createClass({
         suggestionsUrl: React.PropTypes.string, // suggestionsUrl event handler should be a string
         onValueChange: React.PropTypes.func,    // onValueChange event handler should be a function
         onGotFocus: React.PropTypes.func,       // onGotFocus event handler should be a function
-        focusOnLoad: React.PropTypes.bool    // focusOnLoad is aboolean
+        focusOnLoad: React.PropTypes.bool,    // focusOnLoad is aboolean
+        // token given by the controller to send back as verification
+        antiForgeryToken: React.PropTypes.string,
+        // token is expected to be sent in this header
+        antiForgeryHeaderName: React.PropTypes.string
     },
 
     // Built in ability to set initial state
@@ -101,24 +105,53 @@ var SuggestionControl = React.createClass({
         var url = this.props.suggestionsUrl + "?userInput=" + userInputObject.Phrase;
         if (this.xhr == null) this.xhr = new XMLHttpRequest();
         this.xhr.open("get", url, true);
+        if (this.props.antiForgeryHeaderName != null || this.props.antiForgeryHeaderName != "")
+            this.xhr.setRequestHeader(this.props.antiForgeryHeaderName, this.props.antiForgeryToken);
         // handle received data.
         this.xhr.onload = function (e) { // e is of type XMLHttpRequestProgressEvent
             console.log("xhr onload returned " + this.xhr.responseText);
-            var httpResultData = JSON.parse(this.xhr.responseText); // could also go through event
-            // this is expected to update the list that is bound to this state data.
-            this.setState({
-                suggestionsData: httpResultData,
-                listTop: userInputObject.y,
-                listLeft: userInputObject.x,
-                showList: true
-            });
             this.listIsActive = false;
-            if (httpResultData.length > 0) this.startTicking();
+            // If all good
+            if (this.xhr.status === 200) {
+                var httpResultData = JSON.parse(this.xhr.responseText); // could also go through event
+                if (httpResultData == null || httpResultData.ErrorMessage != null) {
+                    this.processErrorInSuggestionsSearch(httpResultData.ErrorMessage, userInputObject);
+                }
+                else {
+                    this.processFoundSuggestions(httpResultData.Suggestions, userInputObject)
+                }
+            }
+            // all is bad
+            else {
+                this.processErrorInSuggestionsSearch(this.xhr.responseText, userInputObject);
+            }
 
             // without this xhr event handler will not have access to this.xhr
             // I guess it bind function to component context
         }.bind(this); 
         this.xhr.send();
+    },
+
+    processErrorInSuggestionsSearch: function(errorMessage, userInputObject) {
+        console.log("SuggestionControl xhr onload errored out. Error text is probably too long.");
+        console.log("errorMessage:" + errorMessage);
+        this.setState({
+            suggestionsData: [],
+            listTop: userInputObject.y,
+            listLeft: userInputObject.x,
+            showList: false
+        });
+    },
+
+    // Handles successful search for suggestions
+    processFoundSuggestions: function (suggestionsData, userInputObject) {
+        this.setState({
+            suggestionsData: suggestionsData,
+            listTop: userInputObject.y,
+            listLeft: userInputObject.x,
+            showList: true
+        });
+        if (suggestionsData.length > 0) this.startTicking();
     },
 
     // Handle user clicking on the suggestions list. hide it and set the text
