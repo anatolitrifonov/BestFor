@@ -1,4 +1,5 @@
-﻿@inject Microsoft.AspNet.Antiforgery.IAntiforgery Xsrf
+﻿@model BestFor.Dto.HomePageDto
+@inject Microsoft.AspNet.Antiforgery.IAntiforgery Xsrf
 @*
     For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 *@
@@ -15,6 +16,14 @@
     }
 }
 <p>Home.</p>
+
+Trending Today<br /><br />
+
+@foreach (var item in Model.TopToday.Answers)
+{
+    @Html.DisplayFor(x => item, "AnswerToContent")
+}
+
 <div class="center">
     @Html.React("SuggestionPanel",
         new {
@@ -24,3 +33,10 @@
             antiForgeryToken = GetAntiXsrfToken()
         })
 </div>
+
+Trending Overall<br /><br />
+
+@foreach (var item in Model.TopOverall.Answers)
+{
+    @Html.DisplayFor(x => item, "AnswerToContent")
+}

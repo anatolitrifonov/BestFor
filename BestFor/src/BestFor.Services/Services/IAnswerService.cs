@@ -22,6 +22,10 @@ namespace BestFor.Services.Services
 
         IEnumerable<AnswerDto> FindTopAnswers(string leftWord, string rightWord);
 
+        IEnumerable<AnswerDto> FindAnswersTrendingToday();
+
+        IEnumerable<AnswerDto> FindAnswersTrendingOverall();
+
         AnswerDto FindExact(string leftWord, string rightWord, string phrase);
 
         Task<Answer> AddAnswer(AnswerDto answer);

@@ -1,0 +1,11 @@
+﻿@model BestFor.Dto.AnswerDto
+@using BestFor.Services
+@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+
+    This template shows content of the answer with the link to content
+*@
+@{
+}
+
+<a href="@LinkingHelper.ConvertAnswerToUrl(Model)">@LinkingHelper.ConvertAnswerToText(Model)</a> <br />

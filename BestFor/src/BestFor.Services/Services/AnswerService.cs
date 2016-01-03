@@ -19,6 +19,9 @@ namespace BestFor.Services.Services
     /// </summary>
     public class AnswerService : IAnswerService
     {
+        public const int TRENDING_TOP_TODAY = 10;
+        public const int TRENDING_TOP_OVERALL = 10;
+
         private ICacheManager _cacheManager;
         private IRepository<Answer> _repository;
 
@@ -29,19 +32,6 @@ namespace BestFor.Services.Services
             _repository = repository;
         }
         
-        private KeyIndexedDataSource<Answer> GetCachedData()
-        {
-            object data = _cacheManager.Get(CacheConstants.CACHE_KEY_ANSWERS_DATA);
-            if (data == null)
-            {
-                var dataSource = new KeyIndexedDataSource<Answer>();
-                dataSource.Initialize(_repository);
-                _cacheManager.Add(CacheConstants.CACHE_KEY_ANSWERS_DATA, dataSource);
-                return dataSource;
-            }
-            return (KeyIndexedDataSource<Answer>)data;
-        }
-
         public IEnumerable<AnswerDto> FindAnswers(string leftWord, string rightWord)
         {
             // Theoretically this shold never throw exception unless we got some timeout on initialization or something strange.
@@ -90,6 +80,18 @@ namespace BestFor.Services.Services
             return answerObject;
         }
 
+        public IEnumerable<AnswerDto> FindAnswersTrendingToday()
+        {
+            var data = GetTodayTrendingCachedData();
+            return data.Select(x => x.ToDto());
+        }
+
+        public IEnumerable<AnswerDto> FindAnswersTrendingOverall()
+        {
+            var data = GetOverallTrendingCachedData();
+            return data.Select(x => x.ToDto());
+        }
+
         private async Task<Answer> PersistAnswer(Answer answer)
         {
             // Find if answer already exists
@@ -110,6 +112,53 @@ namespace BestFor.Services.Services
             }
             await _repository.SaveChangesAsync();
             return existingAnswer == null ? answer : existingAnswer;
+        }
+
+        private KeyIndexedDataSource<Answer> GetCachedData()
+        {
+            object data = _cacheManager.Get(CacheConstants.CACHE_KEY_ANSWERS_DATA);
+            if (data == null)
+            {
+                var dataSource = new KeyIndexedDataSource<Answer>();
+                dataSource.Initialize(_repository);
+                _cacheManager.Add(CacheConstants.CACHE_KEY_ANSWERS_DATA, dataSource);
+                return dataSource;
+            }
+            return (KeyIndexedDataSource<Answer>)data;
+        }
+
+        /// <summary>
+        /// Get trending today data from cache. Initialize if needed.
+        /// </summary>
+        /// <returns></returns>
+        private List<Answer> GetTodayTrendingCachedData()
+        {
+            object data = _cacheManager.Get(CacheConstants.CACHE_KEY_TRENDING_TODAY_DATA);
+            if (data == null)
+            {
+                var answersRepo = new AnswersRepository(_repository);
+                var trendingToday = answersRepo.FindAnswersTrendingToday(TRENDING_TOP_TODAY, DateTime.Now).ToList<Answer>();
+                _cacheManager.Add(CacheConstants.CACHE_KEY_TRENDING_TODAY_DATA, trendingToday);
+                return trendingToday;
+            }
+            return (List<Answer>)data;
+        }
+
+        /// <summary>
+        /// Get trending overall data from cache. Initialize if needed.
+        /// </summary>
+        /// <returns></returns>
+        private List<Answer> GetOverallTrendingCachedData()
+        {
+            object data = _cacheManager.Get(CacheConstants.CACHE_KEY_TRENDING_OVERALL_DATA);
+            if (data == null)
+            {
+                var answersRepo = new AnswersRepository(_repository);
+                var trendingOverall = answersRepo.FindAnswersTrendingOverall(TRENDING_TOP_OVERALL).ToList<Answer>();
+                _cacheManager.Add(CacheConstants.CACHE_KEY_TRENDING_OVERALL_DATA, trendingOverall);
+                return trendingOverall;
+            }
+            return (List<Answer>)data;
         }
     }
 }

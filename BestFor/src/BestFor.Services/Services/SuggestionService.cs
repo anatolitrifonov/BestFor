@@ -46,10 +46,8 @@ namespace BestFor.Services.Services
         /// <returns></returns>
         public IEnumerable<SuggestionDto> FindSuggestions(string input)
         {
-            // Find data source for suggestions
-            // Call its find suggestions method
-            // Ask results to convert itselft to Dto 
-            return DataLocator.GetSuggestionsDataSource().FindSuggestions(input).Select(x => x.ToDto());
+            var cachedData = GetCachedData();
+            return cachedData.FindTopItems(input).Select(x => x.ToDto());
         }
 
         public async Task<Suggestion> AddSuggestion(SuggestionDto suggestion)

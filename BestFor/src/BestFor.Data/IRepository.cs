@@ -22,6 +22,5 @@ namespace BestFor.Data
         void Update(TEntity entity);
 
         Task<int> SaveChangesAsync(CancellationToken cancellationToken = default(CancellationToken));
-
     }
 }

@@ -198,8 +198,15 @@ namespace BestFor
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
-                    name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                        name: "anything",
+                        template: "{*mylink}",
+                        defaults: new { controller = "Home", action = "MyContent" },
+                        constraints: new { mylink = new ContentRouteConstraint() });
+
+                routes.MapRoute(
+                        name: "default",
+                        template: "{controller=Home}/{action=Index}/{id?}");
+
 
                 // Uncomment the following line to add a route for porting Web API 2 controllers.
                 // routes.MapWebApiRoute("DefaultApi", "api/{controller}/{id?}");
