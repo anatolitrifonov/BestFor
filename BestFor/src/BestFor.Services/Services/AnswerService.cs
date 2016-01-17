@@ -1,8 +1,6 @@
-﻿using System.Threading;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using System;
 using BestFor.Dto;
-using BestFor.Services.Services;
 using BestFor.Services.DataSources;
 using BestFor.Services.Cache;
 using BestFor.Data;
@@ -101,8 +99,9 @@ namespace BestFor.Services.Services
             // Insert if new.
             if (existingAnswer == null)
             {
-                answer.Count = 1;
-                _repository.Insert(answer);
+                existingAnswer = answer;
+                existingAnswer.Count = 1;
+                _repository.Insert(existingAnswer);
             }
             // Update if already there.
             else
@@ -110,8 +109,11 @@ namespace BestFor.Services.Services
                 existingAnswer.Count++;
                 _repository.Update(existingAnswer);
             }
+
             await _repository.SaveChangesAsync();
-            return existingAnswer == null ? answer : existingAnswer;
+
+            // return existingAnswer == null ? answer : existingAnswer;
+            return existingAnswer; 
         }
 
         private KeyIndexedDataSource<Answer> GetCachedData()

@@ -17,10 +17,12 @@
         // Invoked once before the component is mounted. The return value will be used as the initial value of this.state.
         // initial set of suggestions is blank
         return {
-            statusMessage: "Enter the first word", // used for guiding users on what to do
-            answers: [], // data loaded from servers
-            showErrorPane: false, // helps displaying error panel
-            errorMessage: "" // this.props.antiForgeryToken // error message to show
+            statusMessage: "Enter the first word",  // used for guiding users on what to do
+            answers: [],                            // data loaded from servers
+            showErrorPane: false,                   // helps displaying error panel
+            errorMessage: "",                       // this.props.antiForgeryToken // error message to show
+            lastAddedAnswerId: 0,                   // id of the last added answer
+            showAddDescriptionLink: false           // do not show add description link on load
         };
     },
 
@@ -178,7 +180,8 @@
             statusMessage: message, // message
             answers: this.answers, // set aswers data
             showErrorPane: false, // hide errors
-            errorMessage: "" // blank the error 
+            errorMessage: "", // blank the error 
+            showAddDescriptionLink: false
         });
     },
 
@@ -189,7 +192,8 @@
             statusMessage: "Error happened while searching for answers", // message
             answers: this.answers, // blank out the aswers
             showErrorPane: true, // show errors
-            errorMessage: errorMessage // show error details
+            errorMessage: errorMessage, // show error details
+            showAddDescriptionLink: false
         });
     },
 
@@ -244,7 +248,8 @@
                 this.setState({
                     statusMessage: "Error happened searching for answers.", // message
                     showErrorPane: true, // show errors
-                    errorMessage: this.xhr.responseText // show error details
+                    errorMessage: this.xhr.responseText, // show error details
+                    showAddDescriptionLink: false
                 });
             }
             // without this xhr event handler will not have access to this.xhr
@@ -268,15 +273,18 @@
         }
         else if (httpResultData.Answer.Count > 1) {
             message = "Your answer \"Best " + httpResultData.Answer.LeftWord + " for " + httpResultData.Answer.RightWord +
-                " is " + httpResultData.Answer.Phrase + "\" was added. This answer was given " + httpResultData.Answer.Count + " times";
+                " is " + httpResultData.Answer.Phrase + "\" was added. This answer was given " + httpResultData.Answer.Count + " times.";
         }
+ 
         // clear the form
         this.clearTheForm();
         this.setState({
             statusMessage: message,         // message
             showErrorPane: showErrorPane,   // hide errors
             errorMessage: message,          // blank the error,
-            answers: this.answers           // set aswers data
+            answers: this.answers,          // set aswers data
+            lastAddedAnswerId: httpResultData.Answer.Id, // set the id of the last added answer
+            showAddDescriptionLink: true    // do offer user to add extended opinion
         });
     },
 
@@ -289,22 +297,26 @@
     },
 
     render: function () {
-        var errorDisplayStyle =
-            {
-                display: this.state.showErrorPane ? "" : "none",
-                width: 500,
-                height:500
-            };
-        var searchButtonStyle =
-            {
-                display: "none"
-            };
+        var errorDisplayStyle = {
+            display: this.state.showErrorPane ? "" : "none",
+            width: 500,
+            height:500
+        };
+        var searchButtonStyle = {
+            display: "none"
+        };
         var overAllDivStyle = {
             
         };
+        var addDescriptionStyle = {
+            display: this.state.showAddDescriptionLink ? "" : "none"
+        };
+        var linkToExtendedOpinion = "/AnswerDescription/AddDescription?answerId=" + this.state.lastAddedAnswerId;
+
         return (
             <div style={overAllDivStyle}>
-                <span>{ this.state.statusMessage }</span><br />
+                <span>{ this.state.statusMessage }</span>
+                <a href={linkToExtendedOpinion} style={ addDescriptionStyle }>Would you like to add an extended opinion?</a><br />
                 Best<br />
                 {/* This will be knows as leftTextBox */}
                 <SuggestionControl suggestionsUrl={this.props.suggestionsUrl} onValueChange={this.doAnswersSearchFromLeftTextBox}

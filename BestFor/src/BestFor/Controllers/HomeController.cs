@@ -2,10 +2,13 @@
 using Microsoft.AspNet.Mvc;
 using BestFor.Services.Services;
 
+
 // For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace BestFor.Controllers
 {
+  //  [ServiceFilter(typeof(LanguageActionFilter))]
+    // [Route("{culture}/[controller]")]
     public class HomeController : Controller
     {
         private IAnswerService _answerService;

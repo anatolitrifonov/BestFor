@@ -1,0 +1,16 @@
+﻿@model BestFor.Dto.AnswerDescriptionDto
+@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+Add Description
+
+Test
+@using (Html.BeginForm()) {
+    @Html.HiddenFor(model => model.AnswerId)
+    @Html.TextAreaFor(model => model.Description)
+    <input type="submit" value="Create" />
+}
+
+Hello

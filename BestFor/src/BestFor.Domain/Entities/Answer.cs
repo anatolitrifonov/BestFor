@@ -43,7 +43,8 @@ namespace BestFor.Domain.Entities
                 Phrase = Phrase,
                 LeftWord = LeftWord,
                 RightWord = RightWord,
-                Count = Count
+                Count = Count,
+                Id = Id
             };
         }
 
@@ -53,6 +54,7 @@ namespace BestFor.Domain.Entities
             LeftWord = dto.LeftWord;
             RightWord = dto.RightWord;
             Count = dto.Count;
+            Id = dto.Id;
 
             return Id;
         }

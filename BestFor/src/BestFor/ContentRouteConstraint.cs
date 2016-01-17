@@ -4,6 +4,9 @@ using Microsoft.AspNet.Http;
 
 namespace BestFor
 {
+    /// <summary>
+    /// Matches if URL starts with "best"
+    /// </summary>
     public class ContentRouteConstraint : IRouteConstraint
     {
         //
