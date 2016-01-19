@@ -79,6 +79,8 @@ namespace BestFor.Services.DataSources
             if (_data == null) return null;
 
             // Get all items for the key
+            // Splitting for debugging
+            int c = _data.Where(x => x.Key.StartsWith(key)).Count();
             return _data.Where(x => x.Key.StartsWith(key)).Select(x => x.Value).Take(DEFAULT_TOP_COUNT);
         }
 

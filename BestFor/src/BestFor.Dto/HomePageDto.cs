@@ -10,5 +10,7 @@ namespace BestFor.Dto
         public AnswersDto TopToday { get; set; } = new AnswersDto();
 
         public AnswersDto TopOverall { get; set; } = new AnswersDto();
+
+        public string Culture { get; set; }
     }
 }

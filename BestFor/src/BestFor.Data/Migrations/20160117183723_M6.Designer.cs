@@ -8,9 +8,10 @@ using BestFor.Data;
 namespace BestFor.Data.Migrations
 {
     [DbContext(typeof(BestDataContext))]
-    partial class BestDataContextModelSnapshot : ModelSnapshot
+    [Migration("20160117183723_M6")]
+    partial class M6
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "7.0.0-rc1-16348")
@@ -58,25 +59,6 @@ namespace BestFor.Data.Migrations
                     b.Property<DateTime>("DateAdded");
 
                     b.Property<string>("Phrase")
-                        .IsRequired();
-
-                    b.HasKey("Id");
-                });
-
-            modelBuilder.Entity("BestFor.Domain.Entities.ResourceString", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("CultureName")
-                        .IsRequired();
-
-                    b.Property<DateTime>("DateAdded");
-
-                    b.Property<string>("Key")
-                        .IsRequired();
-
-                    b.Property<string>("Value")
                         .IsRequired();
 
                     b.HasKey("Id");

@@ -7,9 +7,9 @@ using BestFor.Services.Services;
 
 namespace BestFor.Controllers
 {
-  //  [ServiceFilter(typeof(LanguageActionFilter))]
+    [ServiceFilter(typeof(LanguageActionFilter))]
     // [Route("{culture}/[controller]")]
-    public class HomeController : Controller
+    public class HomeController : BaseApiController
     {
         private IAnswerService _answerService;
 
@@ -26,6 +26,8 @@ namespace BestFor.Controllers
             model.TopToday.Answers = _answerService.FindAnswersTrendingToday();
 
             model.TopOverall.Answers = _answerService.FindAnswersTrendingOverall();
+
+            model.Culture = this.Culture;
 
             return View(model);
         }

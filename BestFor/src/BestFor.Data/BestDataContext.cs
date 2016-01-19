@@ -11,6 +11,7 @@ namespace BestFor.Data
         public DbSet<Suggestion> Suggestions { get; set; }
         public DbSet<BadWord> BadWords { get; set; }
         public DbSet<AnswerDescription> AnswerDescriptions { get; set; }
+        public DbSet<ResourceString> ResourceStrings { get; set; }
 
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

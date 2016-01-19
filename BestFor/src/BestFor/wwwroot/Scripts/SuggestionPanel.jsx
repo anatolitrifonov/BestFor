@@ -9,15 +9,34 @@
         // token given by the controller to send back as verification
         antiForgeryToken: React.PropTypes.string,
         // token is expected to be sent in this header
-        antiForgeryHeaderName: React.PropTypes.string
+        antiForgeryHeaderName: React.PropTypes.string,
+        // resource strings are given by the user in this design.
+        resourceStrings: React.PropTypes.object
     },
+
+    // List of strings this control wants in resourceStrings:
+    // this.props.resourceStrings.suggestion_panel_initial_message
+    // suggestion_panel_initial_message
+    // suggestion_panel_no_answers_found : "No answers found. Be the first!"
+    // suggestion_panel_x_answers_found : " answers found. Do you have your own? Or vote for the answer below?"
+    // suggestion_panel_error_happened_searching_answers : "Error happened while searching for answers"
+    // suggestion_panel_you_were_the_first : "You were the first to say that
+    // best_start_capital : "Best"
+    // for_lower : "for"
+    // is_lower : "is"
+    // suggestion_panel_your_answer : "Your answer"
+    // suggestion_panel_was_added : "was added"
+    // suggestion_panel_this_answer_was_given : "This answer was given"
+    // times_lower : "times"
+    // suggestion_panel_extended_opinion : "Would you like to add an extended opinion?"
+
 
     // Built in ability to set initial state
     getInitialState: function () {
         // Invoked once before the component is mounted. The return value will be used as the initial value of this.state.
         // initial set of suggestions is blank
         return {
-            statusMessage: "Enter the first word",  // used for guiding users on what to do
+            statusMessage: this.props.resourceStrings.suggestion_panel_initial_message,  // used for guiding users on what to do
             answers: [],                            // data loaded from servers
             showErrorPane: false,                   // helps displaying error panel
             errorMessage: "",                       // this.props.antiForgeryToken // error message to show
@@ -170,9 +189,9 @@
 
     // Handles successful search for suggestions
     processFoundAnswers: function (answers) {
-        var message = "No answers found. Be the first!";
+        var message = this.props.resourceStrings.suggestion_panel_no_answers_found;
         if (answers != null && answers.length > 0)
-            message = answers.length + " answers found. Do you have your own? Or vote for the answer below?";
+            message = answers.length + this.props.resourceStrings.suggestion_panel_x_answers_found;
         // Save the answers to use later
         this.answers = answers;
         // this is expected to update the list that is bound to this state data.
@@ -189,7 +208,7 @@
         console.log("SuggestionPanel xhr onload errored out. Error text is probably too long.");
         this.answers = [];
         this.setState({
-            statusMessage: "Error happened while searching for answers", // message
+            statusMessage: this.props.resourceStrings.suggestion_panel_error_happened_searching_answers, // message
             answers: this.answers, // blank out the aswers
             showErrorPane: true, // show errors
             errorMessage: errorMessage, // show error details
@@ -246,7 +265,7 @@
             else {
                 console.log("SuggestionPanel handleAddButtonClick xhr onload errored out. Error text is probably too long.");
                 this.setState({
-                    statusMessage: "Error happened searching for answers.", // message
+                    statusMessage: this.props.resourceStrings.suggestion_panel_error_happened_searching_answers, // message
                     showErrorPane: true, // show errors
                     errorMessage: this.xhr.responseText, // show error details
                     showAddDescriptionLink: false
@@ -263,17 +282,21 @@
         console.log("SuggestionPanel handleAddButtonClick xhr onload returned " + this.xhr.responseText);
         var httpResultData = JSON.parse(this.xhr.responseText);
         // Let's look at the data. May be there was an error
-        var message = "You were the first to say that \"Best " + httpResultData.Answer.LeftWord +
-            " for " + httpResultData.Answer.RightWord +
-            " is " + httpResultData.Answer.Phrase + "\"!";
+        var r = this.props.resourceStrings;
+        // you were the first to say that "best blah for blah is blah"!
+        var quotedAnswer = "\"" + r.best_start_capital + " " + httpResultData.Answer.LeftWord +
+            " " + r.for_lower + " " + httpResultData.Answer.RightWord +
+            " " + r.is_lower + " " + httpResultData.Answer.Phrase + "\"";
+        var message = r.suggestion_panel_you_were_the_first + quotedAnswer + "!";
         var showErrorPane = false;
         if (httpResultData.ErrorMessage != null) {
             showErrorPane = true;
             message = httpResultData.ErrorMessage;
         }
         else if (httpResultData.Answer.Count > 1) {
-            message = "Your answer \"Best " + httpResultData.Answer.LeftWord + " for " + httpResultData.Answer.RightWord +
-                " is " + httpResultData.Answer.Phrase + "\" was added. This answer was given " + httpResultData.Answer.Count + " times.";
+            // your answer "best blah for blah is blah" was added. This answer was given Z times.
+            message = r.suggestion_panel_your_answer + " " + quotedAnswer + " " + r.suggestion_panel_was_added + ". " +
+                r.suggestion_panel_this_answer_was_given + " " + httpResultData.Answer.Count + " " + r.times_lower + ".";
         }
  
         // clear the form
@@ -316,18 +339,18 @@
         return (
             <div style={overAllDivStyle}>
                 <span>{ this.state.statusMessage }</span>
-                <a href={linkToExtendedOpinion} style={ addDescriptionStyle }>Would you like to add an extended opinion?</a><br />
-                Best<br />
+                <a href={linkToExtendedOpinion} style={ addDescriptionStyle }>{this.props.resourceStrings.suggestion_panel_extended_opinion}</a><br />
+                {this.props.resourceStrings.best_start_capital}<br />
                 {/* This will be knows as leftTextBox */}
                 <SuggestionControl suggestionsUrl={this.props.suggestionsUrl} onValueChange={this.doAnswersSearchFromLeftTextBox}
                                    antiForgeryToken={this.props.antiForgeryToken} antiForgeryHeaderName={this.props.antiForgeryHeaderName}
                                    ref={(ref) => this.leftTextBox = ref} focusOnLoad={ true }/><br />
-                for<br />
+                {this.props.resourceStrings.for_lower}<br />
                 {/* This will be knows as rightTextBox */}
                 <SuggestionControl suggestionsUrl={this.props.suggestionsUrl} onValueChange={this.doAnswersSearchFromRightTextBox}
                                    antiForgeryToken={this.props.antiForgeryToken} antiForgeryHeaderName={this.props.antiForgeryHeaderName}
                                    ref={(ref) => this.rightTextBox = ref} focusOnLoad={ false } /><br />
-                is<br />
+                {this.props.resourceStrings.is_lower}<br />
                 {/* This will be knows as answerTextBox */}
                 <input type="text" placeholder="your answer" ref={(ref) => this.answerTextBox = ref} onChange={this.doAnswersSearchFromButton}
                        className="AnswerTextBox"/>

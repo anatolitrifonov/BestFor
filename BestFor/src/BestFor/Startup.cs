@@ -66,15 +66,13 @@ namespace BestFor
             // Add React service
             services.AddReact();
 
-            // Add localization
-     //       services.AddLocalization(options => options.ResourcesPath = "Resources");
-
             // Add MVC services to the services container.
             services.AddMvc()
                 .AddViewLocalization()
                 .AddDataAnnotationsLocalization();
 
-         //   services.AddScoped<LanguageActionFilter>();
+            // Register action filter that deals with localization.
+            services.AddScoped<LanguageActionFilter>();
 
             // Uncomment the following line to add Web API services which makes it easier to port Web API 2 controllers.
             // You will also need to add the Microsoft.AspNet.Mvc.WebApiCompatShim package to the 'dependencies' section of project.json.
@@ -91,11 +89,13 @@ namespace BestFor
             services.AddScoped<BestFor.Data.IRepository<BestFor.Domain.Entities.Answer>, BestFor.Data.Repository<BestFor.Domain.Entities.Answer>>();
             services.AddScoped<BestFor.Data.IRepository<BestFor.Domain.Entities.Suggestion>, BestFor.Data.Repository<BestFor.Domain.Entities.Suggestion>>();
             services.AddScoped<BestFor.Data.IRepository<BestFor.Domain.Entities.BadWord>, BestFor.Data.Repository<BestFor.Domain.Entities.BadWord>>();
+            services.AddScoped<BestFor.Data.IRepository<BestFor.Domain.Entities.ResourceString>, BestFor.Data.Repository<BestFor.Domain.Entities.ResourceString>>();
             services.AddScoped<BestFor.Services.Cache.ICacheManager, BestFor.Services.Cache.CacheManager>();
             services.AddScoped<BestFor.Services.Services.IProfanityService, BestFor.Services.Services.ProfanityService>();
             services.AddScoped<BestFor.Services.Services.IAnswerService, BestFor.Services.Services.AnswerService>();
             services.AddScoped<BestFor.Services.Services.ISuggestionService, BestFor.Services.Services.SuggestionService>();
             services.AddScoped<BestFor.Services.Services.IStatusService, BestFor.Services.Services.StatusService>();
+            services.AddScoped<BestFor.Services.Services.IResourcesService, BestFor.Services.Services.ResourcesService>();
         }
 
         // Configure is called after ConfigureServices is called.
@@ -123,28 +123,6 @@ namespace BestFor
                 // sends the request to the following path or controller action.
                 app.UseExceptionHandler("/Home/Error");
             }
-
-            // Localization
-            //RequestLocalizationOptions localizationOptions = new RequestLocalizationOptions() {   RequestCultureProviders}
-            //    DefaultRequestCulture = new RequestCulture(new CultureInfo("en-US")),
-            //    SupportedCultures = new List<CultureInfo>
-            //    {
-            //        new CultureInfo("en-US"),
-            //        new CultureInfo("de-CH"),
-            //        new CultureInfo("fr-CH"),
-            //        new CultureInfo("it-CH")
-            //    },
-            //    SupportedUICultures = new List<CultureInfo>
-            //    {
-            //        new CultureInfo("en-US"),
-            //        new CultureInfo("de-CH"),
-            //        new CultureInfo("fr-CH"),
-            //        new CultureInfo("it-CH")
-            //    }
-            //}
-            RequestCulture culture = new RequestCulture("en-US");
-            // Assumes all cultures are supported and all providers are supported
-            app.UseRequestLocalization(culture);
 
             // Add the platform handler to the request pipeline.
             app.UseIISPlatformHandler();
@@ -234,16 +212,12 @@ namespace BestFor
                         defaults: new { controller = "Home", action = "MyContent" },
                         constraints: new { mylink = new ContentRouteConstraint() });
 
+                // See LocalizationRouteConstraint for description of how this mapping works.
                 routes.MapRoute(
                         name: "DefaultWithCulture",
                         template: "{culture}/{controller}/{action}/{id?}",
                         defaults: new { controller = "Home", action = "Index" },
                         constraints: new { mylink = new LocalizationRouteConstraint() });
-
-                //routes.MapRoute(
-                //        name: "DefaultWithNoCulture",
-                //        template: "{culture}/{controller}/{action}/{id?}",
-                //        defaults: new { controller = "Home", action = "Index" });
 
                 routes.MapRoute(
                         name: "default",

@@ -20,6 +20,20 @@ namespace BestFor.Services
             return string.Format("Best {0} for {1} is {2}", answer.LeftWord, answer.RightWord, answer.Phrase);
         }
 
+        public static string ConvertAnswerToUrl(CommonStringsDto commonStrings, AnswerDto answer)
+        {
+            //return string.Format("/best {0} for {1} is {2}", answer.LeftWord, answer.RightWord, answer.Phrase).Replace(" ", "-");
+            return string.Format("/{0} {1} {2} {3} {4} {5}", commonStrings.Best, answer.LeftWord, commonStrings.For,
+                answer.RightWord, commonStrings.Is, answer.Phrase).Replace(" ", "-");
+        }
+
+        public static string ConvertAnswerToText(CommonStringsDto commonStrings, AnswerDto answer)
+        {
+            // best <left word> for <right word> is <phrase>
+            return string.Format("{0} {1} {2} {3} {4} {5}", commonStrings.Best, answer.LeftWord, commonStrings.For,
+                answer.RightWord, commonStrings.Is, answer.Phrase);
+        }
+
         /// <summary>
         /// Try to parse answer from the url
         /// </summary>
