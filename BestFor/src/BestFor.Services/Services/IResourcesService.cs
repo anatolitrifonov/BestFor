@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json.Linq;
 using BestFor.Dto;
+using System.Collections.Generic;
 
 namespace BestFor.Services.Services
 {
@@ -25,16 +26,41 @@ namespace BestFor.Services.Services
         string[] GetStrings(string culture, string[] keys);
 
         /// <summary>
-        /// Find strings for keys and return as javascript array.
+        /// Find strings for keys and return as javascript json object.
         /// </summary>
         /// <param name="culture"></param>
         /// <param name="javaScriptVariableName"></param>
         /// <param name="keys"></param>
-        /// <returns></returns>
+        /// <returns>
+        /// script
+        /// var javaScriptVariableName {
+        /// "a" : "s",
+        /// "b" : "v"
+        /// }
+        /// script
+        /// </returns>
         string GetStringsAsJavaScript(string culture, string javaScriptVariableName, string[] keys);
 
+        /// <summary>
+        /// Return dynamic json object containing keys and strings as properties and values.
+        /// This object can be then rendered as jSon object on the client side.
+        /// </summary>
+        /// <param name="culture"></param>
+        /// <param name="keys"></param>
+        /// <returns></returns>
         JObject GetStringsAsJson(string culture, string[] keys);
 
+        /// <summary>
+        /// Return common strings for a given culture.
+        /// </summary>
+        /// <param name="culture"></param>
+        /// <returns></returns>
         CommonStringsDto GetCommonStrings(string culture);
+
+        /// <summary>
+        /// Load all known common strings.
+        /// </summary>
+        /// <returns></returns>
+        Dictionary<string, CommonStringsDto> GetCommonStringsForAllCultures();
     }
 }

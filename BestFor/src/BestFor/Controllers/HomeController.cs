@@ -1,23 +1,32 @@
 ﻿using BestFor.Dto;
+using BestFor.Services;
 using Microsoft.AspNet.Mvc;
 using BestFor.Services.Services;
 
-
-// For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
-
 namespace BestFor.Controllers
 {
+    /// <summary>
+    /// This filter will parse the culture from the URL and set it into Viewbag
+    /// </summary>
     [ServiceFilter(typeof(LanguageActionFilter))]
-    // [Route("{culture}/[controller]")]
     public class HomeController : BaseApiController
     {
+        /// <summary>
+        /// Constructor injected answer service. Used for loading the answers.
+        /// </summary>
         private IAnswerService _answerService;
+        private IResourcesService _resourcesService;
 
-        public HomeController(IAnswerService answerService)
+        public HomeController(IAnswerService answerService, IResourcesService resourcesService)
         {
             _answerService = answerService;
+            _resourcesService = resourcesService;
         }
 
+        /// <summary>
+        /// Default home page view.
+        /// </summary>
+        /// <returns></returns>
         // GET: /<controller>/
         public IActionResult Index()
         {
@@ -32,14 +41,24 @@ namespace BestFor.Controllers
             return View(model);
         }
 
+        /// <summary>
+        /// This view will be rendered if answer is in the URL string.
+        /// </summary>
+        /// <returns></returns>
         public IActionResult MyContent()
         {
-            var s = Request.Path;
-
-
-
-            var data = new MyContentDto();
-
+            var culture = this.Culture;
+            var requestPath = Request.Path.Value;
+            // cut the culture
+            var cultureBegining = "/" + culture;
+            if (requestPath.StartsWith(cultureBegining)) requestPath = requestPath.Substring(cultureBegining.Length);
+            // Now try to parse the request path into known words.
+            var commonStrings = _resourcesService.GetCommonStrings(culture);
+            var answer = LinkingHelper.ParseUrlToAnswer(commonStrings, requestPath);
+            // Were we able to parse?
+            if (answer == null) RedirectToAction("Index");
+            // Fill in result
+            var data = new MyContentDto() { Answer = answer, CommonStrings = commonStrings };
             return View(data);
         }
     }

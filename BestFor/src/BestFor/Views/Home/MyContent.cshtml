@@ -1,7 +1,5 @@
 ﻿@model BestFor.Dto.MyContentDto
-@*
-    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
-My content
+@using BestFor.Services
+<br /><br /><br />
+
+@LinkingHelper.ConvertAnswerToText(Model.CommonStrings, Model.Answer)

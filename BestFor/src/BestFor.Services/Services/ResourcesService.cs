@@ -29,7 +29,7 @@ namespace BestFor.Services.Services
         private IRepository<ResourceString> _repository;
         private const string DEFAULT_CULTURE = "en-US";
         /// <summary>
-        /// Save data between calls.
+        /// Save data between calls. This object might be needed several times. No need to go to cache every time.
         /// </summary>
         private CommonStringsDto _commonStrings;
 
@@ -53,7 +53,6 @@ namespace BestFor.Services.Services
             var resourceStrings = GetCachedData();
             // Setup common strings so that we do not have to touch cache with no need.
             _commonStrings = LoadCommonStrings(culture, resourceStrings);
-
             return _commonStrings;
         }
 
@@ -138,6 +137,13 @@ namespace BestFor.Services.Services
             return sb.ToString();
         }
 
+        /// <summary>
+        /// Return dynamic json object containing keys and strings as properties and values.
+        /// This object can be then rendered as jSon object on the client side.
+        /// </summary>
+        /// <param name="culture"></param>
+        /// <param name="keys"></param>
+        /// <returns></returns>
         public JObject GetStringsAsJson(string culture, string[] keys)
         {
             // Get strings -> build json object
@@ -147,6 +153,21 @@ namespace BestFor.Services.Services
                 result.Add(new JProperty(keys[i], strings[i]));
             return result;
         }
+
+        /// <summary>
+        /// Load all known common strings.
+        /// </summary>
+        /// <returns></returns>
+        public Dictionary<string, CommonStringsDto> GetCommonStringsForAllCultures()
+        {
+            var data = GetCachedData().Where(x => x.Key == "best_start_capital" || x.Key == "for_lower" || x.Key == "is_lower").ToList();
+            var result = new Dictionary<string, CommonStringsDto>();
+            var cultures = data.Select(x => x.CultureName).Distinct();
+            foreach (var culture in cultures)
+                result.Add(culture, LoadCommonStrings(culture, data));
+            return result;
+        }
+
 
         #region Private Methods
         /// <summary>

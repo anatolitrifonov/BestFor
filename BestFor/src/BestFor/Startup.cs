@@ -206,16 +206,32 @@ namespace BestFor
             // Add MVC to the request pipeline.
             app.UseMvc(routes =>
             {
+                // This route checks all the requests to see if this is direct link to a content
+                // Constraint will check if {content} is ok to be a "content"
+                // Basically it will check if content starts with best and is in format "best<something>for<something>is<something>"
+                // If that is the case contraint will say OK and show Home/MyContentAction
                 routes.MapRoute(
                         name: "SearchEngineContent",
-                        template: "{*mylink}",
+                        template: "{content}",
                         defaults: new { controller = "Home", action = "MyContent" },
-                        constraints: new { mylink = new ContentRouteConstraint() });
+                        constraints: new { constraint = new ContentRouteConstraint() });
+                // This route checks all the requests to see if this is direct link to a content
+                // Constraint will check if ResourceService "knows" about language + contry combination.
+                // If does not know then assume English US
+                // It will the check if {content} is ok to be a "content"
+                // Basically it will check if content starts with best In specified language
+                // and is in format "<best in language><something><for in language><something><is in language><something>"
+                // If that is the case contraint will say OK and show Home/MyContentAction
+                routes.MapRoute(
+                        name: "SearchEngineContentWithCulture",
+                        template: "{language}-{country}/{content}",
+                        defaults: new { controller = "Home", action = "MyContent" },
+                        constraints: new { constraint = new ContentRouteConstraint() });
 
                 // See LocalizationRouteConstraint for description of how this mapping works.
                 routes.MapRoute(
                         name: "DefaultWithCulture",
-                        template: "{culture}/{controller}/{action}/{id?}",
+                        template: "{language}-{country}/{controller}/{action}/{id?}",
                         defaults: new { controller = "Home", action = "Index" },
                         constraints: new { mylink = new LocalizationRouteConstraint() });
 

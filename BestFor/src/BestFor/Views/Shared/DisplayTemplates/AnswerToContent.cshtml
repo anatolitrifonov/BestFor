@@ -4,5 +4,8 @@
 @inject BestFor.Services.Services.IResourcesService resourcesService
 @* Culture is placed into view bag by action filter *@
 @* This template shows content of the answer with the link to content *@
-<a href="@LinkingHelper.ConvertAnswerToUrl(resourcesService.GetCommonStrings(this.ViewBag.BestForCulture), Model)"
+<a href="@LinkingHelper.ConvertAnswerToUrlWithCulture(
+        this.ViewBag.BestForCulture,
+        resourcesService.GetCommonStrings(this.ViewBag.BestForCulture),
+        Model)"
    >@LinkingHelper.ConvertAnswerToText(resourcesService.GetCommonStrings(this.ViewBag.BestForCulture), Model)</a> <br />

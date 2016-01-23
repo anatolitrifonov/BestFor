@@ -8,5 +8,7 @@ namespace BestFor.Dto
     public class MyContentDto
     {
         public AnswerDto Answer { get; set; }
+
+        public CommonStringsDto CommonStrings { get; set; }
     }
 }
