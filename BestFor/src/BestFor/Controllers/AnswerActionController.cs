@@ -30,13 +30,16 @@ namespace BestFor.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> ShowAnswer(int answerId = 0)
         {
-            // Let's load the answer.
-            // The hope is that service will not have to go to the database and load answer from cache.
-            // But please look at the servise implementation for details.
+            // Load the answer.
             var answer = _answerService.FindById(answerId);
-
+            // Load answer descriptions
+            var descriptions = _answerDescriptionService.FindByAnswerId(answerId);
             // Model is basically empty at this point.
-            var model = new AnswerDescriptionDto() { Answer = answer, AnswerId = answerId };
+            var model = new AnswerDetailsDto()
+            {
+                Answer = answer,
+                Descriptions = descriptions
+            };
 
             return View(model);
         }

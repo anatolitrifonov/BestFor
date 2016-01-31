@@ -8,7 +8,7 @@ using BestFor.Domain.Entities;
 namespace BestFor.Services.Services
 {
     /// <summary>
-    /// Interface for answers service
+    /// Interface for answers service. Works with Answer object.
     /// </summary>
     public interface IAnswerService
     {

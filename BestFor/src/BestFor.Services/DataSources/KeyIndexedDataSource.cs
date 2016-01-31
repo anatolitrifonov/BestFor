@@ -38,12 +38,14 @@ namespace BestFor.Services.DataSources
     /// I suggest we add another dictionary by id for now. Doubt it is going to be too bad.
     /// EntityBase already has id. It will just point straight to the answer object. We might have to replace objects in the second dictionary
     /// on insert too but should not be a big deal. At some point we will have to add locking on add anyway.
+    /// todo: May be turn this into all asynchronous?
     /// </remarks>
     public class KeyIndexedDataSource<TEntity> where TEntity : EntityBase, IFirstIndex, ISecondIndex
     {
         private const int DEFAULT_TOP_COUNT = 10;
         /// <summary>
         /// Main index data
+        /// todo: change the whole thing to ConcurrentDictionary
         /// </summary>
         private Dictionary<string, Dictionary<string, TEntity>> _data;
         /// <summary>

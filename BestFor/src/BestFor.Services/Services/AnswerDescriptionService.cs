@@ -3,6 +3,7 @@ using BestFor.Data;
 using BestFor.Dto;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Collections.Generic;
 
 namespace BestFor.Services.Services
 {
@@ -40,6 +41,14 @@ namespace BestFor.Services.Services
             await _repository.SaveChangesAsync();
 
             return answerDescriptionObject;
+        }
+
+        public IEnumerable<AnswerDescriptionDto> FindByAnswerId(int answerId)
+        {
+            // return blank list if invalid answerId
+            if (answerId == 0) return Enumerable.Empty<AnswerDescriptionDto>();
+            // Search for all descriptions for a given answer
+            return _repository.Queryable().Where(x => x.AnswerId == answerId).Select(x => x.ToDto());
         }
     }
 }

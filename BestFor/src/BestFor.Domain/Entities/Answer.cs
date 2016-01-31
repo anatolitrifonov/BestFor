@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using BestFor.Dto;
+using System.Collections.Generic;
 
 namespace BestFor.Domain.Entities
 {
@@ -21,6 +22,10 @@ namespace BestFor.Domain.Entities
         public int Count { get; set; }
 
         public static string FormKey(string leftWord, string rightWord) { return leftWord + " " + rightWord; }
+
+        // Navigation property 
+        public virtual ICollection<AnswerDescription> AnswerDescriptions { get; set; }
+
 
         #region IFirstIndex implementation
         [NotMapped]

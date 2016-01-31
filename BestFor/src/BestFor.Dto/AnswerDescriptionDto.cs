@@ -1,5 +1,8 @@
 ﻿namespace BestFor.Dto
 {
+    /// <summary>
+    /// Model dto object used for adding answer description page
+    /// </summary>
     public class AnswerDescriptionDto : BaseDto
     {
         public AnswerDto Answer { get; set; }

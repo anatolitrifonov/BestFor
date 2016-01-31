@@ -6,8 +6,11 @@ using BestFor.Domain.Entities;
 namespace BestFor.Data
 {
     /// <summary>
-    /// Implements methods specific to Answers entity
+    /// Implements methods specific to Answer entity.
     /// </summary>
+    /// <remarks>
+    /// This class helps not to drag queries logic into domain, services or anywhere else
+    /// </remarks>
     public class AnswersRepository
     {
         private IRepository<Answer> _repository;
