@@ -1,2 +1,0 @@
-﻿http://localhost:56254/api/answer?leftWord=asww&rightWord=sdf
-http://localhost:56254/api/suggestion?userInput=all

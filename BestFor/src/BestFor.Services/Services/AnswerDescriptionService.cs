@@ -6,10 +6,20 @@ using System.Threading.Tasks;
 
 namespace BestFor.Services.Services
 {
-    public class AnswerDescriptionService
+    /// <summary>
+    /// Service to work with answer descriptions.
+    /// </summary>
+    public class AnswerDescriptionService : IAnswerDescriptionService
     {
+        /// <summary>
+        /// Save repository between constractor and methods.
+        /// </summary>
         private IRepository<AnswerDescription> _repository;
 
+        /// <summary>
+        /// Repository is injected in startup
+        /// </summary>
+        /// <param name="repository"></param>
         public AnswerDescriptionService(IRepository<AnswerDescription> repository)
         {
             _repository = repository;

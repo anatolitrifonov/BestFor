@@ -3,3 +3,6 @@
 <br /><br /><br />
 
 @LinkingHelper.ConvertAnswerToText(Model.CommonStrings, Model.Answer)
+
+@Html.ActionLink("Add Description", "AddDescription", "AnswerAction", new { answerId = Model.Answer.Id })
+

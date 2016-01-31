@@ -11,10 +11,49 @@ namespace BestFor.Services.DataSources
     /// The idea is to cache this.
     /// </summary>
     /// <typeparam name="TEntity"></typeparam>
+    /// <remarks>
+    /// In general this is a double index in memory. 
+    /// Entity has Key1 and Key2.
+    /// Example: Anser has Key1 = LeftWord+RightWord, Key2 = Phrase
+    /// Index is a Dictionary of Dictionaries
+    /// Fist Dictionary's key is Key1
+    /// Second Dictionary's key is Key2
+    /// If we have answers
+    /// Id  Left    Right   Phrase
+    /// 1   Hello   World   Here
+    /// 2   Hello   World   There
+    /// 3   Hello   Peace   Zoom
+    /// 4   Hello   Peace   Luck
+    /// Than the first Dictionary will have
+    /// item 1 Hello+World
+    /// item 2 Hello+World
+    /// There will be two second level dictionaries (for Item 1 and Item 2)
+    /// The first will have kyes Here and There and contain answers with ids 1 and 2
+    /// The second will have kyes Zoom and Luck and contain answers with ids 3 and 4.
+    /// 
+    /// Here is the more complex scenario: Answer is added -> added to database -> added to cache -> user is offered to add description
+    /// -> we pass answer id to the answer description page -> we want to show the content of the answer
+    /// -> ideally we do not want to load it from the database since we have it in cache 
+    /// -> But cache is not indexed by id at the moment
+    /// I suggest we add another dictionary by id for now. Doubt it is going to be too bad.
+    /// EntityBase already has id. It will just point straight to the answer object. We might have to replace objects in the second dictionary
+    /// on insert too but should not be a big deal. At some point we will have to add locking on add anyway.
+    /// </remarks>
     public class KeyIndexedDataSource<TEntity> where TEntity : EntityBase, IFirstIndex, ISecondIndex
     {
         private const int DEFAULT_TOP_COUNT = 10;
+        /// <summary>
+        /// Main index data
+        /// </summary>
         private Dictionary<string, Dictionary<string, TEntity>> _data;
+        /// <summary>
+        /// data indexed by id
+        /// </summary>
+        private Dictionary<int, TEntity> _iddata;
+        /// <summary>
+        /// Store this because dealing with bool as an indication of "is initialized" is easier.
+        /// Could have gotten away with _data == null
+        /// </summary>
         private bool _initialized;
 
         /// <summary>
@@ -23,14 +62,9 @@ namespace BestFor.Services.DataSources
         public bool IsInitialized { get { return _initialized; } }
 
         /// <summary>
-        /// How many answers in cache
+        /// How many first level items in cache
         /// </summary>
         public int Size {  get { return _data.Count; } }
-
-        public KeyIndexedDataSource()
-        {
-
-        }
 
         /// <summary>
         /// Load all entities from repository.
@@ -42,13 +76,18 @@ namespace BestFor.Services.DataSources
             if (_initialized) throw new Exception("This index is already initialized.");
 
             _data = new Dictionary<string, Dictionary<string, TEntity>>();
+            _iddata = new Dictionary<int, TEntity>();
             foreach (var entity in repository.List())
                 Insert(entity);
             _initialized = true;
             return _data.Count;
         }
 
-        // Get all items for the key
+        /// <summary>
+        /// Get all items for the key
+        /// </summary>
+        /// <param name="key"></param>
+        /// <returns></returns>
         public IEnumerable<TEntity> Find(string key)
         {
             if (_data == null) return null;
@@ -71,6 +110,7 @@ namespace BestFor.Services.DataSources
 
         public TEntity FindExact(string key, string secondKey)
         {
+            // No need to throw exception although might be a good idea to tell whoever is calling this to initialize first.
             if (_data == null) return null;
 
             if (!_data.ContainsKey(key)) return null;
@@ -82,6 +122,18 @@ namespace BestFor.Services.DataSources
 
             // got the second key
             return firstData[secondKey];
+        }
+
+        public TEntity FindExactById(int id)
+        {
+            // No need to throw exception although might be a good idea to tell whoever is calling this to initialize first.
+            if (_iddata == null) return null;
+
+            if (!_iddata.ContainsKey(id)) return null;
+
+            // We got direct pointer to the item.
+            return _iddata[id];
+
         }
 
         public TEntity Insert(TEntity entity)
@@ -99,6 +151,19 @@ namespace BestFor.Services.DataSources
                 InsertSecondaryKey(newCollection, entity);
                 _data.Add(entity.IndexKey, newCollection);
             }
+
+            // I would not expect this exception to ever be thrown
+            // If it is thrown then something is wrong in design.
+            try
+            {
+                _iddata.Add(entity.Id, entity);
+            }
+            catch(Exception ex)
+            {
+                throw new Exception("Something is wrong in the index by id dictionary.", ex);
+            }
+
+
             return entity;
         }
 

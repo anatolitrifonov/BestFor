@@ -29,7 +29,8 @@ namespace BestFor.Services.Services
             _cacheManager = cacheManager;
             _repository = repository;
         }
-        
+
+        #region IAnswerService implementation
         public IEnumerable<AnswerDto> FindAnswers(string leftWord, string rightWord)
         {
             // Theoretically this shold never throw exception unless we got some timeout on initialization or something strange.
@@ -69,11 +70,14 @@ namespace BestFor.Services.Services
             answerObject.FromDto(answer);
 
             // Repository might get a different object back.
-            // We will also let repository do the counting
+            // We will also let repository do the counting. Repository increases the count.
             answerObject = await PersistAnswer(answerObject);
 
             var cachedData = GetCachedData();
             cachedData.Insert(answerObject);
+
+            // TODO
+            // Still need to add to tredning today?
 
             return answerObject;
         }
@@ -90,6 +94,17 @@ namespace BestFor.Services.Services
             return data.Select(x => x.ToDto());
         }
 
+        public AnswerDto FindById(int answerId)
+        {
+            var cachedData = GetCachedData();
+            var answer = cachedData.FindExactById(answerId);
+            // Will be strange if not found ... but have to check.
+            if (answer == null) return null;
+            return answer.ToDto();
+        }
+        #endregion
+
+        #region Private Methods
         private async Task<Answer> PersistAnswer(Answer answer)
         {
             // Find if answer already exists
@@ -162,5 +177,6 @@ namespace BestFor.Services.Services
             }
             return (List<Answer>)data;
         }
+        #endregion
     }
 }

@@ -2,6 +2,7 @@
 {
     public class AnswerDescriptionDto : BaseDto
     {
+        public AnswerDto Answer { get; set; }
 
         public int AnswerId { get; set; }
 

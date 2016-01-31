@@ -6,6 +6,9 @@ using Microsoft.AspNet.Mvc;
 
 namespace BestFor.Controllers
 {
+    /// <summary>
+    /// Admin page controller. Nothing fancy yet. Gives ability to load data to cache and shows cache status.
+    /// </summary>
     public class AdminController : Controller
     {
 

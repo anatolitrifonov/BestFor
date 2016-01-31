@@ -101,7 +101,23 @@ if not exists(select * from ResourceString where CultureName = 'ru-RU' and [Key]
 		N'Хотите рассказать поподробнее?', getDate());
 GO
 
-select * from ResourceString
+if not exists(select * from ResourceString where CultureName = 'en-US' and [Key] = 'you_are_adding_detailed_description')
+	insert ResourceString(CultureName, [Key], Value, DateAdded) values('en-US', 'you_are_adding_detailed_description',
+		N'You are adding a detailed description for your answer.', getDate());
+if not exists(select * from ResourceString where CultureName = 'ru-RU' and [Key] = 'you_are_adding_detailed_description')
+	insert ResourceString(CultureName, [Key], Value, DateAdded) values('ru-RU', 'you_are_adding_detailed_description',
+		N'Вы добавляете детальное описание Вашего ответа.', getDate());
+GO
+
+if not exists(select * from ResourceString where CultureName = 'en-US' and [Key] = 'add_capital')
+	insert ResourceString(CultureName, [Key], Value, DateAdded) values('en-US', 'add_capital',
+		N'Add', getDate());
+if not exists(select * from ResourceString where CultureName = 'ru-RU' and [Key] = 'add_capital')
+	insert ResourceString(CultureName, [Key], Value, DateAdded) values('ru-RU', 'add_capital',
+		N'Добавить', getDate());
+GO
+
+select * from ResourceString order by id desc
 GO
 
 -- delete ResourceString

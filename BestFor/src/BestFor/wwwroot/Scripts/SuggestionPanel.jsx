@@ -29,6 +29,7 @@
     // suggestion_panel_this_answer_was_given : "This answer was given"
     // times_lower : "times"
     // suggestion_panel_extended_opinion : "Would you like to add an extended opinion?"
+    // add_capital : "Add"
 
 
     // Built in ability to set initial state
@@ -334,7 +335,7 @@
         var addDescriptionStyle = {
             display: this.state.showAddDescriptionLink ? "" : "none"
         };
-        var linkToExtendedOpinion = "/AnswerDescription/AddDescription?answerId=" + this.state.lastAddedAnswerId;
+        var linkToExtendedOpinion = "/AnswerAction/AddDescription?answerId=" + this.state.lastAddedAnswerId;
 
         return (
             <div style={overAllDivStyle}>
@@ -354,7 +355,7 @@
                 {/* This will be knows as answerTextBox */}
                 <input type="text" placeholder="your answer" ref={(ref) => this.answerTextBox = ref} onChange={this.doAnswersSearchFromButton}
                        className="AnswerTextBox"/>
-                <input type="button" value="Add" onClick={this.handleAddButtonClick} />
+                <input type="button" value={this.props.resourceStrings.add_capital} onClick={this.handleAddButtonClick} />
                 <input type="button" value="Search" onClick={this.doAnswersSearchFromButton} style={ searchButtonStyle } /><br /><br />
                 <SuggestionAnswerList answers={this.state.answers} onListClicked={this.handleOnListClicked}/><br />
                 <textarea style={errorDisplayStyle} ref={(ref) => this.errorDisplay = ref} value={this.state.errorMessage} readOnly />

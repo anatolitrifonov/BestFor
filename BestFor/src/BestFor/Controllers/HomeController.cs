@@ -6,7 +6,8 @@ using BestFor.Services.Services;
 namespace BestFor.Controllers
 {
     /// <summary>
-    /// This filter will parse the culture from the URL and set it into Viewbag
+    /// This filter will parse the culture from the URL and set it into Viewbag.
+    /// Controller has to inherit BaseApiController in order for filter to work correctly.
     /// </summary>
     [ServiceFilter(typeof(LanguageActionFilter))]
     public class HomeController : BaseApiController
@@ -56,6 +57,10 @@ namespace BestFor.Controllers
             var commonStrings = _resourcesService.GetCommonStrings(culture);
             var answer = LinkingHelper.ParseUrlToAnswer(commonStrings, requestPath);
             // Were we able to parse?
+            if (answer == null) RedirectToAction("Index");
+            // Let's try to find that answer
+            answer = _answerService.FindExact(answer.LeftWord, answer.RightWord, answer.Phrase);
+            // Go to home index if not found
             if (answer == null) RedirectToAction("Index");
             // Fill in result
             var data = new MyContentDto() { Answer = answer, CommonStrings = commonStrings };

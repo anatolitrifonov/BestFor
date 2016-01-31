@@ -9,6 +9,9 @@ using BestFor.Services.Profanity;
 
 namespace BestFor.Controllers
 {
+    /// <summary>
+    /// Api controller called from ReactJS control to do operations with answers.
+    /// </summary>
     [Route("api/[controller]")]
     public class AnswerController : BaseApiController
     {
