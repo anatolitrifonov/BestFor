@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
-using BestFor.Domain.Entities;
+﻿using BestFor.Domain.Entities;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Linq;
 
 namespace BestFor.Data
 {

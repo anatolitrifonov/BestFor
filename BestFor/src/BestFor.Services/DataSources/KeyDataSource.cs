@@ -8,7 +8,7 @@ namespace BestFor.Services.DataSources
 {
     public class KeyDataSource<TEntity> where TEntity : EntityBase, IFirstIndex
     {
-        private const int DEFAULT_TOP_COUNT = 10;
+        public const int DEFAULT_TOP_COUNT = 10;
         private Dictionary<string, TEntity> _data;
         private bool _initialized;
 

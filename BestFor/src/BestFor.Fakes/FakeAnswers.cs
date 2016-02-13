@@ -1,7 +1,10 @@
 ﻿using BestFor.Domain.Entities;
 
-namespace BestFor.Data.Fakes
+namespace BestFor.Fakes
 {
+    /// <summary>
+    /// Implements a fake dbset of known answers. Used in unit tests.
+    /// </summary>
     public class FakeAnswers : FakeDbSet<Answer>
     {
         public FakeAnswers() : base()

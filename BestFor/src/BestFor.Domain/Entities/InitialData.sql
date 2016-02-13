@@ -117,6 +117,22 @@ if not exists(select * from ResourceString where CultureName = 'ru-RU' and [Key]
 		N'Добавить', getDate());
 GO
 
+if not exists(select * from ResourceString where CultureName = 'en-US' and [Key] = 'add_description')
+	insert ResourceString(CultureName, [Key], Value, DateAdded) values('en-US', 'add_description',
+		N'Add Description', getDate());
+if not exists(select * from ResourceString where CultureName = 'ru-RU' and [Key] = 'add_description')
+	insert ResourceString(CultureName, [Key], Value, DateAdded) values('ru-RU', 'add_description',
+		N'Добавить Описание', getDate());
+GO
+
+if not exists(select * from ResourceString where CultureName = 'en-US' and [Key] = 'answer_details')
+	insert ResourceString(CultureName, [Key], Value, DateAdded) values('en-US', 'answer_details',
+		N'Answer Details', getDate());
+if not exists(select * from ResourceString where CultureName = 'ru-RU' and [Key] = 'answer_details')
+	insert ResourceString(CultureName, [Key], Value, DateAdded) values('ru-RU', 'answer_details',
+		N'Подробности Ответа', getDate());
+GO
+
 select * from ResourceString order by id desc
 GO
 

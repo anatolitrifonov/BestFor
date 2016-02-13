@@ -5,8 +5,9 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Data.Entity;
 using BestFor.Domain.Entities;
+using BestFor.Data;
 
-namespace BestFor.Data.Fakes
+namespace BestFor.Fakes
 {
     public class FakeDataContext : IDataContext
     {
@@ -22,6 +23,7 @@ namespace BestFor.Data.Fakes
             _fakeDbSets = new Dictionary<Type, object>();
             AddFakeDbSet<Answer, FakeAnswers>();
             AddFakeDbSet<BadWord, FakeBadWords>();
+            AddFakeDbSet<Suggestion, FakeSuggestions>();
         }
 
         public virtual DbSet<TEntity> EntitySet<TEntity>() where TEntity : class
@@ -37,9 +39,9 @@ namespace BestFor.Data.Fakes
             _fakeDbSets.Add(typeof(TEntity), fakeDbSet);
         }
 
-        public Task<int> SaveChangesAsync(CancellationToken cancellationToken) { return new Task<int>(() => default(int)); }
+        public Task<int> SaveChangesAsync(CancellationToken cancellationToken) { return Task.FromResult(0); }
 
-        public Task<int> SaveChangesAsync() { return new Task<int>(() => default(int)); }
+        public Task<int> SaveChangesAsync() { return Task.FromResult(0); }
 
         public void SyncObjectState<TEntity>(TEntity entity) where TEntity : class, IObjectState
         {

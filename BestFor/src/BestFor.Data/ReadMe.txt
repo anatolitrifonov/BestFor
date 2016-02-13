@@ -1,4 +1,4 @@
-﻿run studion command prompt to work with dnvm
+﻿run studio command prompt to work with dnvm
 dnvm = .NET Version Manager v1.0.0-beta5-10384
 You’ll also want to make sure you get the latest version of the runtime by opening a console and typing:
 dnvm upgrade - does something to download the latest version

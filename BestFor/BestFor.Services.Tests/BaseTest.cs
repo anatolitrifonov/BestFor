@@ -1,5 +1,5 @@
 ﻿using Autofac;
-using BestFor.Data.Fakes;
+using BestFor.Fakes;
 using BestFor.Data;
 
 namespace BestFor.Services.Tests
