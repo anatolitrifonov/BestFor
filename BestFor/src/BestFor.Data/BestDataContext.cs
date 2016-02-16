@@ -2,10 +2,11 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Data.Entity;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace BestFor.Data
 {
-    public class BestDataContext : DbContext, IDataContext
+    public class BestDataContext : IdentityDbContext<ApplicationUser>, IDataContext
     {
         public DbSet<Answer> Answers { get; set; }
         public DbSet<Suggestion> Suggestions { get; set; }
@@ -13,6 +14,13 @@ namespace BestFor.Data
         public DbSet<AnswerDescription> AnswerDescriptions { get; set; }
         public DbSet<ResourceString> ResourceStrings { get; set; }
 
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            base.OnModelCreating(builder);
+            // Customize the ASP.NET Identity model and override the defaults if needed.
+            // For example, you can rename the ASP.NET Identity table names and more.
+            // Add your customizations after calling base.OnModelCreating(builder);
+        }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

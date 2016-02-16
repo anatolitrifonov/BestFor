@@ -23,6 +23,7 @@
   },
   "dependencies": {
     "BestFor.Dto": "1.0.0-*",
-    "System.ComponentModel.Annotations": "4.0.11-beta-23516"
+    "System.ComponentModel.Annotations": "4.0.11-beta-23516",
+    "Microsoft.AspNet.Identity.EntityFramework": "3.0.0-rc1-final"
   }
 }

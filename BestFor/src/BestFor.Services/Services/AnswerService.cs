@@ -73,11 +73,15 @@ namespace BestFor.Services.Services
             // We will also let repository do the counting. Repository increases the count.
             answerObject = await PersistAnswer(answerObject);
 
+            // Add to cache.
             var cachedData = GetCachedData();
             cachedData.Insert(answerObject);
 
-            // TODO
-            // Still need to add to tredning today?
+            // Add to trending today
+            AddToTrendingToday(answerObject);
+
+            // Add to thrending overall
+            AddToTrendingOverall(answerObject);
 
             return answerObject;
         }
@@ -105,6 +109,57 @@ namespace BestFor.Services.Services
         #endregion
 
         #region Private Methods
+        /// <summary>
+        /// Add answer to the list of answers trending today
+        /// </summary>
+        /// <param name="answer"></param>
+        private void AddToTrendingToday(Answer answer)
+        {
+            // Currently assumes anser.Count = 1
+            // Get today's trend
+            var todaysTrending = GetTodayTrendingCachedData();
+            // I doubt this will ever happen but lets just return for now. It should be empty in the worst case.
+            if (todaysTrending == null) return;
+            // Check if the last one has count = 1. Throw it away.
+            var length = todaysTrending.Count;
+            // Add at the end if we can. This means initially we loaded less than constant.
+            if (length < TRENDING_TOP_TODAY)
+            {
+                todaysTrending.Add(answer);
+                return;
+            }
+            // If last one is not with count 1 -> nothing to do. That means the last one already has more than one vote.
+            if (todaysTrending[length - 1].Count > 1) return;
+            // Logically that means the last one is with count one.
+            // And logically we also need to check the date added.
+            // But we are too lazy. It is only a few items. Let's just throw away the last one.
+            todaysTrending.RemoveAt(length - 1);
+            // I'd assume this adds at the end.
+            todaysTrending.Add(answer);
+        }
+
+        /// <summary>
+        /// Add answer to the list of answers trending overall
+        /// </summary>
+        /// <param name="answer"></param>
+        private void AddToTrendingOverall(Answer answer)
+        {
+            // Currently assumes anser.Count = 1
+            // Get today's trend
+            var overallTrending = GetOverallTrendingCachedData();
+            // I doubt this will ever happen but lets just return for now. It should be empty in the worst case.
+            if (overallTrending == null) return;
+            // Check if the last one has count = 1. Throw it away.
+            var length = overallTrending.Count;
+            // Only add at the end if we can. This means initially we loaded less than constant.
+            // We are not going to do any other calculations.
+            if (length < TRENDING_TOP_OVERALL)
+            {
+                overallTrending.Add(answer);
+                return;
+            }
+        }
+
         private async Task<Answer> PersistAnswer(Answer answer)
         {
             // Find if answer already exists
