@@ -50,6 +50,7 @@ namespace Mvc6Junk
                 .AddDbContext<ApplicationDbContext>(options =>
                     options.UseSqlServer(Configuration["Data:DefaultConnection:ConnectionString"]));
 
+            // This enabled injection of UserManager<ApplicationUser> and SignInManager<ApplicationUser> for AccountController
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();

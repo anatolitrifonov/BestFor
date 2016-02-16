@@ -8,11 +8,15 @@
     <link rel="stylesheet" href="~/css/site.css" />
 </head>
 <body>
-    @Html.Partial("CurrentUser")
-
+    <div>
+        @Html.Partial("TopMenu")&nbsp;
+        @Html.Partial("CurrentUser")<br /><br />
+    </div>
 
     @* Html.React("MenuControl", new { }) *@
     @RenderBody()
-    @Html.Partial("Menu")
+    @Html.Partial("BottomMenu")
+    @* Give ability to pages to put scripts here. *@
+    @RenderSection("scripts", required: false)
 </body>
 </html>

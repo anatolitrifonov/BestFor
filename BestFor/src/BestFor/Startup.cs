@@ -18,6 +18,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
+using BestFor.Data;
+using BestFor.Domain.Entities;
+using BestFor.Services.Messaging;
+
 namespace BestFor
 {
     public class Startup
@@ -47,21 +51,17 @@ namespace BestFor
         // Use this method to add services to the container
         public void ConfigureServices(IServiceCollection services)
         {
+            // Add Entity Framework services to the services container.
             services.AddEntityFramework()
                 .AddSqlServer()
-                .AddDbContext<BestFor.Data.BestDataContext>(); // (options =>
-                    // options.UseSqlServer(Configuration["Data:DefaultConnection:ConnectionString"]));
+                .AddDbContext<BestDataContext>(); // (options =>
+                                                  // options.UseSqlServer(Configuration["Data:DefaultConnection:ConnectionString"]));
 
-            ////Add Entity Framework services to the services container.
-            //services.AddEntityFramework()
-            //    .AddSqlServer()
-            //    .AddDbContext<ApplicationDbContext>(options =>
-            //        options.UseSqlServer(Configuration["Data:DefaultConnection:ConnectionString"]));
-
-            //// Add Identity services to the services container.
-            //services.AddIdentity<ApplicationUser, IdentityRole>()
-            //    .AddEntityFrameworkStores<ApplicationDbContext>()
-            //    .AddDefaultTokenProviders();
+            // Add Identity services to the services container.
+            // This enabled injection of UserManager<ApplicationUser> and SignInManager<ApplicationUser> for AccountController
+            services.AddIdentity<ApplicationUser, IdentityRole>()
+                .AddEntityFrameworkStores<BestDataContext>()
+                .AddDefaultTokenProviders();
 
             // Add React service
             services.AddReact();
@@ -78,9 +78,9 @@ namespace BestFor
             // You will also need to add the Microsoft.AspNet.Mvc.WebApiCompatShim package to the 'dependencies' section of project.json.
             // services.AddWebApiConventions();
 
-            //// Register application services.
-            //services.AddTransient<IEmailSender, AuthMessageSender>();
-            //services.AddTransient<ISmsSender, AuthMessageSender>();
+            // Register application services.
+            services.AddTransient<IEmailSender, AuthMessageSender>();
+            services.AddTransient<ISmsSender, AuthMessageSender>();
 
             services.AddCaching();
 
@@ -179,7 +179,7 @@ namespace BestFor
             // app.RunIISPipeline();
 
             // Add cookie-based authentication to the request pipeline.
-            // app.UseIdentity();
+            app.UseIdentity();
 
             // Add and configure the options for authentication middleware to the request pipeline.
             // You can add options for middleware as shown below.

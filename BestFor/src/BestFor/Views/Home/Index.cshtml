@@ -13,18 +13,6 @@
     }
 }
 
-<script src="https://fb.me/react-0.14.0.min.js"></script>
-<script src="https://fb.me/react-dom-0.14.0.min.js"></script>
-<script src="@Url.Content("~/Scripts/SuggestionControl.jsx")"></script>
-<script src="@Url.Content("~/Scripts/SuggestionLineItem.jsx")"></script>
-<script src="@Url.Content("~/Scripts/SuggestionResultList.jsx")"></script>
-<script src="@Url.Content("~/Scripts/SuggestionTextBox.jsx")"></script>
-<script src="@Url.Content("~/Scripts/SuggestionAnswerList.jsx")"></script>
-<script src="@Url.Content("~/Scripts/SuggestionAnswerItem.jsx")"></script>
-<script src="@Url.Content("~/Scripts/SuggestionPanel.jsx")"></script>
-<script src="@Url.Content("~/Scripts/MenuControl.jsx")"></script>
-@Html.ReactInitJavaScript()
-
 @* Culture is placed into view bag by action filter *@
 @* This is the "normal" way of getting a localized string value *@
 @resourcesService.GetString(this.ViewBag.BestForCulture, "trending_today")<br />
@@ -70,3 +58,14 @@
 {
     @Html.DisplayFor(x => item, "AnswerToContent")
 }
+<script src="https://fb.me/react-0.14.0.min.js"></script>
+<script src="https://fb.me/react-dom-0.14.0.min.js"></script>
+<script src="@Url.Content("~/Scripts/SuggestionControl.jsx")"></script>
+<script src="@Url.Content("~/Scripts/SuggestionLineItem.jsx")"></script>
+<script src="@Url.Content("~/Scripts/SuggestionResultList.jsx")"></script>
+<script src="@Url.Content("~/Scripts/SuggestionTextBox.jsx")"></script>
+<script src="@Url.Content("~/Scripts/SuggestionAnswerList.jsx")"></script>
+<script src="@Url.Content("~/Scripts/SuggestionAnswerItem.jsx")"></script>
+<script src="@Url.Content("~/Scripts/SuggestionPanel.jsx")"></script>
+<script src="@Url.Content("~/Scripts/MenuControl.jsx")"></script>
+@Html.ReactInitJavaScript()
