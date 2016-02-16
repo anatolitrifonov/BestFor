@@ -1,8 +1,8 @@
-﻿use bestfor
-go
+﻿--use bestfor
+--go
 
-select * from ResourceString
-GO
+--select * from ResourceString
+--GO
 
 if not exists(select * from ResourceString where CultureName = 'en-US' and [Key] = 'trending_today')
 	insert ResourceString(CultureName, [Key], Value, DateAdded) values('en-US', 'trending_today', N'Treding Today', getDate());
@@ -133,7 +133,7 @@ if not exists(select * from ResourceString where CultureName = 'ru-RU' and [Key]
 		N'Подробности Ответа', getDate());
 GO
 
-select * from ResourceString order by id desc
-GO
+--select * from ResourceString order by id desc
+--GO
 
--- delete ResourceString
+---- delete ResourceString
