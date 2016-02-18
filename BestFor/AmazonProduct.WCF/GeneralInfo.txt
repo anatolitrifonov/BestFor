@@ -1,0 +1,32 @@
+﻿<system.serviceModel>
+This configuration section contains all the Windows Communication Foundation (WCF) ServiceModel configuration elements.
+
+	<extensions>
+	This configuration section contains a collection of extensions, which enable the user to create user-defined bindings, behaviors, and other aspects of extensions.
+
+		<behaviorExtensions>
+		Behavior extensions enable the user to create user-defined behavior elements.
+		These elements can be used alongside the standard Windows Communication Foundation (WCF) behavior elements.
+		The behaviorExtensions section defines the element such that it can be used in configuration. Here is an example of a typical behavior extension.
+
+	</extensions>
+
+	<behaviors>
+	This element defines two child collections named endpointBehaviors and serviceBehaviors. 
+	Each collection defines behavior elements consumed by endpoints and services respectively. 
+	Each behavior element is identified by its unique name attribute. Starting with .NET Framework 4, 
+	bindings and behaviors are not required to have a name. For more information about default configuration and nameless bindings and behaviors, 
+	see Simplified Configuration and Simplified Configuration for WCF Services.
+
+
+
+productuser
+Access Key ID:
+AKIAICJHQTOQLLMOMHEQ
+Secret Access Key:
+IB/VGkzxnnGb+lwtGg7jYuCsqqvUJg0C7CK6HQe3
+
+Access Key ID:
+AKIAI73IO4NBBOWQJ33Q
+Secret Access Key:
+ix7xJXAXBpw+M6u0jT1Ugo9XFvM4xxZE5u4sCi7N
