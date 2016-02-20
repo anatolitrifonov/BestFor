@@ -1,0 +1,1238 @@
+<?xml version="1.0"?>
+<ItemSearchResponse xmlns="http://webservices.amazon.com/AWSECommerceService/2013-08-01">
+  <OperationRequest>
+    <RequestId>2a26ac89-e857-4e97-aea4-0fc8f0080f38</RequestId>
+    <Arguments>
+      <Argument Name="AWSAccessKeyId" Value="AKIAI5A2QWLR7ECMOCWA">
+      </Argument>
+      <Argument Name="AssociateTag" Value="bestfor03-20">
+      </Argument>
+      <Argument Name="Keywords" Value="fishing">
+      </Argument>
+      <Argument Name="Operation" Value="ItemSearch">
+      </Argument>
+      <Argument Name="ResponseGroup" Value="Offers,ItemAttributes">
+      </Argument>
+      <Argument Name="SearchIndex" Value="Books">
+      </Argument>
+      <Argument Name="Service" Value="AWSECommerceService">
+      </Argument>
+      <Argument Name="Timestamp" Value="2016-02-19T04:58:54Z">
+      </Argument>
+      <Argument Name="Version" Value="2013-08-01">
+      </Argument>
+      <Argument Name="Signature" Value="TWr6C0kAdzFPmQzoPJtbXGH4NoDtGeah5TooleZMQPo=">
+      </Argument>
+    </Arguments>
+    <RequestProcessingTime>0.1347940000000000</RequestProcessingTime>
+  </OperationRequest>
+  <Items>
+    <Request>
+      <IsValid>True</IsValid>
+      <ItemSearchRequest>
+        <Keywords>fishing</Keywords>
+        <ResponseGroup>Offers</ResponseGroup>
+        <ResponseGroup>ItemAttributes</ResponseGroup>
+        <SearchIndex>Books</SearchIndex>
+      </ItemSearchRequest>
+    </Request>
+    <TotalResults>61546</TotalResults>
+    <TotalPages>6155</TotalPages>
+    <MoreSearchResultsUrl>http://www.amazon.com/gp/redirect.html?linkCode=xm2&amp;SubscriptionId=AKIAI5A2QWLR7ECMOCWA&amp;location=http%3A%2F%2Fwww.amazon.com%2Fgp%2Fsearch%3Fkeywords%3Dfishing%26url%3Dsearch-alias%253Dstripbooks&amp;tag=bestfor03-20&amp;creative=386001&amp;camp=2025</MoreSearchResultsUrl>
+    <Item>
+      <ASIN>1616284870</ASIN>
+      <DetailPageURL>http://www.amazon.com/Total-Fishing-Manual-Field-Stream/dp/1616284870%3FSubscriptionId%3DAKIAI5A2QWLR7ECMOCWA%26tag%3Dbestfor03-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D1616284870</DetailPageURL>
+      <ItemLinks>
+        <ItemLink>
+          <Description>Technical Details</Description>
+          <URL>http://www.amazon.com/Total-Fishing-Manual-Field-Stream/dp/tech-data/1616284870%3FSubscriptionId%3DAKIAI5A2QWLR7ECMOCWA%26tag%3Dbestfor03-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D386001%26creativeASIN%3D1616284870</URL>
+        </ItemLink>
+        <ItemLink>
+          <Description>Add To Baby Registry</Description>
+          <URL>http://www.amazon.com/gp/registry/baby/add-item.html%3Fasin.0%3D1616284870%26SubscriptionId%3DAKIAI5A2QWLR7ECMOCWA%26tag%3Dbestfor03-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D386001%26creativeASIN%3D1616284870</URL>
+        </ItemLink>
+        <ItemLink>
+          <Description>Add To Wedding Registry</Description>
+          <URL>http://www.amazon.com/gp/registry/wedding/add-item.html%3Fasin.0%3D1616284870%26SubscriptionId%3DAKIAI5A2QWLR7ECMOCWA%26tag%3Dbestfor03-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D386001%26creativeASIN%3D1616284870</URL>
+        </ItemLink>
+        <ItemLink>
+          <Description>Add To Wishlist</Description>
+          <URL>http://www.amazon.com/gp/registry/wishlist/add-item.html%3Fasin.0%3D1616284870%26SubscriptionId%3DAKIAI5A2QWLR7ECMOCWA%26tag%3Dbestfor03-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D386001%26creativeASIN%3D1616284870</URL>
+        </ItemLink>
+        <ItemLink>
+          <Description>Tell A Friend</Description>
+          <URL>http://www.amazon.com/gp/pdp/taf/1616284870%3FSubscriptionId%3DAKIAI5A2QWLR7ECMOCWA%26tag%3Dbestfor03-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D386001%26creativeASIN%3D1616284870</URL>
+        </ItemLink>
+        <ItemLink>
+          <Description>All Customer Reviews</Description>
+          <URL>http://www.amazon.com/review/product/1616284870%3FSubscriptionId%3DAKIAI5A2QWLR7ECMOCWA%26tag%3Dbestfor03-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D386001%26creativeASIN%3D1616284870</URL>
+        </ItemLink>
+        <ItemLink>
+          <Description>All Offers</Description>
+          <URL>http://www.amazon.com/gp/offer-listing/1616284870%3FSubscriptionId%3DAKIAI5A2QWLR7ECMOCWA%26tag%3Dbestfor03-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D386001%26creativeASIN%3D1616284870</URL>
+        </ItemLink>
+      </ItemLinks>
+      <ItemAttributes>
+        <Author>Joe Cermele</Author>
+        <Binding>Paperback</Binding>
+        <Brand>Simon &amp; Schuster</Brand>
+        <Creator Role="Editor">The Editors of Field and Stream Magazine</Creator>
+        <Department>Mens</Department>
+        <EAN>9781616284879</EAN>
+        <EANList>
+          <EANListElement>9781616284879</EANListElement>
+        </EANList>
+        <Edition>Original</Edition>
+        <Feature>The Total Fishing Manual (Field &amp; Stream)</Feature>
+        <ISBN>1616284870</ISBN>
+        <IsEligibleForTradeIn>1</IsEligibleForTradeIn>
+        <ItemDimensions>
+          <Height Units="hundredths-inches">950</Height>
+          <Length Units="hundredths-inches">750</Length>
+          <Weight Units="hundredths-pounds">205</Weight>
+          <Width Units="hundredths-inches">90</Width>
+        </ItemDimensions>
+        <Label>Weldon Owen</Label>
+        <Languages>
+          <Language>
+            <Name>English</Name>
+            <Type>Published</Type>
+          </Language>
+          <Language>
+            <Name>English</Name>
+            <Type>Original Language</Type>
+          </Language>
+          <Language>
+            <Name>English</Name>
+            <Type>Unknown</Type>
+          </Language>
+        </Languages>
+        <ListPrice>
+          <Amount>2900</Amount>
+          <CurrencyCode>USD</CurrencyCode>
+          <FormattedPrice>$29.00</FormattedPrice>
+        </ListPrice>
+        <Manufacturer>Weldon Owen</Manufacturer>
+        <MPN>9781616284879</MPN>
+        <NumberOfItems>1</NumberOfItems>
+        <NumberOfPages>256</NumberOfPages>
+        <PackageDimensions>
+          <Height Units="hundredths-inches">90</Height>
+          <Length Units="hundredths-inches">950</Length>
+          <Weight Units="hundredths-pounds">195</Weight>
+          <Width Units="hundredths-inches">750</Width>
+        </PackageDimensions>
+        <PackageQuantity>1</PackageQuantity>
+        <PartNumber>9781616284879</PartNumber>
+        <ProductGroup>Book</ProductGroup>
+        <ProductTypeName>ABIS_BOOK</ProductTypeName>
+        <PublicationDate>2013-05-21</PublicationDate>
+        <Publisher>Weldon Owen</Publisher>
+        <ReleaseDate>2013-05-21</ReleaseDate>
+        <Studio>Weldon Owen</Studio>
+        <Title>The Total Fishing Manual (Field &amp; Stream): 317 Essential Fishing Skills (Field and Stream)</Title>
+        <TradeInValue>
+          <Amount>354</Amount>
+          <CurrencyCode>USD</CurrencyCode>
+          <FormattedPrice>$3.54</FormattedPrice>
+        </TradeInValue>
+      </ItemAttributes>
+      <OfferSummary>
+        <LowestNewPrice>
+          <Amount>1362</Amount>
+          <CurrencyCode>USD</CurrencyCode>
+          <FormattedPrice>$13.62</FormattedPrice>
+        </LowestNewPrice>
+        <LowestUsedPrice>
+          <Amount>949</Amount>
+          <CurrencyCode>USD</CurrencyCode>
+          <FormattedPrice>$9.49</FormattedPrice>
+        </LowestUsedPrice>
+        <TotalNew>58</TotalNew>
+        <TotalUsed>22</TotalUsed>
+        <TotalCollectible>0</TotalCollectible>
+        <TotalRefurbished>0</TotalRefurbished>
+      </OfferSummary>
+      <Offers>
+        <TotalOffers>1</TotalOffers>
+        <TotalOfferPages>1</TotalOfferPages>
+        <MoreOffersUrl>http://www.amazon.com/gp/offer-listing/1616284870%3FSubscriptionId%3DAKIAI5A2QWLR7ECMOCWA%26tag%3Dbestfor03-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D386001%26creativeASIN%3D1616284870</MoreOffersUrl>
+        <Offer>
+          <OfferAttributes>
+            <Condition>New</Condition>
+          </OfferAttributes>
+          <OfferListing>
+            <OfferListingId>OlpE8Bn0BiZi62pyAAj4XpEkvBVq8qA4ki9xN%2FGcX9F4Mvu%2BwJfVbXaSWnA2AJyYE0gG8Vu4DnrmdkMqeF9xsVZLAWTGB0zqPxQrAelDmwGY8Q5BG%2FU0VQ%3D%3D</OfferListingId>
+            <Price>
+              <Amount>1624</Amount>
+              <CurrencyCode>USD</CurrencyCode>
+              <FormattedPrice>$16.24</FormattedPrice>
+            </Price>
+            <AmountSaved>
+              <Amount>1276</Amount>
+              <CurrencyCode>USD</CurrencyCode>
+              <FormattedPrice>$12.76</FormattedPrice>
+            </AmountSaved>
+            <PercentageSaved>44</PercentageSaved>
+            <Availability>Usually ships in 24 hours</Availability>
+            <AvailabilityAttributes>
+              <AvailabilityType>now</AvailabilityType>
+              <MinimumHours>0</MinimumHours>
+              <MaximumHours>0</MaximumHours>
+            </AvailabilityAttributes>
+            <IsEligibleForSuperSaverShipping>1</IsEligibleForSuperSaverShipping>
+            <IsEligibleForPrime>1</IsEligibleForPrime>
+          </OfferListing>
+        </Offer>
+      </Offers>
+    </Item>
+    <Item>
+      <ASIN>1592284108</ASIN>
+      <DetailPageURL>http://www.amazon.com/Greatest-Fishing-Stories-Ever-Told/dp/1592284108%3FSubscriptionId%3DAKIAI5A2QWLR7ECMOCWA%26tag%3Dbestfor03-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D1592284108</DetailPageURL>
+      <ItemLinks>
+        <ItemLink>
+          <Description>Technical Details</Description>
+          <URL>http://www.amazon.com/Greatest-Fishing-Stories-Ever-Told/dp/tech-data/1592284108%3FSubscriptionId%3DAKIAI5A2QWLR7ECMOCWA%26tag%3Dbestfor03-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D386001%26creativeASIN%3D1592284108</URL>
+        </ItemLink>
+        <ItemLink>
+          <Description>Add To Baby Registry</Description>
+          <URL>http://www.amazon.com/gp/registry/baby/add-item.html%3Fasin.0%3D1592284108%26SubscriptionId%3DAKIAI5A2QWLR7ECMOCWA%26tag%3Dbestfor03-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D386001%26creativeASIN%3D1592284108</URL>
+        </ItemLink>
+        <ItemLink>
+          <Description>Add To Wedding Registry</Description>
+          <URL>http://www.amazon.com/gp/registry/wedding/add-item.html%3Fasin.0%3D1592284108%26SubscriptionId%3DAKIAI5A2QWLR7ECMOCWA%26tag%3Dbestfor03-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D386001%26creativeASIN%3D1592284108</URL>
+        </ItemLink>
+        <ItemLink>
+          <Description>Add To Wishlist</Description>
+          <URL>http://www.amazon.com/gp/registry/wishlist/add-item.html%3Fasin.0%3D1592284108%26SubscriptionId%3DAKIAI5A2QWLR7ECMOCWA%26tag%3Dbestfor03-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D386001%26creativeASIN%3D1592284108</URL>
+        </ItemLink>
+        <ItemLink>
+          <Description>Tell A Friend</Description>
+          <URL>http://www.amazon.com/gp/pdp/taf/1592284108%3FSubscriptionId%3DAKIAI5A2QWLR7ECMOCWA%26tag%3Dbestfor03-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D386001%26creativeASIN%3D1592284108</URL>
+        </ItemLink>
+        <ItemLink>
+          <Description>All Customer Reviews</Description>
+          <URL>http://www.amazon.com/review/product/1592284108%3FSubscriptionId%3DAKIAI5A2QWLR7ECMOCWA%26tag%3Dbestfor03-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D386001%26creativeASIN%3D1592284108</URL>
+        </ItemLink>
+        <ItemLink>
+          <Description>All Offers</Description>
+          <URL>http://www.amazon.com/gp/offer-listing/1592284108%3FSubscriptionId%3DAKIAI5A2QWLR7ECMOCWA%26tag%3Dbestfor03-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D386001%26creativeASIN%3D1592284108</URL>
+        </ItemLink>
+      </ItemLinks>
+      <ItemAttributes>
+        <Binding>Paperback</Binding>
+        <Brand>Underwood, Lamar (EDT)</Brand>
+        <CatalogNumberList>
+          <CatalogNumberListElement>AL11959815</CatalogNumberListElement>
+        </CatalogNumberList>
+        <Creator Role="Editor">Lamar Underwood</Creator>
+        <EAN>9781592284108</EAN>
+        <EANList>
+          <EANListElement>9781592284108</EANListElement>
+        </EANList>
+        <Edition>1st</Edition>
+        <Feature>Used Book in Good Condition</Feature>
+        <ISBN>1592284108</ISBN>
+        <ItemDimensions>
+          <Height Units="hundredths-inches">69</Height>
+          <Length Units="hundredths-inches">912</Length>
+          <Weight Units="hundredths-pounds">95</Weight>
+          <Width Units="hundredths-inches">600</Width>
+        </ItemDimensions>
+        <Label>Lyons Press</Label>
+        <Languages>
+          <Language>
+            <Name>English</Name>
+            <Type>Published</Type>
+          </Language>
+          <Language>
+            <Name>English</Name>
+            <Type>Original Language</Type>
+          </Language>
+          <Language>
+            <Name>English</Name>
+            <Type>Unknown</Type>
+          </Language>
+        </Languages>
+        <ListPrice>
+          <Amount>1695</Amount>
+          <CurrencyCode>USD</CurrencyCode>
+          <FormattedPrice>$16.95</FormattedPrice>
+        </ListPrice>
+        <Manufacturer>Lyons Press</Manufacturer>
+        <MPN>9781592284108</MPN>
+        <NumberOfItems>1</NumberOfItems>
+        <NumberOfPages>277</NumberOfPages>
+        <PackageDimensions>
+          <Height Units="hundredths-inches">90</Height>
+          <Length Units="hundredths-inches">890</Length>
+          <Weight Units="hundredths-pounds">70</Weight>
+          <Width Units="hundredths-inches">600</Width>
+        </PackageDimensions>
+        <PackageQuantity>1</PackageQuantity>
+        <PartNumber>9781592284108</PartNumber>
+        <ProductGroup>Book</ProductGroup>
+        <ProductTypeName>ABIS_BOOK</ProductTypeName>
+        <PublicationDate>2004-04-01</PublicationDate>
+        <Publisher>Lyons Press</Publisher>
+        <Studio>Lyons Press</Studio>
+        <Title>Greatest Fishing Stories Ever Told: Twenty-Eight Unforgettable Fishing Tales</Title>
+      </ItemAttributes>
+      <OfferSummary>
+        <LowestNewPrice>
+          <Amount>795</Amount>
+          <CurrencyCode>USD</CurrencyCode>
+          <FormattedPrice>$7.95</FormattedPrice>
+        </LowestNewPrice>
+        <LowestUsedPrice>
+          <Amount>84</Amount>
+          <CurrencyCode>USD</CurrencyCode>
+          <FormattedPrice>$0.84</FormattedPrice>
+        </LowestUsedPrice>
+        <TotalNew>42</TotalNew>
+        <TotalUsed>44</TotalUsed>
+        <TotalCollectible>0</TotalCollectible>
+        <TotalRefurbished>0</TotalRefurbished>
+      </OfferSummary>
+      <Offers>
+        <TotalOffers>1</TotalOffers>
+        <TotalOfferPages>1</TotalOfferPages>
+        <MoreOffersUrl>http://www.amazon.com/gp/offer-listing/1592284108%3FSubscriptionId%3DAKIAI5A2QWLR7ECMOCWA%26tag%3Dbestfor03-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D386001%26creativeASIN%3D1592284108</MoreOffersUrl>
+        <Offer>
+          <OfferAttributes>
+            <Condition>New</Condition>
+          </OfferAttributes>
+          <OfferListing>
+            <OfferListingId>OlpE8Bn0BiYPySim5yIOnCcxr1AbU6UxUy795W%2B%2FWJZA50aKj2HlKNL1D4dK7CaCg1nshRLrgTk4hOF3lPhdOiLQPL9DpqXbA9ETeF2LFr0%3D</OfferListingId>
+            <Price>
+              <Amount>1194</Amount>
+              <CurrencyCode>USD</CurrencyCode>
+              <FormattedPrice>$11.94</FormattedPrice>
+            </Price>
+            <AmountSaved>
+              <Amount>501</Amount>
+              <CurrencyCode>USD</CurrencyCode>
+              <FormattedPrice>$5.01</FormattedPrice>
+            </AmountSaved>
+            <PercentageSaved>30</PercentageSaved>
+            <Availability>Usually ships in 24 hours</Availability>
+            <AvailabilityAttributes>
+              <AvailabilityType>now</AvailabilityType>
+              <MinimumHours>0</MinimumHours>
+              <MaximumHours>0</MaximumHours>
+            </AvailabilityAttributes>
+            <IsEligibleForSuperSaverShipping>1</IsEligibleForSuperSaverShipping>
+            <IsEligibleForPrime>1</IsEligibleForPrime>
+          </OfferListing>
+        </Offer>
+      </Offers>
+    </Item>
+    <Item>
+      <ASIN>0761180176</ASIN>
+      <DetailPageURL>http://www.amazon.com/Incredible-Fishing-Stories-Shaun-Morey/dp/0761180176%3FSubscriptionId%3DAKIAI5A2QWLR7ECMOCWA%26tag%3Dbestfor03-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D0761180176</DetailPageURL>
+      <ItemLinks>
+        <ItemLink>
+          <Description>Technical Details</Description>
+          <URL>http://www.amazon.com/Incredible-Fishing-Stories-Shaun-Morey/dp/tech-data/0761180176%3FSubscriptionId%3DAKIAI5A2QWLR7ECMOCWA%26tag%3Dbestfor03-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D386001%26creativeASIN%3D0761180176</URL>
+        </ItemLink>
+        <ItemLink>
+          <Description>Add To Baby Registry</Description>
+          <URL>http://www.amazon.com/gp/registry/baby/add-item.html%3Fasin.0%3D0761180176%26SubscriptionId%3DAKIAI5A2QWLR7ECMOCWA%26tag%3Dbestfor03-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D386001%26creativeASIN%3D0761180176</URL>
+        </ItemLink>
+        <ItemLink>
+          <Description>Add To Wedding Registry</Description>
+          <URL>http://www.amazon.com/gp/registry/wedding/add-item.html%3Fasin.0%3D0761180176%26SubscriptionId%3DAKIAI5A2QWLR7ECMOCWA%26tag%3Dbestfor03-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D386001%26creativeASIN%3D0761180176</URL>
+        </ItemLink>
+        <ItemLink>
+          <Description>Add To Wishlist</Description>
+          <URL>http://www.amazon.com/gp/registry/wishlist/add-item.html%3Fasin.0%3D0761180176%26SubscriptionId%3DAKIAI5A2QWLR7ECMOCWA%26tag%3Dbestfor03-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D386001%26creativeASIN%3D0761180176</URL>
+        </ItemLink>
+        <ItemLink>
+          <Description>Tell A Friend</Description>
+          <URL>http://www.amazon.com/gp/pdp/taf/0761180176%3FSubscriptionId%3DAKIAI5A2QWLR7ECMOCWA%26tag%3Dbestfor03-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D386001%26creativeASIN%3D0761180176</URL>
+        </ItemLink>
+        <ItemLink>
+          <Description>All Customer Reviews</Description>
+          <URL>http://www.amazon.com/review/product/0761180176%3FSubscriptionId%3DAKIAI5A2QWLR7ECMOCWA%26tag%3Dbestfor03-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D386001%26creativeASIN%3D0761180176</URL>
+        </ItemLink>
+        <ItemLink>
+          <Description>All Offers</Description>
+          <URL>http://www.amazon.com/gp/offer-listing/0761180176%3FSubscriptionId%3DAKIAI5A2QWLR7ECMOCWA%26tag%3Dbestfor03-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D386001%26creativeASIN%3D0761180176</URL>
+        </ItemLink>
+      </ItemLinks>
+      <ItemAttributes>
+        <Author>Shaun Morey</Author>
+        <Binding>Paperback</Binding>
+        <Brand>Workman Publishing</Brand>
+        <Color>multi-colored</Color>
+        <EAN>9780761180173</EAN>
+        <EANList>
+          <EANListElement>9780761180173</EANListElement>
+        </EANList>
+        <Feature>Incredible And True Fishing Stories</Feature>
+        <Feature>Remarkable catches, grueling battles</Feature>
+        <Feature>Hilarious feats of bravery.</Feature>
+        <Feature>Includes fun facts, illustrations and photos.</Feature>
+        <Feature>Softcover; 212 pgs.</Feature>
+        <ISBN>0761180176</ISBN>
+        <ItemDimensions>
+          <Height Units="hundredths-inches">700</Height>
+          <Length Units="hundredths-inches">594</Length>
+          <Weight Units="hundredths-pounds">4</Weight>
+          <Width Units="hundredths-inches">56</Width>
+        </ItemDimensions>
+        <Label>Workman Publishing Company</Label>
+        <Languages>
+          <Language>
+            <Name>English</Name>
+            <Type>Published</Type>
+          </Language>
+          <Language>
+            <Name>English</Name>
+            <Type>Original Language</Type>
+          </Language>
+          <Language>
+            <Name>English</Name>
+            <Type>Unknown</Type>
+          </Language>
+        </Languages>
+        <ListPrice>
+          <Amount>1095</Amount>
+          <CurrencyCode>USD</CurrencyCode>
+          <FormattedPrice>$10.95</FormattedPrice>
+        </ListPrice>
+        <Manufacturer>Workman Publishing Company</Manufacturer>
+        <MPN>18017</MPN>
+        <NumberOfItems>1</NumberOfItems>
+        <NumberOfPages>224</NumberOfPages>
+        <PackageDimensions>
+          <Height Units="hundredths-inches">80</Height>
+          <Length Units="hundredths-inches">700</Length>
+          <Weight Units="hundredths-pounds">40</Weight>
+          <Width Units="hundredths-inches">610</Width>
+        </PackageDimensions>
+        <PackageQuantity>1</PackageQuantity>
+        <PartNumber>18017</PartNumber>
+        <ProductGroup>Book</ProductGroup>
+        <ProductTypeName>ABIS_BOOK</ProductTypeName>
+        <PublicationDate>2014-05-06</PublicationDate>
+        <Publisher>Workman Publishing Company</Publisher>
+        <Studio>Workman Publishing Company</Studio>
+        <Title>Incredible--and True!--Fishing Stories</Title>
+      </ItemAttributes>
+      <OfferSummary>
+        <LowestNewPrice>
+          <Amount>410</Amount>
+          <CurrencyCode>USD</CurrencyCode>
+          <FormattedPrice>$4.10</FormattedPrice>
+        </LowestNewPrice>
+        <LowestUsedPrice>
+          <Amount>1</Amount>
+          <CurrencyCode>USD</CurrencyCode>
+          <FormattedPrice>$0.01</FormattedPrice>
+        </LowestUsedPrice>
+        <TotalNew>52</TotalNew>
+        <TotalUsed>26</TotalUsed>
+        <TotalCollectible>0</TotalCollectible>
+        <TotalRefurbished>0</TotalRefurbished>
+      </OfferSummary>
+      <Offers>
+        <TotalOffers>1</TotalOffers>
+        <TotalOfferPages>1</TotalOfferPages>
+        <MoreOffersUrl>http://www.amazon.com/gp/offer-listing/0761180176%3FSubscriptionId%3DAKIAI5A2QWLR7ECMOCWA%26tag%3Dbestfor03-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D386001%26creativeASIN%3D0761180176</MoreOffersUrl>
+        <Offer>
+          <OfferAttributes>
+            <Condition>New</Condition>
+          </OfferAttributes>
+          <OfferListing>
+            <OfferListingId>%2FpRa%2FJXjD3H7ZI0XjVetoDxcYfFgBjCzISZORZ3twXNmsvH5mEeZUuD1Lw%2F8pPFhOjdeH09R9CG9cEiuFhkT3g79L2zGacmGNuXt678Oj8rZAKL%2FWli13Q%3D%3D</OfferListingId>
+            <Price>
+              <Amount>1095</Amount>
+              <CurrencyCode>USD</CurrencyCode>
+              <FormattedPrice>$10.95</FormattedPrice>
+            </Price>
+            <Availability>Usually ships in 24 hours</Availability>
+            <AvailabilityAttributes>
+              <AvailabilityType>now</AvailabilityType>
+              <MinimumHours>0</MinimumHours>
+              <MaximumHours>0</MaximumHours>
+            </AvailabilityAttributes>
+            <IsEligibleForSuperSaverShipping>1</IsEligibleForSuperSaverShipping>
+            <IsEligibleForPrime>1</IsEligibleForPrime>
+          </OfferListing>
+        </Offer>
+      </Offers>
+    </Item>
+    <Item>
+      <ASIN>0470930683</ASIN>
+      <DetailPageURL>http://www.amazon.com/Fishing-Dummies-Peter-Kaminsky/dp/0470930683%3FSubscriptionId%3DAKIAI5A2QWLR7ECMOCWA%26tag%3Dbestfor03-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D0470930683</DetailPageURL>
+      <ItemLinks>
+        <ItemLink>
+          <Description>Technical Details</Description>
+          <URL>http://www.amazon.com/Fishing-Dummies-Peter-Kaminsky/dp/tech-data/0470930683%3FSubscriptionId%3DAKIAI5A2QWLR7ECMOCWA%26tag%3Dbestfor03-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D386001%26creativeASIN%3D0470930683</URL>
+        </ItemLink>
+        <ItemLink>
+          <Description>Add To Baby Registry</Description>
+          <URL>http://www.amazon.com/gp/registry/baby/add-item.html%3Fasin.0%3D0470930683%26SubscriptionId%3DAKIAI5A2QWLR7ECMOCWA%26tag%3Dbestfor03-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D386001%26creativeASIN%3D0470930683</URL>
+        </ItemLink>
+        <ItemLink>
+          <Description>Add To Wedding Registry</Description>
+          <URL>http://www.amazon.com/gp/registry/wedding/add-item.html%3Fasin.0%3D0470930683%26SubscriptionId%3DAKIAI5A2QWLR7ECMOCWA%26tag%3Dbestfor03-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D386001%26creativeASIN%3D0470930683</URL>
+        </ItemLink>
+        <ItemLink>
+          <Description>Add To Wishlist</Description>
+          <URL>http://www.amazon.com/gp/registry/wishlist/add-item.html%3Fasin.0%3D0470930683%26SubscriptionId%3DAKIAI5A2QWLR7ECMOCWA%26tag%3Dbestfor03-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D386001%26creativeASIN%3D0470930683</URL>
+        </ItemLink>
+        <ItemLink>
+          <Description>Tell A Friend</Description>
+          <URL>http://www.amazon.com/gp/pdp/taf/0470930683%3FSubscriptionId%3DAKIAI5A2QWLR7ECMOCWA%26tag%3Dbestfor03-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D386001%26creativeASIN%3D0470930683</URL>
+        </ItemLink>
+        <ItemLink>
+          <Description>All Customer Reviews</Description>
+          <URL>http://www.amazon.com/review/product/0470930683%3FSubscriptionId%3DAKIAI5A2QWLR7ECMOCWA%26tag%3Dbestfor03-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D386001%26creativeASIN%3D0470930683</URL>
+        </ItemLink>
+        <ItemLink>
+          <Description>All Offers</Description>
+          <URL>http://www.amazon.com/gp/offer-listing/0470930683%3FSubscriptionId%3DAKIAI5A2QWLR7ECMOCWA%26tag%3Dbestfor03-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D386001%26creativeASIN%3D0470930683</URL>
+        </ItemLink>
+      </ItemLinks>
+      <ItemAttributes>
+        <Author>Peter Kaminsky</Author>
+        <Author>Greg Schwipps</Author>
+        <Binding>Paperback</Binding>
+        <Brand>Wiley Publishing</Brand>
+        <Department>unisex-adult</Department>
+        <EAN>9780470930687</EAN>
+        <EANList>
+          <EANListElement>9780470930687</EANListElement>
+        </EANList>
+        <Edition>2</Edition>
+        <Feature>FISHING FOR DUMMIES</Feature>
+        <ISBN>0470930683</ISBN>
+        <ItemDimensions>
+          <Height Units="hundredths-inches">930</Height>
+          <Length Units="hundredths-inches">740</Length>
+          <Weight Units="hundredths-pounds">130</Weight>
+          <Width Units="hundredths-inches">75</Width>
+        </ItemDimensions>
+        <Label>For Dummies</Label>
+        <Languages>
+          <Language>
+            <Name>English</Name>
+            <Type>Published</Type>
+          </Language>
+          <Language>
+            <Name>English</Name>
+            <Type>Original Language</Type>
+          </Language>
+          <Language>
+            <Name>English</Name>
+            <Type>Unknown</Type>
+          </Language>
+        </Languages>
+        <ListPrice>
+          <Amount>2199</Amount>
+          <CurrencyCode>USD</CurrencyCode>
+          <FormattedPrice>$21.99</FormattedPrice>
+        </ListPrice>
+        <Manufacturer>For Dummies</Manufacturer>
+        <MPN>0470930683</MPN>
+        <NumberOfItems>1</NumberOfItems>
+        <NumberOfPages>392</NumberOfPages>
+        <PackageDimensions>
+          <Height Units="hundredths-inches">94</Height>
+          <Length Units="hundredths-inches">913</Length>
+          <Weight Units="hundredths-pounds">132</Weight>
+          <Width Units="hundredths-inches">740</Width>
+        </PackageDimensions>
+        <PackageQuantity>1</PackageQuantity>
+        <PartNumber>0470930683</PartNumber>
+        <ProductGroup>Book</ProductGroup>
+        <ProductTypeName>ABIS_BOOK</ProductTypeName>
+        <PublicationDate>2011-05-10</PublicationDate>
+        <Publisher>For Dummies</Publisher>
+        <Studio>For Dummies</Studio>
+        <Title>Fishing for Dummies</Title>
+      </ItemAttributes>
+      <OfferSummary>
+        <LowestNewPrice>
+          <Amount>818</Amount>
+          <CurrencyCode>USD</CurrencyCode>
+          <FormattedPrice>$8.18</FormattedPrice>
+        </LowestNewPrice>
+        <LowestUsedPrice>
+          <Amount>698</Amount>
+          <CurrencyCode>USD</CurrencyCode>
+          <FormattedPrice>$6.98</FormattedPrice>
+        </LowestUsedPrice>
+        <TotalNew>56</TotalNew>
+        <TotalUsed>23</TotalUsed>
+        <TotalCollectible>0</TotalCollectible>
+        <TotalRefurbished>0</TotalRefurbished>
+      </OfferSummary>
+      <Offers>
+        <TotalOffers>1</TotalOffers>
+        <TotalOfferPages>1</TotalOfferPages>
+        <MoreOffersUrl>http://www.amazon.com/gp/offer-listing/0470930683%3FSubscriptionId%3DAKIAI5A2QWLR7ECMOCWA%26tag%3Dbestfor03-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D386001%26creativeASIN%3D0470930683</MoreOffersUrl>
+        <Offer>
+          <OfferAttributes>
+            <Condition>New</Condition>
+          </OfferAttributes>
+          <OfferListing>
+            <OfferListingId>OlpE8Bn0BiZaTfBlPLTyYbyYW4ec9Sj6I%2FtHyV1ATJ%2B7s%2BLJSGdxH1%2B6YWt%2FLjTd5rB02doWzTdCwQIo3QfGKfePNdWUIgeU1A2LEthknIY98gRL9DrFCQ%3D%3D</OfferListingId>
+            <Price>
+              <Amount>1513</Amount>
+              <CurrencyCode>USD</CurrencyCode>
+              <FormattedPrice>$15.13</FormattedPrice>
+            </Price>
+            <AmountSaved>
+              <Amount>686</Amount>
+              <CurrencyCode>USD</CurrencyCode>
+              <FormattedPrice>$6.86</FormattedPrice>
+            </AmountSaved>
+            <PercentageSaved>31</PercentageSaved>
+            <Availability>Usually ships in 24 hours</Availability>
+            <AvailabilityAttributes>
+              <AvailabilityType>now</AvailabilityType>
+              <MinimumHours>0</MinimumHours>
+              <MaximumHours>0</MaximumHours>
+            </AvailabilityAttributes>
+            <IsEligibleForSuperSaverShipping>1</IsEligibleForSuperSaverShipping>
+            <IsEligibleForPrime>1</IsEligibleForPrime>
+          </OfferListing>
+        </Offer>
+      </Offers>
+    </Item>
+    <Item>
+      <ASIN>B00849Q84G</ASIN>
+      <DetailPageURL>http://www.amazon.com/Fishing-Worm-Bliss-Perry-ebook/dp/B00849Q84G%3FSubscriptionId%3DAKIAI5A2QWLR7ECMOCWA%26tag%3Dbestfor03-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3DB00849Q84G</DetailPageURL>
+      <ItemLinks>
+        <ItemLink>
+          <Description>Technical Details</Description>
+          <URL>http://www.amazon.com/Fishing-Worm-Bliss-Perry-ebook/dp/tech-data/B00849Q84G%3FSubscriptionId%3DAKIAI5A2QWLR7ECMOCWA%26tag%3Dbestfor03-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D386001%26creativeASIN%3DB00849Q84G</URL>
+        </ItemLink>
+        <ItemLink>
+          <Description>Add To Baby Registry</Description>
+          <URL>http://www.amazon.com/gp/registry/baby/add-item.html%3Fasin.0%3DB00849Q84G%26SubscriptionId%3DAKIAI5A2QWLR7ECMOCWA%26tag%3Dbestfor03-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D386001%26creativeASIN%3DB00849Q84G</URL>
+        </ItemLink>
+        <ItemLink>
+          <Description>Add To Wedding Registry</Description>
+          <URL>http://www.amazon.com/gp/registry/wedding/add-item.html%3Fasin.0%3DB00849Q84G%26SubscriptionId%3DAKIAI5A2QWLR7ECMOCWA%26tag%3Dbestfor03-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D386001%26creativeASIN%3DB00849Q84G</URL>
+        </ItemLink>
+        <ItemLink>
+          <Description>Add To Wishlist</Description>
+          <URL>http://www.amazon.com/gp/registry/wishlist/add-item.html%3Fasin.0%3DB00849Q84G%26SubscriptionId%3DAKIAI5A2QWLR7ECMOCWA%26tag%3Dbestfor03-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D386001%26creativeASIN%3DB00849Q84G</URL>
+        </ItemLink>
+        <ItemLink>
+          <Description>Tell A Friend</Description>
+          <URL>http://www.amazon.com/gp/pdp/taf/B00849Q84G%3FSubscriptionId%3DAKIAI5A2QWLR7ECMOCWA%26tag%3Dbestfor03-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D386001%26creativeASIN%3DB00849Q84G</URL>
+        </ItemLink>
+        <ItemLink>
+          <Description>All Customer Reviews</Description>
+          <URL>http://www.amazon.com/review/product/B00849Q84G%3FSubscriptionId%3DAKIAI5A2QWLR7ECMOCWA%26tag%3Dbestfor03-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D386001%26creativeASIN%3DB00849Q84G</URL>
+        </ItemLink>
+        <ItemLink>
+          <Description>All Offers</Description>
+          <URL>http://www.amazon.com/gp/offer-listing/B00849Q84G%3FSubscriptionId%3DAKIAI5A2QWLR7ECMOCWA%26tag%3Dbestfor03-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D386001%26creativeASIN%3DB00849Q84G</URL>
+        </ItemLink>
+      </ItemLinks>
+      <ItemAttributes>
+        <Author>Bliss Perry</Author>
+        <Binding>Kindle Edition</Binding>
+        <Format>Kindle eBook</Format>
+        <IsAdultProduct>0</IsAdultProduct>
+        <Languages>
+          <Language>
+            <Name>English</Name>
+            <Type>Published</Type>
+          </Language>
+        </Languages>
+        <NumberOfPages>32</NumberOfPages>
+        <ProductGroup>eBooks</ProductGroup>
+        <ProductTypeName>ABIS_EBOOKS</ProductTypeName>
+        <PublicationDate>2012-05-17</PublicationDate>
+        <ReleaseDate>2012-05-17</ReleaseDate>
+        <Title>Fishing with a Worm</Title>
+      </ItemAttributes>
+    </Item>
+    <Item>
+      <ASIN>1632203383</ASIN>
+      <DetailPageURL>http://www.amazon.com/Basic-Fishing-A-Beginner%C2%92s-Guide/dp/1632203383%3FSubscriptionId%3DAKIAI5A2QWLR7ECMOCWA%26tag%3Dbestfor03-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D1632203383</DetailPageURL>
+      <ItemLinks>
+        <ItemLink>
+          <Description>Technical Details</Description>
+          <URL>http://www.amazon.com/Basic-Fishing-A-Beginner%C2%92s-Guide/dp/tech-data/1632203383%3FSubscriptionId%3DAKIAI5A2QWLR7ECMOCWA%26tag%3Dbestfor03-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D386001%26creativeASIN%3D1632203383</URL>
+        </ItemLink>
+        <ItemLink>
+          <Description>Add To Baby Registry</Description>
+          <URL>http://www.amazon.com/gp/registry/baby/add-item.html%3Fasin.0%3D1632203383%26SubscriptionId%3DAKIAI5A2QWLR7ECMOCWA%26tag%3Dbestfor03-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D386001%26creativeASIN%3D1632203383</URL>
+        </ItemLink>
+        <ItemLink>
+          <Description>Add To Wedding Registry</Description>
+          <URL>http://www.amazon.com/gp/registry/wedding/add-item.html%3Fasin.0%3D1632203383%26SubscriptionId%3DAKIAI5A2QWLR7ECMOCWA%26tag%3Dbestfor03-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D386001%26creativeASIN%3D1632203383</URL>
+        </ItemLink>
+        <ItemLink>
+          <Description>Add To Wishlist</Description>
+          <URL>http://www.amazon.com/gp/registry/wishlist/add-item.html%3Fasin.0%3D1632203383%26SubscriptionId%3DAKIAI5A2QWLR7ECMOCWA%26tag%3Dbestfor03-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D386001%26creativeASIN%3D1632203383</URL>
+        </ItemLink>
+        <ItemLink>
+          <Description>Tell A Friend</Description>
+          <URL>http://www.amazon.com/gp/pdp/taf/1632203383%3FSubscriptionId%3DAKIAI5A2QWLR7ECMOCWA%26tag%3Dbestfor03-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D386001%26creativeASIN%3D1632203383</URL>
+        </ItemLink>
+        <ItemLink>
+          <Description>All Customer Reviews</Description>
+          <URL>http://www.amazon.com/review/product/1632203383%3FSubscriptionId%3DAKIAI5A2QWLR7ECMOCWA%26tag%3Dbestfor03-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D386001%26creativeASIN%3D1632203383</URL>
+        </ItemLink>
+        <ItemLink>
+          <Description>All Offers</Description>
+          <URL>http://www.amazon.com/gp/offer-listing/1632203383%3FSubscriptionId%3DAKIAI5A2QWLR7ECMOCWA%26tag%3Dbestfor03-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D386001%26creativeASIN%3D1632203383</URL>
+        </ItemLink>
+      </ItemLinks>
+      <ItemAttributes>
+        <Author>Wade Bourne</Author>
+        <Binding>Paperback</Binding>
+        <Brand>Bourne, Wade</Brand>
+        <EAN>9781632203380</EAN>
+        <EANList>
+          <EANListElement>9781632203380</EANListElement>
+        </EANList>
+        <Edition>Reprint</Edition>
+        <ISBN>1632203383</ISBN>
+        <ItemDimensions>
+          <Height Units="hundredths-inches">80</Height>
+          <Length Units="hundredths-inches">820</Length>
+          <Weight Units="hundredths-pounds">0</Weight>
+          <Width Units="hundredths-inches">550</Width>
+        </ItemDimensions>
+        <Label>Skyhorse Publishing</Label>
+        <Languages>
+          <Language>
+            <Name>English</Name>
+            <Type>Published</Type>
+          </Language>
+          <Language>
+            <Name>English</Name>
+            <Type>Original Language</Type>
+          </Language>
+          <Language>
+            <Name>English</Name>
+            <Type>Unknown</Type>
+          </Language>
+        </Languages>
+        <ListPrice>
+          <Amount>1299</Amount>
+          <CurrencyCode>USD</CurrencyCode>
+          <FormattedPrice>$12.99</FormattedPrice>
+        </ListPrice>
+        <Manufacturer>Skyhorse Publishing</Manufacturer>
+        <MPN>illustrations</MPN>
+        <NumberOfItems>1</NumberOfItems>
+        <NumberOfPages>224</NumberOfPages>
+        <PackageDimensions>
+          <Height Units="hundredths-inches">80</Height>
+          <Length Units="hundredths-inches">820</Length>
+          <Weight Units="hundredths-pounds">120</Weight>
+          <Width Units="hundredths-inches">550</Width>
+        </PackageDimensions>
+        <PackageQuantity>1</PackageQuantity>
+        <PartNumber>illustrations</PartNumber>
+        <ProductGroup>Book</ProductGroup>
+        <ProductTypeName>ABIS_BOOK</ProductTypeName>
+        <PublicationDate>2015-04-07</PublicationDate>
+        <Publisher>Skyhorse Publishing</Publisher>
+        <Studio>Skyhorse Publishing</Studio>
+        <Title>Basic Fishing: A Beginner’s Guide</Title>
+      </ItemAttributes>
+      <OfferSummary>
+        <LowestNewPrice>
+          <Amount>710</Amount>
+          <CurrencyCode>USD</CurrencyCode>
+          <FormattedPrice>$7.10</FormattedPrice>
+        </LowestNewPrice>
+        <LowestUsedPrice>
+          <Amount>748</Amount>
+          <CurrencyCode>USD</CurrencyCode>
+          <FormattedPrice>$7.48</FormattedPrice>
+        </LowestUsedPrice>
+        <TotalNew>44</TotalNew>
+        <TotalUsed>12</TotalUsed>
+        <TotalCollectible>0</TotalCollectible>
+        <TotalRefurbished>0</TotalRefurbished>
+      </OfferSummary>
+      <Offers>
+        <TotalOffers>1</TotalOffers>
+        <TotalOfferPages>1</TotalOfferPages>
+        <MoreOffersUrl>http://www.amazon.com/gp/offer-listing/1632203383%3FSubscriptionId%3DAKIAI5A2QWLR7ECMOCWA%26tag%3Dbestfor03-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D386001%26creativeASIN%3D1632203383</MoreOffersUrl>
+        <Offer>
+          <OfferAttributes>
+            <Condition>New</Condition>
+          </OfferAttributes>
+          <OfferListing>
+            <OfferListingId>OlpE8Bn0BiZhU4BZpk1i5Nbuf%2FqQO1om%2BxGLv2OFwdXfq%2F8B3eSO94CCkRHuZWqu%2BvKjKOC1yWCqQvkhg%2F2O5gLB1lvToKJiF4pvpRoYOdTBKM2mBu%2BkNw%3D%3D</OfferListingId>
+            <Price>
+              <Amount>989</Amount>
+              <CurrencyCode>USD</CurrencyCode>
+              <FormattedPrice>$9.89</FormattedPrice>
+            </Price>
+            <AmountSaved>
+              <Amount>310</Amount>
+              <CurrencyCode>USD</CurrencyCode>
+              <FormattedPrice>$3.10</FormattedPrice>
+            </AmountSaved>
+            <PercentageSaved>24</PercentageSaved>
+            <Availability>Usually ships in 24 hours</Availability>
+            <AvailabilityAttributes>
+              <AvailabilityType>now</AvailabilityType>
+              <MinimumHours>0</MinimumHours>
+              <MaximumHours>0</MaximumHours>
+            </AvailabilityAttributes>
+            <IsEligibleForSuperSaverShipping>1</IsEligibleForSuperSaverShipping>
+            <IsEligibleForPrime>1</IsEligibleForPrime>
+          </OfferListing>
+        </Offer>
+      </Offers>
+    </Item>
+    <Item>
+      <ASIN>B00O3EL4G8</ASIN>
+      <DetailPageURL>http://www.amazon.com/Saltwater-Fishing-Ultimate-Mastering-fishing-ebook/dp/B00O3EL4G8%3FSubscriptionId%3DAKIAI5A2QWLR7ECMOCWA%26tag%3Dbestfor03-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3DB00O3EL4G8</DetailPageURL>
+      <ItemLinks>
+        <ItemLink>
+          <Description>Technical Details</Description>
+          <URL>http://www.amazon.com/Saltwater-Fishing-Ultimate-Mastering-fishing-ebook/dp/tech-data/B00O3EL4G8%3FSubscriptionId%3DAKIAI5A2QWLR7ECMOCWA%26tag%3Dbestfor03-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D386001%26creativeASIN%3DB00O3EL4G8</URL>
+        </ItemLink>
+        <ItemLink>
+          <Description>Add To Baby Registry</Description>
+          <URL>http://www.amazon.com/gp/registry/baby/add-item.html%3Fasin.0%3DB00O3EL4G8%26SubscriptionId%3DAKIAI5A2QWLR7ECMOCWA%26tag%3Dbestfor03-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D386001%26creativeASIN%3DB00O3EL4G8</URL>
+        </ItemLink>
+        <ItemLink>
+          <Description>Add To Wedding Registry</Description>
+          <URL>http://www.amazon.com/gp/registry/wedding/add-item.html%3Fasin.0%3DB00O3EL4G8%26SubscriptionId%3DAKIAI5A2QWLR7ECMOCWA%26tag%3Dbestfor03-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D386001%26creativeASIN%3DB00O3EL4G8</URL>
+        </ItemLink>
+        <ItemLink>
+          <Description>Add To Wishlist</Description>
+          <URL>http://www.amazon.com/gp/registry/wishlist/add-item.html%3Fasin.0%3DB00O3EL4G8%26SubscriptionId%3DAKIAI5A2QWLR7ECMOCWA%26tag%3Dbestfor03-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D386001%26creativeASIN%3DB00O3EL4G8</URL>
+        </ItemLink>
+        <ItemLink>
+          <Description>Tell A Friend</Description>
+          <URL>http://www.amazon.com/gp/pdp/taf/B00O3EL4G8%3FSubscriptionId%3DAKIAI5A2QWLR7ECMOCWA%26tag%3Dbestfor03-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D386001%26creativeASIN%3DB00O3EL4G8</URL>
+        </ItemLink>
+        <ItemLink>
+          <Description>All Customer Reviews</Description>
+          <URL>http://www.amazon.com/review/product/B00O3EL4G8%3FSubscriptionId%3DAKIAI5A2QWLR7ECMOCWA%26tag%3Dbestfor03-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D386001%26creativeASIN%3DB00O3EL4G8</URL>
+        </ItemLink>
+        <ItemLink>
+          <Description>All Offers</Description>
+          <URL>http://www.amazon.com/gp/offer-listing/B00O3EL4G8%3FSubscriptionId%3DAKIAI5A2QWLR7ECMOCWA%26tag%3Dbestfor03-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D386001%26creativeASIN%3DB00O3EL4G8</URL>
+        </ItemLink>
+      </ItemLinks>
+      <ItemAttributes>
+        <Author>Bobby Spears</Author>
+        <Binding>Kindle Edition</Binding>
+        <Format>Kindle eBook</Format>
+        <IsAdultProduct>0</IsAdultProduct>
+        <Languages>
+          <Language>
+            <Name>English</Name>
+            <Type>Published</Type>
+          </Language>
+        </Languages>
+        <NumberOfPages>18</NumberOfPages>
+        <ProductGroup>eBooks</ProductGroup>
+        <ProductTypeName>ABIS_EBOOKS</ProductTypeName>
+        <PublicationDate>2014-09-30</PublicationDate>
+        <ReleaseDate>2014-09-30</ReleaseDate>
+        <Title>Saltwater Fishing: The Ultimate Guide to Mastering Saltwater Fishing for Life! (bass fishing, bass, fishing tackle, fly fishing, deer hunting, bow hunting, fishing, trout fishing, fishing tips)</Title>
+      </ItemAttributes>
+    </Item>
+    <Item>
+      <ASIN>1617691461</ASIN>
+      <DetailPageURL>http://www.amazon.com/History-Fly-Fishing-Fifty-Flies-Whitelaw/dp/1617691461%3FSubscriptionId%3DAKIAI5A2QWLR7ECMOCWA%26tag%3Dbestfor03-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D1617691461</DetailPageURL>
+      <ItemLinks>
+        <ItemLink>
+          <Description>Technical Details</Description>
+          <URL>http://www.amazon.com/History-Fly-Fishing-Fifty-Flies-Whitelaw/dp/tech-data/1617691461%3FSubscriptionId%3DAKIAI5A2QWLR7ECMOCWA%26tag%3Dbestfor03-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D386001%26creativeASIN%3D1617691461</URL>
+        </ItemLink>
+        <ItemLink>
+          <Description>Add To Baby Registry</Description>
+          <URL>http://www.amazon.com/gp/registry/baby/add-item.html%3Fasin.0%3D1617691461%26SubscriptionId%3DAKIAI5A2QWLR7ECMOCWA%26tag%3Dbestfor03-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D386001%26creativeASIN%3D1617691461</URL>
+        </ItemLink>
+        <ItemLink>
+          <Description>Add To Wedding Registry</Description>
+          <URL>http://www.amazon.com/gp/registry/wedding/add-item.html%3Fasin.0%3D1617691461%26SubscriptionId%3DAKIAI5A2QWLR7ECMOCWA%26tag%3Dbestfor03-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D386001%26creativeASIN%3D1617691461</URL>
+        </ItemLink>
+        <ItemLink>
+          <Description>Add To Wishlist</Description>
+          <URL>http://www.amazon.com/gp/registry/wishlist/add-item.html%3Fasin.0%3D1617691461%26SubscriptionId%3DAKIAI5A2QWLR7ECMOCWA%26tag%3Dbestfor03-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D386001%26creativeASIN%3D1617691461</URL>
+        </ItemLink>
+        <ItemLink>
+          <Description>Tell A Friend</Description>
+          <URL>http://www.amazon.com/gp/pdp/taf/1617691461%3FSubscriptionId%3DAKIAI5A2QWLR7ECMOCWA%26tag%3Dbestfor03-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D386001%26creativeASIN%3D1617691461</URL>
+        </ItemLink>
+        <ItemLink>
+          <Description>All Customer Reviews</Description>
+          <URL>http://www.amazon.com/review/product/1617691461%3FSubscriptionId%3DAKIAI5A2QWLR7ECMOCWA%26tag%3Dbestfor03-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D386001%26creativeASIN%3D1617691461</URL>
+        </ItemLink>
+        <ItemLink>
+          <Description>All Offers</Description>
+          <URL>http://www.amazon.com/gp/offer-listing/1617691461%3FSubscriptionId%3DAKIAI5A2QWLR7ECMOCWA%26tag%3Dbestfor03-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D386001%26creativeASIN%3D1617691461</URL>
+        </ItemLink>
+      </ItemLinks>
+      <ItemAttributes>
+        <Author>Ian Whitelaw</Author>
+        <Binding>Hardcover</Binding>
+        <Brand>Whitelaw, Ian/ Spyropoulos, Julie (ILT)</Brand>
+        <EAN>9781617691461</EAN>
+        <EANList>
+          <EANListElement>9781617691461</EANListElement>
+        </EANList>
+        <ISBN>1617691461</ISBN>
+        <ItemDimensions>
+          <Height Units="hundredths-inches">925</Height>
+          <Length Units="hundredths-inches">700</Length>
+          <Weight Units="hundredths-pounds">0</Weight>
+          <Width Units="hundredths-inches">100</Width>
+        </ItemDimensions>
+        <Label>Stewart, Tabori and Chang</Label>
+        <Languages>
+          <Language>
+            <Name>English</Name>
+            <Type>Published</Type>
+          </Language>
+          <Language>
+            <Name>English</Name>
+            <Type>Original Language</Type>
+          </Language>
+          <Language>
+            <Name>English</Name>
+            <Type>Unknown</Type>
+          </Language>
+        </Languages>
+        <ListPrice>
+          <Amount>2250</Amount>
+          <CurrencyCode>USD</CurrencyCode>
+          <FormattedPrice>$22.50</FormattedPrice>
+        </ListPrice>
+        <Manufacturer>Stewart, Tabori and Chang</Manufacturer>
+        <MPN>illustrations</MPN>
+        <NumberOfItems>1</NumberOfItems>
+        <NumberOfPages>224</NumberOfPages>
+        <PackageDimensions>
+          <Height Units="hundredths-inches">90</Height>
+          <Length Units="hundredths-inches">900</Length>
+          <Weight Units="hundredths-pounds">155</Weight>
+          <Width Units="hundredths-inches">670</Width>
+        </PackageDimensions>
+        <PackageQuantity>1</PackageQuantity>
+        <PartNumber>illustrations</PartNumber>
+        <ProductGroup>Book</ProductGroup>
+        <ProductTypeName>ABIS_BOOK</ProductTypeName>
+        <PublicationDate>2015-04-07</PublicationDate>
+        <Publisher>Stewart, Tabori and Chang</Publisher>
+        <ReleaseDate>2015-04-07</ReleaseDate>
+        <Studio>Stewart, Tabori and Chang</Studio>
+        <Title>History of Fly-Fishing in Fifty Flies</Title>
+      </ItemAttributes>
+      <OfferSummary>
+        <LowestNewPrice>
+          <Amount>1312</Amount>
+          <CurrencyCode>USD</CurrencyCode>
+          <FormattedPrice>$13.12</FormattedPrice>
+        </LowestNewPrice>
+        <LowestUsedPrice>
+          <Amount>1335</Amount>
+          <CurrencyCode>USD</CurrencyCode>
+          <FormattedPrice>$13.35</FormattedPrice>
+        </LowestUsedPrice>
+        <TotalNew>49</TotalNew>
+        <TotalUsed>14</TotalUsed>
+        <TotalCollectible>0</TotalCollectible>
+        <TotalRefurbished>0</TotalRefurbished>
+      </OfferSummary>
+      <Offers>
+        <TotalOffers>1</TotalOffers>
+        <TotalOfferPages>1</TotalOfferPages>
+        <MoreOffersUrl>http://www.amazon.com/gp/offer-listing/1617691461%3FSubscriptionId%3DAKIAI5A2QWLR7ECMOCWA%26tag%3Dbestfor03-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D386001%26creativeASIN%3D1617691461</MoreOffersUrl>
+        <Offer>
+          <OfferAttributes>
+            <Condition>New</Condition>
+          </OfferAttributes>
+          <OfferListing>
+            <OfferListingId>OlpE8Bn0BiZi62pyAAj4XjdjON%2FNurPOdqY6It%2Fa3foDb0J7pfTMWVfqU5D6pvb9dVXOnA0RPGjU5me13J6%2BBcxH41A%2Ft2Qv95tGQS9Y93FHhcMvSqHHTw%3D%3D</OfferListingId>
+            <Price>
+              <Amount>1339</Amount>
+              <CurrencyCode>USD</CurrencyCode>
+              <FormattedPrice>$13.39</FormattedPrice>
+            </Price>
+            <AmountSaved>
+              <Amount>911</Amount>
+              <CurrencyCode>USD</CurrencyCode>
+              <FormattedPrice>$9.11</FormattedPrice>
+            </AmountSaved>
+            <PercentageSaved>40</PercentageSaved>
+            <Availability>Usually ships in 24 hours</Availability>
+            <AvailabilityAttributes>
+              <AvailabilityType>now</AvailabilityType>
+              <MinimumHours>0</MinimumHours>
+              <MaximumHours>0</MaximumHours>
+            </AvailabilityAttributes>
+            <IsEligibleForSuperSaverShipping>1</IsEligibleForSuperSaverShipping>
+            <IsEligibleForPrime>1</IsEligibleForPrime>
+          </OfferListing>
+        </Offer>
+      </Offers>
+    </Item>
+    <Item>
+      <ASIN>1564584925</ASIN>
+      <DetailPageURL>http://www.amazon.com/Encyclopedia-Fishing-Complete-Techniques-Saltwater/dp/1564584925%3FSubscriptionId%3DAKIAI5A2QWLR7ECMOCWA%26tag%3Dbestfor03-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D1564584925</DetailPageURL>
+      <ItemLinks>
+        <ItemLink>
+          <Description>Technical Details</Description>
+          <URL>http://www.amazon.com/Encyclopedia-Fishing-Complete-Techniques-Saltwater/dp/tech-data/1564584925%3FSubscriptionId%3DAKIAI5A2QWLR7ECMOCWA%26tag%3Dbestfor03-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D386001%26creativeASIN%3D1564584925</URL>
+        </ItemLink>
+        <ItemLink>
+          <Description>Add To Baby Registry</Description>
+          <URL>http://www.amazon.com/gp/registry/baby/add-item.html%3Fasin.0%3D1564584925%26SubscriptionId%3DAKIAI5A2QWLR7ECMOCWA%26tag%3Dbestfor03-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D386001%26creativeASIN%3D1564584925</URL>
+        </ItemLink>
+        <ItemLink>
+          <Description>Add To Wedding Registry</Description>
+          <URL>http://www.amazon.com/gp/registry/wedding/add-item.html%3Fasin.0%3D1564584925%26SubscriptionId%3DAKIAI5A2QWLR7ECMOCWA%26tag%3Dbestfor03-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D386001%26creativeASIN%3D1564584925</URL>
+        </ItemLink>
+        <ItemLink>
+          <Description>Add To Wishlist</Description>
+          <URL>http://www.amazon.com/gp/registry/wishlist/add-item.html%3Fasin.0%3D1564584925%26SubscriptionId%3DAKIAI5A2QWLR7ECMOCWA%26tag%3Dbestfor03-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D386001%26creativeASIN%3D1564584925</URL>
+        </ItemLink>
+        <ItemLink>
+          <Description>Tell A Friend</Description>
+          <URL>http://www.amazon.com/gp/pdp/taf/1564584925%3FSubscriptionId%3DAKIAI5A2QWLR7ECMOCWA%26tag%3Dbestfor03-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D386001%26creativeASIN%3D1564584925</URL>
+        </ItemLink>
+        <ItemLink>
+          <Description>All Customer Reviews</Description>
+          <URL>http://www.amazon.com/review/product/1564584925%3FSubscriptionId%3DAKIAI5A2QWLR7ECMOCWA%26tag%3Dbestfor03-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D386001%26creativeASIN%3D1564584925</URL>
+        </ItemLink>
+        <ItemLink>
+          <Description>All Offers</Description>
+          <URL>http://www.amazon.com/gp/offer-listing/1564584925%3FSubscriptionId%3DAKIAI5A2QWLR7ECMOCWA%26tag%3Dbestfor03-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D386001%26creativeASIN%3D1564584925</URL>
+        </ItemLink>
+      </ItemLinks>
+      <ItemAttributes>
+        <Binding>Hardcover</Binding>
+        <Brand>Brand: DK ADULT</Brand>
+        <Creator Role="Editor">Ian Wood</Creator>
+        <EAN>9781564584922</EAN>
+        <EANList>
+          <EANListElement>9781564584922</EANListElement>
+        </EANList>
+        <Feature>Used Book in Good Condition</Feature>
+        <ISBN>1564584925</ISBN>
+        <ItemDimensions>
+          <Height Units="hundredths-inches">926</Height>
+          <Length Units="hundredths-inches">1128</Length>
+          <Weight Units="hundredths-pounds">350</Weight>
+          <Width Units="hundredths-inches">97</Width>
+        </ItemDimensions>
+        <Label>DK ADULT</Label>
+        <Languages>
+          <Language>
+            <Name>English</Name>
+            <Type>Published</Type>
+          </Language>
+          <Language>
+            <Name>English</Name>
+            <Type>Original Language</Type>
+          </Language>
+          <Language>
+            <Name>English</Name>
+            <Type>Unknown</Type>
+          </Language>
+        </Languages>
+        <ListPrice>
+          <Amount>3995</Amount>
+          <CurrencyCode>USD</CurrencyCode>
+          <FormattedPrice>$39.95</FormattedPrice>
+        </ListPrice>
+        <Manufacturer>DK ADULT</Manufacturer>
+        <NumberOfItems>1</NumberOfItems>
+        <NumberOfPages>288</NumberOfPages>
+        <PackageDimensions>
+          <Height Units="hundredths-inches">110</Height>
+          <Length Units="hundredths-inches">1110</Length>
+          <Weight Units="hundredths-pounds">315</Weight>
+          <Width Units="hundredths-inches">920</Width>
+        </PackageDimensions>
+        <PackageQuantity>1</PackageQuantity>
+        <ProductGroup>Book</ProductGroup>
+        <ProductTypeName>ABIS_BOOK</ProductTypeName>
+        <PublicationDate>1994-03-15</PublicationDate>
+        <Publisher>DK ADULT</Publisher>
+        <SKU>1001892657</SKU>
+        <Studio>DK ADULT</Studio>
+        <Title>Encyclopedia of Fishing: The Complete Guide to the Fish, Tackle &amp; Techniques of Fresh &amp; Saltwater Angling</Title>
+      </ItemAttributes>
+      <OfferSummary>
+        <LowestNewPrice>
+          <Amount>4014</Amount>
+          <CurrencyCode>USD</CurrencyCode>
+          <FormattedPrice>$40.14</FormattedPrice>
+        </LowestNewPrice>
+        <LowestUsedPrice>
+          <Amount>1</Amount>
+          <CurrencyCode>USD</CurrencyCode>
+          <FormattedPrice>$0.01</FormattedPrice>
+        </LowestUsedPrice>
+        <LowestCollectiblePrice>
+          <Amount>1999</Amount>
+          <CurrencyCode>USD</CurrencyCode>
+          <FormattedPrice>$19.99</FormattedPrice>
+        </LowestCollectiblePrice>
+        <TotalNew>19</TotalNew>
+        <TotalUsed>69</TotalUsed>
+        <TotalCollectible>1</TotalCollectible>
+        <TotalRefurbished>0</TotalRefurbished>
+      </OfferSummary>
+      <Offers>
+        <TotalOffers>0</TotalOffers>
+        <TotalOfferPages>0</TotalOfferPages>
+        <MoreOffersUrl>0</MoreOffersUrl>
+      </Offers>
+    </Item>
+    <Item>
+      <ASIN>1584793562</ASIN>
+      <DetailPageURL>http://www.amazon.com/Fifty-Places-Fly-Fish-Before/dp/1584793562%3FSubscriptionId%3DAKIAI5A2QWLR7ECMOCWA%26tag%3Dbestfor03-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D1584793562</DetailPageURL>
+      <ItemLinks>
+        <ItemLink>
+          <Description>Technical Details</Description>
+          <URL>http://www.amazon.com/Fifty-Places-Fly-Fish-Before/dp/tech-data/1584793562%3FSubscriptionId%3DAKIAI5A2QWLR7ECMOCWA%26tag%3Dbestfor03-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D386001%26creativeASIN%3D1584793562</URL>
+        </ItemLink>
+        <ItemLink>
+          <Description>Add To Baby Registry</Description>
+          <URL>http://www.amazon.com/gp/registry/baby/add-item.html%3Fasin.0%3D1584793562%26SubscriptionId%3DAKIAI5A2QWLR7ECMOCWA%26tag%3Dbestfor03-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D386001%26creativeASIN%3D1584793562</URL>
+        </ItemLink>
+        <ItemLink>
+          <Description>Add To Wedding Registry</Description>
+          <URL>http://www.amazon.com/gp/registry/wedding/add-item.html%3Fasin.0%3D1584793562%26SubscriptionId%3DAKIAI5A2QWLR7ECMOCWA%26tag%3Dbestfor03-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D386001%26creativeASIN%3D1584793562</URL>
+        </ItemLink>
+        <ItemLink>
+          <Description>Add To Wishlist</Description>
+          <URL>http://www.amazon.com/gp/registry/wishlist/add-item.html%3Fasin.0%3D1584793562%26SubscriptionId%3DAKIAI5A2QWLR7ECMOCWA%26tag%3Dbestfor03-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D386001%26creativeASIN%3D1584793562</URL>
+        </ItemLink>
+        <ItemLink>
+          <Description>Tell A Friend</Description>
+          <URL>http://www.amazon.com/gp/pdp/taf/1584793562%3FSubscriptionId%3DAKIAI5A2QWLR7ECMOCWA%26tag%3Dbestfor03-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D386001%26creativeASIN%3D1584793562</URL>
+        </ItemLink>
+        <ItemLink>
+          <Description>All Customer Reviews</Description>
+          <URL>http://www.amazon.com/review/product/1584793562%3FSubscriptionId%3DAKIAI5A2QWLR7ECMOCWA%26tag%3Dbestfor03-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D386001%26creativeASIN%3D1584793562</URL>
+        </ItemLink>
+        <ItemLink>
+          <Description>All Offers</Description>
+          <URL>http://www.amazon.com/gp/offer-listing/1584793562%3FSubscriptionId%3DAKIAI5A2QWLR7ECMOCWA%26tag%3Dbestfor03-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D386001%26creativeASIN%3D1584793562</URL>
+        </ItemLink>
+      </ItemLinks>
+      <ItemAttributes>
+        <Author>Chris Santella</Author>
+        <Binding>Hardcover</Binding>
+        <Brand>Santella, Chris/ Atkinson, R. Valentine (PHT)/ Fitzgerald, Mike (FRW)</Brand>
+        <EAN>9781584793564</EAN>
+        <EANList>
+          <EANListElement>9781584793564</EANListElement>
+        </EANList>
+        <Feature>Used Book in Good Condition</Feature>
+        <ISBN>1584793562</ISBN>
+        <ItemDimensions>
+          <Height Units="hundredths-inches">825</Height>
+          <Length Units="hundredths-inches">738</Length>
+          <Weight Units="hundredths-pounds">183</Weight>
+          <Width Units="hundredths-inches">100</Width>
+        </ItemDimensions>
+        <Label>Stewart, Tabori and Chang</Label>
+        <Languages>
+          <Language>
+            <Name>English</Name>
+            <Type>Published</Type>
+          </Language>
+          <Language>
+            <Name>English</Name>
+            <Type>Original Language</Type>
+          </Language>
+          <Language>
+            <Name>English</Name>
+            <Type>Unknown</Type>
+          </Language>
+        </Languages>
+        <ListPrice>
+          <Amount>2495</Amount>
+          <CurrencyCode>USD</CurrencyCode>
+          <FormattedPrice>$24.95</FormattedPrice>
+        </ListPrice>
+        <Manufacturer>Stewart, Tabori and Chang</Manufacturer>
+        <ManufacturerMaximumAge Units="months">1188</ManufacturerMaximumAge>
+        <ManufacturerMinimumAge Units="months">156</ManufacturerMinimumAge>
+        <MPN>9781584793564</MPN>
+        <NumberOfItems>1</NumberOfItems>
+        <NumberOfPages>224</NumberOfPages>
+        <PackageDimensions>
+          <Height Units="hundredths-inches">110</Height>
+          <Length Units="hundredths-inches">795</Length>
+          <Weight Units="hundredths-pounds">190</Weight>
+          <Width Units="hundredths-inches">732</Width>
+        </PackageDimensions>
+        <PackageQuantity>1</PackageQuantity>
+        <PartNumber>9781584793564</PartNumber>
+        <ProductGroup>Book</ProductGroup>
+        <ProductTypeName>ABIS_BOOK</ProductTypeName>
+        <PublicationDate>2004-06-01</PublicationDate>
+        <Publisher>Stewart, Tabori and Chang</Publisher>
+        <Studio>Stewart, Tabori and Chang</Studio>
+        <Title>Fifty Places to Fly Fish Before You Die</Title>
+      </ItemAttributes>
+      <OfferSummary>
+        <LowestNewPrice>
+          <Amount>564</Amount>
+          <CurrencyCode>USD</CurrencyCode>
+          <FormattedPrice>$5.64</FormattedPrice>
+        </LowestNewPrice>
+        <LowestUsedPrice>
+          <Amount>87</Amount>
+          <CurrencyCode>USD</CurrencyCode>
+          <FormattedPrice>$0.87</FormattedPrice>
+        </LowestUsedPrice>
+        <TotalNew>86</TotalNew>
+        <TotalUsed>99</TotalUsed>
+        <TotalCollectible>0</TotalCollectible>
+        <TotalRefurbished>0</TotalRefurbished>
+      </OfferSummary>
+      <Offers>
+        <TotalOffers>1</TotalOffers>
+        <TotalOfferPages>1</TotalOfferPages>
+        <MoreOffersUrl>http://www.amazon.com/gp/offer-listing/1584793562%3FSubscriptionId%3DAKIAI5A2QWLR7ECMOCWA%26tag%3Dbestfor03-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D386001%26creativeASIN%3D1584793562</MoreOffersUrl>
+        <Offer>
+          <OfferAttributes>
+            <Condition>New</Condition>
+          </OfferAttributes>
+          <OfferListing>
+            <OfferListingId>OlpE8Bn0BiZj1qOKoMvdY0C5rXtE9BoNaoMcYpHS7amqnKFvABUwJTQNqPeyFcwkBS8Z5czt1%2FKI0Th2PemKO2HlNQy1EYVes2QfqmBSXLU%3D</OfferListingId>
+            <Price>
+              <Amount>1663</Amount>
+              <CurrencyCode>USD</CurrencyCode>
+              <FormattedPrice>$16.63</FormattedPrice>
+            </Price>
+            <AmountSaved>
+              <Amount>832</Amount>
+              <CurrencyCode>USD</CurrencyCode>
+              <FormattedPrice>$8.32</FormattedPrice>
+            </AmountSaved>
+            <PercentageSaved>33</PercentageSaved>
+            <Availability>Usually ships in 24 hours</Availability>
+            <AvailabilityAttributes>
+              <AvailabilityType>now</AvailabilityType>
+              <MinimumHours>0</MinimumHours>
+              <MaximumHours>0</MaximumHours>
+            </AvailabilityAttributes>
+            <IsEligibleForSuperSaverShipping>1</IsEligibleForSuperSaverShipping>
+            <IsEligibleForPrime>1</IsEligibleForPrime>
+          </OfferListing>
+        </Offer>
+      </Offers>
+    </Item>
+  </Items>
+</ItemSearchResponse>

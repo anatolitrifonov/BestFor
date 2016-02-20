@@ -1,4 +1,6 @@
 ﻿using Xunit;
+using System.Xml;
+using System.IO;
 using System.Threading.Tasks;
 using BestFor.Services.AffiliateProgram.Amazon;
 
@@ -10,23 +12,41 @@ namespace BestFor.Services.Tests
         /// Verify that we can read app confgi file
         /// </summary>
         [Fact]
+        public void AmazonProductService_AppSettings_ReadSettings()
+        {
+            var settings = Common.AppSettings.ReadSettings();
+            Assert.True(settings.MiscSetting == "test");
+        }
+
+        /// <summary>
+        /// Check that calling amazon service works.
+        /// </summary>
+        [Fact]
         public void AmazonProductService_FindProduct_FindsProduct()
         {
             var settings = Common.AppSettings.ReadSettings();
-            Assert.True(settings.MiscSetting == "test");
-
             var service = new AmazonProductService(settings.AmazonAccessKeyId, settings.AmazonSecretKey, settings.AmazonAssociateId);
-            service.FindProduct("fishing");
+            var product = service.FindProduct("fishing");
+            // Amazon may return a different product on search every time, no point in checking the exact values.
+            Assert.NotNull(product);
+            Assert.NotNull(product.MerchantProductId);
+            Assert.NotNull(product.Title);
+            Assert.NotNull(product.DetailPageURL);
         }
 
         [Fact]
-        public void AmazonProductService_Junk()
+        public void AmazonProductService_ParseReturnResult_ReturnsProduct()
         {
-            var settings = Common.AppSettings.ReadSettings();
-            Assert.True(settings.MiscSetting == "test");
-
-            var service = new AmazonProductService(settings.AmazonAccessKeyId, settings.AmazonSecretKey, settings.AmazonAssociateId);
-            service.ReadXml();
+            // Load xml from the file
+            FileStream myFileStream = new FileStream("myxml.xml", FileMode.Open);
+            var xmlDoc = new XmlDocument();
+            xmlDoc.Load(myFileStream);
+            // Ask service to parse it.
+            var service = new AmazonProductService(null, null, null);
+            var product = service.ReadXml(xmlDoc);
+            Assert.True(product.DetailPageURL.StartsWith("http://www.amazon.com/Total-Fishing-Manual-Field-Stream/dp/1616284870%3FSubscriptionId%3DAKIAI5A2QWLR7ECMOCWA%26tag%3Dbestfor03"));
+            Assert.Equal(product.MerchantProductId, "1616284870");
+            Assert.Equal(product.Title, "The Total Fishing Manual (Field & Stream): 317 Essential Fishing Skills (Field and Stream)");
         }
     }
 }
