@@ -11,6 +11,9 @@ using Microsoft.Data.Entity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+//using Microsoft.Framework.Logging;
+//using Microsoft.Extensions.Logging.Debug;
+//using Microsoft.Extensions.Logging.Console;
 using Microsoft.Extensions.PlatformAbstractions;
 using React.AspNet;
 using System;
@@ -21,6 +24,7 @@ using System.Threading.Tasks;
 using BestFor.Data;
 using BestFor.Domain.Entities;
 using BestFor.Services.Messaging;
+using BestFor.Extensions;
 
 namespace BestFor
 {
@@ -34,6 +38,8 @@ namespace BestFor
                 .SetBasePath(appEnv.ApplicationBasePath)
                 .AddJsonFile("appsettings.json")
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true);
+
+            appEnv.ConfigureLog4Net("log4net.xml"); //extension method is defined in the extension folder of this project
 
             if (env.IsDevelopment())
             {
@@ -106,6 +112,8 @@ namespace BestFor
             loggerFactory.MinimumLevel = LogLevel.Information;
             loggerFactory.AddConsole();
             loggerFactory.AddDebug();
+
+            loggerFactory.AddLog4Net();
 
             // Configure the HTTP request pipeline.
 

@@ -1,4 +1,4 @@
-﻿{
+{
   "version": "1.0.0-*",
   "description": "BestFor.Common Class Library",
   "authors": [ "atrifono" ],
@@ -14,7 +14,11 @@
   },
 
   "frameworks": {
-    "net451": { },
+    "net451": {
+      "dependencies": {
+        "log4net": "2.0.5"
+      }
+    },
     "dotnet5.4": {
       "dependencies": {
         "Microsoft.CSharp": "4.0.1-beta-23516",
