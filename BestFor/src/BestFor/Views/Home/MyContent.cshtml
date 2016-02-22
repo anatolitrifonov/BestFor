@@ -34,7 +34,7 @@ Let's go with react.<br />
         new
         {
             productsUrl = "/api/product",
-            productKeyword = "fishing",
+            productKeyword = Model.Answer.LeftWord + " " + Model.Answer.RightWord + " " + Model.Answer.Phrase,
             antiForgeryHeaderName = BestFor.Controllers.BaseApiController.ANTI_FORGERY_HEADER_NAME,
             antiForgeryToken = GetAntiXsrfToken(),
             resourceStrings = resourcesService.GetStringsAsJson(this.ViewBag.BestForCulture,

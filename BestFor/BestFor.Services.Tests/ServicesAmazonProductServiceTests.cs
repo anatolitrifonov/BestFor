@@ -1,4 +1,6 @@
-﻿using Xunit;
+﻿using BestFor.Services.Cache;
+using Moq;
+using Xunit;
 using System.Xml;
 using System.IO;
 using System.Threading.Tasks;
@@ -26,7 +28,9 @@ namespace BestFor.Services.Tests
         [Fact]
         public void AmazonProductService_FindProduct_FindsProduct()
         {
-            var service = new AmazonProductService(Common.AppSettings.ReadSettings());
+            var cacheMock = new Mock<ICacheManager>();
+            var cache = cacheMock.Object;
+            var service = new AmazonProductService(Common.AppSettings.ReadSettings(), cache);
             var product = service.FindProduct(new ProductSearchParameters() { Keyword = "fishing" });
             // Amazon may return a different product on search every time, no point in checking the exact values.
             Assert.NotNull(product);
@@ -43,7 +47,7 @@ namespace BestFor.Services.Tests
             var xmlDoc = new XmlDocument();
             xmlDoc.Load(myFileStream);
             // Ask service to parse it.
-            var service = new AmazonProductService(null);
+            var service = new AmazonProductService(null, null);
             var product = service.ReadXml(xmlDoc);
             Assert.True(product.DetailPageURL.StartsWith("http://www.amazon.com/Total-Fishing-Manual-Field-Stream/dp/1616284870%3FSubscriptionId%3DAKIAI5A2QWLR7ECMOCWA%26tag%3Dbestfor03"));
             Assert.Equal(product.MerchantProductId, "1616284870");

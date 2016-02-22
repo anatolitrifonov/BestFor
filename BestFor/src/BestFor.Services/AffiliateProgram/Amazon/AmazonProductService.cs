@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BestFor.Services.Cache;
+using System;
 using System.IO;
 using System.Xml;
 using System.Xml.Serialization;
@@ -47,6 +48,12 @@ namespace BestFor.Services.AffiliateProgram.Amazon
         /// This is our associate id.
         /// </summary>
         private string _associateId;
+        /// <summary>
+        /// Injected cache manager.
+        /// </summary>
+        private ICacheManager _cacheManager;
+
+        private int DEFAULT_PRODUCT_EXPIRATION_SECONDS = 300;
 
         /// <summary>
         /// Constructor. Nothing special. Might change later to accept a moregeneric class that allows configuration.
@@ -54,42 +61,134 @@ namespace BestFor.Services.AffiliateProgram.Amazon
         /// <param name="accessKeyId"></param>
         /// <param name="accessSecret"></param>
         /// <param name="associateId"></param>
-        public AmazonProductService(IOptions<AppSettings> appSettings)
+        public AmazonProductService(IOptions<AppSettings> appSettings, ICacheManager cacheManager)
         {
             _accessKeyId = appSettings.Value.AmazonAccessKeyId;
             _accessSecret = appSettings.Value.AmazonSecretKey;
             _associateId = appSettings.Value.AmazonAssociateId;
+            _cacheManager = cacheManager;
         }
 
         public AffiliateProductDto FindProduct(ProductSearchParameters parameters)
         {
-//            return null;
+            //            return null;
 
 
-            return new AffiliateProductDto()
+            //return new AffiliateProductDto()
+            //{
+            //    CurrencyCode = "sdfsdf",
+            //    DetailPageURL = "sdlfslkdfjlsdfjsdf",
+            //    FormattedPrice = "354,345",
+            //    Merchant = "sdf",
+            //    MerchantProductId = "sadfsdfsdf",
+            //    Price = 56.87,
+            //    Title = "alksdflskdjflskdjfjdsflsdkjlsdkjfsdf"
+            //};
+
+            // Check parameters. Do not throw expection if blank, just say that nothing found since this is an interface implementation. :)
+            if (parameters == null || string.IsNullOrEmpty(parameters.Keyword) || string.IsNullOrWhiteSpace(parameters.Keyword)) return null;
+
+            // Do some cleanup because amazon returns nothing on ling searches.
+            parameters.Keyword = CleanupKeywords(parameters.Keyword);
+
+            // Generate product cache key
+            var key = GetProductCacheKey(parameters);
+
+            // First search cache
+            var product = CheckCache(key);
+
+            // Return if found
+            if (product != null) return product;
+
+            // Build call url
+            var fullUrl = BuildProductSearchUrl(parameters);
+
+            // Search for product. Takes time.
+            product = CallProductSearch(fullUrl);
+
+            // Would be strange that amazon did not find anything but ok.
+            if (product == null) return null;
+
+            // Cache product
+            CacheProduct(key, product);
+
+            return product;
+        }
+
+        /// <summary>
+        /// Take only the first x words from the keywords
+        /// </summary>
+        /// <param name="keywords"></param>
+        /// <returns></returns>
+        public string CleanupKeywords(string keywords)
+        {
+            // This is not intended to be called from the outside and is public only for tests and transparency.
+            // This is supposed to be called only from this class therefor we can throw an expection.
+            if (string.IsNullOrEmpty(keywords) || string.IsNullOrWhiteSpace(keywords))
+                throw new Exception("AmazonProductService CleanupKeywords function is called with empty productKey.");
+
+            var words = keywords.Split(' ');
+            string result = "";
+            // Take only three words.
+            for (var i = 0; i < words.Length; i++)
             {
-                CurrencyCode = "sdfsdf",
-                DetailPageURL = "sdlfslkdfjlsdfjsdf",
-                FormattedPrice = "354,345",
-                Merchant = "sdf",
-                MerchantProductId = "sadfsdfsdf",
-                Price = 56.87,
-                Title = "alksdflskdjflskdjfjdsflsdkjlsdkjfsdf"
-            };
+                result += words[i];
+                if (i == words.Length - 1 || i == 2) return result;
+                result += " ";
+            }
+            return result;
+        }
+
+        /// <summary>
+        /// Make an actual web call to load products.
+        /// </summary>
+        /// <param name="url"></param>
+        /// <returns></returns>
+        public AffiliateProductDto CallProductSearch(string url)
+        {
+            if (string.IsNullOrEmpty(url) || string.IsNullOrWhiteSpace(url))
+                throw new Exception("AmazonProductService CallProductSearch function is called with empty url.");
+
+            using (var client = new HttpClient(new HttpClientHandler { AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate }))
+            {
+                HttpResponseMessage response = client.GetAsync(new Uri(url)).Result;
+                // response.EnsureSuccessStatusCode();
+                string result = response.Content.ReadAsStringAsync().Result;
+                // try loading result into xml
+                var reader = new StringReader(result);
+                var xmlDoc = new XmlDocument();
+                xmlDoc.Load(reader);
+                return ReadXml(xmlDoc);
+            }
+        }
+
+        /// <summary>
+        /// Build the url for making rest call to amazon.
+        /// </summary>
+        /// <param name="parameters"></param>
+        /// <returns></returns>
+        public string BuildProductSearchUrl(ProductSearchParameters parameters)
+        {
             // We are trying to build a URL like this.
             // http://webservices.amazon.com/onca/xml?Service=AWSECommerceService&Operation=ItemSearch&
             // AWSAccessKeyId =[Access Key ID] & AssociateTag =[Associate ID] & SearchIndex = Apparel &
             // Keywords = Shirt & Timestamp =[YYYY - MM - DDThh:mm: ssZ] & Signature =[Request Signature]
 
-            // Check parameters. Do not throw expection if blank, just say that nothing found:)
-            if (parameters == null || string.IsNullOrEmpty(parameters.Keyword) || string.IsNullOrWhiteSpace(parameters.Keyword)) return null;
+            // This is not intended to be called from the outside and is public only for tests and transparency.
+            // This is supposed to be called only from this class therefor we can throw an expection.
+            if (parameters == null)
+                throw new Exception("AmazonProductService BuildProductSearchUrl function is called with empty ProductSearchParameters.");
+
+            if (parameters.Keyword == null)
+                throw new Exception("AmazonProductService BuildProductSearchUrl function is called with empty ProductSearchParameters.Keyword.");
 
             // Create timestamp
             var timeStamp = DateTime.UtcNow.ToString("yyyy-MM-ddTHH:mm:ssZ");
 
+//                "&Keywords=" + parameters.Keyword + "&Operation=ItemSearch&ResponseGroup=Offers%2CItemAttributes" +
             // Please for the love of God do not touch this line. I spent hours making this work.
-            var url = "AWSAccessKeyId=" + _accessKeyId  + "&AssociateTag=" + _associateId +
-                "&Keywords=" + parameters.Keyword + "&Operation=ItemSearch&ResponseGroup=Offers%2CItemAttributes" +
+            var url = "AWSAccessKeyId=" + _accessKeyId + "&AssociateTag=" + _associateId +
+                "&Keywords=" + Uri.EscapeDataString(parameters.Keyword) + "&Operation=ItemSearch&ResponseGroup=Offers%2CItemAttributes" +
                 "&SearchIndex=Books&Service=AWSECommerceService" +
                 "&Timestamp=" + Uri.EscapeDataString(timeStamp) + "&Version=2013-08-01";
 
@@ -104,17 +203,8 @@ namespace BestFor.Services.AffiliateProgram.Amazon
             var signature = Convert.ToBase64String(hashBytes);
             var fullUrl = "http://webservices.amazon.com/onca/xml?" + url + "&Signature=" + Uri.EscapeDataString(signature);
 
-            using (var client = new HttpClient(new HttpClientHandler { AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate }))
-            {
-                HttpResponseMessage response = client.GetAsync(new Uri(fullUrl)).Result;
-                // response.EnsureSuccessStatusCode();
-                string result = response.Content.ReadAsStringAsync().Result;
-                // try loading result into xml
-                var reader = new StringReader(result);
-                var xmlDoc = new XmlDocument();
-                xmlDoc.Load(reader);
-                return ReadXml(xmlDoc);
-            }
+            return fullUrl;
+
         }
 
         /// <summary>
@@ -173,6 +263,63 @@ namespace BestFor.Services.AffiliateProgram.Amazon
             var child = node.SelectSingleNode("//" + namespacePrefix + ":" + childName, nsmgr);
             if (child == null) return null;
             return child.InnerText;
+        }
+
+        /// <summary>
+        /// Look for the product in cache by key.
+        /// </summary>
+        /// <param name="productKey"></param>
+        /// <returns></returns>
+        public AffiliateProductDto CheckCache(string productKey)
+        {
+            // This is not intended to be called from the outside and is public only for tests and transparency.
+            // This is supposed to be called only from this class therefor we can throw an expection.
+            if (string.IsNullOrEmpty(productKey) || string.IsNullOrWhiteSpace(productKey))
+                throw new Exception("AmazonProductService CheckCache function is called with empty productKey.");
+            if (_cacheManager == null) throw new Exception("AmazonProductService CheckCache function is called with empty cache manager.");
+            // Check cache.
+            var data = _cacheManager.Get(productKey);
+            if (data == null) return null;
+            // check the type
+            var result = data as AffiliateProductDto;
+            // If we could not cast then we have some sort of internal issue. Throw an exception.
+            if (result == null) throw new Exception("AmazonProductService CheckCache function found object of the wrong type in cache.");
+            return result;
+        }
+
+        /// <summary>
+        /// Add product to cache.
+        /// </summary>
+        /// <param name="productKey"></param>
+        /// <param name="product"></param>
+        public void CacheProduct(string productKey, AffiliateProductDto product)
+        {
+            // This is not intended to be called from the outside and is public only for tests and transparency.
+            // This is supposed to be called only from this class therefor we can throw an expection.
+            if (string.IsNullOrEmpty(productKey) || string.IsNullOrWhiteSpace(productKey))
+                throw new Exception("AmazonProductService CacheProduct function is called with empty productKey.");
+            if (_cacheManager == null) throw new Exception("AmazonProductService CacheProduct function is called with empty cache manager.");
+            // Re-Check cache in case product is already added while we were waiting for amazon.
+            var data = _cacheManager.Get(productKey);
+            // return if found
+            if (data != null) return;
+            // Add to cache
+            _cacheManager.Add(productKey, product, DEFAULT_PRODUCT_EXPIRATION_SECONDS);
+        }
+
+        /// <summary>
+        /// Genereates a key that will be used for caching products
+        /// </summary>
+        /// <param name="parameters"></param>
+        /// <returns></returns>
+        public string GetProductCacheKey(ProductSearchParameters parameters)
+        {
+            // This is not intended to be called from the outside and is public only for tests and transparency.
+            // This is supposed to be called only from this class therefor we can throw an expection.
+            if (parameters == null)
+                throw new Exception("AmazonProductService GetProductCacheKey function is called with empty ProductSearchParameters.");
+
+            return CacheConstants.CACHE_KEY_PRODUCT_PREFIX + parameters.IndexKey;
         }
     }
 }

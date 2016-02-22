@@ -10,5 +10,7 @@ namespace BestFor.Services.Cache
         object Get(string key);
 
         object Add(string key, object value);
+
+        object Add(string key, object value, int seconds);
     }
 }

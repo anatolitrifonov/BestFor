@@ -113,7 +113,7 @@ var AffiliateProductDetails = React.createClass({
             <div style={this.getOverallDivStyle()}>
                 Title:{this.state.productTitle} <br />
                 Price: image <br />
-                Link: {this.state.productLink} <br />
+                Link: <a href={this.state.productLink} target="_blank">{this.state.productTitle}</a><br />
                 Link: link <br />
             </div>
         );
