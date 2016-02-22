@@ -1,4 +1,5 @@
-﻿var MenuControl = React.createClass({
+﻿// Not currently used.
+var MenuControl = React.createClass({
     render: function () {
         return (
             <div>

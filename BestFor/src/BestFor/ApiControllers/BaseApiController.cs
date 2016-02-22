@@ -6,6 +6,9 @@ using Microsoft.AspNet.Antiforgery;
 
 namespace BestFor.Controllers
 {
+    /// <summary>
+    /// Contins AntiForgery protection and culture parsing functions helping inheriting api controllers.
+    /// </summary>
     public abstract class BaseApiController : Controller
     {
         [FromServices]
@@ -37,6 +40,10 @@ namespace BestFor.Controllers
         /// Exceptions are expensive.
         /// Let's throw it only if there was something passed in the header and it was not valid.
         /// Otherwise we will just return nothing.
+        /// 
+        /// Look at the help folder for more explanation.
+        /// 
+        /// Used by inheriting controller to protect the straight calls to controllers.
         /// </summary>
         /// <returns></returns>
         protected bool ParseAntiForgeryHeader()
@@ -54,6 +61,7 @@ namespace BestFor.Controllers
             return false;
         }
 
+        #region Private Methods
         /// <summary>
         /// Parse the culture string from the url or return the default culture string
         /// </summary>
@@ -91,5 +99,6 @@ namespace BestFor.Controllers
             _culture = culture;
             return _culture;
         }
+        #endregion
     }
 }

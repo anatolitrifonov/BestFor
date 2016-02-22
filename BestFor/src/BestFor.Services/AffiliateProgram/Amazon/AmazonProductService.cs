@@ -11,6 +11,14 @@ using System.Net;
 using System.Net.Http;
 
 using BestFor.Dto.AffiliateProgram;
+using BestFor.Services.Services;
+using BestFor.Common;
+using BestFor.Services;
+using System.Globalization;
+using System.Reflection;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.OptionsModel;
 
 namespace BestFor.Services.AffiliateProgram.Amazon
 {
@@ -25,7 +33,7 @@ namespace BestFor.Services.AffiliateProgram.Amazon
     /// <remarks>
     /// Documentation http://docs.aws.amazon.com/AWSECommerceService/latest/DG/AnatomyOfaRESTRequest.html
     /// </remarks>
-    public class AmazonProductService
+    public class AmazonProductService : IProductService
     {
         /// <summary>
         /// This is a access "known" key 
@@ -46,26 +54,42 @@ namespace BestFor.Services.AffiliateProgram.Amazon
         /// <param name="accessKeyId"></param>
         /// <param name="accessSecret"></param>
         /// <param name="associateId"></param>
-        public AmazonProductService(string accessKeyId, string accessSecret, string associateId)
+        public AmazonProductService(IOptions<AppSettings> appSettings)
         {
-            _accessKeyId = accessKeyId;
-            _accessSecret = accessSecret;
-            _associateId = associateId;
+            _accessKeyId = appSettings.Value.AmazonAccessKeyId;
+            _accessSecret = appSettings.Value.AmazonSecretKey;
+            _associateId = appSettings.Value.AmazonAssociateId;
         }
 
-        public AffiliateProductDto FindProduct(string keyword)
+        public AffiliateProductDto FindProduct(ProductSearchParameters parameters)
         {
+//            return null;
+
+
+            return new AffiliateProductDto()
+            {
+                CurrencyCode = "sdfsdf",
+                DetailPageURL = "sdlfslkdfjlsdfjsdf",
+                FormattedPrice = "354,345",
+                Merchant = "sdf",
+                MerchantProductId = "sadfsdfsdf",
+                Price = 56.87,
+                Title = "alksdflskdjflskdjfjdsflsdkjlsdkjfsdf"
+            };
             // We are trying to build a URL like this.
             // http://webservices.amazon.com/onca/xml?Service=AWSECommerceService&Operation=ItemSearch&
             // AWSAccessKeyId =[Access Key ID] & AssociateTag =[Associate ID] & SearchIndex = Apparel &
             // Keywords = Shirt & Timestamp =[YYYY - MM - DDThh:mm: ssZ] & Signature =[Request Signature]
+
+            // Check parameters. Do not throw expection if blank, just say that nothing found:)
+            if (parameters == null || string.IsNullOrEmpty(parameters.Keyword) || string.IsNullOrWhiteSpace(parameters.Keyword)) return null;
 
             // Create timestamp
             var timeStamp = DateTime.UtcNow.ToString("yyyy-MM-ddTHH:mm:ssZ");
 
             // Please for the love of God do not touch this line. I spent hours making this work.
             var url = "AWSAccessKeyId=" + _accessKeyId  + "&AssociateTag=" + _associateId +
-                "&Keywords=" + keyword + "&Operation=ItemSearch&ResponseGroup=Offers%2CItemAttributes" +
+                "&Keywords=" + parameters.Keyword + "&Operation=ItemSearch&ResponseGroup=Offers%2CItemAttributes" +
                 "&SearchIndex=Books&Service=AWSECommerceService" +
                 "&Timestamp=" + Uri.EscapeDataString(timeStamp) + "&Version=2013-08-01";
 

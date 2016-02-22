@@ -32,7 +32,7 @@ namespace BestFor.Dto.AffiliateProgram
         /// <summary>
         /// Price converted to number
         /// </summary>
-        public float Price { get; set; }
+        public double Price { get; set; }
 
         /// <summary>
         /// Link to item details

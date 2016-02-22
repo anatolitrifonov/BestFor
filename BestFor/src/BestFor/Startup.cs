@@ -26,10 +26,14 @@ namespace BestFor
 {
     public class Startup
     {
+        /// <summary>
+        /// Entry point to any ASP.NET 5 application and configures basic feature support.
+        /// </summary>
+        /// <param name="env"></param>
+        /// <param name="appEnv"></param>
         public Startup(IHostingEnvironment env, IApplicationEnvironment appEnv)
         {
-            // Setup configuration sources.
-
+            // Include application settings file.
             var builder = new ConfigurationBuilder()
                 .SetBasePath(appEnv.ApplicationBasePath)
                 .AddJsonFile("appsettings.json")
@@ -84,7 +88,11 @@ namespace BestFor
 
             services.AddCaching();
 
+            // Add Application settings to the services container.
+            services.Configure<BestFor.Common.AppSettings>(Configuration.GetSection("AppSettings"));
+
             // Add my services
+            // I do not want to add "using" for all projects in solution just to keep the list of fusings clean.
             services.AddScoped<BestFor.Data.IDataContext, BestFor.Data.BestDataContext>();
             services.AddScoped<BestFor.Data.IRepository<BestFor.Domain.Entities.Answer>, BestFor.Data.Repository<BestFor.Domain.Entities.Answer>>();
             services.AddScoped<BestFor.Data.IRepository<BestFor.Domain.Entities.Suggestion>, BestFor.Data.Repository<BestFor.Domain.Entities.Suggestion>>();
@@ -98,6 +106,9 @@ namespace BestFor
             services.AddScoped<BestFor.Services.Services.IStatusService, BestFor.Services.Services.StatusService>();
             services.AddScoped<BestFor.Services.Services.IResourcesService, BestFor.Services.Services.ResourcesService>();
             services.AddScoped<BestFor.Services.Services.IAnswerDescriptionService, BestFor.Services.Services.AnswerDescriptionService>();
+            // TODO: For now we use specific implementation. Might need a different injection later when we have more than one service.
+            services.AddScoped<BestFor.Services.Services.IProductService, BestFor.Services.AffiliateProgram.Amazon.AmazonProductService>();
+
         }
 
         // Configure is called after ConfigureServices is called.
@@ -147,7 +158,8 @@ namespace BestFor
                     .AddScript("~/Scripts/SuggestionResultList.jsx")
                     .AddScript("~/Scripts/SuggestionAnswerList.jsx")
                     .AddScript("~/Scripts/SuggestionPanel.jsx")
-                    .AddScript("~/Scripts/SuggestionTextBox.jsx");
+                    .AddScript("~/Scripts/SuggestionTextBox.jsx")
+                    .AddScript("~/Scripts/AffiliateProductDetails.jsx");
 
                 // If you use an external build too (for example, Babel, Webpack,
                 // Browserify or Gulp), you can improve performance by disabling
