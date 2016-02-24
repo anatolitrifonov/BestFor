@@ -43,6 +43,7 @@ namespace BestFor.Controllers
         [AllowAnonymous]
         public IActionResult Login(string returnUrl = null)
         {
+            //_logger.LogError("Hello There");
             ViewData["ReturnUrl"] = returnUrl;
             return View();
         }

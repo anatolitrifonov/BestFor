@@ -1,4 +1,4 @@
-﻿{
+{
   "version": "1.0.0-*",
   "description": "BestFor.Fakes Class Library",
   "authors": [ "atrifono" ],
@@ -11,7 +11,8 @@
     "BestFor.Data": "1.0.0-*",
     "EntityFramework.MicrosoftSqlServer": "7.0.0-rc1-final",
     "EntityFramework.Commands": "7.0.0-rc1-final",
-    "EntityFramework.Core": "7.0.0-rc1-final"
+    "EntityFramework.Core": "7.0.0-rc1-final",
+    "Serilog": "1.5.14"
   },
 
   "frameworks": {

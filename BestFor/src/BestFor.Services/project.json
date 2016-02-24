@@ -17,6 +17,7 @@
     "BestFor.Data": "1.0.0-*",
     "BestFor.Domain": "1.0.0-*",
     "BestFor.Dto": "1.0.0-*",
-    "Microsoft.Extensions.Caching.Memory": "1.0.0-*"
+    "Microsoft.Extensions.Caching.Memory": "1.0.0-*",
+    "Serilog": "1.5.14"
   }
 }

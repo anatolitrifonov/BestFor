@@ -10,6 +10,9 @@
     "dnx451": {
       "frameworkAssemblies": {
         "System.ComponentModel.DataAnnotations": "4.0.0.0"
+      },
+      "dependencies": {
+        "Serilog": "1.5.14"
       }
     },
     "dnxcore50": {
