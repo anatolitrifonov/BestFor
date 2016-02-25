@@ -13,5 +13,6 @@ namespace BestFor.Services.Cache
         public const string CACHE_KEY_TRENDING_TODAY_DATA = "Trending Today Cache";
         public const string CACHE_KEY_TRENDING_OVERALL_DATA = "Trending Overall Cache";
         public const string CACHE_KEY_RESOURCES_DATA = "Resource String Cache";
+        public const string CACHE_KEY_PRODUCT_PREFIX = "Product Prefix";
     }
 }

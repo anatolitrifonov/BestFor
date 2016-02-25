@@ -4,10 +4,13 @@
 @inject BestFor.Services.Services.IResourcesService resourcesService
 @* Culture is placed into view bag by action filter *@
 <br /><br />
-@resourcesService.GetString(this.ViewBag.BestForCulture, "you_are_adding_detailed_description")<br /><br />
+@*resourcesService.GetString(this.ViewBag.BestForCulture, "you_are_adding_detailed_description")<br /><br />*@
 @* This template shows content of the answer with the link to content *@
 @Html.DisplayFor(x => Model.Answer, "AnswerToContent")<br />
 @foreach (var item in Model.Descriptions)
 {
     @Html.DisplayFor(x => item.Description)<br /><br />
 }
+<br />
+This is ShowAnswer<br />
+Shows: SEO link to the answer, and all answer descriptions.

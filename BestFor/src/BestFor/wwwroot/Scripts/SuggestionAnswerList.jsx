@@ -37,15 +37,15 @@ var SuggestionAnswerList = React.createClass({
                 <SuggestionAnswerItem phrase={answer.Phrase} count={answer.Count}
                         onItemClicked={this.handleItemClicked.bind(this, answer.Phrase)} key={i}></SuggestionAnswerItem>
             );
-    }, this);
+        }, this);
         
-    // render list of the top answers for the pair
-    return (
-        <div style={this.getListDivStyle()}>
-            <ul style={this.getUnsortedListStyle()}>
-            {someArray}      
-            </ul>
-        </div>
+        // render list of the top answers for the pair
+        return (
+            <div style={this.getListDivStyle()}>
+                <ul style={this.getUnsortedListStyle()}>
+                {someArray}      
+                </ul>
+            </div>
         );
     }
 });

@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Caching.Memory;
+using System;
 
 namespace BestFor.Services.Cache
 {
@@ -16,6 +17,15 @@ namespace BestFor.Services.Cache
         public object Add(string key, object value)
         {
             _cache.Set(key, value);
+            return value;
+        }
+
+        public object Add(string key, object value, int seconds)
+        {
+            // todo: redo this with injection that allows specifying time.Now
+            var options = new MemoryCacheEntryOptions();
+            options.AbsoluteExpiration = DateTime.Now.AddSeconds(seconds);
+            _cache.Set(key, value, options);
             return value;
         }
 

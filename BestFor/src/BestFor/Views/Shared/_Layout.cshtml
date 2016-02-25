@@ -12,11 +12,13 @@
         @Html.Partial("TopMenu")&nbsp;
         @Html.Partial("CurrentUser")<br /><br />
     </div>
-
-    @* Html.React("MenuControl", new { }) *@
+    @* Keep the amount of scripts loaded in this section to minimum *@
+    @RenderSection("TopScripts", required: false)
+    @* Main section view *@
     @RenderBody()
+    @* Bottom menu *@
     @Html.Partial("BottomMenu")
     @* Give ability to pages to put scripts here. *@
-    @RenderSection("scripts", required: false)
+    @RenderSection("Scripts", required: false)
 </body>
 </html>

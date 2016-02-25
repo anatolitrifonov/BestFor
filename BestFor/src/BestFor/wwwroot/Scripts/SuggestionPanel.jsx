@@ -46,7 +46,7 @@
         };
     },
 
-    // Static functions that are ... welll just static functions ... they can not access state
+    // Static functions that are ... well just static functions ... they can not access state
     statics: {
         // Validate user input 
         //todo. Need to check for special characters?

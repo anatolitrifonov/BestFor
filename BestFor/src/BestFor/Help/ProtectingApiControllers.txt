@@ -1,0 +1,5 @@
+﻿Api controllers expect the callers to pass the special header in each call.
+All api controllers inherit from BaseApiController
+Each call that needs to be protected must call "if (!ParseAntiForgeryHeader())" from BaseApiController.
+If false is returned controller deals with error.
+Look at the pages that call api controllers for header/token generation.
