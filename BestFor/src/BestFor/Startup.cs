@@ -46,7 +46,7 @@ namespace BestFor
             Log.Logger = new LoggerConfiguration()
                             .MinimumLevel.Debug()
                             .WriteTo.RollingFile(
-                                Path.Combine(appEnv.ApplicationBasePath + "\\Logs\\", "log -{Date}.log"), Serilog.Events.LogEventLevel.Debug)
+                                Path.Combine(appEnv.ApplicationBasePath + "\\Logs\\", "log -{Date}.log"), Serilog.Events.LogEventLevel.Information, "{Timestamp:G} [{Level}] {Message}{NewLine:l}{Exception:l}", null, null, null)
                             //.WriteTo.LiterateConsole(Serilog.Events.LogEventLevel.Information)
                             .CreateLogger();
         
@@ -271,9 +271,6 @@ namespace BestFor
                 // Uncomment the following line to add a route for porting Web API 2 controllers.
                 // routes.MapWebApiRoute("DefaultApi", "api/{controller}/{id?}");
             });
-
-
-            //loggerFactory.AddSerilog();
         }
     }
 }
