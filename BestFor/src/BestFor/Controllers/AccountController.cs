@@ -43,6 +43,7 @@ namespace BestFor.Controllers
         [AllowAnonymous]
         public IActionResult Login(string returnUrl = null)
         {
+            //_logger.LogError("Hello There");
             ViewData["ReturnUrl"] = returnUrl;
             return View();
         }
@@ -57,12 +58,13 @@ namespace BestFor.Controllers
             ViewData["ReturnUrl"] = returnUrl;
             if (ModelState.IsValid)
             {
+                _logger.LogInformation("[AppLog]: About to validate the user");
                 // This doesn't count login failures towards account lockout
                 // To enable password failures to trigger account lockout, set lockoutOnFailure: true
                 var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, lockoutOnFailure: false);
                 if (result.Succeeded)
                 {
-                    _logger.LogInformation(1, "User logged in.");
+                    _logger.LogInformation(1, "[AppLog]: User logged in.");
                     return RedirectToLocal(returnUrl);
                 }
                 if (result.RequiresTwoFactor)
@@ -71,15 +73,18 @@ namespace BestFor.Controllers
                 }
                 if (result.IsLockedOut)
                 {
-                    _logger.LogWarning(2, "User account locked out.");
+                    _logger.LogWarning(2, "[AppLog]: User account locked out.");
                     return View("Lockout");
                 }
                 else
                 {
                     ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                    _logger.LogWarning("[AppLog]: Invalid login attempt");
                     return View(model);
                 }
             }
+
+            _logger.LogInformation("[AppLog]: Redirecting back to login page because unable to validate the login");
 
             // If we got this far, something failed, redisplay form
             return View(model);
@@ -130,7 +135,7 @@ namespace BestFor.Controllers
                     //await _emailSender.SendEmailAsync(model.Email, "Confirm your account",
                     //    "Please confirm your account by clicking this link: <a href=\"" + callbackUrl + "\">link</a>");
                     await _signInManager.SignInAsync(user, isPersistent: false);
-                    _logger.LogInformation(3, "User created a new account with password.");
+                    _logger.LogInformation(3, "[AppLog]: User created a new account with password.");
                     return RedirectToAction(nameof(HomeController.Index), "Home");
                 }
                 AddErrors(result);
@@ -147,7 +152,7 @@ namespace BestFor.Controllers
         public async Task<IActionResult> LogOff()
         {
             await _signInManager.SignOutAsync();
-            _logger.LogInformation(4, "User logged out.");
+            _logger.LogInformation(4, "[AppLog]: User logged out.");
             return RedirectToAction(nameof(HomeController.Index), "Home");
         }
 

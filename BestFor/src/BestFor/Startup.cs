@@ -22,6 +22,9 @@ using BestFor.Data;
 using BestFor.Domain.Entities;
 using BestFor.Services.Messaging;
 
+using Serilog;
+using System.IO;
+
 namespace BestFor
 {
     public class Startup
@@ -38,6 +41,15 @@ namespace BestFor
                 .SetBasePath(appEnv.ApplicationBasePath)
                 .AddJsonFile("appsettings.json")
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true);
+            
+            //http://www.codeproject.com/Articles/1041816/Serilog-An-Excellent-Logging-Framework-Integrated
+            Log.Logger = new LoggerConfiguration()
+                            .MinimumLevel.Debug()
+                            .WriteTo.RollingFile(
+                                Path.Combine(appEnv.ApplicationBasePath + "\\Logs\\", "log -{Date}.log"), Serilog.Events.LogEventLevel.Information, "{Timestamp:G} [{Level}] {Message}{NewLine:l}{Exception:l}", null, null, null)
+                            //.WriteTo.LiterateConsole(Serilog.Events.LogEventLevel.Information)
+                            .CreateLogger();
+        
 
             if (env.IsDevelopment())
             {
@@ -117,6 +129,8 @@ namespace BestFor
             loggerFactory.MinimumLevel = LogLevel.Information;
             loggerFactory.AddConsole();
             loggerFactory.AddDebug();
+
+            loggerFactory.AddSerilog();
 
             // Configure the HTTP request pipeline.
 
