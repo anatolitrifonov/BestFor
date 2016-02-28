@@ -71,9 +71,7 @@ namespace BestFor
             services.AddReact();
 
             // Add MVC services to the services container.
-            services.AddMvc()
-                .AddViewLocalization()
-                .AddDataAnnotationsLocalization();
+            services.AddMvc().AddViewLocalization().AddDataAnnotationsLocalization();
 
             // Register action filter that deals with localization.
             services.AddScoped<LanguageActionFilter>();
@@ -81,6 +79,10 @@ namespace BestFor
             // Uncomment the following line to add Web API services which makes it easier to port Web API 2 controllers.
             // You will also need to add the Microsoft.AspNet.Mvc.WebApiCompatShim package to the 'dependencies' section of project.json.
             // services.AddWebApiConventions();
+
+            // We added MVC -> we get Antiforgery enabled
+            // Now just tweak configuration a bit so that we get more controler over cookie.
+            services.ConfigureAntiforgery(options => options.CookieName = Controllers.BaseApiController.ANTI_FORGERY_COOKIE_NAME);
 
             // Register application services.
             services.AddTransient<IEmailSender, AuthMessageSender>();

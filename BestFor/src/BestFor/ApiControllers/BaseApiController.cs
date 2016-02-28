@@ -18,6 +18,10 @@ namespace BestFor.Controllers
         /// Pages working with these controllers are expected to pass the header with this name.
         /// </summary>
         public const string ANTI_FORGERY_HEADER_NAME = "ANTI_FORGERY_HEADER";
+        /// <summary>
+        /// Sometimes pages will send this cookie.
+        /// </summary>
+        public const string ANTI_FORGERY_COOKIE_NAME = "ANTI_FORGERY_COOKIE_NAME";
 
         /// <summary>
         /// URL may contain referene to cuture as /culture/controller/action/something
@@ -44,6 +48,7 @@ namespace BestFor.Controllers
         /// Look at the help folder for more explanation.
         /// 
         /// Used by inheriting controller to protect the straight calls to controllers.
+        /// Also see file is Help folder about controllers protection
         /// </summary>
         /// <returns></returns>
         protected bool ParseAntiForgeryHeader()
@@ -54,7 +59,19 @@ namespace BestFor.Controllers
                 var tokens = tokenHeaders.First().Split(':');
                 if (tokens != null && tokens.Length == 2)
                 {
-                    Antiforgery.ValidateTokens(HttpContext, new AntiforgeryTokenSet(tokens[1], tokens[0]));
+                    var cookieToken = tokens[0];
+                    var formToken = tokens[1];
+                    if (string.IsNullOrEmpty(cookieToken) || string.IsNullOrWhiteSpace(cookieToken))
+                    {
+                        // Try the cookies
+                        if (Request.Cookies.Keys.Contains(ANTI_FORGERY_COOKIE_NAME))
+                        {
+                            cookieToken = Request.Cookies[ANTI_FORGERY_COOKIE_NAME];
+                        }
+                    }
+
+                    Antiforgery.ValidateTokens(HttpContext, new AntiforgeryTokenSet(formToken, cookieToken));
+
                     return true;
                 }
             }
