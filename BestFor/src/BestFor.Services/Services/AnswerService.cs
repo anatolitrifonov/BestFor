@@ -1,12 +1,13 @@
-﻿using System.Threading.Tasks;
-using System;
+﻿using BestFor.Data;
+using BestFor.Domain.Entities;
 using BestFor.Dto;
-using BestFor.Services.DataSources;
 using BestFor.Services.Cache;
-using BestFor.Data;
+using BestFor.Services.DataSources;
+using Microsoft.Extensions.Logging;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using BestFor.Domain.Entities;
+using System.Threading.Tasks;
 
 namespace BestFor.Services.Services
 {
@@ -22,12 +23,15 @@ namespace BestFor.Services.Services
 
         private ICacheManager _cacheManager;
         private IRepository<Answer> _repository;
+        private ILogger _logger;
 
         // private static 
-        public AnswerService(ICacheManager cacheManager, IRepository<Answer> repository)
+        public AnswerService(ICacheManager cacheManager, IRepository<Answer> repository, ILoggerFactory loggerFactory)
         {
             _cacheManager = cacheManager;
             _repository = repository;
+            _logger = loggerFactory.CreateLogger<AnswerService>();
+            _logger.LogInformation("created AnswerService");
         }
 
         #region IAnswerService implementation

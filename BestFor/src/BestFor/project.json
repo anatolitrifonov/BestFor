@@ -31,7 +31,8 @@
     "Microsoft.Extensions.Caching.Memory": "1.0.0-*",
     "React.AspNet": "2.2.1",
     "BestFor.Data": "1.0.0-*",
-    "BestFor.Common": "1.0.0-*"
+    "BestFor.Common": "1.0.0-*",
+    "NLog.Extensions.Logging": "1.0.0-rc1-final-2016-02-06"
   },
 
   "commands": {
