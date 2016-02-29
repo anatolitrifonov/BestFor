@@ -4,7 +4,9 @@
 @inject BestFor.Services.Services.IResourcesService resourcesService
 @* Culture is placed into view bag by action filter *@
 @* This template shows content of the answer with the link to content *@
-@using (Html.BeginForm()) {
+@* Form renders with antiforgery token without doing any jumping. We can mark controller as validate anti forgery *@
+@using (Html.BeginForm())
+{
     @resourcesService.GetString(this.ViewBag.BestForCulture, "you_are_adding_detailed_description")<br /><br />
     @LinkingHelper.ConvertAnswerToText(resourcesService.GetCommonStrings(this.ViewBag.BestForCulture), Model.Answer)<br /><br />
     @Html.HiddenFor(model => model.AnswerId)

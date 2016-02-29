@@ -99,7 +99,8 @@ var SuggestionControl = React.createClass({
             return;
         }
 
-        if (userInputObject == null || userInputObject.Phrase == null || userInputObject.Phrase.length < 3) return;
+        // Do not remove .trim because searching for "tv " is no good.
+        if (userInputObject == null || userInputObject.Phrase == null || userInputObject.Phrase.trim().length < 3) return;
 
         // build url passing user input
         var url = this.props.suggestionsUrl + "?userInput=" + userInputObject.Phrase;
