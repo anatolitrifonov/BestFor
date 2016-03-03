@@ -21,6 +21,8 @@ using System.Threading.Tasks;
 using BestFor.Data;
 using BestFor.Domain.Entities;
 using BestFor.Services.Messaging;
+using NLog.Extensions.Logging;
+
 
 namespace BestFor
 {
@@ -117,8 +119,13 @@ namespace BestFor
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
             loggerFactory.MinimumLevel = LogLevel.Information;
-            loggerFactory.AddConsole();
-            loggerFactory.AddDebug();
+            //loggerFactory.AddConsole();
+            //loggerFactory.AddDebug();
+            //add NLog to aspnet5
+            loggerFactory.AddNLog();
+            //configure nlog.config in your project root
+            env.ConfigureNLog("nlog.config");
+
 
             // Configure the HTTP request pipeline.
 
