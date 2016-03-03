@@ -130,21 +130,21 @@ namespace BestFor
             // Configure the HTTP request pipeline.
 
             // Add the following to the request pipeline only in development environment.
-            if (env.IsDevelopment())
-            {
+            //if (env.IsDevelopment())
+           // {
                 // app.UseBrowserLink();
                 // Captures synchronous and asynchronous exceptions from the pipeline and generates HTML error responses. 
                 // Full error details are only displayed by default if 'host.AppMode' is set to 'development' 
                 // in the IApplicationBuilder.Properties.  
                 app.UseDeveloperExceptionPage();
                 app.UseDatabaseErrorPage(options => { options.EnableAll(); });
-            }
-            else
-            {
+       //     }
+      //      else
+       //     {
                 // Add Error handling middleware which catches all application specific errors and
                 // sends the request to the following path or controller action.
-                app.UseExceptionHandler("/Home/Error");
-            }
+        //        app.UseExceptionHandler("/Home/Error");
+         //   }
 
             // Add the platform handler to the request pipeline.
             app.UseIISPlatformHandler();

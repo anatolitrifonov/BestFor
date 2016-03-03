@@ -4,12 +4,13 @@
 @inject BestFor.Services.Services.IResourcesService resourcesService
 @* Culture is placed into view bag by action filter *@
 @* This template shows content of the answer with the link to content *@
-@using (Html.BeginForm()) {
+@* Form renders with antiforgery token without doing any jumping. We can mark controller as validate anti forgery *@
+<form asp-controller="AnswerAction" asp-action="AddDescription" method="post" class="form-horizontal" role="form">
     @resourcesService.GetString(this.ViewBag.BestForCulture, "you_are_adding_detailed_description")<br /><br />
     @LinkingHelper.ConvertAnswerToText(resourcesService.GetCommonStrings(this.ViewBag.BestForCulture), Model.Answer)<br /><br />
-    @Html.HiddenFor(model => model.AnswerId)
-    @Html.TextAreaFor(model => model.Description, new { rows = 10, cols = 100 })<br /><br />
+    <input type="hidden" asp-for="AnswerId" />
+    <textarea asp-for="Description" rows="10" cols="100"></textarea><br /><br />
     <input type="submit" value="@resourcesService.GetString(this.ViewBag.BestForCulture, "add_capital")" />
-}
+</form>
 
-This is Add Description
+    This is Add Description
