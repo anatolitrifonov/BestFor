@@ -29,10 +29,13 @@
     "Microsoft.Extensions.Logging.Debug": "1.0.0-rc1-*",
     "Microsoft.VisualStudio.Web.BrowserLink.Loader": "14.0.0-rc1-final",
     "Microsoft.Extensions.Caching.Memory": "1.0.0-*",
-    "React.AspNet": "2.2.1",
     "BestFor.Data": "1.0.0-*",
     "BestFor.Common": "1.0.0-*",
-    "NLog.Extensions.Logging": "1.0.0-rc1-final-2016-02-06"
+    "NLog.Extensions.Logging": "1.0.0-rc1-final-2016-02-06",
+    "JavaScriptEngineSwitcher.Core": "1.2.4",
+    "JavaScriptEngineSwitcher.Msie": "1.4.0",
+    "JavaScriptEngineSwitcher.V8": "1.4.1",
+    "React.AspNet": "2.2.1"
   },
 
   "commands": {
