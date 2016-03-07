@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "test": {
+      "commandName": "test",
+      "environmentVariables": {
+        "ConnectionString": "Zone"
+      }
+    }
+  }
+}

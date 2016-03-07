@@ -1,4 +1,5 @@
-﻿using BestFor.Domain.Entities;
+﻿using System;
+using BestFor.Domain.Entities;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Data.Entity;
 using Microsoft.Extensions.DependencyInjection;
@@ -14,6 +15,13 @@ namespace BestFor.Data
         public DbSet<AnswerDescription> AnswerDescriptions { get; set; }
         public DbSet<ResourceString> ResourceStrings { get; set; }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="builder"></param>
+        /// <remarks>
+        /// This fires second (after OnConfiguring)
+        /// </remarks>
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
@@ -22,13 +30,29 @@ namespace BestFor.Data
             // Add your customizations after calling base.OnModelCreating(builder);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="optionsBuilder"></param>
+        /// <remarks>
+        /// This fires first.
+        /// </remarks>
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             var builder = new ConfigurationBuilder()
                 .AddJsonFile("appsettings.json");
             var configuration = builder.Build();
-
-            optionsBuilder.UseSqlServer(configuration["Data:DefaultConnection:ConnectionString"]);
+            // Going dumb
+            string computerName = Environment.GetEnvironmentVariable("COMPUTERNAME");
+            string connectionString = configuration["Data:DefaultConnection:ConnectionString"];
+            // Overwrite default connection string by computername
+            if (!string.IsNullOrEmpty(computerName))
+            {
+                string alterConnectionString = configuration["Data:" + computerName + "Connection:ConnectionString"];
+                if (!string.IsNullOrEmpty(alterConnectionString))
+                    connectionString = alterConnectionString;
+            }
+            optionsBuilder.UseSqlServer(connectionString);
         }
 
         public virtual DbSet<TEntity> EntitySet<TEntity>() where TEntity : class
@@ -41,6 +65,12 @@ namespace BestFor.Data
             Entry(entity).State = StateHelper.ConvertState(entity.ObjectState);
         }
 
+        /// <summary>
+        /// Now I really lost the track of when this is called.
+        /// For not from tests. I checked. For sure not from web.
+        /// Probably when used from executable that I had at some point and then deleted.
+        /// </summary>
+        /// <param name="services"></param>
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddEntityFramework()
