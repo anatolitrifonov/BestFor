@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNet.Authentication.Facebook;
+﻿using Microsoft.AspNet.Http;
+using Microsoft.AspNet.Authentication.Facebook;
 using Microsoft.AspNet.Authentication.Google;
 using Microsoft.AspNet.Authentication.MicrosoftAccount;
 using Microsoft.AspNet.Authentication.Twitter;
@@ -29,15 +30,22 @@ namespace BestFor
     public class Startup
     {
         /// <summary>
+        /// Save the location since it does not seem to be a way to get there in Configure.
+        /// </summary>
+        private string _applicationBasePath { get; set; }
+
+        /// <summary>
         /// Entry point to any ASP.NET 5 application and configures basic feature support.
         /// </summary>
         /// <param name="env"></param>
         /// <param name="appEnv"></param>
         public Startup(IHostingEnvironment env, IApplicationEnvironment appEnv)
         {
+            _applicationBasePath = appEnv.ApplicationBasePath;
+
             // Include application settings file.
             var builder = new ConfigurationBuilder()
-                .SetBasePath(appEnv.ApplicationBasePath)
+                .SetBasePath(_applicationBasePath)
                 .AddJsonFile("appsettings.json")
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true);
 
@@ -123,20 +131,32 @@ namespace BestFor
             //loggerFactory.AddDebug();
             //add NLog to aspnet5
             loggerFactory.AddNLog();
-            //configure nlog.config in your project root
-            env.ConfigureNLog("nlog.config");
+            // configure nlog.config in your project root
+            // Does not work that easy ... have to do some jumping around
+            env.ConfigureNLog(_applicationBasePath + "\\nlog.config");
 
+            //string z = "";
+            //foreach (var t in Configuration.GetChildren())
+            //{
+            //    z += t.Key + " p " + t.Path + " w " + t.Value + "<br>";
+            //}
+            
+            //app.Run(async (context) =>
+            //{
+            //    // await context.Response.WriteAsync("Hello World! " + env.IsDevelopment() + "  " + env.WebRootFileProvider.GetFileInfo("nlog.config").PhysicalPath);
+            //    await context.Response.WriteAsync("Hello World! " + env.IsDevelopment() + "  " + env.WebRootPath);
+            //});
 
             // Configure the HTTP request pipeline.
 
             // Add the following to the request pipeline only in development environment.
             //if (env.IsDevelopment())
-           // {
-                // app.UseBrowserLink();
-                // Captures synchronous and asynchronous exceptions from the pipeline and generates HTML error responses. 
-                // Full error details are only displayed by default if 'host.AppMode' is set to 'development' 
-                // in the IApplicationBuilder.Properties.  
-                app.UseDeveloperExceptionPage();
+            // {
+            // app.UseBrowserLink();
+            // Captures synchronous and asynchronous exceptions from the pipeline and generates HTML error responses. 
+            // Full error details are only displayed by default if 'host.AppMode' is set to 'development' 
+            // in the IApplicationBuilder.Properties.  
+            app.UseDeveloperExceptionPage();
                 app.UseDatabaseErrorPage(options => { options.EnableAll(); });
        //     }
       //      else
@@ -160,6 +180,9 @@ namespace BestFor
                 //    .AddScript("~/Scripts/First.jsx")
                 //    .AddScript("~/Scripts/Second.jsx");
                 config
+                    .SetReuseJavaScriptEngines(false)
+                    .SetAllowMsieEngine(false)
+                    .SetLoadBabel(true)
                     .AddScript("~/Scripts/MenuControl.jsx")
                     .AddScript("~/Scripts/SuggestionControl.jsx")
                     .AddScript("~/Scripts/SuggestionLineItem.jsx")

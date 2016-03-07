@@ -18,6 +18,7 @@ namespace BestFor.Data.Tests
         /// <summary>
         /// Load Profanity data
         /// </summary>
+        [Trait("Data Tests", "Load Profanity")]
         [Fact]
         public void LoadInitialData_Profanity()
         {
@@ -28,6 +29,7 @@ namespace BestFor.Data.Tests
             pathToSuggestionFile = pathToSuggestionFile + "\\InitialData\\ProphanityData\\en.txt";
 
             var context = new BestDataContext();
+
             if (context.BadWords.Any()) return;
 
             var endOfFile = false;
