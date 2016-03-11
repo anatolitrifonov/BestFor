@@ -3,6 +3,18 @@
   "version": 2,
   "targets": {
     "DNX,Version=v4.5.1": {
+      "BestFor.Common/1.0.0": {
+        "type": "project",
+        "framework": ".NETFramework,Version=v4.5.1",
+        "dependencies": {
+          "Microsoft.Extensions.Configuration.Abstractions": "1.0.0-rc1",
+          "Microsoft.Extensions.Configuration.Binder": "1.0.0-rc1-final",
+          "Microsoft.Extensions.Configuration.Json": "1.0.0-rc1",
+          "Microsoft.Extensions.DependencyInjection": "1.0.0-rc1",
+          "Microsoft.Extensions.OptionsModel": "1.0.0-rc1-final",
+          "Serilog": "1.5.14"
+        }
+      },
       "BestFor.Data/1.0.0": {
         "type": "project",
         "framework": "DNX,Version=v4.5.1",
@@ -1654,6 +1666,18 @@
       }
     },
     "DNX,Version=v4.5.1/win7-x86": {
+      "BestFor.Common/1.0.0": {
+        "type": "project",
+        "framework": ".NETFramework,Version=v4.5.1",
+        "dependencies": {
+          "Microsoft.Extensions.Configuration.Abstractions": "1.0.0-rc1",
+          "Microsoft.Extensions.Configuration.Binder": "1.0.0-rc1-final",
+          "Microsoft.Extensions.Configuration.Json": "1.0.0-rc1",
+          "Microsoft.Extensions.DependencyInjection": "1.0.0-rc1",
+          "Microsoft.Extensions.OptionsModel": "1.0.0-rc1-final",
+          "Serilog": "1.5.14"
+        }
+      },
       "BestFor.Data/1.0.0": {
         "type": "project",
         "framework": "DNX,Version=v4.5.1",
@@ -3305,6 +3329,18 @@
       }
     },
     "DNX,Version=v4.5.1/win7-x64": {
+      "BestFor.Common/1.0.0": {
+        "type": "project",
+        "framework": ".NETFramework,Version=v4.5.1",
+        "dependencies": {
+          "Microsoft.Extensions.Configuration.Abstractions": "1.0.0-rc1",
+          "Microsoft.Extensions.Configuration.Binder": "1.0.0-rc1-final",
+          "Microsoft.Extensions.Configuration.Json": "1.0.0-rc1",
+          "Microsoft.Extensions.DependencyInjection": "1.0.0-rc1",
+          "Microsoft.Extensions.OptionsModel": "1.0.0-rc1-final",
+          "Serilog": "1.5.14"
+        }
+      },
       "BestFor.Data/1.0.0": {
         "type": "project",
         "framework": "DNX,Version=v4.5.1",
@@ -4957,6 +4993,10 @@
     }
   },
   "libraries": {
+    "BestFor.Common/1.0.0": {
+      "type": "project",
+      "path": "../BestFor.Common/project.json"
+    },
     "BestFor.Data/1.0.0": {
       "type": "project",
       "path": "../BestFor.Data/project.json"
@@ -6909,6 +6949,7 @@
       "BestFor.Domain >= 1.0.0-*",
       "BestFor.Dto >= 1.0.0-*",
       "Microsoft.Extensions.Caching.Memory >= 1.0.0-*",
+      "BestFor.Common >= 1.0.0-*",
       "Serilog >= 1.5.14"
     ],
     "DNX,Version=v4.5.1": [
