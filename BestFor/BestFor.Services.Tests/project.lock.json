@@ -39,7 +39,6 @@
           "Microsoft.Extensions.Configuration.Binder": "1.0.0-rc1-final",
           "Microsoft.Extensions.Configuration.Json": "1.0.0-rc1",
           "Microsoft.Extensions.DependencyInjection": "1.0.0-rc1",
-          "Microsoft.Extensions.OptionsModel": "1.0.0-rc1-final",
           "Serilog": "1.5.14"
         }
       },
@@ -100,7 +99,6 @@
         "type": "project",
         "framework": "DNX,Version=v4.5.1",
         "dependencies": {
-          "BestFor.Common": "1.0.0",
           "BestFor.Data": "1.0.0",
           "BestFor.Domain": "1.0.0",
           "BestFor.Dto": "1.0.0",
@@ -1926,7 +1924,6 @@
           "Microsoft.Extensions.Configuration.Binder": "1.0.0-rc1-final",
           "Microsoft.Extensions.Configuration.Json": "1.0.0-rc1",
           "Microsoft.Extensions.DependencyInjection": "1.0.0-rc1",
-          "Microsoft.Extensions.OptionsModel": "1.0.0-rc1-final",
           "Serilog": "1.5.14"
         }
       },
@@ -1987,7 +1984,6 @@
         "type": "project",
         "framework": "DNX,Version=v4.5.1",
         "dependencies": {
-          "BestFor.Common": "1.0.0",
           "BestFor.Data": "1.0.0",
           "BestFor.Domain": "1.0.0",
           "BestFor.Dto": "1.0.0",
@@ -3819,7 +3815,6 @@
           "Microsoft.Extensions.Configuration.Binder": "1.0.0-rc1-final",
           "Microsoft.Extensions.Configuration.Json": "1.0.0-rc1",
           "Microsoft.Extensions.DependencyInjection": "1.0.0-rc1",
-          "Microsoft.Extensions.OptionsModel": "1.0.0-rc1-final",
           "Serilog": "1.5.14"
         }
       },
@@ -3880,7 +3875,6 @@
         "type": "project",
         "framework": "DNX,Version=v4.5.1",
         "dependencies": {
-          "BestFor.Common": "1.0.0",
           "BestFor.Data": "1.0.0",
           "BestFor.Domain": "1.0.0",
           "BestFor.Dto": "1.0.0",
