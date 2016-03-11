@@ -1,14 +1,15 @@
 ﻿using System;
 using BestFor.Services.Services;
+using BestFor.Domain.Entities;
 using Microsoft.AspNet.Mvc;
-
-// For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+using Microsoft.AspNet.Authorization;
 
 namespace BestFor.Controllers
 {
     /// <summary>
     /// Admin page controller. Nothing fancy yet. Gives ability to load data to cache and shows cache status.
     /// </summary>
+    [Authorize(Roles = "Admin")]
     public class AdminController : Controller
     {
 
