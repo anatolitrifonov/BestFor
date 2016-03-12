@@ -1,33 +1,19 @@
-﻿using Microsoft.AspNet.Http;
-using Microsoft.AspNet.Authentication.Facebook;
-using Microsoft.AspNet.Authentication.Google;
-using Microsoft.AspNet.Authentication.MicrosoftAccount;
-using Microsoft.AspNet.Authentication.Twitter;
-using Microsoft.AspNet.Builder;
-using Microsoft.AspNet.Diagnostics.Entity;
+﻿using Microsoft.AspNet.Builder;
 using Microsoft.AspNet.Hosting;
 using Microsoft.AspNet.Identity.EntityFramework;
-using Microsoft.AspNet.Localization;
-using Microsoft.Data.Entity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.PlatformAbstractions;
-using React.AspNet;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
 using BestFor.Data;
 using BestFor.Domain.Entities;
 using BestFor.Services.Messaging;
 using NLog.Extensions.Logging;
-
+using React.AspNet;
 
 namespace BestFor
 {
-    public class Startup
+	public class Startup
     {
         /// <summary>
         /// Save the location since it does not seem to be a way to get there in Configure.

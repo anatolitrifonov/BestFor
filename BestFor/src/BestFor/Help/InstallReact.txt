@@ -5,3 +5,17 @@ Install-Package JavaScriptEngineSwitcher.Core -Projectname BestFor
 Install-Package JavaScriptEngineSwitcher.Msie -Projectname BestFor
 Install-Package JavaScriptEngineSwitcher.V8 -Projectname BestFor
 Install-Package React.AspNet -IgnoreDependencies -Projectname BestFor
+
+--------
+You have to create this folder manually: C:\Users\.dnx\runtimes\yourruntime\ClearScript.V8
+
+You should now have the latest versions of JavaScriptEngineSwitcher installed and ReactJS.NET using them. 
+We can now continue and copy the following binaries manually from C:\Users\username.dnx\packages to C:\Users\username.dnx\runtimes\yourruntime\ClearScript.V8:
+
+JavaScriptEngineSwitcher.Core\1.2.4\lib\net40\JavaScriptEngineSwitcher.Core.dll
+JavaScriptEngineSwitcher.V8\1.4.1\lib\net40\JavaScriptEngineSwitcher.V8.dll
+JavaScriptEngineSwitcher.V8\1.4.1\lib\net40\ClearScript.dll
+JavaScriptEngineSwitcher.V8\1.4.1\content\ClearScript.V8\ClearScriptV8-32.dll
+JavaScriptEngineSwitcher.V8\1.4.1\content\ClearScript.V8\ClearScriptV8-64.dll
+JavaScriptEngineSwitcher.V8\1.4.1\content\ClearScript.V8\v8-ia32.dll
+JavaScriptEngineSwitcher.V8\1.4.1\content\ClearScript.V8\v8-x64.dll
