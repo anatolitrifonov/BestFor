@@ -12,5 +12,5 @@ dnx ef migrations add Initial <- needs to be executed from project folder, not s
 dnu restore <- restores packages
 run dnmv upgrade to add dnx to path
 dnvm use 1.0.0-rc1-update1
-dnx ef migrations add Initial
+dnx ef migrations add Initial // use this command to add a new migration. For db initialization use the command below.
 dnx ef database update

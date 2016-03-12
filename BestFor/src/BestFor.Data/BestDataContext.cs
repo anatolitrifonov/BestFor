@@ -52,7 +52,10 @@ namespace BestFor.Data
                 if (!string.IsNullOrEmpty(alterConnectionString))
                     connectionString = alterConnectionString;
             }
-            optionsBuilder.UseSqlServer(connectionString);
+
+			Console.WriteLine(connectionString); // to make sure we use correct connection string
+
+			optionsBuilder.UseSqlServer(connectionString);
         }
 
         public virtual DbSet<TEntity> EntitySet<TEntity>() where TEntity : class
