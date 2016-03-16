@@ -1,7 +1,8 @@
-﻿using Microsoft.AspNet.Authorization;
-using BestFor.Dto;
-using Microsoft.AspNet.Mvc;
+﻿using BestFor.Dto;
 using BestFor.Services.Services;
+using Microsoft.AspNet.Authorization;
+using Microsoft.AspNet.Mvc;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace BestFor.Controllers
@@ -71,6 +72,7 @@ namespace BestFor.Controllers
         /// <param name="answerDescription"></param>
         /// <returns></returns>
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddDescription(AnswerDescriptionDto answerDescription)
         {
             // Basic checks first
@@ -78,9 +80,7 @@ namespace BestFor.Controllers
                 string.IsNullOrEmpty(answerDescription.Description) ||
                 string.IsNullOrWhiteSpace(answerDescription.Description)) return View("Error");
 
-            // todo: figure out how to protect from spam posts
-            // This might throw exception if there was a header but invalid. But if someone is just messing with us we will return nothing.
-            // if (!ParseAntiForgeryHeader()) return SetErrorMessage(result, "Antiforgery issue");
+            // todo: figure out how to protect from spam posts besides antiforgery
 
             // Let's first check for profanities.
             var profanityCheckResult = _profanityService.CheckProfanity(answerDescription.Description);
@@ -90,6 +90,10 @@ namespace BestFor.Controllers
                 // todo: settle on displaying errors from controller posts and gets
                 return View("Error");
             }
+
+            // If user is logged in let's add him to the object
+            // This will return null if user is not logged in and this is OK.
+            answerDescription.UserId = User.GetUserId();
 
             // Add answer description
             var addedAnswerDescription = await _answerDescriptionService.AddAnswerDescription(answerDescription);

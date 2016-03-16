@@ -1,0 +1,11 @@
+﻿The only real place where we need dependency on environment is data context.
+Dirty solution is to use connection string depending on computer name.
+
+So far I do not see any use of configuration or environment variables to help us with by computer settings without checking in a file.
+Having a configuration per developer is not a very good idea.
+
+This does not help either since if we change this we will stop seing detailed error crash page
+"environmentVariables": {
+    "Hosting:Environment": "Development"
+}
+

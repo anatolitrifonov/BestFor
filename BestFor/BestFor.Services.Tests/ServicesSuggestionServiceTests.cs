@@ -10,6 +10,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Xunit;
 using Autofac;
+using Microsoft.Extensions.Logging;
 
 namespace BestFor.Services.Tests
 {
@@ -24,14 +25,15 @@ namespace BestFor.Services.Tests
             public FakeSuggestions FakeSuggestions;
             public Mock<ICacheManager> CacheMock;
             public Repository<Suggestion> Repository;
+            public Mock<ILoggerFactory> LoggerFactoryMock;
 
             public TestSetup()
             {
                 var dataContext = new FakeDataContext();
                 Repository = new Repository<Suggestion>(dataContext);
                 CacheMock = new Mock<ICacheManager>();
-                var cache = CacheMock.Object;
-                SuggestionService = new SuggestionService(cache, Repository);
+                LoggerFactoryMock = new Mock<ILoggerFactory>();
+                SuggestionService = new SuggestionService(CacheMock.Object, Repository, LoggerFactoryMock.Object);
                 FakeSuggestions = dataContext.EntitySet<Suggestion>() as FakeSuggestions;
             }
         }

@@ -20,7 +20,7 @@
 {
     @Html.DisplayFor(x => item, "AnswerToContent")
 }
-@*  Main idea: do not put the logic of localization into react control because it should not really care abou it.
+@*  Main idea: do not put the logic of localization into react control because it should not really care about it.
     It should work with any language. This approach might not be considered clean since control "should" be selfcontained.
     Use resource service to get dynamic json object and feed it as a property to react control.
     Json object will be rendered as good JavaScript defined object. Refer to control jsx file for the list of expected strings.

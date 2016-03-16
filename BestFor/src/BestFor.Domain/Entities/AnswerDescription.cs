@@ -27,6 +27,17 @@ namespace BestFor.Domain.Entities
         [ForeignKey("AnswerId")]
         public Answer Answer { get; set; }
 
+        /// <summary>
+        /// Foreign key to user. Checking if it has to be marked as [Required]. We do not have to have it required since users can add answers without
+        /// being logged in or registered.
+        /// </summary>
+        public string UserId { get; set; }
+
+        /// <summary>
+        /// Parent user object. User that added the answer description. Could be not the same user as the one who first added the answer.
+        /// </summary>
+        [ForeignKey("UserId")]
+        public ApplicationUser ApplicationUser { get; set; }
 
         #region IDtoConvertable implementation
         public AnswerDescriptionDto ToDto()
@@ -42,6 +53,7 @@ namespace BestFor.Domain.Entities
             Id = dto.Id;
             AnswerId = dto.AnswerId;
             Description = dto.Description;
+            UserId = dto.UserId;
 
             return Id;
         }

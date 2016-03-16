@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNet.Authentication.Facebook;
+﻿using Microsoft.AspNet.Http;
+using Microsoft.AspNet.Authentication.Facebook;
 using Microsoft.AspNet.Authentication.Google;
 using Microsoft.AspNet.Authentication.MicrosoftAccount;
 using Microsoft.AspNet.Authentication.Twitter;
@@ -21,6 +22,8 @@ using System.Threading.Tasks;
 using BestFor.Data;
 using BestFor.Domain.Entities;
 using BestFor.Services.Messaging;
+using NLog.Extensions.Logging;
+
 
 using Serilog;
 using System.IO;
@@ -30,15 +33,22 @@ namespace BestFor
     public class Startup
     {
         /// <summary>
+        /// Save the location since it does not seem to be a way to get there in Configure.
+        /// </summary>
+        private string _applicationBasePath { get; set; }
+
+        /// <summary>
         /// Entry point to any ASP.NET 5 application and configures basic feature support.
         /// </summary>
         /// <param name="env"></param>
         /// <param name="appEnv"></param>
         public Startup(IHostingEnvironment env, IApplicationEnvironment appEnv)
         {
+            _applicationBasePath = appEnv.ApplicationBasePath;
+
             // Include application settings file.
             var builder = new ConfigurationBuilder()
-                .SetBasePath(appEnv.ApplicationBasePath)
+                .SetBasePath(_applicationBasePath)
                 .AddJsonFile("appsettings.json")
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true);
             
@@ -83,9 +93,7 @@ namespace BestFor
             services.AddReact();
 
             // Add MVC services to the services container.
-            services.AddMvc()
-                .AddViewLocalization()
-                .AddDataAnnotationsLocalization();
+            services.AddMvc().AddViewLocalization().AddDataAnnotationsLocalization();
 
             // Register action filter that deals with localization.
             services.AddScoped<LanguageActionFilter>();
@@ -93,6 +101,10 @@ namespace BestFor
             // Uncomment the following line to add Web API services which makes it easier to port Web API 2 controllers.
             // You will also need to add the Microsoft.AspNet.Mvc.WebApiCompatShim package to the 'dependencies' section of project.json.
             // services.AddWebApiConventions();
+
+            // We added MVC -> we get Antiforgery enabled
+            // Now just tweak configuration a bit so that we get more controler over cookie.
+            services.ConfigureAntiforgery(options => options.CookieName = Controllers.BaseApiController.ANTI_FORGERY_COOKIE_NAME);
 
             // Register application services.
             services.AddTransient<IEmailSender, AuthMessageSender>();
@@ -127,29 +139,46 @@ namespace BestFor
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
             loggerFactory.MinimumLevel = LogLevel.Information;
-            loggerFactory.AddConsole();
-            loggerFactory.AddDebug();
+            //loggerFactory.AddConsole();
+            //loggerFactory.AddDebug();
+            //add NLog to aspnet5
+            loggerFactory.AddNLog();
+            // configure nlog.config in your project root
+            // Does not work that easy ... have to do some jumping around
+            env.ConfigureNLog(_applicationBasePath + "\\nlog.config");
+
+            //string z = "";
+            //foreach (var t in Configuration.GetChildren())
+            //{
+            //    z += t.Key + " p " + t.Path + " w " + t.Value + "<br>";
+            //}
+            
+            //app.Run(async (context) =>
+            //{
+            //    // await context.Response.WriteAsync("Hello World! " + env.IsDevelopment() + "  " + env.WebRootFileProvider.GetFileInfo("nlog.config").PhysicalPath);
+            //    await context.Response.WriteAsync("Hello World! " + env.IsDevelopment() + "  " + env.WebRootPath);
+            //});
 
             loggerFactory.AddSerilog();
 
             // Configure the HTTP request pipeline.
 
             // Add the following to the request pipeline only in development environment.
-            if (env.IsDevelopment())
-            {
-                // app.UseBrowserLink();
-                // Captures synchronous and asynchronous exceptions from the pipeline and generates HTML error responses. 
-                // Full error details are only displayed by default if 'host.AppMode' is set to 'development' 
-                // in the IApplicationBuilder.Properties.  
-                app.UseDeveloperExceptionPage();
+            //if (env.IsDevelopment())
+            // {
+            // app.UseBrowserLink();
+            // Captures synchronous and asynchronous exceptions from the pipeline and generates HTML error responses. 
+            // Full error details are only displayed by default if 'host.AppMode' is set to 'development' 
+            // in the IApplicationBuilder.Properties.  
+            app.UseDeveloperExceptionPage();
                 app.UseDatabaseErrorPage(options => { options.EnableAll(); });
-            }
-            else
-            {
+       //     }
+      //      else
+       //     {
                 // Add Error handling middleware which catches all application specific errors and
                 // sends the request to the following path or controller action.
-                app.UseExceptionHandler("/Home/Error");
-            }
+        //        app.UseExceptionHandler("/Home/Error");
+         //   }
 
             // Add the platform handler to the request pipeline.
             app.UseIISPlatformHandler();
@@ -165,6 +194,9 @@ namespace BestFor
                 //    .AddScript("~/Scripts/First.jsx")
                 //    .AddScript("~/Scripts/Second.jsx");
                 config
+                    .SetReuseJavaScriptEngines(false)
+                    .SetAllowMsieEngine(false)
+                    .SetLoadBabel(true)
                     .AddScript("~/Scripts/MenuControl.jsx")
                     .AddScript("~/Scripts/SuggestionControl.jsx")
                     .AddScript("~/Scripts/SuggestionLineItem.jsx")

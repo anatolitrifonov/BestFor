@@ -17,5 +17,7 @@
 
         public int Count { get; set; }
 
+        public string UserId { get; set; }
+
     }
 }

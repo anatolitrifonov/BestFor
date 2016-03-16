@@ -52,7 +52,7 @@
         //todo. Need to check for special characters?
         validateInput: function (inputValue) {
             if (inputValue == null) return false;
-            if (inputValue.length < 3) return false;
+            if (inputValue.trim().length < 3) return false;
             return true;
         },
 
@@ -88,16 +88,16 @@
         createSearchAnswersData: function (leftValue, rightValue) {
             var leftValueValidationResult = SuggestionPanel.validateInput(leftValue);
             if (leftValueValidationResult)
-                console.log("Left value " + leftValue + " is good");
+                console.log("createSearchAnswersData left value " + leftValue + " is good");
             else {
-                console.log("Left value " + leftValue + " is bad. Returning.");
+                console.log("createSearchAnswersData left value " + leftValue + " is bad. Returning null.");
                 return null;
             }
             var rightValueValidationResult = SuggestionPanel.validateInput(rightValue);
             if (rightValueValidationResult)
-                console.log("Right value " + rightValue + " is good");
+                console.log("createSearchAnswersData right value " + rightValue + " is good");
             else {
-                console.log("Right value " + rightValue + " is bad. Returning.");
+                console.log("createSearchAnswersData right value " + rightValue + " is bad. Returning null.");
                 return null;
             }
             
@@ -153,6 +153,7 @@
 
         // build url passing user input
         var userInput = SuggestionPanel.createSearchAnswersData(leftWord, rightWord);
+
         // get out if data is invalid
         if (userInput == null) return;
 

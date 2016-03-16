@@ -2,6 +2,7 @@
 using BestFor.Services;
 using Microsoft.AspNet.Mvc;
 using BestFor.Services.Services;
+using Microsoft.Extensions.Logging;
 
 namespace BestFor.Controllers
 {
@@ -17,11 +18,14 @@ namespace BestFor.Controllers
         /// </summary>
         private IAnswerService _answerService;
         private IResourcesService _resourcesService;
+        private ILogger _logger;
 
-        public HomeController(IAnswerService answerService, IResourcesService resourcesService)
+        public HomeController(IAnswerService answerService, IResourcesService resourcesService, ILoggerFactory loggerFactory)
         {
             _answerService = answerService;
             _resourcesService = resourcesService;
+            _logger = loggerFactory.CreateLogger<HomeController>();
+            _logger.LogInformation("created HomeController");
         }
 
         /// <summary>

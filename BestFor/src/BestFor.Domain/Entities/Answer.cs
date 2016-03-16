@@ -23,7 +23,19 @@ namespace BestFor.Domain.Entities
 
         public static string FormKey(string leftWord, string rightWord) { return leftWord + " " + rightWord; }
 
-        // Navigation property 
+        /// <summary>
+        /// Foreign key to user. Checking if it has to be marked as [Required]. We do not have to have it required since users can add answers without
+        /// being logged in or registered.
+        /// </summary>
+        public string UserId { get; set; }
+
+        /// <summary>
+        /// Parent user object. User that added the answer.
+        /// </summary>
+        [ForeignKey("UserId")]
+        public ApplicationUser ApplicationUser { get; set; }
+
+        // Navigation property to children objects
         public virtual ICollection<AnswerDescription> AnswerDescriptions { get; set; }
 
 
@@ -60,6 +72,7 @@ namespace BestFor.Domain.Entities
             RightWord = dto.RightWord;
             Count = dto.Count;
             Id = dto.Id;
+            UserId = dto.UserId;
 
             return Id;
         }

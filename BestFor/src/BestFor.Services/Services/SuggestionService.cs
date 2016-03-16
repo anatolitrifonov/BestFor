@@ -3,6 +3,7 @@ using BestFor.Domain.Entities;
 using BestFor.Dto;
 using BestFor.Services.Cache;
 using BestFor.Services.DataSources;
+using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -18,16 +19,19 @@ namespace BestFor.Services.Services
     {
         private ICacheManager _cacheManager;
         private IRepository<Suggestion> _repository;
+        private ILogger _logger;
 
         /// <summary>
         /// Cache and repository are injected in startup.
         /// </summary>
         /// <param name="cacheManager"></param>
         /// <param name="repository"></param>
-        public SuggestionService(ICacheManager cacheManager, IRepository<Suggestion> repository)
+        public SuggestionService(ICacheManager cacheManager, IRepository<Suggestion> repository, ILoggerFactory loggerFactory)
         {
             _cacheManager = cacheManager;
             _repository = repository;
+            _logger = loggerFactory.CreateLogger<SuggestionService>();
+            _logger.LogInformation("created SuggestionService");
         }
 
         /// <summary>

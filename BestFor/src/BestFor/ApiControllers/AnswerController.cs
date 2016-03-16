@@ -1,11 +1,9 @@
-﻿using System;
-using System.Linq;
-using System.Threading.Tasks;
-using BestFor.Dto;
-using Microsoft.AspNet.Mvc;
-using System.Collections.Generic;
-using BestFor.Services.Services;
+﻿using BestFor.Dto;
 using BestFor.Services.Profanity;
+using BestFor.Services.Services;
+using Microsoft.AspNet.Mvc;
+using System.Security.Claims;
+using System.Threading.Tasks;
 
 namespace BestFor.Controllers
 {
@@ -74,6 +72,10 @@ namespace BestFor.Controllers
             // Add left word and right word to suggestions
             var addedSuggestion = await _suggestionService.AddSuggestion(new SuggestionDto() { Phrase = answer.LeftWord });
             addedSuggestion = await _suggestionService.AddSuggestion(new SuggestionDto() { Phrase = answer.RightWord });
+
+            // If user is logged in let's add him to the object
+            // This will return null if user is not logged in and this is OK.
+            answer.UserId = User.GetUserId();
 
             // Add answer
             var addedAnswer = await _answerService.AddAnswer(answer);
