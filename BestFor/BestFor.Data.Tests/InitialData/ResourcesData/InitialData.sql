@@ -133,6 +133,18 @@ if not exists(select * from ResourceString where CultureName = 'ru-RU' and [Key]
 		N'Подробности Ответа', getDate());
 GO
 
+if not exists(select * from ResourceString where CultureName = 'en-US' and [Key] = 'flag_lower')
+	insert ResourceString(CultureName, [Key], Value, DateAdded) values('en-US', 'flag_lower', N'flag', getDate());
+if not exists(select * from ResourceString where CultureName = 'ru-RU' and [Key] = 'flag_lower')
+	insert ResourceString(CultureName, [Key], Value, DateAdded) values('ru-RU', 'flag_lower', N'пожаловаться', getDate());
+GO
+
+if not exists(select * from ResourceString where CultureName = 'en-US' and [Key] = 'flag_upper')
+	insert ResourceString(CultureName, [Key], Value, DateAdded) values('en-US', 'flag_upper', N'Flag', getDate());
+if not exists(select * from ResourceString where CultureName = 'ru-RU' and [Key] = 'flag_upper')
+	insert ResourceString(CultureName, [Key], Value, DateAdded) values('ru-RU', 'flag_upper', N'Пожаловаться', getDate());
+GO
+
 --select * from ResourceString order by id desc
 --GO
 

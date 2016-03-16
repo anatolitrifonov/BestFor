@@ -15,5 +15,9 @@ namespace BestFor.Dto
         public string For { get; set; } = "for";
 
         public string Is { get; set; } = "is";
+
+        public string FlagLower { get; set; } = "flag";
+
+        public string FlagUpper { get; set; } = "Flag";
     }
 }

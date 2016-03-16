@@ -7,6 +7,7 @@ namespace BestFor.Domain.Entities
 {
     public enum Roles
     {
-        Admin
+        Admin,
+        Moderator
     }
 }

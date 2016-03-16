@@ -21,6 +21,8 @@ namespace BestFor.Domain.Entities
 
         public int Count { get; set; }
 
+        public bool IsHidden { get; set; }
+
         public static string FormKey(string leftWord, string rightWord) { return leftWord + " " + rightWord; }
 
         /// <summary>

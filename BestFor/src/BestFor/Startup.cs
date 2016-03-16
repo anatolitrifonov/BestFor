@@ -113,6 +113,8 @@ namespace BestFor
             services.AddScoped<BestFor.Data.IRepository<BestFor.Domain.Entities.BadWord>, BestFor.Data.Repository<BestFor.Domain.Entities.BadWord>>();
             services.AddScoped<BestFor.Data.IRepository<BestFor.Domain.Entities.ResourceString>, BestFor.Data.Repository<BestFor.Domain.Entities.ResourceString>>();
             services.AddScoped<BestFor.Data.IRepository<BestFor.Domain.Entities.AnswerDescription>, BestFor.Data.Repository<BestFor.Domain.Entities.AnswerDescription>>();
+            services.AddScoped<BestFor.Data.IRepository<BestFor.Domain.Entities.AnswerFlag>, BestFor.Data.Repository<BestFor.Domain.Entities.AnswerFlag>>();
+            services.AddScoped<BestFor.Data.IRepository<BestFor.Domain.Entities.AnswerDescriptionFlag>, BestFor.Data.Repository<BestFor.Domain.Entities.AnswerDescriptionFlag>>();
             services.AddScoped<BestFor.Services.Cache.ICacheManager, BestFor.Services.Cache.CacheManager>();
             services.AddScoped<BestFor.Services.Services.IProfanityService, BestFor.Services.Services.ProfanityService>();
             services.AddScoped<BestFor.Services.Services.IAnswerService, BestFor.Services.Services.AnswerService>();
@@ -122,6 +124,7 @@ namespace BestFor
             services.AddScoped<BestFor.Services.Services.IAnswerDescriptionService, BestFor.Services.Services.AnswerDescriptionService>();
             // TODO: For now we use specific implementation. Might need a different injection later when we have more than one service.
             services.AddScoped<BestFor.Services.Services.IProductService, BestFor.Services.AffiliateProgram.Amazon.AmazonProductService>();
+            services.AddScoped<BestFor.Services.Services.IFlagService, BestFor.Services.Services.FlagService>();
 
         }
 

@@ -2,10 +2,21 @@
 @using BestFor.Services
 @* Inject the service that allows searching for localized strings *@
 @inject BestFor.Services.Services.IResourcesService resourcesService
-@* Culture is placed into view bag by action filter *@
-@* This template shows content of the answer with the link to content *@
+@*
+    Culture is placed into view bag by action filter.
+    This template shows content of the answer with the link to content.
+    <a href="/ru-ru/best-bet-for-me-is-hello">best bet for me is hello</a>
+
+    TODO: Need to render this into something that does not wrap
+*@
 <a href="@LinkingHelper.ConvertAnswerToUrlWithCulture(
-        this.ViewBag.BestForCulture,
-        resourcesService.GetCommonStrings(this.ViewBag.BestForCulture),
-        Model)"
-   >@LinkingHelper.ConvertAnswerToText(resourcesService.GetCommonStrings(this.ViewBag.BestForCulture), Model)</a> <br />
+    this.ViewBag.BestForCulture,
+    resourcesService.GetCommonStrings(this.ViewBag.BestForCulture),
+    Model)">@LinkingHelper.ConvertAnswerToText(resourcesService.GetCommonStrings(this.ViewBag.BestForCulture), Model)</a> 
+@{
+    // Link to flagging.TODO how to do this in tag helpers?
+    // Get the localized word flag
+    string flagString = resourcesService.GetCommonStrings(this.ViewBag.BestForCulture).FlagLower;
+}
+@Html.ActionLink(flagString, "FlagAnswer", "Flag", new { answerId = Model.Id })
+<br />
