@@ -37,9 +37,10 @@
     "BestFor.Data": "1.0.0-*",
     "BestFor.Common": "1.0.0-*",
     "NLog.Extensions.Logging": "1.0.0-rc1-final-2016-02-06",
-    "JavaScriptEngineSwitcher.Core": "1.2.4",
-    "JavaScriptEngineSwitcher.Msie": "1.4.0",
-    "JavaScriptEngineSwitcher.V8": "1.4.1",
+    "JavaScriptEngineSwitcher.Core": "1.5.0",
+    "JavaScriptEngineSwitcher.Msie": "1.5.0",
+    "JavaScriptEngineSwitcher.V8": "1.5.2",
+    "ClearScript.Installer": "1.0.1.31662",
     "React.AspNet": "2.2.1"
   },
 

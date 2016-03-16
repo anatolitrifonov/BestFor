@@ -51,14 +51,6 @@ namespace BestFor
                 .SetBasePath(_applicationBasePath)
                 .AddJsonFile("appsettings.json")
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true);
-            
-            //http://www.codeproject.com/Articles/1041816/Serilog-An-Excellent-Logging-Framework-Integrated
-            Log.Logger = new LoggerConfiguration()
-                            .MinimumLevel.Debug()
-                            .WriteTo.RollingFile(
-                                Path.Combine(appEnv.ApplicationBasePath + "\\Logs\\", "log -{Date}.log"), Serilog.Events.LogEventLevel.Information, "{Timestamp:G} [{Level}] {Message}{NewLine:l}{Exception:l}", null, null, null)
-                            //.WriteTo.LiterateConsole(Serilog.Events.LogEventLevel.Information)
-                            .CreateLogger();
         
 
             if (env.IsDevelopment())

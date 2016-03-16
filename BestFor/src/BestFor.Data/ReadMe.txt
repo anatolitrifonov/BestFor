@@ -14,4 +14,4 @@ run dnmv upgrade to add dnx to path
 dnvm use 1.0.0-rc1-update1
 dnx ef migrations add Initial
 dnx ef database update
-	Goto the root folder of bestfor.data project and then run the command above
+	Goto the root folder of bestfor.data project and then run the command above to update the database
