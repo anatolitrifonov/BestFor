@@ -8,9 +8,10 @@ using BestFor.Data;
 namespace BestFor.Data.Migrations
 {
     [DbContext(typeof(BestDataContext))]
-    partial class BestDataContextModelSnapshot : ModelSnapshot
+    [Migration("20160316042124_M3")]
+    partial class M3
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "7.0.0-rc1-16348")
@@ -52,40 +53,6 @@ namespace BestFor.Data.Migrations
 
                     b.Property<string>("Description")
                         .IsRequired();
-
-                    b.Property<string>("UserId");
-
-                    b.HasKey("Id");
-                });
-
-            modelBuilder.Entity("BestFor.Domain.Entities.AnswerDescriptionFlag", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<int>("AnswerDescriptionId");
-
-                    b.Property<DateTime>("DateAdded");
-
-                    b.Property<string>("Reason")
-                        .HasAnnotation("MaxLength", 100);
-
-                    b.Property<string>("UserId");
-
-                    b.HasKey("Id");
-                });
-
-            modelBuilder.Entity("BestFor.Domain.Entities.AnswerFlag", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<int>("AnswerId");
-
-                    b.Property<DateTime>("DateAdded");
-
-                    b.Property<string>("Reason")
-                        .HasAnnotation("MaxLength", 100);
 
                     b.Property<string>("UserId");
 
@@ -275,28 +242,6 @@ namespace BestFor.Data.Migrations
                 });
 
             modelBuilder.Entity("BestFor.Domain.Entities.AnswerDescription", b =>
-                {
-                    b.HasOne("BestFor.Domain.Entities.Answer")
-                        .WithMany()
-                        .HasForeignKey("AnswerId");
-
-                    b.HasOne("BestFor.Domain.Entities.ApplicationUser")
-                        .WithMany()
-                        .HasForeignKey("UserId");
-                });
-
-            modelBuilder.Entity("BestFor.Domain.Entities.AnswerDescriptionFlag", b =>
-                {
-                    b.HasOne("BestFor.Domain.Entities.AnswerDescription")
-                        .WithMany()
-                        .HasForeignKey("AnswerDescriptionId");
-
-                    b.HasOne("BestFor.Domain.Entities.ApplicationUser")
-                        .WithMany()
-                        .HasForeignKey("UserId");
-                });
-
-            modelBuilder.Entity("BestFor.Domain.Entities.AnswerFlag", b =>
                 {
                     b.HasOne("BestFor.Domain.Entities.Answer")
                         .WithMany()

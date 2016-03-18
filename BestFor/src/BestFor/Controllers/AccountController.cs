@@ -1,13 +1,13 @@
-﻿using Microsoft.AspNet.Mvc.Rendering;
-using System.Linq;
-using Microsoft.AspNet.Authorization;
-using Microsoft.AspNet.Mvc;
-using Microsoft.AspNet.Identity;
-using Microsoft.Extensions.Logging;
-using BestFor.Domain.Entities;
-using BestFor.Services.Messaging;
-using System.Threading.Tasks;
+﻿using BestFor.Domain.Entities;
 using BestFor.Dto.Account;
+using BestFor.Services.Messaging;
+using Microsoft.AspNet.Authorization;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Mvc;
+using Microsoft.AspNet.Mvc.Rendering;
+using Microsoft.Extensions.Logging;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace BestFor.Controllers
 {
@@ -83,6 +83,21 @@ namespace BestFor.Controllers
 
             // If we got this far, something failed, redisplay form
             return View(model);
+        }
+
+        //
+        // GET: /Account/AccessDenied
+        /// <summary>
+        /// Shown when user hit an unauthorized url
+        /// </summary>
+        /// <param name="returnUrl"></param>
+        /// <returns></returns>
+        [HttpGet]
+        [AllowAnonymous]
+        public IActionResult AccessDenied(string returnUrl = null)
+        {
+            ViewData["ReturnUrl"] = returnUrl;
+            return View();
         }
 
         //

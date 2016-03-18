@@ -211,6 +211,8 @@ namespace BestFor.Services.Services
             result.Best = FindOneString(culture, "best_start_capital", resourceStrings);
             result.For = FindOneString(culture, "for_lower", resourceStrings);
             result.Is = FindOneString(culture, "is_lower", resourceStrings);
+            result.FlagLower = FindOneString(culture, "flag_lower", resourceStrings);
+            result.FlagUpper = FindOneString(culture, "flag_upper", resourceStrings);
             return result;
         }
         #endregion

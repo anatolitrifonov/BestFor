@@ -10,4 +10,6 @@ LoadInitialDataTests.LoadInitialData_Resources to load ResourceString table
 LoadInitialDataTests.LoadInitialData_Suggestions to load Suggestion table
 
 
+Run AddAdminUserTests_AddAdminUser_AddsAdminUser test to add admin user.
+You will not be authorized to admin controller without admin role
 

@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNet.Http;
+﻿using BestFor.Data;
+using BestFor.Domain.Entities;
+using BestFor.Services.Messaging;
 using Microsoft.AspNet.Authentication.Facebook;
 using Microsoft.AspNet.Authentication.Google;
 using Microsoft.AspNet.Authentication.MicrosoftAccount;
@@ -6,6 +8,7 @@ using Microsoft.AspNet.Authentication.Twitter;
 using Microsoft.AspNet.Builder;
 using Microsoft.AspNet.Diagnostics.Entity;
 using Microsoft.AspNet.Hosting;
+using Microsoft.AspNet.Http;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Localization;
 using Microsoft.Data.Entity;
@@ -13,16 +16,12 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.PlatformAbstractions;
+using NLog.Extensions.Logging;
 using React.AspNet;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-
-using BestFor.Data;
-using BestFor.Domain.Entities;
-using BestFor.Services.Messaging;
-using NLog.Extensions.Logging;
 
 
 namespace BestFor
@@ -73,7 +72,10 @@ namespace BestFor
 
             // Add Identity services to the services container.
             // This enabled injection of UserManager<ApplicationUser> and SignInManager<ApplicationUser> for AccountController
-            services.AddIdentity<ApplicationUser, IdentityRole>()
+            services.AddIdentity<ApplicationUser, IdentityRole>(options =>
+                {
+                    options.Cookies.ApplicationCookie.AccessDeniedPath = new PathString("/Account/AccessDenied");
+                })
                 .AddEntityFrameworkStores<BestDataContext>()
                 .AddDefaultTokenProviders();
 
@@ -111,6 +113,8 @@ namespace BestFor
             services.AddScoped<BestFor.Data.IRepository<BestFor.Domain.Entities.BadWord>, BestFor.Data.Repository<BestFor.Domain.Entities.BadWord>>();
             services.AddScoped<BestFor.Data.IRepository<BestFor.Domain.Entities.ResourceString>, BestFor.Data.Repository<BestFor.Domain.Entities.ResourceString>>();
             services.AddScoped<BestFor.Data.IRepository<BestFor.Domain.Entities.AnswerDescription>, BestFor.Data.Repository<BestFor.Domain.Entities.AnswerDescription>>();
+            services.AddScoped<BestFor.Data.IRepository<BestFor.Domain.Entities.AnswerFlag>, BestFor.Data.Repository<BestFor.Domain.Entities.AnswerFlag>>();
+            services.AddScoped<BestFor.Data.IRepository<BestFor.Domain.Entities.AnswerDescriptionFlag>, BestFor.Data.Repository<BestFor.Domain.Entities.AnswerDescriptionFlag>>();
             services.AddScoped<BestFor.Services.Cache.ICacheManager, BestFor.Services.Cache.CacheManager>();
             services.AddScoped<BestFor.Services.Services.IProfanityService, BestFor.Services.Services.ProfanityService>();
             services.AddScoped<BestFor.Services.Services.IAnswerService, BestFor.Services.Services.AnswerService>();
@@ -120,6 +124,7 @@ namespace BestFor
             services.AddScoped<BestFor.Services.Services.IAnswerDescriptionService, BestFor.Services.Services.AnswerDescriptionService>();
             // TODO: For now we use specific implementation. Might need a different injection later when we have more than one service.
             services.AddScoped<BestFor.Services.Services.IProductService, BestFor.Services.AffiliateProgram.Amazon.AmazonProductService>();
+            services.AddScoped<BestFor.Services.Services.IFlagService, BestFor.Services.Services.FlagService>();
 
         }
 
@@ -225,6 +230,8 @@ namespace BestFor
             // Add cookie-based authentication to the request pipeline.
             app.UseIdentity();
 
+          //   app.UseCookieAuthentication(options => options.CookieName = "gggggggggggggggggggggggggg");
+
             // Add and configure the options for authentication middleware to the request pipeline.
             // You can add options for middleware as shown below.
             // For more information see http://go.microsoft.com/fwlink/?LinkID=532715
@@ -290,5 +297,8 @@ namespace BestFor
                 // routes.MapWebApiRoute("DefaultApi", "api/{controller}/{id?}");
             });
         }
+
+        // Entry point for the application.
+        public static void Main(string[] args) => WebApplication.Run<Startup>(args);
     }
 }

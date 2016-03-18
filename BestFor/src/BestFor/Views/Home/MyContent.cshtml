@@ -25,6 +25,10 @@
 <br /><br />
 @Html.ActionLink(answerDetails, "ShowAnswer", "AnswerAction", new { answerId = Model.Answer.Id })
 <br />
+@* someone knows how to convert this into tag helper? *@
+Link to flagging: @Html.ActionLink("Flag", "FlagAnswer", "Flag", new { answerId = Model.Answer.Id })
+<br />
+
 This is my content<br />
 Shows:answer text, link to add description, link to show answer. <br />
 We need to show affiliate link here <br />
