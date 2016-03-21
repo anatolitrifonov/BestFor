@@ -82,7 +82,12 @@ namespace BestFor.Services.Profanity
             var localInput = CleanupData(input);
             if (localInput == null) return null;
             foreach (var word in badwords)
-                if (input.Contains(word.Phrase)) return word.Phrase;
+            {
+                if (input.Contains(" " + word.Phrase)) return word.Phrase;
+                if (input.Contains(word.Phrase + " ")) return word.Phrase;
+                if (input == word.Phrase) return word.Phrase;
+                if (input + "." == word.Phrase) return word.Phrase;
+            }
             return null;
         }
 

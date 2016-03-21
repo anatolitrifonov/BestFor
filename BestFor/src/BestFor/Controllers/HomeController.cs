@@ -17,12 +17,15 @@ namespace BestFor.Controllers
         /// Constructor injected answer service. Used for loading the answers.
         /// </summary>
         private IAnswerService _answerService;
+        private IAnswerDescriptionService _answerDescriptionService;
         private IResourcesService _resourcesService;
         private ILogger _logger;
 
-        public HomeController(IAnswerService answerService, IResourcesService resourcesService, ILoggerFactory loggerFactory)
+        public HomeController(IAnswerService answerService, IAnswerDescriptionService answerDescriptionService,
+            IResourcesService resourcesService, ILoggerFactory loggerFactory)
         {
             _answerService = answerService;
+            _answerDescriptionService = answerDescriptionService;
             _resourcesService = resourcesService;
             _logger = loggerFactory.CreateLogger<HomeController>();
             _logger.LogInformation("created HomeController");
@@ -66,8 +69,15 @@ namespace BestFor.Controllers
             answer = _answerService.FindExact(answer.LeftWord, answer.RightWord, answer.Phrase);
             // Go to home index if not found
             if (answer == null) RedirectToAction("Index");
+            // Load answer descriptions
+            var descriptions = _answerDescriptionService.FindByAnswerId(answer.Id);
             // Fill in result
-            var data = new MyContentDto() { Answer = answer, CommonStrings = commonStrings };
+            var data = new AnswerDetailsDto()
+            {
+                Answer = answer,
+                CommonStrings = commonStrings,
+                Descriptions = descriptions
+            };
             return View(data);
         }
     }

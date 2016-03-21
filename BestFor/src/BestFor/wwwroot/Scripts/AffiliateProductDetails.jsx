@@ -1,4 +1,5 @@
 ﻿// Makes a rest call to api controller loading product details
+// And shows the product
 var AffiliateProductDetails = React.createClass({
     // built in ability to verify type of each property
     propTypes: {
@@ -18,7 +19,8 @@ var AffiliateProductDetails = React.createClass({
     // Invoked once before the component is mounted. The return value will be used as the initial value of this.state.
     getInitialState: function () {
         return {
-            isVisible: true          // Are we shown on load? Should be no, but setting to yes for now for debugging.
+            isVisible: false, // Are we shown on load?
+            isCouldNotFindVisible: false
         };
     },
 
@@ -54,17 +56,19 @@ var AffiliateProductDetails = React.createClass({
             if (this.xhr.status === 200) {
                 console.log("AffiliateProductDetails xhr onload returned " + this.xhr.responseText);
                 var product = JSON.parse(this.xhr.responseText);
-                //if (product == null || httpResultData.ErrorMessage != null) {
-                //    this.processErrorInAnswersSearch(httpResultData.ErrorMessage);
-                //}
-                //else {
-                this.processFoundProduct(product);
-                //}
+                // we will get null if we were not able to parse
+                // ErrorMessage will be set since AffiliateProductDto inherits ErrorMessageDto
+                if (product == null || product.ErrorMessage != null) {
+                    this.processErrorInProduct(httpResultData.ErrorMessage);
+                }
+                else {
+                    this.processFoundProduct(product);
+                }
             }
             // all is bad. Just FYI: code 204 meas no content.
             else {
                 console.log("AffiliateProductDetails ERROR!!!!!! xhr onload returned " + this.xhr.responseText);
-                // this.processErrorInAnswersSearch(this.xhr.responseText);
+                this.processErrorInProduct(this.xhr.responseText);
             }
             // without this xhr event handler will not have access to this.xhr
             // I guess it bind function to component context
@@ -83,23 +87,23 @@ var AffiliateProductDetails = React.createClass({
         // this is expected to update the list that is bound to this state data.
         this.setState({
             isVisible: true,
+            isCouldNotFindVisible: false,
             productTitle: product.Title,
-            productLink: product.DetailPageURL
+            productLink: product.DetailPageURL,
+            productImageUrl: product.MiddleImageURL,
+            productImageWidth: product.MiddleImageWidth,
+            productImageHeight: product.MiddleImageHeight,
+            productFormattedPrice: product.FormattedPrice
         });
     },
 
-    //processErrorInAnswersSearch: function (errorMessage) {
-    //    console.log("SuggestionPanel xhr onload errored out. Error text is probably too long.");
-    //    this.answers = [];
-    //    this.setState({
-    //        statusMessage: this.props.resourceStrings.suggestion_panel_error_happened_searching_answers, // message
-    //        answers: this.answers, // blank out the aswers
-    //        showErrorPane: true, // show errors
-    //        errorMessage: errorMessage, // show error details
-    //        showAddDescriptionLink: false
-    //    });
-   // },
-
+    processErrorInProduct: function (errorMessage) {
+        console.log("AffiliateProductDetail xhr onload errored out. Error text is probably too long.");
+        this.setState({
+            isVisible: false,
+            isCouldNotFindVisible: true
+        });
+    },
 
     // Builds a style object for pop up div
     getOverallDivStyle: function () {
@@ -108,13 +112,25 @@ var AffiliateProductDetails = React.createClass({
         };
     },
 
+    getCouldNotFindDivStyle: function () {
+        return {
+            display: this.state.isCouldNotFindVisible ? "" : "none"
+        };
+    },
+
     render: function () {
         return (
             <div style={this.getOverallDivStyle()}>
-                Title:{this.state.productTitle} <br />
-                Price: image <br />
-                Link: <a href={this.state.productLink} target="_blank">{this.state.productTitle}</a><br />
-                Link: link <br />
+                {this.props.resourceStrings.title_upper}: {this.state.productTitle}<br />
+                {this.props.resourceStrings.price_upper}: {this.state.productFormattedPrice}<br />
+                {this.props.resourceStrings.link_upper}: <a href={this.state.productLink} target="_blank">{this.state.productTitle}</a><br />
+                <a href={this.state.productLink} target="_blank">
+                    <img width={this.state.productImageWidth} height={this.state.productImageHeight}
+                         src={this.state.productImageUrl} border="0" title={this.state.productTitle} />
+                </a>
+                <div style={this.getCouldNotFindDivStyle()}>
+                    {this.props.resourceStrings.not_able_to_find_product}
+                </div>
             </div>
         );
     }

@@ -55,6 +55,62 @@ namespace BestFor.Services.AffiliateProgram.Amazon
 
         private int DEFAULT_PRODUCT_EXPIRATION_SECONDS = 300;
 
+        #region Classes
+
+        Dictionary<string, string> _searchIndexes = new Dictionary<string, string>()
+        {
+            {"All", "All" },
+            {"UnboxVideo", "Amazon Instant Video" },
+            {"Appliances", "Appliances" },
+            {"MobileApps", "Apps & Games" },
+            {"ArtsAndCrafts", "Arts, Crafts & Sewing" },
+            {"Automotive", "Automotive" },
+            {"Baby", "Baby" },
+            {"Beauty", "Beauty" },
+            {"Books", "Books" },
+            {"Music", "CDs & Vinyl" },
+            {"Wireless", "Cell Phones & Accessories" },
+            {"Fashion", "Clothing, Shoes & Jewelry" },
+            {"FashionBaby", "Clothing, Shoes & Jewelry - Baby" },
+            {"FashionBoys", "Clothing, Shoes & Jewelry - Boys" },
+            {"FashionGirls", "Clothing, Shoes & Jewelry - Girls" },
+            {"FashionMen", "Clothing, Shoes & Jewelry - Men" },
+            {"FashionWomen", "Clothing, Shoes & Jewelry - Women" },
+            {"Collectibles", "Collectibles & Fine Arts" },
+            {"PCHardware", "Computers" },
+            {"MP3Downloads", "Digital Music" },
+            {"Electronics", "Electronics" },
+            {"GiftCards", "Gift Cards" },
+            {"Grocery", "Grocery & Gourmet Food" },
+            {"HealthPersonalCare", "Health & Personal Care" },
+            {"HomeGarden", "Home & Kitchen" },
+            {"Industrial", "Industrial & Scientific" },
+            {"KindleStore", "Kindle Store" },
+            {"Luggage", "Luggage & Travel Gear" },
+            {"Magazines", "Magazine Subscriptions" },
+            {"Movies", "Movies & TV" },
+            {"MusicalInstruments", "Musical Instruments" },
+            {"OfficeProducts", "Office Products" },
+            {"LawnAndGarden", "Patio, Lawn & Garden" },
+            {"PetSupplies", "Pet Supplies" },
+            {"Pantry", "Prime Pantry" },
+            {"Software", "Software" },
+            {"SportingGoods", "Sports & Outdoors" },
+            {"Tools", "Tools & Home Improvement" },
+            {"Toys", "Toys & Games" },
+            {"VideoGames", "Video Games" },
+            {"Wine", "Wine" },
+            {"Blended", "Blended" }
+        };
+
+        private class ProductImage
+        {
+            public string Url { get; set; }
+            public int Width { get; set; }
+            public int Height { get; set; }
+        }
+        #endregion
+
         /// <summary>
         /// Constructor. Nothing special. Might change later to accept a moregeneric class that allows configuration.
         /// </summary>
@@ -185,11 +241,23 @@ namespace BestFor.Services.AffiliateProgram.Amazon
             // Create timestamp
             var timeStamp = DateTime.UtcNow.ToString("yyyy-MM-ddTHH:mm:ssZ");
 
-//                "&Keywords=" + parameters.Keyword + "&Operation=ItemSearch&ResponseGroup=Offers%2CItemAttributes" +
+            // ResponseGroup
+            // Specifies the types of values to return.You can specify multiple response groups in one request by separating them with commas.
+            //Type: String
+            //Default: Small
+            //Valid Values: Accessories | BrowseNodes | EditorialReview | Images | ItemAttributes | ItemIds 
+            // | Large | Medium | OfferFull | Offers | PromotionSummary | OfferSummary | RelatedItems | Reviews | 
+            // SalesRank | Similarities | Small | Tracks | VariationImages | Variations(US only) | VariationSummary
+
+
+            //                "&Keywords=" + parameters.Keyword + "&Operation=ItemSearch&ResponseGroup=Offers%2CItemAttributes" +
+            // TODO add category selection to user settings or a random pick of category
             // Please for the love of God do not touch this line. I spent hours making this work.
             var url = "AWSAccessKeyId=" + _accessKeyId + "&AssociateTag=" + _associateId +
-                "&Keywords=" + Uri.EscapeDataString(parameters.Keyword) + "&Operation=ItemSearch&ResponseGroup=Offers%2CItemAttributes" +
-                "&SearchIndex=Books&Service=AWSECommerceService" +
+                "&Keywords=" + Uri.EscapeDataString(parameters.Keyword) +
+                // "&Operation=ItemSearch&ResponseGroup=Offers%2CItemAttributes" +
+                "&Operation=ItemSearch&ResponseGroup=ItemAttributes%2CImages" +
+                "&SearchIndex=SportingGoods&Service=AWSECommerceService" +
                 "&Timestamp=" + Uri.EscapeDataString(timeStamp) + "&Version=2013-08-01";
 
             // Business of signing amazon request. Not a good idea to touch this.
@@ -242,27 +310,94 @@ namespace BestFor.Services.AffiliateProgram.Amazon
             if (productXmlNode == null) return null;
 
             var product = new AffiliateProductDto() { Merchant = "Amazon" };
-            product.DetailPageURL = GetNodeChildValue(nsmgr, namespacePrefix, productXmlNode, "DetailPageURL");
-            product.Title = GetNodeChildValue(nsmgr, namespacePrefix, productXmlNode, "Title");
-            product.MerchantProductId = GetNodeChildValue(nsmgr, namespacePrefix, productXmlNode, "ASIN");
+            product.DetailPageURL = GetChildNodeValue(productXmlNode, "DetailPageURL");
+            product.MerchantProductId = GetChildNodeValue(productXmlNode, "ASIN");
+
+            var attributesNode = GetChildNode(productXmlNode, "ItemAttributes");
+            product.Title = GetChildNodeValue(attributesNode, "Title");
+
+            var listPriceNode = GetChildNode(attributesNode, "ListPrice");
+            product.FormattedPrice = GetChildNodeValue(listPriceNode, "FormattedPrice");
+
+            // Let's get all images because we need to pick some decent size.
+            // I will let the function to add of not add image
+            var images = new List<ProductImage>();
+            // see if medium image is good enough
+            ParseAndAddImage(images, productXmlNode, "MediumImage");
+            // see if large image is good enough
+            ParseAndAddImage(images, productXmlNode, "LargeImage");
+            // see if small image is good enough
+            ParseAndAddImage(images, productXmlNode, "SmallImage");
+
+            if (images.Count > 0)
+            {
+                product.MiddleImageURL = images[0].Url;
+                product.MiddleImageWidth = images[0].Width;
+                product.MiddleImageHeight = images[0].Height;
+            }
+
             return product;
         }
 
         /// <summary>
-        /// Search node's immediate children for name and return the inner text.
+        /// Read image attributes from xml node and add to images list if goof enough
         /// </summary>
+        /// <param name="images"></param>
+        /// <param name="nsmgr"></param>
+        /// <param name="namespacePrefix"></param>
         /// <param name="node"></param>
-        /// <param name="name"></param>
-        /// <returns></returns>
-        public string GetNodeChildValue(XmlNamespaceManager nsmgr, string namespacePrefix, XmlNode node, string childName)
+        private void ParseAndAddImage(List<ProductImage> images, XmlNode productNode, string imageNodeName)
+        {
+            // Basic image parcing.
+            var image = new ProductImage();
+            var imageNode = GetChildNode(productNode, imageNodeName);
+            // exit if node not found
+            if (imageNode == null) return;
+            image.Url = GetChildNodeValue(imageNode, "URL");
+            image.Width = GetChildNodeValueAsInt(imageNode, "Width");
+            image.Height = GetChildNodeValueAsInt(imageNode, "Height");
+
+            // Now let's see if this image is ok to add to the list.
+            // If any conditions are met the image is not good enough to show
+            if (image.Url == null || image.Url.Length < 10) return;
+            // too small
+            if (image.Width < 450 && image.Height < 450) return;
+            // too large. Width or Height
+            if (image.Width > 1000 || image.Height > 1000) return;
+            // OK I guess.
+            images.Add(image);
+
+        }
+
+        public string GetChildNodeValue(XmlNode node, string childName)
+        {
+            var child = GetChildNode(node, childName);
+            if (child == null) return null;
+
+            if (child.InnerText == null) return null; // not possible but need to check.
+
+            return child.InnerText.Trim();
+        }
+
+        public XmlNode GetChildNode(XmlNode node, string childName)
         {
             // check input
             if (node == null || string.IsNullOrEmpty(childName) || string.IsNullOrWhiteSpace(childName)) return null;
-            // search for child by name
-            // Example path to the immediate child is "//ab:Title"
-            var child = node.SelectSingleNode("//" + namespacePrefix + ":" + childName, nsmgr);
-            if (child == null) return null;
-            return child.InnerText;
+            var children = node.ChildNodes;
+            foreach (XmlNode child in children)
+                if (child.Name == childName)
+                    return child;
+            return null;
+        }
+
+        public int GetChildNodeValueAsInt(XmlNode node, string childName)
+        {
+            string nodeValue = GetChildNodeValue(node, childName);
+            // exit early if we can skip parsing
+            if (nodeValue == null) return 0;
+            int result;
+            int.TryParse(nodeValue, out result);
+            return result;
         }
 
         /// <summary>

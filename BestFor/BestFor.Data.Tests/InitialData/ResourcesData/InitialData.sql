@@ -145,6 +145,32 @@ if not exists(select * from ResourceString where CultureName = 'ru-RU' and [Key]
 	insert ResourceString(CultureName, [Key], Value, DateAdded) values('ru-RU', 'flag_upper', N'Пожаловаться', getDate());
 GO
 
+if not exists(select * from ResourceString where CultureName = 'en-US' and [Key] = 'title_upper')
+	insert ResourceString(CultureName, [Key], Value, DateAdded) values('en-US', 'title_upper', N'Title', getDate());
+if not exists(select * from ResourceString where CultureName = 'ru-RU' and [Key] = 'title_upper')
+	insert ResourceString(CultureName, [Key], Value, DateAdded) values('ru-RU', 'title_upper', N'Название', getDate());
+GO
+
+if not exists(select * from ResourceString where CultureName = 'en-US' and [Key] = 'link_upper')
+	insert ResourceString(CultureName, [Key], Value, DateAdded) values('en-US', 'link_upper', N'Link', getDate());
+if not exists(select * from ResourceString where CultureName = 'ru-RU' and [Key] = 'link_upper')
+	insert ResourceString(CultureName, [Key], Value, DateAdded) values('ru-RU', 'link_upper', N'Ссылка', getDate());
+GO
+
+if not exists(select * from ResourceString where CultureName = 'en-US' and [Key] = 'price_upper')
+	insert ResourceString(CultureName, [Key], Value, DateAdded) values('en-US', 'price_upper', N'Price', getDate());
+if not exists(select * from ResourceString where CultureName = 'ru-RU' and [Key] = 'price_upper')
+	insert ResourceString(CultureName, [Key], Value, DateAdded) values('ru-RU', 'price_upper', N'Цена', getDate());
+GO
+
+if not exists(select * from ResourceString where CultureName = 'en-US' and [Key] = 'not_able_to_find_product')
+	insert ResourceString(CultureName, [Key], Value, DateAdded) values('en-US', 'not_able_to_find_product',
+		N'We were not able to find the product that best matches this answer.', getDate());
+if not exists(select * from ResourceString where CultureName = 'ru-RU' and [Key] = 'not_able_to_find_product')
+	insert ResourceString(CultureName, [Key], Value, DateAdded) values('ru-RU', 'not_able_to_find_product',
+		N'К сожелению, мы не нашли продукт похожий на этот ответ.', getDate());
+GO
+
 --select * from ResourceString order by id desc
 --GO
 

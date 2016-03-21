@@ -1,0 +1,203 @@
+﻿<?xml version="1.0" ?><ItemSearchResponse xmlns="http://webservices.amazon.com/AWSECommerceService/2013-08-01">
+  <OperationRequest>
+    <RequestId>9c2d9ee8-0978-4a5f-9a89-2d8061217398</RequestId>
+    <Arguments>
+      <Argument Name="AWSAccessKeyId" Value="AKIAI5A2QWLR7ECMOCWA"></Argument>
+      <Argument Name="AssociateTag" Value="bestfor03-20"></Argument>
+      <Argument Name="Keywords" Value="rod lake trout"></Argument>
+      <Argument Name="Operation" Value="ItemSearch"></Argument>
+      <Argument Name="ResponseGroup" Value="ItemAttributes,Images"></Argument>
+      <Argument Name="SearchIndex" Value="SportingGoods"></Argument>
+      <Argument Name="Service" Value="AWSECommerceService"></Argument>
+      <Argument Name="Timestamp" Value="2016-03-20T17:02:40Z"></Argument>
+      <Argument Name="Version" Value="2013-08-01"></Argument>
+      <Argument Name="Signature" Value="kCvtenH8dvw2ghYlKQmzATyqeNyrQnR/6PjDvDBqL7Y="></Argument>
+    </Arguments>
+    <RequestProcessingTime>0.2982650000000000</RequestProcessingTime>
+  </OperationRequest>
+  <Items>
+    <Request>
+      <IsValid>True</IsValid><ItemSearchRequest>
+          <Keywords>rod lake trout</Keywords>
+          <ResponseGroup>ItemAttributes</ResponseGroup>
+          <ResponseGroup>Images</ResponseGroup>
+          <SearchIndex>SportingGoods</SearchIndex>
+        </ItemSearchRequest>
+    </Request>
+    <TotalResults>326</TotalResults>
+    <TotalPages>33</TotalPages>
+    <MoreSearchResultsUrl>http://www.amazon.com/gp/redirect.html?linkCode=xm2&amp;SubscriptionId=AKIAI5A2QWLR7ECMOCWA&amp;location=http%3A%2F%2Fwww.amazon.com%2Fgp%2Fsearch%3Fkeywords%3Drod%2Blake%2Btrout%26url%3Dsearch-alias%253Dsporting&amp;tag=bestfor03-20&amp;creative=386001&amp;camp=2025</MoreSearchResultsUrl>
+    <Item>
+      <ASIN>B0000BY4UK</ASIN>
+      <DetailPageURL>http://www.amazon.com/HT-PLC-34H-Heavy-Trout-34-Inch/dp/B0000BY4UK%3FSubscriptionId%3DAKIAI5A2QWLR7ECMOCWA%26tag%3Dbestfor03-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3DB0000BY4UK</DetailPageURL>
+      <ItemLinks>
+        <ItemLink>
+          <Description>Technical Details</Description>
+          <URL>
+            http://www.amazon.com/HT-PLC-34H-Heavy-Trout-34-Inch/dp/tech-data/B0000BY4UK%3FSubscriptionId%3D
+            AKIAI5A2QWLR7ECMOCWA%26tag%3Dbestfor03-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D386001%26creativeASIN%3DB0000BY4UK
+          </URL>
+        </ItemLink>
+        <ItemLink>
+          <Description>Add To Baby Registry</Description>
+          <URL>http://www.amazon.com/gp/registry/baby/add-item.html%3Fasin.0%3DB0000BY4UK%26SubscriptionId%3DAKIAI5A2QWLR7ECMOCWA%26tag%3Dbestfor03-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D386001%26creativeASIN%3DB0000BY4UK</URL>
+        </ItemLink>
+        <ItemLink>
+          <Description>Add To Wedding Registry</Description>
+          <URL>http://www.amazon.com/gp/registry/wedding/add-item.html%3Fasin.0%3DB0000BY4UK%26SubscriptionId%3DAKIAI5A2QWLR7ECMOCWA%26tag%3Dbestfor03-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D386001%26creativeASIN%3DB0000BY4UK</URL>
+        </ItemLink>
+        <ItemLink>
+          <Description>Add To Wishlist</Description>
+          <URL>http://www.amazon.com/gp/registry/wishlist/add-item.html%3Fasin.0%3DB0000BY4UK%26SubscriptionId%3DAKIAI5A2QWLR7ECMOCWA%26tag%3Dbestfor03-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D386001%26creativeASIN%3DB0000BY4UK</URL>
+        </ItemLink>
+        <ItemLink>
+          <Description>Tell A Friend</Description>
+          <URL>http://www.amazon.com/gp/pdp/taf/B0000BY4UK%3FSubscriptionId%3DAKIAI5A2QWLR7ECMOCWA%26tag%3Dbestfor03-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D386001%26creativeASIN%3DB0000BY4UK</URL>
+          </ItemLink>
+          <ItemLink>
+            <Description>All Customer Reviews</Description>
+            <URL>http://www.amazon.com/review/product/B0000BY4UK%3FSubscriptionId%3DAKIAI5A2QWLR7ECMOCWA%26tag%3Dbestfor03-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D386001%26creativeASIN%3DB0000BY4UK</URL>
+          </ItemLink>
+          <ItemLink>
+            <Description>All Offers</Description>
+            <URL>http://www.amazon.com/gp/offer-listing/B0000BY4UK%3FSubscriptionId%3DAKIAI5A2QWLR7ECMOCWA%26tag%3Dbestfor03-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D386001%26creativeASIN%3DB0000BY4UK</URL>
+          </ItemLink>
+      </ItemLinks>
+      <SmallImage>
+        <URL>http://ecx.images-amazon.com/images/I/113N3cdDrmL._SL75_.jpg</URL>
+        <Height Units="pixels">4</Height>
+        <Width Units="pixels">75</Width>
+      </SmallImage>
+      <MediumImage>
+        <URL>http://ecx.images-amazon.com/images/I/113N3cdDrmL._SL160_.jpg</URL>
+        <Height Units="pixels">8</Height>
+        <Width Units="pixels">160</Width>
+      </MediumImage>
+      <LargeImage>
+        <URL>http://ecx.images-amazon.com/images/I/113N3cdDrmL.jpg</URL>
+        <Height Units="pixels">26</Height>
+        <Width Units="pixels">500</Width>
+      </LargeImage>
+      <ImageSets>
+        <ImageSet Category="swatch">
+          <SwatchImage>
+            <URL>http://ecx.images-amazon.com/images/I/113N3cdDrmL._SL30_.jpg</URL>
+            <Height Units="pixels">2</Height>
+            <Width Units="pixels">30</Width>
+          </SwatchImage>
+          <SmallImage>
+            <URL>http://ecx.images-amazon.com/images/I/113N3cdDrmL._SL75_.jpg</URL>
+            <Height Units="pixels">4</Height>
+            <Width Units="pixels">75</Width>
+          </SmallImage>
+          <ThumbnailImage>
+            <URL>http://ecx.images-amazon.com/images/I/113N3cdDrmL._SL75_.jpg</URL>
+            <Height Units="pixels">4</Height>
+            <Width Units="pixels">75</Width>
+          </ThumbnailImage>
+          <TinyImage>
+            <URL>http://ecx.images-amazon.com/images/I/113N3cdDrmL._SL110_.jpg</URL>
+            <Height Units="pixels">6</Height>
+            <Width Units="pixels">110</Width>
+          </TinyImage>
+          <MediumImage>
+            <URL>
+              http://ecx.images-amazon.com/images/I/113N3cdDrmL._SL160_.jpg
+            </URL>
+            <Height Units="pixels">8</Height>
+            <Width Units="pixels">160</Width>
+          </MediumImage>
+          <LargeImage>
+            <URL>http://ecx.images-amazon.com/images/I/113N3cdDrmL.jpg</URL>
+            <Height Units="pixels">26</Height>
+            <Width Units="pixels">500</Width>
+          </LargeImage>
+          <HiResImage>
+            <URL>http://ecx.images-amazon.com/images/I/41Hr6ASQ7TL.jpg</URL>
+            <Height Units="pixels">134</Height>
+            <Width Units="pixels">2560</Width>
+          </HiResImage>
+        </ImageSet>
+        <ImageSet Category="primary">
+          <SwatchImage>
+            <URL>http://ecx.images-amazon.com/images/I/113N3cdDrmL._SL30_.jpg</URL>
+            <Height Units="pixels">2</Height>
+            <Width Units="pixels">30</Width>
+          </SwatchImage>
+          <SmallImage>
+            <URL>http://ecx.images-amazon.com/images/I/113N3cdDrmL._SL75_.jpg</URL>
+            <Height Units="pixels">4</Height>
+            <Width Units="pixels">75</Width>
+          </SmallImage>
+          <ThumbnailImage>
+            <URL>http://ecx.images-amazon.com/images/I/113N3cdDrmL._SL75_.jpg</URL>
+            <Height Units="pixels">4</Height>
+            <Width Units="pixels">75</Width>
+          </ThumbnailImage>
+          <TinyImage>
+            <URL>
+              http://ecx.images-amazon.com/images/I/113N3cdDrmL._SL110_.jpg
+            </URL>
+            <Height Units="pixels">6</Height>
+            <Width Units="pixels">110</Width>
+          </TinyImage>
+          <MediumImage>
+            <URL>http://ecx.images-amazon.com/images/I/113N3cdDrmL._SL160_.jpg</URL>
+            <Height Units="pixels">8</Height>
+            <Width Units="pixels">160</Width>
+          </MediumImage>
+          <LargeImage>
+            <URL>http://ecx.images-amazon.com/images/I/113N3cdDrmL.jpg</URL>
+            <Height Units="pixels">26</Height>
+            <Width Units="pixels">500</Width>
+          </LargeImage>
+          <HiResImage>
+            <URL>http://ecx.images-amazon.com/images/I/41Hr6ASQ7TL.jpg</URL>
+            <Height Units="pixels">134</Height>
+            <Width Units="pixels">2560</Width>
+          </HiResImage>
+        </ImageSet>
+      </ImageSets>
+      <ItemAttributes>
+        <Binding>Sports</Binding>
+        <Brand>HT</Brand>
+        <EAN>0029333009764</EAN>
+        <EANList>
+          <EANListElement>0029333009764</EANListElement>
+        </EANList>
+        <Feature>34-Inch Heavy Spin Trout/Pike Rod</Feature>
+        <Feature>Provided by HT</Feature>
+        <Feature>Ice Rod specially made for ice fishing</Feature>
+        <Label>Big Rock Sports - MN Warehouse</Label>
+        <ListPrice>
+          <Amount>1649</Amount>
+          <CurrencyCode>USD</CurrencyCode>
+          <FormattedPrice>$16.49</FormattedPrice>
+        </ListPrice>
+        <Manufacturer>Big Rock Sports - MN Warehouse</Manufacturer>
+        <Model>PLC-34H</Model>
+        <MPN>PLC-34H</MPN>
+        <PackageDimensions>
+          <Height Units="hundredths-inches">100</Height>
+          <Length Units="hundredths-inches">3450</Length>
+          <Weight Units="hundredths-pounds">15</Weight>
+          <Width Units="hundredths-inches">100</Width>
+        </PackageDimensions>
+        <PackageQuantity>1</PackageQuantity>
+        <PartNumber>PLC-34H</PartNumber>
+        <ProductGroup>Sports</ProductGroup>
+        <ProductTypeName>SPORTING_GOODS</ProductTypeName>
+        <Publisher>Big Rock Sports - MN Warehouse</Publisher>
+        <Size>34-Inch</Size>
+        <SKU>ZZX3*0059623000000</SKU>
+        <Studio>Big Rock Sports - MN Warehouse</Studio>
+        <Title>HT PLC-34H Heavy Spin Trout/Pike Rod, 34-Inch</Title>
+        <UPC>029333009764</UPC>
+        <UPCList>
+          <UPCListElement>029333009764</UPCListElement>
+        </UPCList>
+      </ItemAttributes>
+    </Item>
+
+  </Items>
+</ItemSearchResponse>

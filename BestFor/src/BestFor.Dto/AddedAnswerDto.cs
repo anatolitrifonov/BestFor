@@ -1,9 +1,7 @@
 ﻿namespace BestFor.Dto
 {
-    public class AddedAnswerDto
+    public class AddedAnswerDto : ErrorMessageDto
     {
         public AnswerDto Answer { get; set; }
-
-        public string ErrorMessage { get; set; }
     }
 }

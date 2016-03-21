@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 using BestFor.Services.AffiliateProgram.Amazon;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.OptionsModel;
+using BestFor.Common;
 
 namespace BestFor.Services.Tests
 {
@@ -39,15 +41,26 @@ namespace BestFor.Services.Tests
             Assert.NotNull(product.DetailPageURL);
         }
 
+        private class IOptionsImplementation : IOptions<AppSettings>
+        {
+            public AppSettings AppSettings { get; set; }
+
+            public AppSettings Value { get { return AppSettings; } }
+        }
+
         [Fact]
         public void AmazonProductService_ParseReturnResult_ReturnsProduct()
         {
             // Load xml from the file
-            FileStream myFileStream = new FileStream("myxml.xml", FileMode.Open);
+            string path = @"C:\Users\atrifono\Documents\Personal\Fork\BestFor\src\BestFor.Services\AffiliateProgram\Amazon\";
+            FileStream myFileStream = new FileStream(path + "junk.xml", FileMode.Open);
             var xmlDoc = new XmlDocument();
             xmlDoc.Load(myFileStream);
             // Ask service to parse it.
-            var service = new AmazonProductService(null, null);
+            var appSettings = new IOptionsImplementation() { AppSettings = new AppSettings() };
+            var cache = new Mock<ICacheManager>().Object;
+
+            var service = new AmazonProductService(appSettings, cache);
             var product = service.ReadXml(xmlDoc);
             Assert.True(product.DetailPageURL.StartsWith("http://www.amazon.com/Total-Fishing-Manual-Field-Stream/dp/1616284870%3FSubscriptionId%3DAKIAI5A2QWLR7ECMOCWA%26tag%3Dbestfor03"));
             Assert.Equal(product.MerchantProductId, "1616284870");

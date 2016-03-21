@@ -110,7 +110,7 @@ var SuggestionControl = React.createClass({
             this.xhr.setRequestHeader(this.props.antiForgeryHeaderName, this.props.antiForgeryToken);
         // handle received data.
         this.xhr.onload = function (e) { // e is of type XMLHttpRequestProgressEvent
-            console.log("xhr onload returned " + this.xhr.responseText);
+            console.log("SuggestionControl xhr onload returned " + this.xhr.responseText);
             this.listIsActive = false;
             // If all good
             if (this.xhr.status === 200) {
