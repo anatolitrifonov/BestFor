@@ -12,7 +12,6 @@
         return tokens.CookieToken + ":" + tokens.FormToken;
     }
 }
-
 @* Culture is placed into view bag by action filter *@
 @* This is the "normal" way of getting a localized string value *@
 @resourcesService.GetString(this.ViewBag.BestForCulture, "trending_today")<br />
@@ -71,3 +70,5 @@
 <script src="@Url.Content("~/Scripts/SuggestionAnswerItem.jsx")"></script>
 <script src="@Url.Content("~/Scripts/SuggestionPanel.jsx")"></script>
 @Html.ReactInitJavaScript()
+
+<br />

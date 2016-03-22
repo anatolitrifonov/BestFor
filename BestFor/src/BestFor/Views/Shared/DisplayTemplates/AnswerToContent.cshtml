@@ -18,5 +18,7 @@
     // Get the localized word flag
     string flagString = resourcesService.GetCommonStrings(this.ViewBag.BestForCulture).FlagLower;
 }
-@Html.ActionLink(flagString, "FlagAnswer", "Flag", new { answerId = Model.Id })
+@*// TODO make this into something beautiful *@
+<yakor y-culture="@this.ViewBag.BestForCulture" y-controller="Flag" y-action="FlagAnswer"
+       y-querystring="@new { answerId = Model.Id }">@flagString</yakor>
 <br />

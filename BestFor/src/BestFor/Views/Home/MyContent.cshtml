@@ -1,4 +1,4 @@
-﻿@model BestFor.Dto.MyContentDto
+﻿@model BestFor.Dto.AnswerDetailsDto
 @using BestFor.Services
 @* Inject the service that generates anti forgery keys *@
 @inject Microsoft.AspNet.Antiforgery.IAntiforgery Xsrf
@@ -13,27 +13,28 @@
         return tokens.CookieToken + ":" + tokens.FormToken;
     }
 }
-<br /><br /><br />
 @{
     // Read localized strings
     string addDescription = resourcesService.GetString(this.ViewBag.BestForCulture, "add_description");
     string answerDetails = resourcesService.GetString(this.ViewBag.BestForCulture, "answer_details");
+    string flagString = resourcesService.GetCommonStrings(this.ViewBag.BestForCulture).FlagLower;
 }
 @LinkingHelper.ConvertAnswerToText(Model.CommonStrings, Model.Answer)
 <br /><br />
-@Html.ActionLink(addDescription, "AddDescription", "AnswerAction", new { answerId = Model.Answer.Id })
+@foreach (var item in Model.Descriptions)
+{
+    @Html.DisplayFor(x => item.Description)<br /><br />
+}
+<yakor y-culture="@this.ViewBag.BestForCulture" y-controller="AnswerAction" y-action="AddDescription"
+       y-querystring="@new { answerId = Model.Answer.Id }">@addDescription</yakor>
 <br /><br />
-@Html.ActionLink(answerDetails, "ShowAnswer", "AnswerAction", new { answerId = Model.Answer.Id })
+<yakor y-culture="@this.ViewBag.BestForCulture" y-controller="AnswerAction" y-action="ShowAnswer"
+       y-querystring="@new { answerId = Model.Answer.Id }">@answerDetails</yakor>
 <br />
-@* someone knows how to convert this into tag helper? *@
-Link to flagging: @Html.ActionLink("Flag", "FlagAnswer", "Flag", new { answerId = Model.Answer.Id })
+<yakor y-culture="@this.ViewBag.BestForCulture" y-controller="Flag" y-action="FlagAnswer"
+       y-querystring="@new { answerId = Model.Answer.Id }">@flagString</yakor>
 <br />
-
-This is my content<br />
-Shows:answer text, link to add description, link to show answer. <br />
-We need to show affiliate link here <br />
-Couple of choices. First one if async load on the view or react js.
-Let's go with react.<br />
+<br />
 @Html.React("AffiliateProductDetails",
         new
         {
@@ -44,20 +45,10 @@ Let's go with react.<br />
             resourceStrings = resourcesService.GetStringsAsJson(this.ViewBag.BestForCulture,
                 new string[]
                 {
-                    "suggestion_panel_initial_message",
-                    "suggestion_panel_no_answers_found",
-                    "suggestion_panel_x_answers_found",
-                    "suggestion_panel_error_happened_searching_answers",
-                    "suggestion_panel_you_were_the_first",
-                    "best_start_capital",
-                    "for_lower",
-                    "is_lower",
-                    "suggestion_panel_your_answer",
-                    "suggestion_panel_was_added",
-                    "suggestion_panel_this_answer_was_given",
-                    "times_lower",
-                    "suggestion_panel_extended_opinion",
-                    "add_capital"
+                    "title_upper",
+                    "link_upper",
+                    "price_upper",
+                    "not_able_to_find_product"
                 })
         })
 @* Load react client scripts *@

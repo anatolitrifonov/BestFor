@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace BestFor.Dto.AffiliateProgram
 {
-    public class AffiliateProductDto
+    public class AffiliateProductDto : ErrorMessageDto
     {
         /// <summary>
         /// Name of the merchant the prodcut is from. Example: Amazon.
@@ -38,6 +38,16 @@ namespace BestFor.Dto.AffiliateProgram
         /// Link to item details
         /// </summary>
         public string DetailPageURL { get; set; }
+
+        /// <summary>
+        /// Middle image URL
+        /// </summary>
+        public string MiddleImageURL { get; set; }
+
+        public int MiddleImageWidth { get; set; }
+
+        public int MiddleImageHeight { get; set; }
+
 
     }
 }
