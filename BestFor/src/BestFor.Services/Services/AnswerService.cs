@@ -214,6 +214,23 @@ namespace BestFor.Services.Services
             {
                 var answersRepo = new AnswersRepository(_repository);
                 var trendingToday = answersRepo.FindAnswersTrendingToday(TRENDING_TOP_TODAY, DateTime.Now).ToList<Answer>();
+                // If not enough get the rest from Overall Totals
+                if (trendingToday.Count < TRENDING_TOP_TODAY)
+                {
+                    var trendingOverall = GetOverallTrendingCachedData();
+                    var trendingTodayCount = trendingToday.Count;
+                    // we are going to skip the ones that are already there
+                    var added = 0;
+                    for (var i = 0; added < TRENDING_TOP_TODAY - trendingTodayCount && i < trendingOverall.Count; i++)
+                    {
+                        // is it already there?
+                        if (trendingToday.Count(x => x.Id == trendingOverall[i].Id) == 0)
+                        {
+                            trendingToday.Add(trendingOverall[i]);
+                            added++;
+                        }
+                    }
+                }
                 _cacheManager.Add(CacheConstants.CACHE_KEY_TRENDING_TODAY_DATA, trendingToday);
                 return trendingToday;
             }

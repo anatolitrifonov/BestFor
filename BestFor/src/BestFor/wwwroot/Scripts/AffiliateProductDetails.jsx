@@ -6,7 +6,11 @@ var AffiliateProductDetails = React.createClass({
         // URL to load products
         productsUrl: React.PropTypes.string,
         // Keyword to use while searching for product
-        productKeyword: React.PropTypes.string,
+        productLeftWord: React.PropTypes.string,
+        // Keyword to use while searching for product
+        productRightWord: React.PropTypes.string,
+        // Keyword to use while searching for product
+        productPhrase: React.PropTypes.string,
         // token given by the controller to send back as verification
         antiForgeryToken: React.PropTypes.string,
         // token is expected to be sent in this header
@@ -30,7 +34,7 @@ var AffiliateProductDetails = React.createClass({
         
         // No point in doing anything if answer URL was not given or the product keyword
         if (this.props.productsUrl === null || this.props.productsUrl.trim() === "") return null;
-        if (this.props.productKeyword === null || this.props.productKeyword.trim() === "") return null;
+        if (this.props.productPhrase === null || this.props.productPhrase.trim() === "") return null;
         
         // We are going to handle only one request at a time. Check if there is a request is process already.
         // Will not do anything if xht is not done. Could be anything but as we said only one at a time.
@@ -44,7 +48,19 @@ var AffiliateProductDetails = React.createClass({
             console.log("AffiliateProductDetails xhr is free. Will start searching for products.")
         }
 
-        var url = this.props.productsUrl + "?keyword=" + this.props.productKeyword;
+        // lets do a bit of manipulation
+        // take only three words from the phrase
+        var result = this.props.productPhrase.trim().split(" ");
+        var keywords = "";
+        for (var i = 0; i < result.length; i++) {
+            if (i < 3) keywords += result[i] + " ";
+        }
+        keywords = keywords.trim() + " " + this.props.productLeftWord;
+        keywords = keywords.trim() + " " + this.props.productRightWord;
+        keywords = keywords.trim();
+        console.log("sending " + keywords);
+
+        var url = this.props.productsUrl + "?keyword=" + keywords;
         if (this.xhr == null) this.xhr = new XMLHttpRequest();
         this.xhr.open("get", url, true);
         // add header for antiforgery validation if header was set as a property

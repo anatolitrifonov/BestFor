@@ -185,11 +185,11 @@ namespace BestFor.Services.AffiliateProgram.Amazon
 
             var words = keywords.Split(' ');
             string result = "";
-            // Take only three words.
+            // Take only four words.
             for (var i = 0; i < words.Length; i++)
             {
                 result += words[i];
-                if (i == words.Length - 1 || i == 2) return result;
+                if (i == words.Length - 1 || i == 3) return result;
                 result += " ";
             }
             return result;

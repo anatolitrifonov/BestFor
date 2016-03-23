@@ -3,17 +3,17 @@
 @using Microsoft.AspNet.Http.Authentication
 @model BestFor.Dto.Account.LoginViewDto
 @inject SignInManager<ApplicationUser> SignInManager
-
 @{
     ViewData["Title"] = "Log in";
 }
-
-<h2>@ViewData["Title"].</h2>
+@* Check out the request query string and see if we got here from somewhere *@
+@if (!string.IsNullOrEmpty(Model.ReturnUrl) || !string.IsNullOrWhiteSpace(Model.ReturnUrl))
+{
+    @Html.Partial("ReasonsToLogin")
+}
 <div class="row">
     <div class="col-md-8">
         <section>
-            Remember to change this page to add extra behavior depending on where we came from.
-            Example from at attempt to flag something.
             <form asp-controller="Account" asp-action="Login" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" class="form-horizontal" role="form">
                 <h4>Use a local account to log in.</h4>
                 <hr />
