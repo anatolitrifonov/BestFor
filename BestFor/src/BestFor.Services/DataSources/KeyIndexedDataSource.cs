@@ -79,7 +79,7 @@ namespace BestFor.Services.DataSources
 
             _data = new Dictionary<string, Dictionary<string, TEntity>>();
             _iddata = new Dictionary<int, TEntity>();
-            foreach (var entity in repository.List())
+            foreach (var entity in repository.Active())
                 Insert(entity);
             _initialized = true;
             return _data.Count;
@@ -90,6 +90,7 @@ namespace BestFor.Services.DataSources
         /// </summary>
         /// <param name="key"></param>
         /// <returns></returns>
+        /// <remarks>For example store all answers for the combination of left key and right key</remarks>
         public IEnumerable<TEntity> Find(string key)
         {
             if (_data == null) return null;
@@ -125,7 +126,12 @@ namespace BestFor.Services.DataSources
             // got the second key
             return firstData[secondKey];
         }
-
+        
+        /// <summary>
+        /// Second index contains full list of items unique by id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public TEntity FindExactById(int id)
         {
             // No need to throw exception although might be a good idea to tell whoever is calling this to initialize first.
@@ -169,6 +175,33 @@ namespace BestFor.Services.DataSources
             return entity;
         }
 
+        /// <summary>
+        /// Deletes entity from index
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <returns></returns>
+        public TEntity Delete(TEntity entity)
+        {
+            if (entity == null) return null;
+            if (!_data.ContainsKey(entity.IndexKey)) return null;
+            // remove from the second index
+            var howManyLeft = RemoveSecondaryKey(_data[entity.IndexKey], entity);
+            // remove from the first index
+            if (howManyLeft == 0) _data.Remove(entity.IndexKey);
+            // Remove from id index
+            _iddata.Remove(entity.Id);
+
+            return entity;
+
+        }
+
+        #region Private Methods
+        /// <summary>
+        /// index here is actually a small dictionary
+        /// </summary>
+        /// <param name="index"></param>
+        /// <param name="entity"></param>
+        /// <remarks>Second index stored all answers for a given key consiting on left word and right word </remarks>
         private void InsertSecondaryKey(Dictionary<string, TEntity> index, TEntity entity)
         {
             // Entity has the second key we only want to add it to index if it is not there
@@ -180,5 +213,15 @@ namespace BestFor.Services.DataSources
                 // replace the entry because new entry has an updated count
                 index[secondKey] = entity;
         }
+
+        private int RemoveSecondaryKey(Dictionary<string, TEntity> index, TEntity entity)
+        {
+            // Entity has the second key we only want to add it to index if it is not there
+            var secondKey = entity.SecondIndexKey;
+            if (!index.ContainsKey(entity.SecondIndexKey)) return 0;
+            index.Remove(secondKey);
+            return index.Count;
+        }
+        #endregion
     }
 }

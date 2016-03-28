@@ -108,7 +108,7 @@ namespace BestFor
             // Add my services
             // I do not want to add "using" for all projects in solution just to keep the list of fusings clean.
             services.AddScoped<BestFor.Data.IDataContext, BestFor.Data.BestDataContext>();
-            services.AddScoped<BestFor.Data.IRepository<BestFor.Domain.Entities.Answer>, BestFor.Data.Repository<BestFor.Domain.Entities.Answer>>();
+            services.AddScoped<BestFor.Data.IAnswerRepository, BestFor.Data.AnswersRepository>();
             services.AddScoped<BestFor.Data.IRepository<BestFor.Domain.Entities.Suggestion>, BestFor.Data.Repository<BestFor.Domain.Entities.Suggestion>>();
             services.AddScoped<BestFor.Data.IRepository<BestFor.Domain.Entities.BadWord>, BestFor.Data.Repository<BestFor.Domain.Entities.BadWord>>();
             services.AddScoped<BestFor.Data.IRepository<BestFor.Domain.Entities.ResourceString>, BestFor.Data.Repository<BestFor.Domain.Entities.ResourceString>>();
