@@ -22,11 +22,11 @@ namespace BestFor.Services.Services
         public const int TRENDING_TOP_OVERALL = 10;
 
         private ICacheManager _cacheManager;
-        private IRepository<Answer> _repository;
+        private IAnswerRepository _repository;
         private ILogger _logger;
 
         // private static 
-        public AnswerService(ICacheManager cacheManager, IRepository<Answer> repository, ILoggerFactory loggerFactory)
+        public AnswerService(ICacheManager cacheManager, IAnswerRepository repository, ILoggerFactory loggerFactory)
         {
             _cacheManager = cacheManager;
             _repository = repository;
@@ -109,6 +109,32 @@ namespace BestFor.Services.Services
             // Will be strange if not found ... but have to check.
             if (answer == null) return null;
             return answer.ToDto();
+        }
+
+        /// <summary>
+        /// Hides answer is the database and removes it from cache.
+        /// </summary>
+        /// <param name="answerId"></param>
+        /// <returns></returns>
+        public async Task HideAnswer(int answerId)
+        {
+            if (answerId <= 0) return;
+
+            // Find if answer already exists
+            var existingAnswer = _repository.Queryable().Where(x => x.Id == answerId).FirstOrDefault();
+            // Return if does not.
+            if (existingAnswer == null) return;
+            // Remove from cache
+            var cachedData = GetCachedData();
+            cachedData.Delete(existingAnswer);
+
+            // Update repo
+            existingAnswer.IsHidden = true;
+            _repository.Update(existingAnswer);
+
+            // Save changes.
+            await _repository.SaveChangesAsync();
+
         }
         #endregion
 
@@ -212,8 +238,24 @@ namespace BestFor.Services.Services
             object data = _cacheManager.Get(CacheConstants.CACHE_KEY_TRENDING_TODAY_DATA);
             if (data == null)
             {
-                var answersRepo = new AnswersRepository(_repository);
-                var trendingToday = answersRepo.FindAnswersTrendingToday(TRENDING_TOP_TODAY, DateTime.Now).ToList<Answer>();
+                var trendingToday = _repository.FindAnswersTrendingToday(TRENDING_TOP_TODAY, DateTime.Now).ToList<Answer>();
+                // If not enough get the rest from Overall Totals
+                if (trendingToday.Count < TRENDING_TOP_TODAY)
+                {
+                    var trendingOverall = GetOverallTrendingCachedData();
+                    var trendingTodayCount = trendingToday.Count;
+                    // we are going to skip the ones that are already there
+                    var added = 0;
+                    for (var i = 0; added < TRENDING_TOP_TODAY - trendingTodayCount && i < trendingOverall.Count; i++)
+                    {
+                        // is it already there?
+                        if (trendingToday.Count(x => x.Id == trendingOverall[i].Id) == 0)
+                        {
+                            trendingToday.Add(trendingOverall[i]);
+                            added++;
+                        }
+                    }
+                }
                 _cacheManager.Add(CacheConstants.CACHE_KEY_TRENDING_TODAY_DATA, trendingToday);
                 return trendingToday;
             }
@@ -229,8 +271,7 @@ namespace BestFor.Services.Services
             object data = _cacheManager.Get(CacheConstants.CACHE_KEY_TRENDING_OVERALL_DATA);
             if (data == null)
             {
-                var answersRepo = new AnswersRepository(_repository);
-                var trendingOverall = answersRepo.FindAnswersTrendingOverall(TRENDING_TOP_OVERALL).ToList<Answer>();
+                var trendingOverall = _repository.FindAnswersTrendingOverall(TRENDING_TOP_OVERALL).ToList<Answer>();
                 _cacheManager.Add(CacheConstants.CACHE_KEY_TRENDING_OVERALL_DATA, trendingOverall);
                 return trendingOverall;
             }

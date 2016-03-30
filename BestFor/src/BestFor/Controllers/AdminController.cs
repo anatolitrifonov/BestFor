@@ -9,15 +9,17 @@ namespace BestFor.Controllers
     /// <summary>
     /// Admin page controller. Nothing fancy yet. Gives ability to load data to cache and shows cache status.
     /// </summary>
+    [ServiceFilter(typeof(LanguageActionFilter))]
     [Authorize(Roles = "Admin")]
-    public class AdminController : Controller
+    public class AdminController : BaseApiController
     {
-
         private IStatusService _statusService;
+        private IAnswerService _answerService;
 
-        public AdminController(IStatusService statusService)
+        public AdminController(IStatusService statusService, IAnswerService answerService)
         {
             _statusService = statusService;
+            _answerService = answerService;
         }
 
         // GET: /<controller>/
@@ -45,6 +47,27 @@ namespace BestFor.Controllers
         {
             _statusService.InitBadWords();
             return RedirectToAction("Index");
+        }
+
+        // Edit Answer view
+        public IActionResult EditAnswer()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult ShowAnswer(int answerId)
+        {
+            var answer = _answerService.FindById(answerId);
+
+            return View(answer);
+        }
+
+        public IActionResult HideAnswer(int id)
+        {
+            var answer = _answerService.HideAnswer(id);
+
+            return View(id);
         }
     }
 }

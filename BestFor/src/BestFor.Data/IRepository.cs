@@ -14,6 +14,7 @@ namespace BestFor.Data
 
         IQueryable<TEntity> Queryable();
 
+        IQueryable<TEntity> Active();
 
         int Count();
 

@@ -12,7 +12,7 @@ namespace BestFor.Data
     public class Repository<TEntity> : IRepository<TEntity> where TEntity :EntityBase // class, IObjectState
     {
         protected readonly IDataContext _context;
-        private readonly DbSet<TEntity> _dbSet;
+        protected readonly DbSet<TEntity> _dbSet;
 
         public Repository(IDataContext context) //, IUnitOfWorkAsync unitOfWork)
         {
@@ -31,7 +31,12 @@ namespace BestFor.Data
             return _dbSet;
         }
 
-        public IQueryable<TEntity> Queryable()
+        public virtual IQueryable<TEntity> Active()
+        {
+            return _dbSet;
+        }
+
+        public virtual IQueryable<TEntity> Queryable()
         {
             return _dbSet;
         }

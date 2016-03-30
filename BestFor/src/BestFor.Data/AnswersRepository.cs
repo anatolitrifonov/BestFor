@@ -11,17 +11,14 @@ namespace BestFor.Data
     /// <remarks>
     /// This class helps not to drag queries logic into domain, services or anywhere else
     /// </remarks>
-    public class AnswersRepository
+    public class AnswersRepository : Repository<Answer>, IAnswerRepository, IRepository<Answer>
     {
-        private IRepository<Answer> _repository;
-
         /// <summary>
         /// Easy way to instantiate from generic repository
         /// </summary>
         /// <param name="repository"></param>
-        public AnswersRepository(IRepository<Answer> repository)
+        public AnswersRepository(IDataContext context) : base(context)
         {
-            _repository = repository;
         }
 
         /// <summary>
@@ -35,10 +32,11 @@ namespace BestFor.Data
             if (numberItemsToReturn < 1 && numberItemsToReturn > 1000)
                 throw new ArgumentOutOfRangeException("numberItemsToReturn", "numberItemsToReturn must be between 1 and 1000");
 
-            return _repository.Queryable().Where(x =>
+            return Queryable().Where(x =>
                 x.DateAdded.Year == today.Year &&
                 x.DateAdded.Month == today.Month &&
-                x.DateAdded.Day == today.Day)
+                x.DateAdded.Day == today.Day &&
+                !x.IsHidden)
                 .OrderByDescending(x => x.Count)
                 .OrderByDescending(x => x.DateAdded)
                 .Take(numberItemsToReturn).AsEnumerable();
@@ -54,9 +52,19 @@ namespace BestFor.Data
             if (numberItemsToReturn < 1 && numberItemsToReturn > 1000)
                 throw new ArgumentOutOfRangeException("numberItemsToReturn", "numberItemsToReturn must be between 1 and 1000");
 
-            return _repository.Queryable().OrderByDescending(x => x.Count)
+            return Queryable().Where(x => !x.IsHidden)
+                .OrderByDescending(x => x.Count)
                 .OrderByDescending(x => x.DateAdded)
                 .Take(numberItemsToReturn).AsEnumerable();
+        }
+
+        /// <summary>
+        /// Only return non hidden answers.
+        /// </summary>
+        /// <returns></returns>
+        public override IQueryable<Answer> Active()
+        {
+            return _dbSet.Where(x => !x.IsHidden);
         }
     }
 }
