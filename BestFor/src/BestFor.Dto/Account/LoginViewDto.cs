@@ -5,6 +5,8 @@ namespace BestFor.Dto.Account
     public class LoginViewDto
     {
         [Required]
+        public string UserName { get; set; }
+
         [EmailAddress]
         public string Email { get; set; }
 
