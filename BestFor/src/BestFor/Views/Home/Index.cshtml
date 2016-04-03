@@ -18,7 +18,7 @@
     Json object will be rendered as good JavaScript defined object. Refer to control jsx file for the list of expected strings.
 
     This is the main ReactJS control working with answers. *@
-<div class="center">
+<div class="jumbotron">
     @Html.React("SuggestionPanel",
         new {
             suggestionsUrl = "/api/suggestion",
@@ -45,9 +45,11 @@
                 })
         })
 </div>
+
 @* Culture is placed into view bag by action filter *@
 @* This is the "normal" way of getting a localized string value *@
-@resourcesService.GetString(this.ViewBag.BestForCulture, "trending_today")<br />
+@resourcesService.GetString(this.ViewBag.BestForCulture, "trending_today")
+
 <div class="row">
     <div class="col-sm-4">@Html.Partial("AnswerCard", Model.TopToday.Answers.ElementAtOrDefault(0))</div>
     <div class="col-sm-4">@Html.Partial("AnswerCard", Model.TopToday.Answers.ElementAtOrDefault(1))</div>
@@ -63,11 +65,17 @@
     <div class="col-sm-4">@Html.Partial("AnswerCard", Model.TopToday.Answers.ElementAtOrDefault(7))</div>
     <div class="col-sm-4">@Html.Partial("AnswerCard", Model.TopToday.Answers.ElementAtOrDefault(8))</div>
 </div>
-@resourcesService.GetString(this.ViewBag.BestForCulture, "trending_overall");<br />
-@foreach (var item in Model.TopOverall.Answers)
-{
-    @Html.DisplayFor(x => item, "AnswerToContent")
-}
+
+@* Trending overall *@
+@resourcesService.GetString(this.ViewBag.BestForCulture, "trending_overall")
+
+<div class="best-div-fluid">
+    @foreach (var item in Model.TopOverall.Answers)
+    {
+        @Html.DisplayFor(x => item, "AnswerToContent")
+    }
+</div>
+
 @* Load react client scripts *@
 @section TopScripts {
     @{ await Html.RenderPartialAsync("_ReactJsScriptsPartial"); }
@@ -81,5 +89,3 @@
 <script src="@Url.Content("~/Scripts/SuggestionAnswerItem.jsx")"></script>
 <script src="@Url.Content("~/Scripts/SuggestionPanel.jsx")"></script>
 @Html.ReactInitJavaScript()
-
-<br />

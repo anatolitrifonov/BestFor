@@ -1,4 +1,8 @@
-﻿using System.Threading.Tasks;
+﻿using Microsoft.Extensions.OptionsModel;
+using BestFor.Common;
+using System.Threading.Tasks;
+using System.Net.Mail;
+using System.Net;
 
 namespace BestFor.Services.Messaging
 {
@@ -7,10 +11,37 @@ namespace BestFor.Services.Messaging
     // For more details see this link http://go.microsoft.com/fwlink/?LinkID=532713
     public class AuthMessageSender : IEmailSender, ISmsSender
     {
-        public Task SendEmailAsync(string email, string subject, string message)
+        private string _emailServerAddress;
+        private int _emailServerPort;
+        private string _emailServerUser;
+        private string _emailServerPassword;
+        private string _emailFromAddress;
+
+        public AuthMessageSender(IOptions<AppSettings> appSettings)
         {
-            // Plug in your email service here to send an email.
-            return Task.FromResult(0);
+            _emailServerAddress = appSettings.Value.EmailServerAddress;
+            _emailServerPort = appSettings.Value.EmailServerPort;
+            _emailServerUser = appSettings.Value.EmailServerUser;
+            _emailServerPassword = appSettings.Value.EmailServerPassword;
+            _emailFromAddress = appSettings.Value.EmailFromAddress;
+        }
+
+        public async Task SendEmailAsync(string email, string subject, string message)
+        {
+            using (var smtp = new SmtpClient(_emailServerAddress, _emailServerPort))
+            {
+                smtp.UseDefaultCredentials = false;
+                smtp.Credentials = new NetworkCredential(_emailServerUser, _emailServerPassword);
+                var mail = new MailMessage
+                {
+                    Subject = subject,
+                    From = new MailAddress(_emailFromAddress),
+                    Body = message
+                };
+
+                mail.To.Add(email);
+                await smtp.SendMailAsync(mail);
+            }
         }
 
         public Task SendSmsAsync(string number, string message)

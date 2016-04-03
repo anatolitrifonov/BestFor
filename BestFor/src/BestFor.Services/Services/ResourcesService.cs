@@ -213,6 +213,12 @@ namespace BestFor.Services.Services
             result.Is = FindOneString(culture, "is_lower", resourceStrings);
             result.FlagLower = FindOneString(culture, "flag_lower", resourceStrings);
             result.FlagUpper = FindOneString(culture, "flag_upper", resourceStrings);
+            result.VoteLower = FindOneString(culture, "vote_lower", resourceStrings);
+            result.VoteUpper = FindOneString(culture, "vote_upper", resourceStrings);
+            result.DescribeLower = FindOneString(culture, "describe_lower", resourceStrings);
+            result.DescribeUpper = FindOneString(culture, "describe_upper", resourceStrings);
+            result.MoreLower = FindOneString(culture, "more_lower", resourceStrings);
+            result.MoreUpper = FindOneString(culture, "more_upper", resourceStrings);
             return result;
         }
         #endregion

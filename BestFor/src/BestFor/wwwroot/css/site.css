@@ -2,17 +2,32 @@
     /* background-color: green */
 }
 
-.center {
-    margin: auto;
-    width: 600px;
-    border:3px solid #73AD21;
-    padding: 10px;
-}
-
 .SuggestionTextBox {
     width: 400px
 }
 
 .AnswerTextBox {
     width: 400px
+}
+
+/* Panel that drops a shadow */
+.best-panel-shadow
+{
+    box-shadow: 0 5px 15px 0 rgba(0, 0, 0, 0.3)
+}
+
+span.best-span-round-label
+{
+    background-color: darkseagreen;
+    border-radius: 5px 5px;
+    padding-bottom: 10px;
+    padding-left: 5px;
+    padding-right: 5px;
+    padding-top: 10px;
+    margin-left: 5px
+}
+
+div.best-div-fluid /* contains best-span-round-label labels */
+{
+    line-height: 50px;
 }

@@ -171,6 +171,44 @@ if not exists(select * from ResourceString where CultureName = 'ru-RU' and [Key]
 		N'К сожелению, мы не нашли продукт похожий на этот ответ.', getDate());
 GO
 
+if not exists(select * from ResourceString where CultureName = 'en-US' and [Key] = 'vote_lower')
+	insert ResourceString(CultureName, [Key], Value, DateAdded) values('en-US', 'vote_lower', N'vote', getDate());
+if not exists(select * from ResourceString where CultureName = 'ru-RU' and [Key] = 'vote_lower')
+	insert ResourceString(CultureName, [Key], Value, DateAdded) values('ru-RU', 'vote_lower', N'голосовать', getDate());
+GO
+
+if not exists(select * from ResourceString where CultureName = 'en-US' and [Key] = 'vote_upper')
+	insert ResourceString(CultureName, [Key], Value, DateAdded) values('en-US', 'vote_upper', N'Vote', getDate());
+if not exists(select * from ResourceString where CultureName = 'ru-RU' and [Key] = 'vote_upper')
+	insert ResourceString(CultureName, [Key], Value, DateAdded) values('ru-RU', 'vote_upper', N'Голосовать', getDate());
+GO
+
+if not exists(select * from ResourceString where CultureName = 'en-US' and [Key] = 'describe_lower')
+	insert ResourceString(CultureName, [Key], Value, DateAdded) values('en-US', 'describe_lower', N'describe', getDate());
+if not exists(select * from ResourceString where CultureName = 'ru-RU' and [Key] = 'describe_lower')
+	insert ResourceString(CultureName, [Key], Value, DateAdded) values('ru-RU', 'describe_lower', N'добавить', getDate());
+GO
+
+if not exists(select * from ResourceString where CultureName = 'en-US' and [Key] = 'describe_upper')
+	insert ResourceString(CultureName, [Key], Value, DateAdded) values('en-US', 'describe_upper', N'Describe', getDate());
+if not exists(select * from ResourceString where CultureName = 'ru-RU' and [Key] = 'describe_upper')
+	insert ResourceString(CultureName, [Key], Value, DateAdded) values('ru-RU', 'describe_upper', N'Добавить', getDate());
+GO
+
+if not exists(select * from ResourceString where CultureName = 'en-US' and [Key] = 'more_lower')
+	insert ResourceString(CultureName, [Key], Value, DateAdded) values('en-US', 'more_lower', N'more', getDate());
+if not exists(select * from ResourceString where CultureName = 'ru-RU' and [Key] = 'more_lower')
+	insert ResourceString(CultureName, [Key], Value, DateAdded) values('ru-RU', 'more_lower', N'далее', getDate());
+GO
+
+if not exists(select * from ResourceString where CultureName = 'en-US' and [Key] = 'more_upper')
+	insert ResourceString(CultureName, [Key], Value, DateAdded) values('en-US', 'more_upper', N'More', getDate());
+if not exists(select * from ResourceString where CultureName = 'ru-RU' and [Key] = 'more_upper')
+	insert ResourceString(CultureName, [Key], Value, DateAdded) values('ru-RU', 'more_upper', N'Далее', getDate());
+GO
+
+
+
 --select * from ResourceString order by id desc
 --GO
 

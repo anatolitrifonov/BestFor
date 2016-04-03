@@ -12,17 +12,12 @@
 @{
     if (Model != null)
     {
-    <a href="@LinkingHelper.ConvertAnswerToUrlWithCulture(
-        this.ViewBag.BestForCulture,
-        resourcesService.GetCommonStrings(this.ViewBag.BestForCulture),
-        Model)">@LinkingHelper.ConvertAnswerToText(resourcesService.GetCommonStrings(this.ViewBag.BestForCulture), Model)</a> 
-
-        // Link to flagging.TODO how to do this in tag helpers?
-        // Get the localized word flag
-        string flagString = resourcesService.GetCommonStrings(this.ViewBag.BestForCulture).FlagLower;
-        // TODO make this into something beautiful *@
-
-    <yakor y-culture="@this.ViewBag.BestForCulture" y-controller="Flag" y-action="FlagAnswer"
-           y-querystring="@new { answerId = Model.Id }">@flagString</yakor>
+        <span class="best-span-round-label">
+            <a href="@LinkingHelper.ConvertAnswerToUrlWithCulture(
+            this.ViewBag.BestForCulture,
+            resourcesService.GetCommonStrings(this.ViewBag.BestForCulture),
+            Model)">@LinkingHelper.ConvertAnswerToText(resourcesService.GetCommonStrings(this.ViewBag.BestForCulture), Model)
+            </a>
+        </span>
     }
 }
