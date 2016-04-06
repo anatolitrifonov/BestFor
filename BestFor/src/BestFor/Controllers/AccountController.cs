@@ -13,7 +13,11 @@ namespace BestFor.Controllers
 {
     /// <summary>
     /// Controller that handles user registration and logins.
+    /// 
+    /// This filter will parse the culture from the URL and set it into Viewbag.
+    /// Controller has to inherit BaseApiController in order for filter to work correctly.
     /// </summary>
+    [ServiceFilter(typeof(LanguageActionFilter))]
     [Authorize]
     public class AccountController : Controller
     {

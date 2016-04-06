@@ -27,6 +27,11 @@ namespace BestFor.Controllers
             _answerService = answerService;
         }
 
+        /// <summary>
+        /// Loads an answer by id to show full details.
+        /// </summary>
+        /// <param name="answerId"></param>
+        /// <returns></returns>
         [HttpGet]
         [AllowAnonymous]
         public async Task<IActionResult> ShowAnswer(int answerId = 0)

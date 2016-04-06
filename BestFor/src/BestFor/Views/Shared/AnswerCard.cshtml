@@ -25,9 +25,15 @@
             @* Header *@
             <div class="panel-heading">
                 <yakor y-culture="@this.ViewBag.BestForCulture" y-controller="Flag" y-action="FlagAnswer"
-                    y-querystring="@new { answerId = Model.Id }">@flagString</yakor>
-                <yakor y-culture="@this.ViewBag.BestForCulture" y-controller="AnswerAction" y-action="Vote"
+                    y-querystring="@new { answerId = Model.Id }"><span class="glyphicon glyphicon-ban-circle" aria-hidden="true" /></yakor>
+                <yakor y-culture="@this.ViewBag.BestForCulture" y-controller="Flag" y-action="FlagAnswer"
+                       y-querystring="@new { answerId = Model.Id }">@flagString</yakor>
+                <yakor y-culture="@this.ViewBag.BestForCulture" y-controller="Vote" y-action="VoteAnswer"
+                       y-querystring="@new { answerId = Model.Id }"><span class="glyphicon glyphicon-ok" aria-hidden="true" /></yakor>
+                <yakor y-culture="@this.ViewBag.BestForCulture" y-controller="Vote" y-action="VoteAnswer"
                        y-querystring="@new { answerId = Model.Id }">@voteString</yakor>
+                <yakor y-culture="@this.ViewBag.BestForCulture" y-controller="AnswerAction" y-action="AddDescription"
+                       y-querystring="@new { answerId = Model.Id }"><span class="glyphicon glyphicon-book" aria-hidden="true" /></yakor>
                 <yakor y-culture="@this.ViewBag.BestForCulture" y-controller="AnswerAction" y-action="AddDescription"
                        y-querystring="@new { answerId = Model.Id }">@describeString</yakor>
             </div>
@@ -44,6 +50,9 @@
                     <div class="col-md-offset-8 col-md-4">
                         <a href="@LinkingHelper.ConvertAnswerToUrlWithCulture(this.ViewBag.BestForCulture,
                             resourcesService.GetCommonStrings(this.ViewBag.BestForCulture), Model)">@moreString</a>
+                        <a href="@LinkingHelper.ConvertAnswerToUrlWithCulture(this.ViewBag.BestForCulture,
+                            resourcesService.GetCommonStrings(this.ViewBag.BestForCulture), Model)"><span
+                            class="glyphicon glyphicon-triangle-right" aria-hidden="true" /></a>
                     </div>
                 </div>
             </div>

@@ -50,8 +50,8 @@ var SuggestionTextBox = React.createClass({
     render: function () {
         return (
             <input type="text" placeholder="first word" onChange={this.handleChange} value={this.props.textValue}
-                   className="SuggestionTextBox" onKeyDown={this.handleTabOrEsc}
-                   ref={(ref) => this.myTextBox = ref} />
+                className="form-control" onKeyDown={this.handleTabOrEsc}
+                ref={(ref) => this.myTextBox = ref} />
         );
     }
 });

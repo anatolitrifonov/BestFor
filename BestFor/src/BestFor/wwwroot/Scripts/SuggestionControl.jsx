@@ -15,7 +15,9 @@ var SuggestionControl = React.createClass({
         // token given by the controller to send back as verification
         antiForgeryToken: React.PropTypes.string,
         // token is expected to be sent in this header
-        antiForgeryHeaderName: React.PropTypes.string
+        antiForgeryHeaderName: React.PropTypes.string,
+        // Give this value to label
+        labelText: React.PropTypes.string
     },
 
     // Built in ability to set initial state
@@ -189,17 +191,21 @@ var SuggestionControl = React.createClass({
 
     render: function () {
         return (
-            <span>
+           <div className="form-group">
+                <label className="control-label">{this.props.labelText}</label>
+
                 <SuggestionTextBox onUserTyping={this.handleUserTyping} textValue={this.state.currentValue}
                                    onTabOrEscPressed={this.handleTextBoxTabOrEscPressed}
                                    focusOnLoad={this.props.focusOnLoad} />
+
                 <SuggestionResultList suggestions={this.state.suggestionsData}
                                   listTop={this.state.listTop}
                                   listLeft={this.state.listLeft}
                                   onListClicked={this.handleListClicked}
                                   isVisible={this.state.showList}
                                   onListActive={this.handleListActive}/>
-            </span>
+
+            </div>
         );
     }
 });

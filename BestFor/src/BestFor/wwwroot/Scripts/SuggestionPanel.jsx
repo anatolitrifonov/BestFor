@@ -342,23 +342,25 @@
             <div style={overAllDivStyle}>
                 <span>{ this.state.statusMessage }</span>
                 <a href={linkToExtendedOpinion} style={ addDescriptionStyle }>{this.props.resourceStrings.suggestion_panel_extended_opinion}</a><br />
-                {this.props.resourceStrings.best_start_capital}<br />
-                {/* This will be knows as leftTextBox */}
+                {/* This will be known as leftTextBox */}
                 <SuggestionControl suggestionsUrl={this.props.suggestionsUrl} onValueChange={this.doAnswersSearchFromLeftTextBox}
-                                   antiForgeryToken={this.props.antiForgeryToken} antiForgeryHeaderName={this.props.antiForgeryHeaderName}
-                                   ref={(ref) => this.leftTextBox = ref} focusOnLoad={ true }/><br />
-                {this.props.resourceStrings.for_lower}<br />
+                    antiForgeryToken={this.props.antiForgeryToken} antiForgeryHeaderName={this.props.antiForgeryHeaderName}
+                    ref={(ref) => this.leftTextBox = ref} focusOnLoad={ true } textBoxGroupId={ "first-text-box" }
+                    labelText={this.props.resourceStrings.best_start_capital} />
                 {/* This will be knows as rightTextBox */}
                 <SuggestionControl suggestionsUrl={this.props.suggestionsUrl} onValueChange={this.doAnswersSearchFromRightTextBox}
-                                   antiForgeryToken={this.props.antiForgeryToken} antiForgeryHeaderName={this.props.antiForgeryHeaderName}
-                                   ref={(ref) => this.rightTextBox = ref} focusOnLoad={ false } /><br />
-                {this.props.resourceStrings.is_lower}<br />
+                    antiForgeryToken={this.props.antiForgeryToken} antiForgeryHeaderName={this.props.antiForgeryHeaderName}
+                    ref={(ref) => this.rightTextBox = ref} focusOnLoad={ false } textBoxGroupId={ "second-text-box" }
+                    labelText={this.props.resourceStrings.for_lower} />
                 {/* This will be knows as answerTextBox */}
-                <input type="text" placeholder="your answer" ref={(ref) => this.answerTextBox = ref} onChange={this.doAnswersSearchFromButton}
-                       className="AnswerTextBox"/>
-                <input type="button" value={this.props.resourceStrings.add_capital} onClick={this.handleAddButtonClick} />
+                <div className="form-group">
+                    <label className="control-label">{this.props.resourceStrings.is_lower}</label>
+                    <input type="text" placeholder="your answer" ref={(ref) => this.answerTextBox = ref} onChange={this.doAnswersSearchFromButton}
+                       className="form-control" />
+                </div>
+                <input type="button" value={this.props.resourceStrings.add_capital} onClick={this.handleAddButtonClick} className="btn btn-default" />
                 <input type="button" value="Search" onClick={this.doAnswersSearchFromButton} style={ searchButtonStyle } /><br /><br />
-                <SuggestionAnswerList answers={this.state.answers} onListClicked={this.handleOnListClicked}/><br />
+                <SuggestionAnswerList answers={this.state.answers} onListClicked={this.handleOnListClicked} /><br />
                 <textarea style={errorDisplayStyle} ref={(ref) => this.errorDisplay = ref} value={this.state.errorMessage} readOnly />
             </div>
         );

@@ -11,56 +11,56 @@ using Microsoft.Extensions.Logging;
 namespace BestFor.Controllers
 {
     /// <summary>
-    /// Allows user to flag data if he sees something wrong with it.
+    /// Allows user to vote for answers and answer descriptions.
     /// 
     /// This filter will parse the culture from the URL and set it into Viewbag.
     /// Controller has to inherit BaseApiController in order for filter to work correctly.
     /// </summary>
     [ServiceFilter(typeof(LanguageActionFilter))]
     [Authorize]
-    public class FlagController : BaseApiController
+    public class VoteController : BaseApiController
     {
-        private IFlagService _flagService;
+        private IVoteService _voteService;
         private readonly ILogger _logger;
 
-        public FlagController(IFlagService flagService, ILoggerFactory loggerFactory)
+        public VoteController(IVoteService voteService, ILoggerFactory loggerFactory)
         {
-            _flagService = flagService;
+            _voteService = voteService;
             _logger = loggerFactory.CreateLogger<FlagController>();
         }
 
         [HttpGet]
-        public async Task<IActionResult> FlagAnswer(int answerId = 0)
+        public async Task<IActionResult> VoteAnswer(int answerId = 0)
         {
-            _logger.LogDebug("FlagAnswer answerId = " + answerId);
+            _logger.LogDebug("VoteAnswer answerId = " + answerId);
 
             // Only do something is answer id is not zero
             if (answerId != 0)
             {
-                await _flagService.FlagAnswer(new AnswerFlagDto() { AnswerId = answerId, UserId = User.GetUserId() } );
+                await _voteService.VoteAnswer(new AnswerVoteDto() { AnswerId = answerId, UserId = User.GetUserId() } );
             }
 
-            return RedirectToAction("ConfirmFlag");
+            return RedirectToAction("ConfirmVote");
         }
 
         [HttpGet]
-        public async Task<IActionResult> FlagAnswerDescription(int answerDescriptionId = 0)
+        public async Task<IActionResult> VoteAnswerDescription(int answerDescriptionId = 0)
         {
-            _logger.LogDebug("FlagAnswerDescription answerDescriptionId = " + answerDescriptionId);
+            _logger.LogDebug("VoteAnswerDescription answerDescriptionId = " + answerDescriptionId);
 
             // Only do something is answer id is not zero
             if (answerDescriptionId != 0)
             {
-                await _flagService.FlagAnswerDescription(
-                    new AnswerDescriptionFlagDto() { AnswerDescriptionId = answerDescriptionId, UserId = User.GetUserId() }
+                await _voteService.VoteAnswerDescription(
+                    new AnswerDescriptionVoteDto() { AnswerDescriptionId = answerDescriptionId, UserId = User.GetUserId() }
                     );
             }
 
-            return RedirectToAction("ConfirmFlag");
+            return RedirectToAction("ConfirmVote");
         }
 
         [HttpGet]
-        public async Task<IActionResult> ConfirmFlag()
+        public async Task<IActionResult> ConfirmVote()
         {
             return View();
         }

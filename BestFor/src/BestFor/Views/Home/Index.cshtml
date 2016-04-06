@@ -20,7 +20,8 @@
     This is the main ReactJS control working with answers. *@
 <div class="jumbotron">
     @Html.React("SuggestionPanel",
-        new {
+        new
+        {
             suggestionsUrl = "/api/suggestion",
             answersUrl = "/api/answer",
             antiForgeryHeaderName = BestFor.Controllers.BaseApiController.ANTI_FORGERY_HEADER_NAME,
@@ -45,37 +46,45 @@
                 })
         })
 </div>
-
-@* Culture is placed into view bag by action filter *@
-@* This is the "normal" way of getting a localized string value *@
-@resourcesService.GetString(this.ViewBag.BestForCulture, "trending_today")
-
-<div class="row">
-    <div class="col-sm-4">@Html.Partial("AnswerCard", Model.TopToday.Answers.ElementAtOrDefault(0))</div>
-    <div class="col-sm-4">@Html.Partial("AnswerCard", Model.TopToday.Answers.ElementAtOrDefault(1))</div>
-    <div class="col-sm-4">@Html.Partial("AnswerCard", Model.TopToday.Answers.ElementAtOrDefault(2))</div>
+@* Trending today *@
+<div class="panel panel-default">
+    <div class="panel-heading">
+        @* Culture is placed into view bag by action filter *@
+        @* This is the "normal" way of getting a localized string value *@
+        <h4>@resourcesService.GetString(this.ViewBag.BestForCulture, "trending_today")</h4>
+    </div>
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-sm-4">@Html.Partial("AnswerCard", Model.TopToday.Answers.ElementAtOrDefault(0))</div>
+            <div class="col-sm-4">@Html.Partial("AnswerCard", Model.TopToday.Answers.ElementAtOrDefault(1))</div>
+            <div class="col-sm-4">@Html.Partial("AnswerCard", Model.TopToday.Answers.ElementAtOrDefault(2))</div>
+        </div>
+        <div class="row">
+            <div class="col-sm-4">@Html.Partial("AnswerCard", Model.TopToday.Answers.ElementAtOrDefault(3))</div>
+            <div class="col-sm-4">@Html.Partial("AnswerCard", Model.TopToday.Answers.ElementAtOrDefault(4))</div>
+            <div class="col-sm-4">@Html.Partial("AnswerCard", Model.TopToday.Answers.ElementAtOrDefault(5))</div>
+        </div>
+        <div class="row">
+            <div class="col-sm-4">@Html.Partial("AnswerCard", Model.TopToday.Answers.ElementAtOrDefault(6))</div>
+            <div class="col-sm-4">@Html.Partial("AnswerCard", Model.TopToday.Answers.ElementAtOrDefault(7))</div>
+            <div class="col-sm-4">@Html.Partial("AnswerCard", Model.TopToday.Answers.ElementAtOrDefault(8))</div>
+        </div>
+    </div>
 </div>
-<div class="row">
-    <div class="col-sm-4">@Html.Partial("AnswerCard", Model.TopToday.Answers.ElementAtOrDefault(3))</div>
-    <div class="col-sm-4">@Html.Partial("AnswerCard", Model.TopToday.Answers.ElementAtOrDefault(4))</div>
-    <div class="col-sm-4">@Html.Partial("AnswerCard", Model.TopToday.Answers.ElementAtOrDefault(5))</div>
-</div>
-<div class="row">
-    <div class="col-sm-4">@Html.Partial("AnswerCard", Model.TopToday.Answers.ElementAtOrDefault(6))</div>
-    <div class="col-sm-4">@Html.Partial("AnswerCard", Model.TopToday.Answers.ElementAtOrDefault(7))</div>
-    <div class="col-sm-4">@Html.Partial("AnswerCard", Model.TopToday.Answers.ElementAtOrDefault(8))</div>
-</div>
-
 @* Trending overall *@
-@resourcesService.GetString(this.ViewBag.BestForCulture, "trending_overall")
-
-<div class="best-div-fluid">
-    @foreach (var item in Model.TopOverall.Answers)
-    {
-        @Html.DisplayFor(x => item, "AnswerToContent")
-    }
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h4>@resourcesService.GetString(this.ViewBag.BestForCulture, "trending_overall")</h4>
+    </div>
+    <div class="panel-body">
+        <div class="best-div-fluid">
+            @foreach (var item in Model.TopOverall.Answers)
+            {
+                @Html.DisplayFor(x => item, "AnswerToContent")
+            }
+        </div>
+    </div>
 </div>
-
 @* Load react client scripts *@
 @section TopScripts {
     @{ await Html.RenderPartialAsync("_ReactJsScriptsPartial"); }
