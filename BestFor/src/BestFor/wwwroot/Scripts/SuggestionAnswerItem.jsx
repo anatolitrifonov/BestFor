@@ -6,7 +6,9 @@ var SuggestionAnswerItem = React.createClass({
     propTypes: {
         phrase: React.PropTypes.string, // phrase should be a string
         count: React.PropTypes.number, // count should be a number
-        onItemClicked: React.PropTypes.func // onItemClicked event handler should be a function
+        onItemClicked: React.PropTypes.func, // onItemClicked event handler should be a function
+        culture: React.PropTypes.string, // count should be a number
+        answerId: React.PropTypes.number // count should be a number
     },
 
     // built in ablity to set initial state
@@ -49,9 +51,15 @@ var SuggestionAnswerItem = React.createClass({
             paddingBottom: 2,
             backgroundColor: this.state.isMouseOver ? "#f5f5dc" : ""
         };
+        var thisClassName = this.state.isMouseOver ? "best-span-round-label-light-highlighted" : "best-span-round-label-light";
+        var link = "/" + this.props.culture + "/AnswerAction/ShowAnswer?answerId=" + this.props.answerId;
+
         return (
-            <li style={styles} onMouseOver={this.handleMouseOver} onMouseOut={this.handleMouseOut}
-                onClick={this.handleClick}>{this.props.phrase} ({this.props.count})</li>
+            <span className={thisClassName}
+                onMouseOver={this.handleMouseOver} onMouseOut={this.handleMouseOut}
+                onClick={this.handleClick}>{this.props.phrase} 
+                    (<a href={link}>{this.props.count}</a>)
+            </span>
         );
     }
 });

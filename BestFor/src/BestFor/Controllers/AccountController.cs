@@ -19,7 +19,7 @@ namespace BestFor.Controllers
     /// </summary>
     [ServiceFilter(typeof(LanguageActionFilter))]
     [Authorize]
-    public class AccountController : Controller
+    public class AccountController : BaseApiController
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;

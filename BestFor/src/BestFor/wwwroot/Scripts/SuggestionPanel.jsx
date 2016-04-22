@@ -11,7 +11,9 @@
         // token is expected to be sent in this header
         antiForgeryHeaderName: React.PropTypes.string,
         // resource strings are given by the user in this design.
-        resourceStrings: React.PropTypes.object
+        resourceStrings: React.PropTypes.object,
+        // culture for building links
+        culture: React.PropTypes.string
     },
 
     // List of strings this control wants in resourceStrings:
@@ -132,6 +134,7 @@
 
     // Handles answers search launch from the right box
     doAnswersSearchFromRightTextBox: function (phrase) {
+        console.log("doAnswersSearchFromRightTextBox");
         this.doAnswersSearch(this.leftTextBox.getCurrentValue(), phrase);
     },
 
@@ -189,23 +192,25 @@
         this.xhr.send();
     },
 
-    // Handles successful search for suggestions
+    // Handles successful search for opinions
     processFoundAnswers: function (answers) {
         var message = this.props.resourceStrings.suggestion_panel_no_answers_found;
         if (answers != null && answers.length > 0)
-            message = answers.length + this.props.resourceStrings.suggestion_panel_x_answers_found;
+            message = answers.length + " " + this.props.resourceStrings.suggestion_panel_x_answers_found;
         // Save the answers to use later
         this.answers = answers;
         // this is expected to update the list that is bound to this state data.
         this.setState({
-            statusMessage: message, // message
+            // statusMessage: message, // message
             answers: this.answers, // set aswers data
             showErrorPane: false, // hide errors
             errorMessage: "", // blank the error 
-            showAddDescriptionLink: false
+            showAddDescriptionLink: false,
+            answerResultMessage: message
         });
     },
 
+    // Handles ubsuccessful search for opinions
     processErrorInAnswersSearch: function (errorMessage) {
         console.log("SuggestionPanel xhr onload errored out. Error text is probably too long.");
         this.answers = [];
@@ -319,6 +324,50 @@
         this.leftTextBox.blankCurrentValue();
         this.rightTextBox.blankCurrentValue();
         this.answers = [];
+        this.setState({
+            answerResultMessage: ""
+        });
+    },
+
+    // Fires when left box gets the focus
+    handleLeftTextBoxGotFocus: function () {
+        this.handleTextBoxGotFocus(1);
+    },
+
+    // Fires when right box gets the focus
+    handleRightTextBoxGotFocus: function () {
+        this.handleTextBoxGotFocus(2);
+    },
+
+    // Fires when answer box gets the focus
+    handleAnswerTextBoxGotFocus: function () {
+        this.handleTextBoxGotFocus(3);
+    },
+
+    // change the status message depending on what's going on
+    handleTextBoxGotFocus: function (whichOne) {
+        if (this.leftTextBox == null || this.rightTextBox == null || this.answerTextBox == null) return;
+        var leftGotFocus = whichOne == 1;
+        var rightGotFocus = whichOne == 2;
+        var answerGotFocus = whichOne == 3;
+        // console.log("handleTextBoxGotFocus");
+        // Get validity
+        var leftValid = SuggestionPanel.validateInput(this.leftTextBox.getCurrentValue());
+        var rightValid = SuggestionPanel.validateInput(this.rightTextBox.getCurrentValue());
+        var answerValid = SuggestionPanel.validateInput(this.answerTextBox.getDOMNode().value);
+        // console.log("handleTextBoxGotFocus leftValid " + leftValid + " rightValid " + rightValid + " answerValid " + answerValid);
+        // console.log("handleTextBoxGotFocus leftGotFocus " + leftGotFocus + " rightGotFocus " + rightGotFocus + " answerGotFocus " + answerGotFocus);
+        // Only set message in specific situations.
+        if (leftValid && !answerValid && !answerGotFocus) {
+            this.setState({
+                statusMessage: "Enter the second word"
+            });
+        }
+        else if (leftValid && rightValid && !answerValid && answerGotFocus) {
+            this.setState({
+                statusMessage: "Enter the answer"
+            });
+        }
     },
 
     render: function () {
@@ -336,31 +385,44 @@
         var addDescriptionStyle = {
             display: this.state.showAddDescriptionLink ? "" : "none"
         };
-        var linkToExtendedOpinion = "/AnswerAction/AddDescription?answerId=" + this.state.lastAddedAnswerId;
+        var linkToExtendedOpinion = "/" + this.props.culture + "/AnswerAction/AddDescription?answerId=" + this.state.lastAddedAnswerId;
 
         return (
             <div style={overAllDivStyle}>
-                <span>{ this.state.statusMessage }</span>
-                <a href={linkToExtendedOpinion} style={ addDescriptionStyle }>{this.props.resourceStrings.suggestion_panel_extended_opinion}</a><br />
+                <span className="best-light-text">{ this.state.statusMessage }</span>
+                <div style={ addDescriptionStyle }>
+                    <a className="btn best-index-button"
+                       href={linkToExtendedOpinion}>{this.props.resourceStrings.suggestion_panel_extended_opinion}</a>
+                </div>
+
                 {/* This will be known as leftTextBox */}
                 <SuggestionControl suggestionsUrl={this.props.suggestionsUrl} onValueChange={this.doAnswersSearchFromLeftTextBox}
-                    antiForgeryToken={this.props.antiForgeryToken} antiForgeryHeaderName={this.props.antiForgeryHeaderName}
-                    ref={(ref) => this.leftTextBox = ref} focusOnLoad={ true } textBoxGroupId={ "first-text-box" }
-                    labelText={this.props.resourceStrings.best_start_capital} />
+                                   antiForgeryToken={this.props.antiForgeryToken} antiForgeryHeaderName={this.props.antiForgeryHeaderName}
+                                   ref={(ref) => this.leftTextBox = ref} focusOnLoad={ true } textBoxGroupId={ "first-text-box" }
+                                   labelText={this.props.resourceStrings.best_start_capital} onGotFocus={this.handleLeftTextBoxGotFocus}
+                                   placeHolder="start typing" />
                 {/* This will be knows as rightTextBox */}
                 <SuggestionControl suggestionsUrl={this.props.suggestionsUrl} onValueChange={this.doAnswersSearchFromRightTextBox}
-                    antiForgeryToken={this.props.antiForgeryToken} antiForgeryHeaderName={this.props.antiForgeryHeaderName}
-                    ref={(ref) => this.rightTextBox = ref} focusOnLoad={ false } textBoxGroupId={ "second-text-box" }
-                    labelText={this.props.resourceStrings.for_lower} />
+                                   antiForgeryToken={this.props.antiForgeryToken} antiForgeryHeaderName={this.props.antiForgeryHeaderName}
+                                   ref={(ref) => this.rightTextBox = ref} focusOnLoad={ false } textBoxGroupId={ "second-text-box" }
+                                   labelText={this.props.resourceStrings.for_lower} onGotFocus={this.handleRightTextBoxGotFocus}
+                                   placeHolder="continue here"/>
                 {/* This will be knows as answerTextBox */}
-                <div className="form-group">
-                    <label className="control-label">{this.props.resourceStrings.is_lower}</label>
-                    <input type="text" placeholder="your answer" ref={(ref) => this.answerTextBox = ref} onChange={this.doAnswersSearchFromButton}
-                       className="form-control" />
+                <div className="input-group best-some-padding">
+                    <span className="input-group-addon index-page-label" id="basic-addon3">{this.props.resourceStrings.is_lower}:</span>
+                    <input type="text" className="form-control index-page-input" aria-describedby="basic-addon3"
+                           placeholder="finish with your opinion"
+                           ref={(ref) => this.answerTextBox = ref}
+                           onChange={this.doAnswersSearchFromButton}
+                           onFocus={this.handleAnswerTextBoxGotFocus} />
                 </div>
-                <input type="button" value={this.props.resourceStrings.add_capital} onClick={this.handleAddButtonClick} className="btn btn-default" />
-                <input type="button" value="Search" onClick={this.doAnswersSearchFromButton} style={ searchButtonStyle } /><br /><br />
-                <SuggestionAnswerList answers={this.state.answers} onListClicked={this.handleOnListClicked} /><br />
+                <div className="best-some-padding">
+                    <input type="button" value={this.props.resourceStrings.add_capital}
+                           onClick={this.handleAddButtonClick} className="btn best-index-button" />
+                    <input type="button" value="Search" onClick={this.doAnswersSearchFromButton} style={ searchButtonStyle } />
+                </div>
+                <span className="best-light-text">{ this.state.answerResultMessage }</span>
+                <SuggestionAnswerList answers={this.state.answers} onListClicked={this.handleOnListClicked} culture={this.props.culture} />
                 <textarea style={errorDisplayStyle} ref={(ref) => this.errorDisplay = ref} value={this.state.errorMessage} readOnly />
             </div>
         );

@@ -1,6 +1,6 @@
 ﻿@* This view shows information abou the currently logged in user. *@
 @using System.Security.Claims
-<div style="float:right;text-align:right">
+<div class="best-top-right-bar">
     @if (User.IsSignedIn())
     {
         <div class="dropdown">
@@ -8,12 +8,12 @@
                 @User.GetUserName()<img src="swerwerwerwerre.gif" width="32" height="32" />
                 <span class="caret"></span>
             </button>-->
-            <button class="btn btn-default dropdown-toggle" type="button" id="accountDropdownMenu" data-toggle="dropdown" aria-haspopup="true"
+            <button class="btn dropdown-toggle" type="button" id="accountDropdownMenu" data-toggle="dropdown" aria-haspopup="true"
                     aria-expanded="true">
                 <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
             </button>
             <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="accountDropdownMenu">
-                <li><a asp-controller="Manage" asp-action="Index" title="Manage">@User.GetUserName()</a></li>
+                <li><a class="best-user-menu" asp-controller="Manage" asp-action="Index" title="Manage">@User.GetUserName()</a></li>
                 <li>
                     <form asp-controller="Account" asp-action="LogOff" method="post" id="logoutForm">
                         <button type="submit" class="btn btn-link">Log off</button>
@@ -24,7 +24,8 @@
     }
     else
     {
-        <a asp-controller="Account" asp-action="Register">Register</a>
-        <a asp-controller="Account" asp-action="Login">Log in</a>
+        <a class="best-light-link" asp-controller="Account" asp-action="Register">Register</a>
+        <span>&nbsp;</span>
+        <a class="best-light-link" asp-controller="Account" asp-action="Login">Log in</a>
     }
 </div>

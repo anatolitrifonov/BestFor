@@ -40,7 +40,7 @@ namespace BestFor.Controllers
                 await _voteService.VoteAnswer(new AnswerVoteDto() { AnswerId = answerId, UserId = User.GetUserId() } );
             }
 
-            return RedirectToAction("ConfirmVote");
+            return RedirectToAction("ConfirmVote", new { answerId = answerId });
         }
 
         [HttpGet]
@@ -60,7 +60,7 @@ namespace BestFor.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> ConfirmVote()
+        public async Task<IActionResult> ConfirmVote(int answerId = 0)
         {
             return View();
         }

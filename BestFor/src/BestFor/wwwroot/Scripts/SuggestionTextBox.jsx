@@ -6,9 +6,12 @@ var SuggestionTextBox = React.createClass({
         // not required but very useful
         onUserTyping: React.PropTypes.func,         // listener of onUserTyping is a function
         textValue: React.PropTypes.string,          // text value 
-        onTabOrEscPressed: React.PropTypes.func,    // listener of onLostFocus is a function
-        focusOnLoad: React.PropTypes.bool        // do we need to focus on load
-    },
+        onTabOrEscPressed: React.PropTypes.func,    // listener of onTabOrEscPressed is a function
+        focusOnLoad: React.PropTypes.bool,          // do we need to focus on load
+        onGotFocus: React.PropTypes.func,           // listener of onGotFocus is a function
+        inputGroupId: React.PropTypes.string,       // This id will go into input group
+        placeHolder: React.PropTypes.string         // Placeholder for the text box
+},
 
     // Built in event that fires when component is first mounted.
     componentDidMount: function () {
@@ -47,11 +50,18 @@ var SuggestionTextBox = React.createClass({
         this.props.onTabOrEscPressed();
     },
 
+    // Make sure we let the owner know that we got focus
+    handleFocus: function(e) {
+        if (this.props.onGotFocus == null) return;
+        this.props.onGotFocus();
+    },
+
     render: function () {
         return (
-            <input type="text" placeholder="first word" onChange={this.handleChange} value={this.props.textValue}
-                className="form-control" onKeyDown={this.handleTabOrEsc}
-                ref={(ref) => this.myTextBox = ref} />
+            <input type="text" className="form-control index-page-input" aria-describedby={this.props.inputGroupId}
+                   placeholder={this.props.placeHolder} onChange={this.handleChange} value={this.props.textValue}
+                   onKeyDown={this.handleTabOrEsc} onFocus={this.handleFocus}
+                   ref={(ref) => this.myTextBox = ref} />
         );
     }
 });

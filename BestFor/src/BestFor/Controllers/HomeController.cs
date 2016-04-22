@@ -1,7 +1,7 @@
 ﻿using BestFor.Dto;
 using BestFor.Services;
-using Microsoft.AspNet.Mvc;
 using BestFor.Services.Services;
+using Microsoft.AspNet.Mvc;
 using Microsoft.Extensions.Logging;
 
 namespace BestFor.Controllers

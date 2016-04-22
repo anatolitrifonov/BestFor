@@ -214,6 +214,8 @@ namespace BestFor.Services.AffiliateProgram.Amazon
                 var reader = new StringReader(result);
                 var xmlDoc = new XmlDocument();
                 xmlDoc.Load(reader);
+                //System.Xml.Linq.XDocument doc = System.Xml.Linq.XDocument.Parse(result);
+                //System.Diagnostics.Debug.WriteLine(doc.ToString());
                 return ReadXml(xmlDoc);
             }
         }
@@ -290,8 +292,21 @@ namespace BestFor.Services.AffiliateProgram.Amazon
             var nodes = xmlDoc.GetElementsByTagName("Item");
             // I doubt this can ever be null but we wil check anyway
             if (nodes == null || nodes.Count == 0) return null;
-            // Take the first one.
-            return ParseProduct(nodes[0], nsmgr, namespacePrefix);
+            // Lets parse all
+            var products = new List<AffiliateProductDto>();
+            for(var i = 0; i < nodes.Count; i++)
+                products.Add(ParseProduct(nodes[i], nsmgr, namespacePrefix));
+            // Pick the one that has an image and price
+            foreach (var product in products)
+                if (product.MiddleImageURL != null && !string.IsNullOrEmpty(product.FormattedPrice) &&
+                    !string.IsNullOrWhiteSpace(product.FormattedPrice))
+                    return product;
+            // Pick the one that has an image and price
+            foreach (var product in products)
+                if (product.MiddleImageURL != null)
+                    return product;
+            // Nothing with the image -> pick the first one.
+            return products[0];
         }
 
         /// <summary>

@@ -12,14 +12,32 @@
         return tokens.CookieToken + ":" + tokens.FormToken;
     }
 }
+@section TopCenter {
+    <div style="display: inline-block; padding-top:9px">
+        <span class="best-top-center-general-text">More than</span>
+        <span class="best-top-center-highlighted-text">200 000</span>
+        <span class="best-top-center-general-text">opinions on thousands of questions</span>
+    </div>
+}
 @*  Main idea: do not put the logic of localization into react control because it should not really care about it.
     It should work with any language. This approach might not be considered clean since control "should" be selfcontained.
     Use resource service to get dynamic json object and feed it as a property to react control.
     Json object will be rendered as good JavaScript defined object. Refer to control jsx file for the list of expected strings.
+*@  
+<div class="row theme-color">
+    @* left side *@
+    <div class="col-sm-3">
 
-    This is the main ReactJS control working with answers. *@
-<div class="jumbotron">
-    @Html.React("SuggestionPanel",
+    </div>
+    @* center section *@
+    <div class="col-sm-6">
+        <div class="text-center">
+            @* Second part of the banner message *@
+            <div class="best-center-light-text">Impress the world with yours!<br /><br /></div>
+
+
+            @* This is the main ReactJS control working with answers. *@
+            @Html.React("SuggestionPanel",
         new
         {
             suggestionsUrl = "/api/suggestion",
@@ -43,12 +61,19 @@
                     "times_lower",
                     "suggestion_panel_extended_opinion",
                     "add_capital"
-                })
+                }),
+            culture = this.ViewBag.BestForCulture
         })
+        </div>
+    </div>
+    @* Right side *@
+    <div class="col-sm-3">
+        @Html.Partial("NeedHelp")
+    </div>
 </div>
 @* Trending today *@
 <div class="panel panel-default">
-    <div class="panel-heading">
+    <div class="panel-heading text-center">
         @* Culture is placed into view bag by action filter *@
         @* This is the "normal" way of getting a localized string value *@
         <h4>@resourcesService.GetString(this.ViewBag.BestForCulture, "trending_today")</h4>

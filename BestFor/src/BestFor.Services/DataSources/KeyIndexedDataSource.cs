@@ -79,6 +79,7 @@ namespace BestFor.Services.DataSources
 
             _data = new Dictionary<string, Dictionary<string, TEntity>>();
             _iddata = new Dictionary<int, TEntity>();
+            var howMany = repository.Active().Count();
             foreach (var entity in repository.Active())
                 Insert(entity);
             _initialized = true;
@@ -162,15 +163,17 @@ namespace BestFor.Services.DataSources
 
             // I would not expect this exception to ever be thrown
             // If it is thrown then something is wrong in design.
+            // AT: 4/5/2016. Disregard the previous note. This happens when user adds (essentially votes) vore the same answer
+            // entity will come with the proper id and increased count. Skip if already there.
             try
             {
-                _iddata.Add(entity.Id, entity);
+                if (!_iddata.ContainsKey(entity.Id))
+                    _iddata.Add(entity.Id, entity);
             }
             catch(Exception ex)
             {
                 throw new Exception("Something is wrong in the index by id dictionary.", ex);
             }
-
 
             return entity;
         }

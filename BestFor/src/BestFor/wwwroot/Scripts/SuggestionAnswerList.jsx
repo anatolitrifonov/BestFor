@@ -3,7 +3,8 @@
 var SuggestionAnswerList = React.createClass({
     // Built in ability to verify type of each property not required but very useful
     propTypes: {
-        onListClicked: React.PropTypes.func    // onListClicked event handler functon
+        onListClicked: React.PropTypes.func,    // onListClicked event handler functon
+        culture: React.PropTypes.string         // culture for building links
     },
 
     // Handle click event from an item
@@ -35,16 +36,17 @@ var SuggestionAnswerList = React.createClass({
         var someArray = this.props.answers.map(function (answer, i) {
             return (
                 <SuggestionAnswerItem phrase={answer.Phrase} count={answer.Count}
-                        onItemClicked={this.handleItemClicked.bind(this, answer.Phrase)} key={i}></SuggestionAnswerItem>
+                        onItemClicked={this.handleItemClicked.bind(this, answer.Phrase)} key={i}
+                        culture={this.props.culture}
+                        answerId={answer.Id}></SuggestionAnswerItem>
             );
         }, this);
         
         // render list of the top answers for the pair
+        // div used to be filled with ul
         return (
-            <div style={this.getListDivStyle()}>
-                <ul style={this.getUnsortedListStyle()}>
+            <div className="best-div-fluid">
                 {someArray}      
-                </ul>
             </div>
         );
     }

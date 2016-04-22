@@ -2,6 +2,7 @@
 using BestFor.Services.Services;
 using Microsoft.AspNet.Authorization;
 using Microsoft.AspNet.Mvc;
+using Microsoft.Extensions.Logging;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
@@ -18,13 +19,18 @@ namespace BestFor.Controllers
         private IAnswerDescriptionService _answerDescriptionService;
         private IAnswerService _answerService;
         private IProfanityService _profanityService;
+        private IResourcesService _resourcesService;
+        private ILogger _logger;
 
         public AnswerActionController(IAnswerDescriptionService answerDescriptionService, IProfanityService profanityService,
-            IAnswerService answerService)
+            IAnswerService answerService, IResourcesService resourcesService, ILoggerFactory loggerFactory)
         {
             _answerDescriptionService = answerDescriptionService;
             _profanityService = profanityService;
             _answerService = answerService;
+            _resourcesService = resourcesService;
+            _logger = loggerFactory.CreateLogger<HomeController>();
+            _logger.LogInformation("created AnswerActionController");
         }
 
         /// <summary>
@@ -36,6 +42,13 @@ namespace BestFor.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> ShowAnswer(int answerId = 0)
         {
+            var culture = this.Culture;
+            var requestPath = Request.Path.Value;
+            // cut the culture
+            var cultureBegining = "/" + culture;
+            if (requestPath.StartsWith(cultureBegining)) requestPath = requestPath.Substring(cultureBegining.Length);
+            // Now try to parse the request path into known words.
+            var commonStrings = _resourcesService.GetCommonStrings(culture);
             // Load the answer.
             var answer = _answerService.FindById(answerId);
             // Load answer descriptions
@@ -44,10 +57,11 @@ namespace BestFor.Controllers
             var model = new AnswerDetailsDto()
             {
                 Answer = answer,
+                CommonStrings = commonStrings,
                 Descriptions = descriptions
             };
 
-            return View(model);
+            return View("MyContent", model);
         }
 
         /// <summary>

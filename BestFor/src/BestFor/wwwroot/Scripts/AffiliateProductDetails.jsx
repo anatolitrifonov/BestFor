@@ -137,9 +137,10 @@ var AffiliateProductDetails = React.createClass({
     render: function () {
         return (
             <div style={this.getOverallDivStyle()}>
-                {this.props.resourceStrings.title_upper}: {this.state.productTitle}<br />
-                {this.props.resourceStrings.price_upper}: {this.state.productFormattedPrice}<br />
-                {this.props.resourceStrings.link_upper}: <a href={this.state.productLink} target="_blank">{this.state.productTitle}</a><br />
+                <b>{this.props.resourceStrings.found_useful_product}</b><br /><br />
+                <b>{this.props.resourceStrings.title_upper}:</b>&nbsp;
+                    <a href={this.state.productLink} target="_blank">{this.state.productTitle}</a><br /><br />
+                <b>{this.props.resourceStrings.price_upper}:</b>&nbsp; {this.state.productFormattedPrice}<br /><br />
                 <a href={this.state.productLink} target="_blank">
                     <img width={this.state.productImageWidth} height={this.state.productImageHeight}
                          src={this.state.productImageUrl} border="0" title={this.state.productTitle} />
