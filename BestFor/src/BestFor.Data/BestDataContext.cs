@@ -16,6 +16,8 @@ namespace BestFor.Data
         public DbSet<ResourceString> ResourceStrings { get; set; }
         public DbSet<AnswerFlag> AnswerFlags { get; set; }
         public DbSet<AnswerDescriptionFlag> AnswerDescriptionFlags { get; set; }
+        public DbSet<AnswerVote> AnswerVotes { get; set; }
+        public DbSet<AnswerDescriptionVote> AnswerDescriptionVotes { get; set; }
 
         /// <summary>
         /// 

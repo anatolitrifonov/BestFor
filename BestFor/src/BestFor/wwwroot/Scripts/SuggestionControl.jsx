@@ -8,15 +8,16 @@ var SuggestionControl = React.createClass({
     // Built in ability to verify type of each property
     propTypes: {
         // not required but very useful
-        suggestionsUrl: React.PropTypes.string, // suggestionsUrl event handler should be a string
-        onValueChange: React.PropTypes.func,    // onValueChange event handler should be a function
-        onGotFocus: React.PropTypes.func,       // onGotFocus event handler should be a function
-        focusOnLoad: React.PropTypes.bool,    // focusOnLoad is aboolean
-        // token given by the controller to send back as verification
-        antiForgeryToken: React.PropTypes.string,
-        // token is expected to be sent in this header
-        antiForgeryHeaderName: React.PropTypes.string
-    },
+        suggestionsUrl: React.PropTypes.string,     // suggestionsUrl event handler should be a string
+        onValueChange: React.PropTypes.func,        // onValueChange event handler should be a function
+        onGotFocus: React.PropTypes.func,           // onGotFocus event handler should be a function
+        focusOnLoad: React.PropTypes.bool,          // focusOnLoad is aboolean
+        antiForgeryToken: React.PropTypes.string,   // token given by the controller to send back as verification
+        antiForgeryHeaderName: React.PropTypes.string, // token is expected to be sent in this header
+        labelText: React.PropTypes.string,          // Give this value to label
+        inputGroupId: React.PropTypes.string,        // This id will go into input group
+        placeHolder: React.PropTypes.string         // Placeholder for the text box
+},
 
     // Built in ability to set initial state
     getInitialState: function () {
@@ -138,18 +139,19 @@ var SuggestionControl = React.createClass({
         console.log("errorMessage:" + errorMessage);
         this.setState({
             suggestionsData: [],
-            listTop: userInputObject.y,
-            listLeft: userInputObject.x,
+            listTop: userInputObject.y - 75,
+            listLeft: 70, //userInputObject.x,
             showList: false
         });
     },
 
     // Handles successful search for suggestions
     processFoundSuggestions: function (suggestionsData, userInputObject) {
+        console.log("userInputObject.y = " + userInputObject.y + " userInputObject.x " + userInputObject.x);
         this.setState({
             suggestionsData: suggestionsData,
-            listTop: userInputObject.y,
-            listLeft: userInputObject.x,
+            listTop: userInputObject.y - 75,
+            listLeft: 70, //userInputObject.x,
             showList: true
         });
         if (suggestionsData.length > 0) this.startTicking();
@@ -163,7 +165,7 @@ var SuggestionControl = React.createClass({
             currentValue: phrase.Phrase // set the value in the text box
         });
         // Let the listeners know that something has changed
-        this.notifyListenersOnValueChange(phrase);
+        this.notifyListenersOnValueChange(phrase.Phrase);
     },
 
     // Monitor the list mouse movements
@@ -187,19 +189,30 @@ var SuggestionControl = React.createClass({
             this.props.onValueChange(phrase);
     },
 
+    // Make sure we let the owner know that textbox got focus
+    handleTextBoxGotFocus: function (e) {
+        if (this.props.onGotFocus == null) return;
+        this.props.onGotFocus();
+    },
+
     render: function () {
         return (
-            <span>
-                <SuggestionTextBox onUserTyping={this.handleUserTyping} textValue={this.state.currentValue}
+            <div>
+                <div className="input-group best-some-padding">
+                    <span className="input-group-addon index-page-label" id={this.props.inputGroupId}>{this.props.labelText}</span>
+
+                    <SuggestionTextBox onUserTyping={this.handleUserTyping} textValue={this.state.currentValue}
                                    onTabOrEscPressed={this.handleTextBoxTabOrEscPressed}
-                                   focusOnLoad={this.props.focusOnLoad} />
+                                   focusOnLoad={this.props.focusOnLoad} onGotFocus={this.handleTextBoxGotFocus}
+                                   inputGroupId={this.props.inputGroupId} placeHolder={this.props.placeHolder} />
+                </div>
                 <SuggestionResultList suggestions={this.state.suggestionsData}
-                                  listTop={this.state.listTop}
-                                  listLeft={this.state.listLeft}
-                                  onListClicked={this.handleListClicked}
-                                  isVisible={this.state.showList}
-                                  onListActive={this.handleListActive}/>
-            </span>
+                                      listTop={this.state.listTop}
+                                      listLeft={this.state.listLeft}
+                                      onListClicked={this.handleListClicked}
+                                      isVisible={this.state.showList}
+                                      onListActive={this.handleListActive} />
+            </div>
         );
     }
 });

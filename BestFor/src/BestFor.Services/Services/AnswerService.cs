@@ -18,8 +18,8 @@ namespace BestFor.Services.Services
     /// </summary>
     public class AnswerService : IAnswerService
     {
-        public const int TRENDING_TOP_TODAY = 10;
-        public const int TRENDING_TOP_OVERALL = 10;
+        public const int TRENDING_TOP_TODAY = 9;
+        public const int TRENDING_TOP_OVERALL = 9;
 
         private ICacheManager _cacheManager;
         private IAnswerRepository _repository;
@@ -164,8 +164,8 @@ namespace BestFor.Services.Services
             // And logically we also need to check the date added.
             // But we are too lazy. It is only a few items. Let's just throw away the last one.
             todaysTrending.RemoveAt(length - 1);
-            // I'd assume this adds at the end.
-            todaysTrending.Add(answer);
+            // I'd assume this adds at the start.
+            todaysTrending.Insert(0, answer);
         }
 
         /// <summary>

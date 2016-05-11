@@ -8,6 +8,9 @@ namespace BestFor.Controllers
 {
     /// <summary>
     /// Admin page controller. Nothing fancy yet. Gives ability to load data to cache and shows cache status.
+    /// 
+    /// This filter will parse the culture from the URL and set it into Viewbag.
+    /// Controller has to inherit BaseApiController in order for filter to work correctly.
     /// </summary>
     [ServiceFilter(typeof(LanguageActionFilter))]
     [Authorize(Roles = "Admin")]

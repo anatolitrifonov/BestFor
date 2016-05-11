@@ -1,8 +1,9 @@
-﻿--use bestfor
---go
+﻿use bestfor
+go
 
 --select * from ResourceString
 --GO
+-- truncate table ResourceString
 
 if not exists(select * from ResourceString where CultureName = 'en-US' and [Key] = 'trending_today')
 	insert ResourceString(CultureName, [Key], Value, DateAdded) values('en-US', 'trending_today', N'Treding Today', getDate());
@@ -22,25 +23,26 @@ if not exists(select * from ResourceString where CultureName = 'ru-RU' and [Key]
 GO
 
 if not exists(select * from ResourceString where CultureName = 'en-US' and [Key] = 'suggestion_panel_no_answers_found')
-	insert ResourceString(CultureName, [Key], Value, DateAdded) values('en-US', 'suggestion_panel_no_answers_found', N'No answers found. Be the first!', getDate());
+	insert ResourceString(CultureName, [Key], Value, DateAdded) values('en-US', 'suggestion_panel_no_answers_found', N'No opinions found. Be the first!', getDate());
 if not exists(select * from ResourceString where CultureName = 'ru-RU' and [Key] = 'suggestion_panel_no_answers_found')
-	insert ResourceString(CultureName, [Key], Value, DateAdded) values('ru-RU', 'suggestion_panel_no_answers_found', N'Ответов не найдено. Будьте первым!', getDate());
+	insert ResourceString(CultureName, [Key], Value, DateAdded) values('ru-RU', 'suggestion_panel_no_answers_found', N'Мнений не найдено. Будьте первым!', getDate());
 GO
 
 if not exists(select * from ResourceString where CultureName = 'en-US' and [Key] = 'suggestion_panel_x_answers_found')
 	insert ResourceString(CultureName, [Key], Value, DateAdded) values('en-US', 'suggestion_panel_x_answers_found',
-		N'answers found. Do you have your own? Or vote for the answer below?', getDate());
+		N'opinion(s) found. Click on opinion then "Add" to agree. Click the number to see additional details or vote. ' + 
+			'Or feel free to type your own answer in the box above and click "Add".', getDate());
 if not exists(select * from ResourceString where CultureName = 'ru-RU' and [Key] = 'suggestion_panel_x_answers_found')
 	insert ResourceString(CultureName, [Key], Value, DateAdded) values('ru-RU', 'suggestion_panel_x_answers_found',
-		N'ответов. Добавьте свой или проголосуйте за уже существующий?', getDate());
+		N'мнений. Добавьте своё или проголосуйте за уже существующее?', getDate());
 GO
 
 if not exists(select * from ResourceString where CultureName = 'en-US' and [Key] = 'suggestion_panel_error_happened_searching_answers')
 	insert ResourceString(CultureName, [Key], Value, DateAdded) values('en-US', 'suggestion_panel_error_happened_searching_answers',
-		N'Error happened while searching for answers', getDate());
+		N'Error happened while searching for opinions', getDate());
 if not exists(select * from ResourceString where CultureName = 'ru-RU' and [Key] = 'suggestion_panel_error_happened_searching_answers')
 	insert ResourceString(CultureName, [Key], Value, DateAdded) values('ru-RU', 'suggestion_panel_error_happened_searching_answers',
-		N'Ошибка при поиске ответов', getDate());
+		N'Ошибка при поиске мнений', getDate());
 GO
 
 if not exists(select * from ResourceString where CultureName = 'en-US' and [Key] = 'suggestion_panel_you_were_the_first')
@@ -70,21 +72,21 @@ if not exists(select * from ResourceString where CultureName = 'ru-RU' and [Key]
 GO
 
 if not exists(select * from ResourceString where CultureName = 'en-US' and [Key] = 'suggestion_panel_your_answer')
-	insert ResourceString(CultureName, [Key], Value, DateAdded) values('en-US', 'suggestion_panel_your_answer', N'Your answer', getDate());
+	insert ResourceString(CultureName, [Key], Value, DateAdded) values('en-US', 'suggestion_panel_your_answer', N'Your opinion', getDate());
 if not exists(select * from ResourceString where CultureName = 'ru-RU' and [Key] = 'suggestion_panel_your_answer')
-	insert ResourceString(CultureName, [Key], Value, DateAdded) values('ru-RU', 'suggestion_panel_your_answer', N'Ваш ответ', getDate());
+	insert ResourceString(CultureName, [Key], Value, DateAdded) values('ru-RU', 'suggestion_panel_your_answer', N'Ваше мнение', getDate());
 GO
 
 if not exists(select * from ResourceString where CultureName = 'en-US' and [Key] = 'suggestion_panel_was_added')
 	insert ResourceString(CultureName, [Key], Value, DateAdded) values('en-US', 'suggestion_panel_was_added', N'was added', getDate());
 if not exists(select * from ResourceString where CultureName = 'ru-RU' and [Key] = 'suggestion_panel_was_added')
-	insert ResourceString(CultureName, [Key], Value, DateAdded) values('ru-RU', 'suggestion_panel_was_added', N'был добавлен', getDate());
+	insert ResourceString(CultureName, [Key], Value, DateAdded) values('ru-RU', 'suggestion_panel_was_added', N'было добавлено', getDate());
 GO
 
 if not exists(select * from ResourceString where CultureName = 'en-US' and [Key] = 'suggestion_panel_this_answer_was_given')
-	insert ResourceString(CultureName, [Key], Value, DateAdded) values('en-US', 'suggestion_panel_this_answer_was_given', N'This answer was given', getDate());
+	insert ResourceString(CultureName, [Key], Value, DateAdded) values('en-US', 'suggestion_panel_this_answer_was_given', N'This opinion was given', getDate());
 if not exists(select * from ResourceString where CultureName = 'ru-RU' and [Key] = 'suggestion_panel_this_answer_was_given')
-	insert ResourceString(CultureName, [Key], Value, DateAdded) values('ru-RU', 'suggestion_panel_this_answer_was_given', N'Этот ответ был дан', getDate());
+	insert ResourceString(CultureName, [Key], Value, DateAdded) values('ru-RU', 'suggestion_panel_this_answer_was_given', N'Это мнение было дано', getDate());
 GO
 
 if not exists(select * from ResourceString where CultureName = 'en-US' and [Key] = 'times_lower')
@@ -103,10 +105,10 @@ GO
 
 if not exists(select * from ResourceString where CultureName = 'en-US' and [Key] = 'you_are_adding_detailed_description')
 	insert ResourceString(CultureName, [Key], Value, DateAdded) values('en-US', 'you_are_adding_detailed_description',
-		N'You are adding a detailed description for your answer.', getDate());
+		N'You are adding a detailed description for opinion.', getDate());
 if not exists(select * from ResourceString where CultureName = 'ru-RU' and [Key] = 'you_are_adding_detailed_description')
 	insert ResourceString(CultureName, [Key], Value, DateAdded) values('ru-RU', 'you_are_adding_detailed_description',
-		N'Вы добавляете детальное описание Вашего ответа.', getDate());
+		N'Вы добавляете детальное описание мнения.', getDate());
 GO
 
 if not exists(select * from ResourceString where CultureName = 'en-US' and [Key] = 'add_capital')
@@ -125,12 +127,20 @@ if not exists(select * from ResourceString where CultureName = 'ru-RU' and [Key]
 		N'Добавить Описание', getDate());
 GO
 
+if not exists(select * from ResourceString where CultureName = 'en-US' and [Key] = 'add_your_description')
+	insert ResourceString(CultureName, [Key], Value, DateAdded) values('en-US', 'add_your_description',
+		N'Add Your Description', getDate());
+if not exists(select * from ResourceString where CultureName = 'ru-RU' and [Key] = 'add_your_description')
+	insert ResourceString(CultureName, [Key], Value, DateAdded) values('ru-RU', 'add_your_description',
+		N'Добавить Ваше Описание', getDate());
+GO
+
 if not exists(select * from ResourceString where CultureName = 'en-US' and [Key] = 'answer_details')
 	insert ResourceString(CultureName, [Key], Value, DateAdded) values('en-US', 'answer_details',
-		N'Answer Details', getDate());
+		N'Opinion Details', getDate());
 if not exists(select * from ResourceString where CultureName = 'ru-RU' and [Key] = 'answer_details')
 	insert ResourceString(CultureName, [Key], Value, DateAdded) values('ru-RU', 'answer_details',
-		N'Подробности Ответа', getDate());
+		N'Подробности Мнения', getDate());
 GO
 
 if not exists(select * from ResourceString where CultureName = 'en-US' and [Key] = 'flag_lower')
@@ -165,10 +175,10 @@ GO
 
 if not exists(select * from ResourceString where CultureName = 'en-US' and [Key] = 'not_able_to_find_product')
 	insert ResourceString(CultureName, [Key], Value, DateAdded) values('en-US', 'not_able_to_find_product',
-		N'We were not able to find the product that best matches this answer.', getDate());
+		N'We were not able to find the product that best matches this opinion.', getDate());
 if not exists(select * from ResourceString where CultureName = 'ru-RU' and [Key] = 'not_able_to_find_product')
 	insert ResourceString(CultureName, [Key], Value, DateAdded) values('ru-RU', 'not_able_to_find_product',
-		N'К сожелению, мы не нашли продукт похожий на этот ответ.', getDate());
+		N'К сожелению, мы не нашли продукт похожий на это мнение.', getDate());
 GO
 
 if not exists(select * from ResourceString where CultureName = 'en-US' and [Key] = 'vote_lower')
@@ -207,6 +217,29 @@ if not exists(select * from ResourceString where CultureName = 'ru-RU' and [Key]
 	insert ResourceString(CultureName, [Key], Value, DateAdded) values('ru-RU', 'more_upper', N'Далее', getDate());
 GO
 
+if not exists(select * from ResourceString where CultureName = 'en-US' and [Key] = 'no_description_or_reasoning')
+	insert ResourceString(CultureName, [Key], Value, DateAdded) values('en-US', 'no_description_or_reasoning',
+		N'No description or reasoning was given to this opinion. Would you like to add one?', getDate());
+if not exists(select * from ResourceString where CultureName = 'ru-RU' and [Key] = 'no_description_or_reasoning')
+	insert ResourceString(CultureName, [Key], Value, DateAdded) values('ru-RU', 'no_description_or_reasoning',
+		N'Никто не дал дополнительного описания для этого мнения. Хотите добавить?', getDate());
+GO
+
+if not exists(select * from ResourceString where CultureName = 'en-US' and [Key] = 'voted_for_this_opinion')
+	insert ResourceString(CultureName, [Key], Value, DateAdded) values('en-US', 'voted_for_this_opinion',
+		N'people voted for this opinion', getDate());
+if not exists(select * from ResourceString where CultureName = 'ru-RU' and [Key] = 'voted_for_this_opinion')
+	insert ResourceString(CultureName, [Key], Value, DateAdded) values('ru-RU', 'voted_for_this_opinion',
+		N'людей проголосовали за это мнение', getDate());
+GO
+
+if not exists(select * from ResourceString where CultureName = 'en-US' and [Key] = 'found_useful_product')
+	insert ResourceString(CultureName, [Key], Value, DateAdded) values('en-US', 'found_useful_product',
+		N'We found an item that matches this opinion!', getDate());
+if not exists(select * from ResourceString where CultureName = 'ru-RU' and [Key] = 'found_useful_product')
+	insert ResourceString(CultureName, [Key], Value, DateAdded) values('ru-RU', 'found_useful_product',
+		N'Эта ссылка может вас заинтересовать!', getDate());
+GO
 
 
 --select * from ResourceString order by id desc

@@ -75,6 +75,20 @@ namespace BestFor.Data.Migrations
                     b.HasKey("Id");
                 });
 
+            modelBuilder.Entity("BestFor.Domain.Entities.AnswerDescriptionVote", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("AnswerDescriptionId");
+
+                    b.Property<DateTime>("DateAdded");
+
+                    b.Property<string>("UserId");
+
+                    b.HasKey("Id");
+                });
+
             modelBuilder.Entity("BestFor.Domain.Entities.AnswerFlag", b =>
                 {
                     b.Property<int>("Id")
@@ -92,6 +106,20 @@ namespace BestFor.Data.Migrations
                     b.HasKey("Id");
                 });
 
+            modelBuilder.Entity("BestFor.Domain.Entities.AnswerVote", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("AnswerId");
+
+                    b.Property<DateTime>("DateAdded");
+
+                    b.Property<string>("UserId");
+
+                    b.HasKey("Id");
+                });
+
             modelBuilder.Entity("BestFor.Domain.Entities.ApplicationUser", b =>
                 {
                     b.Property<string>("Id");
@@ -100,6 +128,9 @@ namespace BestFor.Data.Migrations
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken();
+
+                    b.Property<string>("DisplayName")
+                        .HasAnnotation("MaxLength", 100);
 
                     b.Property<string>("Email")
                         .HasAnnotation("MaxLength", 256);
@@ -296,7 +327,29 @@ namespace BestFor.Data.Migrations
                         .HasForeignKey("UserId");
                 });
 
+            modelBuilder.Entity("BestFor.Domain.Entities.AnswerDescriptionVote", b =>
+                {
+                    b.HasOne("BestFor.Domain.Entities.AnswerDescription")
+                        .WithMany()
+                        .HasForeignKey("AnswerDescriptionId");
+
+                    b.HasOne("BestFor.Domain.Entities.ApplicationUser")
+                        .WithMany()
+                        .HasForeignKey("UserId");
+                });
+
             modelBuilder.Entity("BestFor.Domain.Entities.AnswerFlag", b =>
+                {
+                    b.HasOne("BestFor.Domain.Entities.Answer")
+                        .WithMany()
+                        .HasForeignKey("AnswerId");
+
+                    b.HasOne("BestFor.Domain.Entities.ApplicationUser")
+                        .WithMany()
+                        .HasForeignKey("UserId");
+                });
+
+            modelBuilder.Entity("BestFor.Domain.Entities.AnswerVote", b =>
                 {
                     b.HasOne("BestFor.Domain.Entities.Answer")
                         .WithMany()

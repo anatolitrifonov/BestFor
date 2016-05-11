@@ -11,17 +11,14 @@ namespace BestFor.Data
     /// <remarks>
     /// This class helps not to drag queries logic into domain, services or anywhere else
     /// </remarks>
-    public class AnswerDescriptionsRepository
+    public class AnswerDescriptionRepository : Repository<AnswerDescription>, IAnswerDescriptionRepository, IRepository<AnswerDescription>
     {
-        private IRepository<AnswerDescription> _repository;
-
         /// <summary>
         /// Easy way to instantiate from generic repository
         /// </summary>
         /// <param name="repository"></param>
-        public AnswerDescriptionsRepository(IRepository<AnswerDescription> repository)
+        public AnswerDescriptionRepository(IDataContext context) : base(context)
         {
-            _repository = repository;
         }
     }
 }

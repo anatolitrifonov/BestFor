@@ -1,7 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using BestFor.Dto;
+﻿using BestFor.Dto;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BestFor.Domain.Entities
 {
@@ -63,7 +63,8 @@ namespace BestFor.Domain.Entities
                 LeftWord = LeftWord,
                 RightWord = RightWord,
                 Count = Count,
-                Id = Id
+                Id = Id,
+                UserId = UserId
             };
         }
 

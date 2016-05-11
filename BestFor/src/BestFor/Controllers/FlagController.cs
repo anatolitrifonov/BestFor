@@ -12,7 +12,11 @@ namespace BestFor.Controllers
 {
     /// <summary>
     /// Allows user to flag data if he sees something wrong with it.
+    /// 
+    /// This filter will parse the culture from the URL and set it into Viewbag.
+    /// Controller has to inherit BaseApiController in order for filter to work correctly.
     /// </summary>
+    [ServiceFilter(typeof(LanguageActionFilter))]
     [Authorize]
     public class FlagController : BaseApiController
     {
@@ -36,7 +40,7 @@ namespace BestFor.Controllers
                 await _flagService.FlagAnswer(new AnswerFlagDto() { AnswerId = answerId, UserId = User.GetUserId() } );
             }
 
-            return View();
+            return RedirectToAction("ConfirmFlag");
         }
 
         [HttpGet]
@@ -52,6 +56,12 @@ namespace BestFor.Controllers
                     );
             }
 
+            return RedirectToAction("ConfirmFlag");
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> ConfirmFlag()
+        {
             return View();
         }
     }

@@ -1,6 +1,7 @@
 ﻿using BestFor.Domain.Entities;
 using BestFor.Dto.Account;
 using BestFor.Services.Messaging;
+using BestFor.Services.Services;
 using Microsoft.AspNet.Authorization;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Mvc;
@@ -8,26 +9,30 @@ using Microsoft.AspNet.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Security.Claims;
 
 namespace BestFor.Controllers
 {
     /// <summary>
     /// Controller that handles user registration and logins.
+    /// 
+    /// This filter will parse the culture from the URL and set it into Viewbag.
+    /// Controller has to inherit BaseApiController in order for filter to work correctly.
     /// </summary>
+    [ServiceFilter(typeof(LanguageActionFilter))]
     [Authorize]
-    public class AccountController : Controller
+    public class AccountController : BaseApiController
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly IEmailSender _emailSender;
         private readonly ISmsSender _smsSender;
         private readonly ILogger _logger;
+        private readonly IUserService _userService;
+        private IProfanityService _profanityService;
 
-        public AccountController(
-            UserManager<ApplicationUser> userManager,
-            SignInManager<ApplicationUser> signInManager,
-            IEmailSender emailSender,
-            ISmsSender smsSender,
+        public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager,
+            IEmailSender emailSender, ISmsSender smsSender, IUserService userService, IProfanityService profanityService,
             ILoggerFactory loggerFactory)
         {
             _userManager = userManager;
@@ -35,6 +40,8 @@ namespace BestFor.Controllers
             _emailSender = emailSender;
             _smsSender = smsSender;
             _logger = loggerFactory.CreateLogger<AccountController>();
+            _userService = userService;
+            _profanityService = profanityService;
         }
 
         //
@@ -133,28 +140,39 @@ namespace BestFor.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Register(RegisterViewDto model)
         {
-            if (ModelState.IsValid)
+            // redisplay the form if something is wrong with model.
+            if (!ModelState.IsValid) return View(model);
+
+            // Do profanity checks. We already validated the model.
+            if (!IsProfanityCleanProfileCreate(model)) return View(model);
+
+            // Check email is unique.
+            if (!await IsEmailUnique(model.Email, null)) return View(model);
+
+            // Check display name is unique.
+            if (!await IsDisplayNameUnique(model.DisplayName, null)) return View(model);
+
+            // Username will be checked by user manager.
+            var user = new ApplicationUser
             {
-                var user = new ApplicationUser
-                {
-                    UserName = model.UserName,
-                    Email = model.Email
-                };
-                var result = await _userManager.CreateAsync(user, model.Password);
-                if (result.Succeeded)
-                {
-                    // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=532713
-                    // Send an email with this link
-                    //var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-                    //var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: HttpContext.Request.Scheme);
-                    //await _emailSender.SendEmailAsync(model.Email, "Confirm your account",
-                    //    "Please confirm your account by clicking this link: <a href=\"" + callbackUrl + "\">link</a>");
-                    await _signInManager.SignInAsync(user, isPersistent: false);
-                    _logger.LogInformation(3, "User created a new account with password.");
-                    return RedirectToAction(nameof(HomeController.Index), "Home");
-                }
-                AddErrors(result);
+                UserName = model.UserName,
+                Email = model.Email,
+                DisplayName = model.DisplayName
+            };
+            var result = await _userManager.CreateAsync(user, model.Password);
+            if (result.Succeeded)
+            {
+                // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=532713
+                // Send an email with this link
+                //var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                //var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: HttpContext.Request.Scheme);
+                //await _emailSender.SendEmailAsync(model.Email, "Confirm your account",
+                //    "Please confirm your account by clicking this link: <a href=\"" + callbackUrl + "\">link</a>");
+                await _signInManager.SignInAsync(user, isPersistent: false);
+                _logger.LogInformation(3, "User created a new account with password.");
+                return RedirectToAction(nameof(HomeController.Index), "Home");
             }
+            AddErrors(result);
 
             // If we got this far, something failed, redisplay form
             return View(model);
@@ -262,8 +280,105 @@ namespace BestFor.Controllers
             return View();
         }
 
+        /// <summary>
+        /// GET: /Account/Profile
+        /// Has to be logged in.
+        /// Can only change email and display name. Display name can be blank or unique.
+        /// Can not change user name.
+        /// Can not change password.
+        /// Have to type password to confirm update.
+        /// </summary>
+        /// <returns></returns>
+        /// <remarks>This is just a get to load current profile</remarks>
+        [HttpGet]
+        public async Task<IActionResult> Profile()
+        {
+            var currentUserId = User.GetUserId();
+            var user = await _userManager.FindByIdAsync(currentUserId);
+            if (user == null)
+            {
+                // Would be funny if this happens. Someone is hacking us I guess.
+                return View("Error");
+            }
+            var model = new ProfileViewDto();
+            model.Email = user.Email;
+            model.UserName = user.UserName;
+            model.DisplayName = user.DisplayName;
+
+            return View(model);
+        }
+
+        /// <summary>
+        /// POST: /Account/Profile
+        /// Update user's profile. Does not navigate away.
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Profile(ProfileViewDto model)
+        {
+            // Check the model first
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+            // Find id
+            var currentUserId = User.GetUserId();
+            // Find user
+            var user = await _userManager.FindByIdAsync(currentUserId);
+            if (user == null)
+            {
+                // Would be funny if this happens. Someone is hacking us I guess.
+                return View("Error");
+            }
+
+            // First check if there was any changes
+            if (model.DisplayName == user.DisplayName && user.Email == model.Email)
+            {
+                // No changes
+                model.SuccessMessage = "Your profile was successfully updated.";
+                return View(model);
+            }
+
+            // Do profanity checks. We already validated the model.
+            if (!IsProfanityCleanProfileUpdate(model)) return View(model);
+
+            // Verify password
+            if (!await _userManager.CheckPasswordAsync(user, model.Password))
+            {
+                ModelState.AddModelError(string.Empty, "Invalid password");
+                return View(model);
+            }
+
+            user.DisplayName = model.DisplayName;
+            user.Email = model.Email;
+
+            // Check email is unique.
+            if (!await IsEmailUnique(model.Email, user.Id)) return View(model);
+
+            // Check display name is unique.
+            if (!await IsDisplayNameUnique(model.DisplayName, user.Id)) return View(model);
+
+            var updateResult = await _userManager.UpdateAsync(user);
+
+            // If all good we stay on the same page and display success message.
+            if (updateResult.Succeeded)
+            {
+                model.SuccessMessage = "Your profile was successfully updated.";
+            }
+
+            AddErrors(updateResult);
+
+            return View(model);
+        }
+
         #region Private Methods
 
+        /// <summary>
+        /// Put all errors from identity result into model state.
+        /// </summary>
+        /// <param name="result"></param>
         private void AddErrors(IdentityResult result)
         {
             foreach (var error in result.Errors)
@@ -289,6 +404,98 @@ namespace BestFor.Controllers
             }
         }
 
+        /// <summary>
+        /// Check profile update data for profanity.
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        private bool IsProfanityCleanProfileUpdate(ProfileViewDto model)
+        {
+            // Do profanity checks. We already validated the model.
+            // we can only change a couple of fields.
+            var result = _profanityService.CheckProfanity(model.DisplayName);
+            // Disaply name can be blank.
+            if (!string.IsNullOrEmpty(model.DisplayName) && !string.IsNullOrWhiteSpace(model.DisplayName))
+                if (result.HasIssues)
+                    ModelState.AddModelError(string.Empty, result.ErrorMessage);
+
+            // We are not showing email anywhere so let's let users pick whatever the hell they want
+            //result = _profanityService.CheckProfanity(model.Email);
+            //if (result.HasIssues)
+            //    ModelState.AddModelError(string.Empty, result.ErrorMessage);
+
+            return ModelState.ErrorCount == 0;
+        }
+
+        /// <summary>
+        /// Check profile creation data for profanity.
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        private bool IsProfanityCleanProfileCreate(RegisterViewDto model)
+        {
+            // Do profanity checks. We already validated the model.
+            // we can only change a couple of fields.
+            var result = _profanityService.CheckProfanity(model.DisplayName);
+            // Disaply name can be blank.
+            if (!string.IsNullOrEmpty(model.DisplayName) && !string.IsNullOrWhiteSpace(model.DisplayName))
+                if (result.HasIssues)
+                    ModelState.AddModelError(string.Empty, result.ErrorMessage);
+
+            // We do want to check the username since it is displayable
+            result = _profanityService.CheckProfanity(model.UserName);
+            if (result.HasIssues)
+                ModelState.AddModelError(string.Empty, result.ErrorMessage);
+
+            // We are not showing email anywhere so let's let users pick whatever the hell they want
+            //result = _profanityService.CheckProfanity(model.Email);
+            //if (result.HasIssues)
+            //    ModelState.AddModelError(string.Empty, result.ErrorMessage);
+
+            return ModelState.ErrorCount == 0;
+        }
+
+        /// <summary>
+        /// Check user's email uniqueness using user manager.
+        /// </summary>
+        /// <param name="email"></param>
+        /// <param name="userId">existing/current userid to skip</param>
+        /// <returns></returns>
+        private async Task<bool> IsEmailUnique(string email, string userId)
+        {
+            var user = await _userManager.FindByEmailAsync(email);
+            if (user != null)
+            {
+                if (userId == user.Id)
+                    return true; // ignore existing/current user
+
+                ModelState.AddModelError(string.Empty, "This email is already taken.");
+                return false;
+            }
+            return true;
+        }
+
+        /// <summary>
+        /// Check display name uniqueness using user service.
+        /// </summary>
+        /// <param name="displayName"></param>
+        /// <param name="userId">existing userid to skip</param>
+        /// <returns></returns>
+        private async Task<bool> IsDisplayNameUnique(string displayName, string userId)
+        {
+            // blank Display name is OK
+            if (string.IsNullOrEmpty(displayName) || string.IsNullOrWhiteSpace(displayName)) return true;
+            var user = await _userService.FindByDisplayNameAsync(displayName);
+            if (user != null)
+            {
+                if (userId == user.Id)
+                    return true; // ignore existing/current user
+
+                ModelState.AddModelError(string.Empty, "This display name is already taken.");
+                return false;
+            }
+            return true;
+        }
         #endregion
     }
 }

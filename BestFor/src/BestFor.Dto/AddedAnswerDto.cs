@@ -1,6 +1,6 @@
 ﻿namespace BestFor.Dto
 {
-    public class AddedAnswerDto : ErrorMessageDto
+    public class AddedAnswerDto : CrudMessagesDto
     {
         public AnswerDto Answer { get; set; }
     }

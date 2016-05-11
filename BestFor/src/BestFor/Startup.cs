@@ -108,13 +108,16 @@ namespace BestFor
             // Add my services
             // I do not want to add "using" for all projects in solution just to keep the list of fusings clean.
             services.AddScoped<BestFor.Data.IDataContext, BestFor.Data.BestDataContext>();
-            services.AddScoped<BestFor.Data.IAnswerRepository, BestFor.Data.AnswersRepository>();
+            services.AddScoped<BestFor.Data.IAnswerRepository, BestFor.Data.AnswerRepository>();
+            services.AddScoped<BestFor.Data.IAnswerDescriptionRepository, BestFor.Data.AnswerDescriptionRepository>();
             services.AddScoped<BestFor.Data.IRepository<BestFor.Domain.Entities.Suggestion>, BestFor.Data.Repository<BestFor.Domain.Entities.Suggestion>>();
             services.AddScoped<BestFor.Data.IRepository<BestFor.Domain.Entities.BadWord>, BestFor.Data.Repository<BestFor.Domain.Entities.BadWord>>();
             services.AddScoped<BestFor.Data.IRepository<BestFor.Domain.Entities.ResourceString>, BestFor.Data.Repository<BestFor.Domain.Entities.ResourceString>>();
-            services.AddScoped<BestFor.Data.IRepository<BestFor.Domain.Entities.AnswerDescription>, BestFor.Data.Repository<BestFor.Domain.Entities.AnswerDescription>>();
+            // services.AddScoped<BestFor.Data.IRepository<BestFor.Domain.Entities.AnswerDescription>, BestFor.Data.Repository<BestFor.Domain.Entities.AnswerDescription>>();
             services.AddScoped<BestFor.Data.IRepository<BestFor.Domain.Entities.AnswerFlag>, BestFor.Data.Repository<BestFor.Domain.Entities.AnswerFlag>>();
             services.AddScoped<BestFor.Data.IRepository<BestFor.Domain.Entities.AnswerDescriptionFlag>, BestFor.Data.Repository<BestFor.Domain.Entities.AnswerDescriptionFlag>>();
+            services.AddScoped<BestFor.Data.IRepository<BestFor.Domain.Entities.AnswerVote>, BestFor.Data.Repository<BestFor.Domain.Entities.AnswerVote>>();
+            services.AddScoped<BestFor.Data.IRepository<BestFor.Domain.Entities.AnswerDescriptionVote>, BestFor.Data.Repository<BestFor.Domain.Entities.AnswerDescriptionVote>>();
             services.AddScoped<BestFor.Services.Cache.ICacheManager, BestFor.Services.Cache.CacheManager>();
             services.AddScoped<BestFor.Services.Services.IProfanityService, BestFor.Services.Services.ProfanityService>();
             services.AddScoped<BestFor.Services.Services.IAnswerService, BestFor.Services.Services.AnswerService>();
@@ -125,7 +128,8 @@ namespace BestFor
             // TODO: For now we use specific implementation. Might need a different injection later when we have more than one service.
             services.AddScoped<BestFor.Services.Services.IProductService, BestFor.Services.AffiliateProgram.Amazon.AmazonProductService>();
             services.AddScoped<BestFor.Services.Services.IFlagService, BestFor.Services.Services.FlagService>();
-
+            services.AddScoped<BestFor.Services.Services.IVoteService, BestFor.Services.Services.VoteService>();
+            services.AddScoped<BestFor.Services.Services.IUserService, BestFor.Services.Services.UserService>();
         }
 
         // Configure is called after ConfigureServices is called.

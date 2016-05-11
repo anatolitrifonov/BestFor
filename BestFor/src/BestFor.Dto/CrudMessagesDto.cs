@@ -1,7 +1,9 @@
 ﻿namespace BestFor.Dto
 {
-    public class ErrorMessageDto
+    public class CrudMessagesDto
     {
         public string ErrorMessage { get; set; }
+
+        public string SuccessMessage { get; set; }
     }
 }

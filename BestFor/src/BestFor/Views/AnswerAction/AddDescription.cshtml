@@ -6,9 +6,9 @@
 @* This template shows content of the answer with the link to content *@
 @* Form renders with antiforgery token without doing any jumping. We can mark controller as validate anti forgery *@
 <form asp-controller="AnswerAction" asp-action="AddDescription" method="post" class="form-horizontal" role="form">
-    @resourcesService.GetString(this.ViewBag.BestForCulture, "you_are_adding_detailed_description")<br /><br />
-    @LinkingHelper.ConvertAnswerToText(resourcesService.GetCommonStrings(this.ViewBag.BestForCulture), Model.Answer)<br /><br />
+    <br />@resourcesService.GetString(this.ViewBag.BestForCulture, "you_are_adding_detailed_description")<br />
+    <h2>@LinkingHelper.ConvertAnswerToText(resourcesService.GetCommonStrings(this.ViewBag.BestForCulture), Model.Answer)</h2><br /><br />
     <input type="hidden" asp-for="AnswerId" />
     <textarea asp-for="Description" rows="10" cols="100"></textarea><br /><br />
-    <input type="submit" value="@resourcesService.GetString(this.ViewBag.BestForCulture, "add_capital")" />
+    <button type="submit" class="btn btn-default btn-lg">@resourcesService.GetString(this.ViewBag.BestForCulture, "add_your_description")</button>
 </form>
