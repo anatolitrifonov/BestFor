@@ -18,7 +18,7 @@
 <body>
     @* We are going with container, not container-fluid at least for now because container has a fixed width. *@
     @* Container-fluid takes the whole width. *@
-    <div class="container best-margin-top theme-color">
+    <div class="container best-margin-top best-theme-color">
         @Html.Partial("TopMenu")
         @RenderSection("TopCenter", required: false)
         @Html.Partial("CurrentUser")
@@ -30,6 +30,9 @@
         @RenderBody()
     </div>
     <div class="container">
+        <br />
+        @* Show trending overall on all the pages using view component *@
+        @await Component.InvokeAsync("TrendingOverallOpinion")
         @* Bottom menu *@
         @Html.Partial("BottomMenu")
     </div>

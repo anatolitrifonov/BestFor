@@ -98,5 +98,12 @@ namespace BestFor.Services.Services
 
             return answerDescriptionVoteObject.Id;
         }
+
+        public async Task<int> CountAnswerVotes(int answerId)
+        {
+            if (answerId <= 0) return 0;
+
+            return _answerVoteRepository.Queryable().Count(x => x.AnswerId == answerId);
+        }
     }
 }

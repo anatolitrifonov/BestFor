@@ -214,8 +214,8 @@ namespace BestFor.Services.AffiliateProgram.Amazon
                 var reader = new StringReader(result);
                 var xmlDoc = new XmlDocument();
                 xmlDoc.Load(reader);
-                //System.Xml.Linq.XDocument doc = System.Xml.Linq.XDocument.Parse(result);
-                //System.Diagnostics.Debug.WriteLine(doc.ToString());
+                System.Xml.Linq.XDocument doc = System.Xml.Linq.XDocument.Parse(result);
+                System.Diagnostics.Debug.WriteLine(doc.ToString());
                 return ReadXml(xmlDoc);
             }
         }

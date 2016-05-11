@@ -58,7 +58,7 @@ var SuggestionAnswerItem = React.createClass({
             <span className={thisClassName}
                 onMouseOver={this.handleMouseOver} onMouseOut={this.handleMouseOut}
                 onClick={this.handleClick}>{this.props.phrase} 
-                    (<a href={link}>{this.props.count}</a>)
+                    (<a href={link}>&nbsp;{this.props.count}&nbsp;</a>)
             </span>
         );
     }

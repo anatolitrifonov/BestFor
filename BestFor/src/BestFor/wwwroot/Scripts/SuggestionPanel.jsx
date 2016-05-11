@@ -325,7 +325,8 @@
         this.rightTextBox.blankCurrentValue();
         this.answers = [];
         this.setState({
-            answerResultMessage: ""
+            answerResultMessage: "",
+            showAddDescriptionLink: false
         });
     },
 
@@ -360,12 +361,20 @@
         // Only set message in specific situations.
         if (leftValid && !answerValid && !answerGotFocus) {
             this.setState({
-                statusMessage: "Enter the second word"
+                statusMessage: "Enter the second word",
+                showAddDescriptionLink: false
             });
         }
         else if (leftValid && rightValid && !answerValid && answerGotFocus) {
             this.setState({
-                statusMessage: "Enter the answer"
+                statusMessage: "Enter the answer",
+                showAddDescriptionLink: false
+            });
+        }
+            // Any valid make sure button is hidden
+        else if (leftValid || rightValid || answerValid) {
+            this.setState({
+                showAddDescriptionLink: false
             });
         }
     },

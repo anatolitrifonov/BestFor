@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNet.Identity.EntityFramework;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace BestFor.Domain.Entities
 {
@@ -6,5 +8,10 @@ namespace BestFor.Domain.Entities
 
     public class ApplicationUser : IdentityUser
     {
+        /// <summary>
+        /// Optional display name. Username will be displayed when blank.
+        /// </summary>
+        [StringLength(100, ErrorMessage = "*", MinimumLength = 6)] // The {0} must be at least {2} characters long.
+        public string DisplayName { get; set; }
     }
 }

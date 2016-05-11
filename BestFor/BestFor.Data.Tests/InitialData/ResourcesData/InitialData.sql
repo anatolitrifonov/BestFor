@@ -30,7 +30,7 @@ GO
 
 if not exists(select * from ResourceString where CultureName = 'en-US' and [Key] = 'suggestion_panel_x_answers_found')
 	insert ResourceString(CultureName, [Key], Value, DateAdded) values('en-US', 'suggestion_panel_x_answers_found',
-		N'opinion(s) found. Click on opinion then "Add" to vote for it. Click the number to see additional details. ' + 
+		N'opinion(s) found. Click on opinion then "Add" to agree. Click the number to see additional details or vote. ' + 
 			'Or feel free to type your own answer in the box above and click "Add".', getDate());
 if not exists(select * from ResourceString where CultureName = 'ru-RU' and [Key] = 'suggestion_panel_x_answers_found')
 	insert ResourceString(CultureName, [Key], Value, DateAdded) values('ru-RU', 'suggestion_panel_x_answers_found',
@@ -105,10 +105,10 @@ GO
 
 if not exists(select * from ResourceString where CultureName = 'en-US' and [Key] = 'you_are_adding_detailed_description')
 	insert ResourceString(CultureName, [Key], Value, DateAdded) values('en-US', 'you_are_adding_detailed_description',
-		N'You are adding a detailed description for your opinion.', getDate());
+		N'You are adding a detailed description for opinion.', getDate());
 if not exists(select * from ResourceString where CultureName = 'ru-RU' and [Key] = 'you_are_adding_detailed_description')
 	insert ResourceString(CultureName, [Key], Value, DateAdded) values('ru-RU', 'you_are_adding_detailed_description',
-		N'Вы добавляете детальное описание Вашего мнения.', getDate());
+		N'Вы добавляете детальное описание мнения.', getDate());
 GO
 
 if not exists(select * from ResourceString where CultureName = 'en-US' and [Key] = 'add_capital')

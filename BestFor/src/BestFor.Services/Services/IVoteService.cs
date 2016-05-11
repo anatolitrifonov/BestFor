@@ -8,5 +8,7 @@ namespace BestFor.Services.Services
         Task<int> VoteAnswer(AnswerVoteDto answerVote);
 
         Task<int> VoteAnswerDescription(AnswerDescriptionVoteDto answerVote);
+
+        Task<int> CountAnswerVotes(int answerId);
     }
 }

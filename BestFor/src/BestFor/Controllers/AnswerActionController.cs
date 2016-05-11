@@ -1,6 +1,8 @@
-﻿using BestFor.Dto;
+﻿using BestFor.Domain.Entities;
+using BestFor.Dto;
 using BestFor.Services.Services;
 using Microsoft.AspNet.Authorization;
+using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Security.Claims;
@@ -21,14 +23,19 @@ namespace BestFor.Controllers
         private IProfanityService _profanityService;
         private IResourcesService _resourcesService;
         private ILogger _logger;
+        private readonly UserManager<ApplicationUser> _userManager;
+        private IVoteService _voteService;
 
         public AnswerActionController(IAnswerDescriptionService answerDescriptionService, IProfanityService profanityService,
-            IAnswerService answerService, IResourcesService resourcesService, ILoggerFactory loggerFactory)
+            IAnswerService answerService, IResourcesService resourcesService, UserManager<ApplicationUser> userManager,
+            IVoteService voteService, ILoggerFactory loggerFactory)
         {
+            _userManager = userManager;
             _answerDescriptionService = answerDescriptionService;
             _profanityService = profanityService;
             _answerService = answerService;
             _resourcesService = resourcesService;
+            _voteService = voteService;
             _logger = loggerFactory.CreateLogger<HomeController>();
             _logger.LogInformation("created AnswerActionController");
         }
@@ -51,17 +58,9 @@ namespace BestFor.Controllers
             var commonStrings = _resourcesService.GetCommonStrings(culture);
             // Load the answer.
             var answer = _answerService.FindById(answerId);
-            // Load answer descriptions
-            var descriptions = _answerDescriptionService.FindByAnswerId(answerId);
-            // Model is basically empty at this point.
-            var model = new AnswerDetailsDto()
-            {
-                Answer = answer,
-                CommonStrings = commonStrings,
-                Descriptions = descriptions
-            };
 
-            return View("MyContent", model);
+            return View("MyContent",
+                await HomeController.FillInDetails(answer, _answerDescriptionService, _userManager, _voteService, _resourcesService, culture));
         }
 
         /// <summary>

@@ -24,7 +24,7 @@
     Use resource service to get dynamic json object and feed it as a property to react control.
     Json object will be rendered as good JavaScript defined object. Refer to control jsx file for the list of expected strings.
 *@  
-<div class="row theme-color">
+<div class="row best-theme-color">
     @* left side *@
     <div class="col-sm-3">
 
@@ -73,7 +73,7 @@
 </div>
 @* Trending today *@
 <div class="panel panel-default">
-    <div class="panel-heading text-center">
+    <div class="panel-heading text-center best-section-header">
         @* Culture is placed into view bag by action filter *@
         @* This is the "normal" way of getting a localized string value *@
         <h4>@resourcesService.GetString(this.ViewBag.BestForCulture, "trending_today")</h4>
@@ -93,20 +93,6 @@
             <div class="col-sm-4">@Html.Partial("AnswerCard", Model.TopToday.Answers.ElementAtOrDefault(6))</div>
             <div class="col-sm-4">@Html.Partial("AnswerCard", Model.TopToday.Answers.ElementAtOrDefault(7))</div>
             <div class="col-sm-4">@Html.Partial("AnswerCard", Model.TopToday.Answers.ElementAtOrDefault(8))</div>
-        </div>
-    </div>
-</div>
-@* Trending overall *@
-<div class="panel panel-default">
-    <div class="panel-heading">
-        <h4>@resourcesService.GetString(this.ViewBag.BestForCulture, "trending_overall")</h4>
-    </div>
-    <div class="panel-body">
-        <div class="best-div-fluid">
-            @foreach (var item in Model.TopOverall.Answers)
-            {
-                @Html.DisplayFor(x => item, "AnswerToContent")
-            }
         </div>
     </div>
 </div>

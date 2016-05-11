@@ -4,6 +4,8 @@ using BestFor.Dto;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Collections.Generic;
+using Microsoft.Extensions.Logging;
+using Microsoft.Data.Entity;
 
 namespace BestFor.Services.Services
 {
@@ -13,17 +15,20 @@ namespace BestFor.Services.Services
     public class AnswerDescriptionService : IAnswerDescriptionService
     {
         /// <summary>
-        /// Save repository between constractor and methods.
+        /// Save repository between constractor and methods. Plus injection.
         /// </summary>
-        private IRepository<AnswerDescription> _repository;
+        private IAnswerDescriptionRepository _repository;
+        private ILogger _logger;
 
         /// <summary>
         /// Repository is injected in startup
         /// </summary>
         /// <param name="repository"></param>
-        public AnswerDescriptionService(IRepository<AnswerDescription> repository)
+        public AnswerDescriptionService(IAnswerDescriptionRepository repository, ILoggerFactory loggerFactory)
         {
             _repository = repository;
+            _logger = loggerFactory.CreateLogger<AnswerService>();
+            _logger.LogInformation("created AnswerDescriptionService");
         }
 
         /// <summary>

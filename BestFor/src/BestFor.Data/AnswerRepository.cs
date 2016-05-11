@@ -11,13 +11,13 @@ namespace BestFor.Data
     /// <remarks>
     /// This class helps not to drag queries logic into domain, services or anywhere else
     /// </remarks>
-    public class AnswersRepository : Repository<Answer>, IAnswerRepository, IRepository<Answer>
+    public class AnswerRepository : Repository<Answer>, IAnswerRepository, IRepository<Answer>
     {
         /// <summary>
         /// Easy way to instantiate from generic repository
         /// </summary>
         /// <param name="repository"></param>
-        public AnswersRepository(IDataContext context) : base(context)
+        public AnswerRepository(IDataContext context) : base(context)
         {
         }
 
@@ -38,7 +38,7 @@ namespace BestFor.Data
                 x.DateAdded.Day == today.Day &&
                 !x.IsHidden)
                 .OrderByDescending(x => x.Count)
-                .OrderByDescending(x => x.DateAdded)
+                .ThenByDescending(x => x.DateAdded)
                 .Take(numberItemsToReturn).AsEnumerable();
         }
 
@@ -54,7 +54,7 @@ namespace BestFor.Data
 
             return Queryable().Where(x => !x.IsHidden)
                 .OrderByDescending(x => x.Count)
-                .OrderByDescending(x => x.DateAdded)
+                .ThenByDescending(x => x.DateAdded)
                 .Take(numberItemsToReturn).AsEnumerable();
         }
 

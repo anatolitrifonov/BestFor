@@ -176,21 +176,18 @@ a.best-card-dark-links
 
 a.best-card-link-icon
 {
-    color: green;
+    color: #83BD1A;
     font-size: 12px;
 }
 
 div.best-card-label
 {
-    color: green;
-    font-size: 20px;
+    color: #83BD1A;
 }
 
 div.best-card-detail
 {
     color: #000000;
-    font-size: 20px;
-    /* padding-top:5px; */
 }
 
 /* Trending overall */
@@ -211,7 +208,7 @@ span.best-trending-overall
     margin-left: 6px;
 }
 
-div.theme-color 
+div.best-theme-color
 {
     background-color: #8EB656;
 }
@@ -219,4 +216,17 @@ div.theme-color
 a.best-user-menu
 {
     color:black;
+}
+
+/* Section header  */
+div.best-section-header h4
+{
+    color: #83BD1A
+}
+
+/* Success colors */
+div.best-success
+{
+    color: #83BD1A;
+    font-size: 16px;
 }

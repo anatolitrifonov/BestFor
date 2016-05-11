@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace BestFor.Dto
 {
-    public class AnswersDto : ErrorMessageDto
+    public class AnswersDto : CrudMessagesDto
     {
         public IEnumerable<AnswerDto> Answers { get; set; } = Enumerable.Empty<AnswerDto>();
     }

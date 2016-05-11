@@ -1,5 +1,5 @@
-﻿@model string
+﻿@model BestFor.Dto.AnswerDescriptionDto
 @* This will show linebreaks as line breaks in html.*@
-<span style="white-space: pre-line">
-    @Model
-</span>
+<div style="white-space: pre-line">
+    @Model.Description &nbsp; by @Model.UserName
+</div>

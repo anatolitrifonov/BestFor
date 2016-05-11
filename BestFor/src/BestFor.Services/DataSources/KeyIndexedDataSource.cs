@@ -163,7 +163,7 @@ namespace BestFor.Services.DataSources
 
             // I would not expect this exception to ever be thrown
             // If it is thrown then something is wrong in design.
-            // AT: 4/5/2016. Disregard the previous note. This happens when user adds (essentially votes) vore the same answer
+            // AT: 4/5/2016. Disregard the previous note. This happens when user adds (essentially votes) for the same answer
             // entity will come with the proper id and increased count. Skip if already there.
             try
             {
