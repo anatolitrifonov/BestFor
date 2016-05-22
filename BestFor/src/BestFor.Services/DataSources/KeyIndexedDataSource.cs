@@ -1,8 +1,9 @@
-﻿using System;
+﻿using BestFor.Data;
+using BestFor.Domain.Entities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using BestFor.Domain.Entities;
-using BestFor.Data;
+using System.Threading.Tasks;
 
 namespace BestFor.Services.DataSources
 {
@@ -73,7 +74,7 @@ namespace BestFor.Services.DataSources
         /// </summary>
         /// <param name="repository"></param>
         /// <returns></returns>
-        public int Initialize(IRepository<TEntity> repository)
+        public async Task<int> Initialize(IRepository<TEntity> repository)
         {
             if (_initialized) throw new Exception("This index is already initialized.");
 
@@ -81,7 +82,7 @@ namespace BestFor.Services.DataSources
             _iddata = new Dictionary<int, TEntity>();
             var howMany = repository.Active().Count();
             foreach (var entity in repository.Active())
-                Insert(entity);
+                await Insert(entity);
             _initialized = true;
             return _data.Count;
         }
@@ -92,27 +93,27 @@ namespace BestFor.Services.DataSources
         /// <param name="key"></param>
         /// <returns></returns>
         /// <remarks>For example store all answers for the combination of left key and right key</remarks>
-        public IEnumerable<TEntity> Find(string key)
+        public async Task<IEnumerable<TEntity>> Find(string key)
         {
             if (_data == null) return null;
 
             if (!_data.ContainsKey(key)) return null;
 
             // Get all items for the key
-            return _data[key].Values.AsEnumerable();
+            return await Task.FromResult(_data[key].Values.AsEnumerable());
         }
 
-        public IEnumerable<TEntity> FindTopItems(string key)
+        public async Task<IEnumerable<TEntity>> FindTopItems(string key)
         {
             if (_data == null) return null;
 
             if (!_data.ContainsKey(key)) return null;
 
             // Get all items for the key
-            return _data[key].Values.AsEnumerable().Take(DEFAULT_TOP_COUNT);
+            return await Task.FromResult(_data[key].Values.AsEnumerable().Take(DEFAULT_TOP_COUNT));
         }
 
-        public TEntity FindExact(string key, string secondKey)
+        public async Task<TEntity> FindExact(string key, string secondKey)
         {
             // No need to throw exception although might be a good idea to tell whoever is calling this to initialize first.
             if (_data == null) return null;
@@ -125,7 +126,7 @@ namespace BestFor.Services.DataSources
             if (!firstData.ContainsKey(secondKey)) return null;
 
             // got the second key
-            return firstData[secondKey];
+            return await Task.FromResult(firstData[secondKey]);
         }
         
         /// <summary>
@@ -133,7 +134,7 @@ namespace BestFor.Services.DataSources
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public TEntity FindExactById(int id)
+        public async Task<TEntity> FindExactById(int id)
         {
             // No need to throw exception although might be a good idea to tell whoever is calling this to initialize first.
             if (_iddata == null) return null;
@@ -141,11 +142,11 @@ namespace BestFor.Services.DataSources
             if (!_iddata.ContainsKey(id)) return null;
 
             // We got direct pointer to the item.
-            return _iddata[id];
+            return await Task.FromResult(_iddata[id]);
 
         }
 
-        public TEntity Insert(TEntity entity)
+        public async Task<TEntity> Insert(TEntity entity)
         {
             var key = entity.IndexKey;
             // Add to a set of items under index value
@@ -175,7 +176,7 @@ namespace BestFor.Services.DataSources
                 throw new Exception("Something is wrong in the index by id dictionary.", ex);
             }
 
-            return entity;
+            return await Task.FromResult(entity);
         }
 
         /// <summary>
@@ -183,7 +184,7 @@ namespace BestFor.Services.DataSources
         /// </summary>
         /// <param name="entity"></param>
         /// <returns></returns>
-        public TEntity Delete(TEntity entity)
+        public async Task<TEntity> Delete(TEntity entity)
         {
             if (entity == null) return null;
             if (!_data.ContainsKey(entity.IndexKey)) return null;
@@ -194,8 +195,7 @@ namespace BestFor.Services.DataSources
             // Remove from id index
             _iddata.Remove(entity.Id);
 
-            return entity;
-
+            return await Task.FromResult(entity);
         }
 
         #region Private Methods

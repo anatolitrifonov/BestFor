@@ -211,6 +211,7 @@ span.best-trending-overall
 div.best-theme-color
 {
     background-color: #8EB656;
+    background-image: url("/images/pattern.png");
 }
 
 a.best-user-menu

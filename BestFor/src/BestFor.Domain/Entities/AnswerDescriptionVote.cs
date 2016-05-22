@@ -9,7 +9,7 @@ namespace BestFor.Domain.Entities
     /// Flag for answer and flag for answer description are separate to avoid funny database manipulations.
     /// We may end up storing cache of flags but for sure different tables.
     /// </summary>
-    public class AnswerDescriptionVote : EntityBase, IDtoConvertable<AnswerDescriptionVoteDto>
+    public class AnswerDescriptionVote : EntityBase, IFirstIndex, ISecondIndex, IDtoConvertable<AnswerDescriptionVoteDto>
     {
         /// <summary>
         /// Identity ...
@@ -40,6 +40,19 @@ namespace BestFor.Domain.Entities
         /// </summary>
         [ForeignKey("UserId")]
         public ApplicationUser ApplicationUser { get; set; }
+        
+        #region IFirstIndex implementation
+        [NotMapped]
+        public string IndexKey { get { return AnswerDescriptionId.ToString(); } }
+        #endregion
+
+        #region ISecondIndex implementation
+        [NotMapped]
+        public string SecondIndexKey { get { return Id.ToString(); } }
+
+        [NotMapped]
+        public int NumberOfEntries { get { return 1; } set { return; } }
+        #endregion
 
         #region IDtoConvertable implementation
         public AnswerDescriptionVoteDto ToDto()

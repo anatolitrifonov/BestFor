@@ -125,11 +125,9 @@ namespace BestFor.Services.AffiliateProgram.Amazon
             _cacheManager = cacheManager;
         }
 
-        public AffiliateProductDto FindProduct(ProductSearchParameters parameters)
+        #region IProductService implementation
+        public async Task<AffiliateProductDto> FindProduct(ProductSearchParameters parameters)
         {
-            //            return null;
-
-
             //return new AffiliateProductDto()
             //{
             //    CurrencyCode = "sdfsdf",
@@ -144,7 +142,7 @@ namespace BestFor.Services.AffiliateProgram.Amazon
             // Check parameters. Do not throw expection if blank, just say that nothing found since this is an interface implementation. :)
             if (parameters == null || string.IsNullOrEmpty(parameters.Keyword) || string.IsNullOrWhiteSpace(parameters.Keyword)) return null;
 
-            // Do some cleanup because amazon returns nothing on ling searches.
+            // Do some cleanup because amazon returns nothing on long searches.
             parameters.Keyword = CleanupKeywords(parameters.Keyword);
 
             // Generate product cache key
@@ -160,7 +158,7 @@ namespace BestFor.Services.AffiliateProgram.Amazon
             var fullUrl = BuildProductSearchUrl(parameters);
 
             // Search for product. Takes time.
-            product = CallProductSearch(fullUrl);
+            product = await CallProductSearch(fullUrl);
 
             // Would be strange that amazon did not find anything but ok.
             if (product == null) return null;
@@ -170,6 +168,7 @@ namespace BestFor.Services.AffiliateProgram.Amazon
 
             return product;
         }
+        #endregion
 
         /// <summary>
         /// Take only the first x words from the keywords
@@ -200,16 +199,16 @@ namespace BestFor.Services.AffiliateProgram.Amazon
         /// </summary>
         /// <param name="url"></param>
         /// <returns></returns>
-        public AffiliateProductDto CallProductSearch(string url)
+        public async Task<AffiliateProductDto> CallProductSearch(string url)
         {
             if (string.IsNullOrEmpty(url) || string.IsNullOrWhiteSpace(url))
                 throw new Exception("AmazonProductService CallProductSearch function is called with empty url.");
 
             using (var client = new HttpClient(new HttpClientHandler { AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate }))
             {
-                HttpResponseMessage response = client.GetAsync(new Uri(url)).Result;
+                HttpResponseMessage response = await client.GetAsync(new Uri(url));
                 // response.EnsureSuccessStatusCode();
-                string result = response.Content.ReadAsStringAsync().Result;
+                string result = await response.Content.ReadAsStringAsync();
                 // try loading result into xml
                 var reader = new StringReader(result);
                 var xmlDoc = new XmlDocument();

@@ -59,7 +59,7 @@ namespace BestFor
                 if (service != null)
                 {
                     var resourceService = (IResourcesService)service;
-                    _allCommonStrings = resourceService.GetCommonStringsForAllCultures();
+                    _allCommonStrings = resourceService.GetCommonStringsForAllCultures().Result;
                 }
             }
 

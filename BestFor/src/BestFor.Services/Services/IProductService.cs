@@ -9,6 +9,6 @@ namespace BestFor.Services.Services
 {
     public interface IProductService
     {
-        AffiliateProductDto FindProduct(ProductSearchParameters parameters);
+        Task<AffiliateProductDto> FindProduct(ProductSearchParameters parameters);
     }
 }

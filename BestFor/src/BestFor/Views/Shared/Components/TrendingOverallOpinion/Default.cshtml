@@ -4,7 +4,7 @@
 @* Trending overall *@
 <div class="panel panel-default">
     <div class="panel-heading">
-        <h4>@resourcesService.GetString(this.ViewBag.BestForCulture, "trending_overall")</h4>
+        <h4>@await resourcesService.GetString(this.ViewBag.BestForCulture, "trending_overall")</h4>
     </div>
     <div class="panel-body">
         <div class="best-div-fluid">

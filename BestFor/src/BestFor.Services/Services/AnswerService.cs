@@ -35,35 +35,35 @@ namespace BestFor.Services.Services
         }
 
         #region IAnswerService implementation
-        public IEnumerable<AnswerDto> FindAnswers(string leftWord, string rightWord)
+        public async Task<IEnumerable<AnswerDto>> FindAnswers(string leftWord, string rightWord)
         {
             // Theoretically this shold never throw exception unless we got some timeout on initialization or something strange.
-            var cachedData = GetCachedData();
+            var cachedData = await GetCachedData();
             // This is just getting a list of answers with number of "votes" for each. Cache stored answers, not votes.
             // Each answer in cache has number of votes.
-            var result = cachedData.Find(Answer.FormKey(leftWord, rightWord));
+            var result = await cachedData.Find(Answer.FormKey(leftWord, rightWord));
             if (result == null) return Enumerable.Empty<AnswerDto>();
             return result.Select(x => x.ToDto());
         }
 
-        public IEnumerable<AnswerDto> FindTopAnswers(string leftWord, string rightWord)
+        public async Task<IEnumerable<AnswerDto>> FindTopAnswers(string leftWord, string rightWord)
         {
             // Theoretically this shold never throw exception unless we got some timeout on initialization or something strange.
-            var cachedData = GetCachedData();
+            var cachedData = await GetCachedData();
             // This is just getting a list of answers with number of "votes" for each. Cache stored answers, not votes.
             // Each answer in cache has number of votes.
-            var result = cachedData.FindTopItems(Answer.FormKey(leftWord, rightWord));
+            var result = await cachedData.FindTopItems(Answer.FormKey(leftWord, rightWord));
             if (result == null) return Enumerable.Empty<AnswerDto>();
             return result.Select(x => x.ToDto());
         }
 
-        public AnswerDto FindExact(string leftWord, string rightWord, string phrase)
+        public async Task<AnswerDto> FindExact(string leftWord, string rightWord, string phrase)
         {
             // Theoretically this shold never throw exception unless we got some timeout on initialization or something strange.
-            var cachedData = GetCachedData();
+            var cachedData = await GetCachedData();
             // This is just getting a list of answers with number of "votes" for each. Cache stored answers, not votes.
             // Each answer in cache has number of votes.
-            var result = cachedData.FindExact(Answer.FormKey(leftWord, rightWord), phrase);
+            var result = await cachedData.FindExact(Answer.FormKey(leftWord, rightWord), phrase);
             if (result == null) return null;
             return result.ToDto();
         }
@@ -78,8 +78,8 @@ namespace BestFor.Services.Services
             answerObject = await PersistAnswer(answerObject);
 
             // Add to cache.
-            var cachedData = GetCachedData();
-            cachedData.Insert(answerObject);
+            var cachedData = await GetCachedData();
+            await cachedData.Insert(answerObject);
 
             // Add to trending today
             AddToTrendingToday(answerObject);
@@ -90,22 +90,22 @@ namespace BestFor.Services.Services
             return answerObject;
         }
 
-        public IEnumerable<AnswerDto> FindAnswersTrendingToday()
+        public async Task<IEnumerable<AnswerDto>> FindAnswersTrendingToday()
         {
             var data = GetTodayTrendingCachedData();
-            return data.Select(x => x.ToDto());
+            return await Task.FromResult(data.Select(x => x.ToDto()));
         }
 
-        public IEnumerable<AnswerDto> FindAnswersTrendingOverall()
+        public async Task<IEnumerable<AnswerDto>> FindAnswersTrendingOverall()
         {
             var data = GetOverallTrendingCachedData();
-            return data.Select(x => x.ToDto());
+            return await Task.FromResult(data.Select(x => x.ToDto()));
         }
 
-        public AnswerDto FindById(int answerId)
+        public async Task<AnswerDto> FindById(int answerId)
         {
-            var cachedData = GetCachedData();
-            var answer = cachedData.FindExactById(answerId);
+            var cachedData = await GetCachedData();
+            var answer = await cachedData.FindExactById(answerId);
             // Will be strange if not found ... but have to check.
             if (answer == null) return null;
             return answer.ToDto();
@@ -125,8 +125,8 @@ namespace BestFor.Services.Services
             // Return if does not.
             if (existingAnswer == null) return;
             // Remove from cache
-            var cachedData = GetCachedData();
-            cachedData.Delete(existingAnswer);
+            var cachedData = await GetCachedData();
+            await cachedData.Delete(existingAnswer);
 
             // Update repo
             existingAnswer.IsHidden = true;
@@ -216,13 +216,13 @@ namespace BestFor.Services.Services
             return existingAnswer; 
         }
 
-        private KeyIndexedDataSource<Answer> GetCachedData()
+        private async Task<KeyIndexedDataSource<Answer>> GetCachedData()
         {
             object data = _cacheManager.Get(CacheConstants.CACHE_KEY_ANSWERS_DATA);
             if (data == null)
             {
                 var dataSource = new KeyIndexedDataSource<Answer>();
-                dataSource.Initialize(_repository);
+                await dataSource.Initialize(_repository);
                 _cacheManager.Add(CacheConstants.CACHE_KEY_ANSWERS_DATA, dataSource);
                 return dataSource;
             }

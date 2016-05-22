@@ -62,7 +62,7 @@ namespace BestFor.Controllers
         [HttpGet]
         public async Task<IActionResult> ConfirmVote(int answerId = 0)
         {
-            return View();
+            return await Task.FromResult(View());
         }
     }
 }

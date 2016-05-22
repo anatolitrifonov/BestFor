@@ -1,9 +1,8 @@
-﻿using System.Collections.Generic;
-using Microsoft.AspNet.Mvc;
-using BestFor.Dto;
-using BestFor.Services.Services;
-using System.Linq;
+﻿using BestFor.Dto;
 using BestFor.Services.Profanity;
+using BestFor.Services.Services;
+using Microsoft.AspNet.Mvc;
+using System.Threading.Tasks;
 
 // For more information on enabling Web API for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -38,7 +37,7 @@ namespace BestFor.Controllers
 
         // GET: api/values
         [HttpGet]
-        public SuggestionsDto Get()
+        public async Task<SuggestionsDto> Get()
         {
             var result = new SuggestionsDto();
             if (!ParseAntiForgeryHeader()) return result;
@@ -53,7 +52,7 @@ namespace BestFor.Controllers
             // get and call the service
             //Thread.Sleep(4000);
 
-            result.Suggestions = _suggestionService.FindSuggestions(validationResult.CleanedInput);
+            result.Suggestions = await _suggestionService.FindSuggestions(validationResult.CleanedInput);
 
             return result;
         }

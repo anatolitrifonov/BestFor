@@ -62,7 +62,7 @@ namespace BestFor.Controllers
         [HttpGet]
         public async Task<IActionResult> ConfirmFlag()
         {
-            return View();
+            return await Task.FromResult(View());
         }
     }
 }

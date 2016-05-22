@@ -28,12 +28,12 @@ namespace BestFor.Services.Tests
         /// Check that calling amazon service works.
         /// </summary>
         [Fact]
-        public void AmazonProductService_FindProduct_FindsProduct()
+        public async Task AmazonProductService_FindProduct_FindsProduct()
         {
             var cacheMock = new Mock<ICacheManager>();
             var cache = cacheMock.Object;
             var service = new AmazonProductService(Common.AppSettings.ReadSettings(), cache);
-            var product = service.FindProduct(new ProductSearchParameters() { Keyword = "fishing" });
+            var product = await service.FindProduct(new ProductSearchParameters() { Keyword = "fishing" });
             // Amazon may return a different product on search every time, no point in checking the exact values.
             Assert.NotNull(product);
             Assert.NotNull(product.MerchantProductId);

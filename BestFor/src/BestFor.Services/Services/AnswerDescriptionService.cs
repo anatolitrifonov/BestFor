@@ -1,22 +1,26 @@
-﻿using BestFor.Domain.Entities;
-using BestFor.Data;
+﻿using BestFor.Data;
+using BestFor.Domain.Entities;
 using BestFor.Dto;
+using BestFor.Services.Cache;
+using BestFor.Services.DataSources;
+using Microsoft.Extensions.Logging;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Collections.Generic;
-using Microsoft.Extensions.Logging;
-using Microsoft.Data.Entity;
 
 namespace BestFor.Services.Services
 {
     /// <summary>
     /// Service to work with answer descriptions.
+    /// 
+    /// Answer Descriptions are stored in cache double index first by answerId then by id
     /// </summary>
     public class AnswerDescriptionService : IAnswerDescriptionService
     {
         /// <summary>
         /// Save repository between constractor and methods. Plus injection.
         /// </summary>
+        private ICacheManager _cacheManager;
         private IAnswerDescriptionRepository _repository;
         private ILogger _logger;
 
@@ -24,13 +28,15 @@ namespace BestFor.Services.Services
         /// Repository is injected in startup
         /// </summary>
         /// <param name="repository"></param>
-        public AnswerDescriptionService(IAnswerDescriptionRepository repository, ILoggerFactory loggerFactory)
+        public AnswerDescriptionService(ICacheManager cacheManager, IAnswerDescriptionRepository repository, ILoggerFactory loggerFactory)
         {
             _repository = repository;
+            _cacheManager = cacheManager;
             _logger = loggerFactory.CreateLogger<AnswerService>();
             _logger.LogInformation("created AnswerDescriptionService");
         }
 
+        #region IAnswerDescriptionService implementation
         /// <summary>
         /// Add answer description.
         /// </summary>
@@ -41,19 +47,57 @@ namespace BestFor.Services.Services
             var answerDescriptionObject = new AnswerDescription();
             answerDescriptionObject.FromDto(answerDescription);
 
+            // Save to database
             _repository.Insert(answerDescriptionObject);
-
             await _repository.SaveChangesAsync();
+
+            // Add to cache.
+            var cachedData = await GetCachedData();
+            await cachedData.Insert(answerDescriptionObject);
 
             return answerDescriptionObject;
         }
 
-        public IEnumerable<AnswerDescriptionDto> FindByAnswerId(int answerId)
+        /// <summary>
+        /// Find answer descriptions by answer id
+        /// </summary>
+        /// <param name="answerId"></param>
+        /// <returns></returns>
+        public async Task<IEnumerable<AnswerDescriptionDto>> FindByAnswerId(int answerId)
         {
             // return blank list if invalid answerId
-            if (answerId == 0) return Enumerable.Empty<AnswerDescriptionDto>();
+            if (answerId == 0) return await Task.FromResult(Enumerable.Empty<AnswerDescriptionDto>());
+            // Get cache
+            var cachedData = await GetCachedData();
+            // Get data
+            var data = await cachedData.Find(answerId.ToString());
+            if (data == null) return null;
+
+            // Return data
+            return data.Select(x => x.ToDto());
+            // Commenting straig get from repo
             // Search for all descriptions for a given answer
-            return _repository.Queryable().Where(x => x.AnswerId == answerId).Select(x => x.ToDto());
+            // return _repository.Queryable().Where(x => x.AnswerId == answerId).Select(x => x.ToDto());
         }
+        #endregion
+
+        #region Private Methods
+        /// <summary>
+        /// Get data from cache or initialize if empty
+        /// </summary>
+        /// <returns></returns>
+        private async Task<KeyIndexedDataSource<AnswerDescription>> GetCachedData()
+        {
+            object data = _cacheManager.Get(CacheConstants.CACHE_KEY_ANSWER_DESCRIPTIONS_DATA);
+            if (data == null)
+            {
+                var dataSource = new KeyIndexedDataSource<AnswerDescription>();
+                await dataSource.Initialize(_repository);
+                _cacheManager.Add(CacheConstants.CACHE_KEY_ANSWER_DESCRIPTIONS_DATA, dataSource);
+                return dataSource;
+            }
+            return (KeyIndexedDataSource<AnswerDescription>)data;
+        }
+        #endregion
     }
 }

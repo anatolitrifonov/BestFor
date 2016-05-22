@@ -17,5 +17,8 @@ namespace BestFor.Services.Services
         /// <param name="displayName"></param>
         /// <returns></returns>
         Task<ApplicationUser> FindByDisplayNameAsync(string displayName);
+
+        Task<ApplicationUser> FindByIdAsync(string id);
+        
     }
 }

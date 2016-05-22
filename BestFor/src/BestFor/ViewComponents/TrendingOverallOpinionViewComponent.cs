@@ -28,7 +28,7 @@ namespace BestFor.ViewComponents
         public async Task<IViewComponentResult> InvokeAsync()
         {
             var data = new AnswersDto();
-            data.Answers = _answerService.FindAnswersTrendingOverall();
+            data.Answers = await _answerService.FindAnswersTrendingOverall();
 
             return View(data);
         }

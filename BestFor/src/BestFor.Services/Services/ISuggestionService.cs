@@ -15,7 +15,7 @@ namespace BestFor.Services.Services
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        IEnumerable<SuggestionDto> FindSuggestions(string input);
+        Task<IEnumerable<SuggestionDto>> FindSuggestions(string input);
 
         Task<Suggestion> AddSuggestion(SuggestionDto suggestion);
     }

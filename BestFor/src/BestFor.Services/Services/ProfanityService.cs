@@ -1,8 +1,9 @@
-﻿using BestFor.Services.Cache;
+﻿using BestFor.Data;
+using BestFor.Domain.Entities;
+using BestFor.Services.Cache;
 using BestFor.Services.DataSources;
 using BestFor.Services.Profanity;
-using BestFor.Domain.Entities;
-using BestFor.Data;
+using System.Threading.Tasks;
 
 namespace BestFor.Services.Services
 {
@@ -32,7 +33,7 @@ namespace BestFor.Services.Services
             return (KeyDataSource<BadWord>)data;
         }
 
-        public ProfanityCheckResult CheckProfanity(string input)
+        public async Task<ProfanityCheckResult> CheckProfanity(string input)
         {
             var result = new ProfanityCheckResult();
             // Check blank first.
@@ -40,12 +41,12 @@ namespace BestFor.Services.Services
             // Check funny characters
             result.HasBadCharacters = !ProfanityFilter.AllCharactersAllowed(input);
             // Having bad character is enough to not touch cache
-            if (result.HasBadCharacters) return result;
+            if (result.HasBadCharacters) return await Task.FromResult(result);
 
             // Theoretically this shold never throw exception unless we got some timeout on initialization or something strange.
             var cachedData = GetCachedData();
             result.ProfanityWord = ProfanityFilter.GetProfanity(input, cachedData.Items);
-            return result;
+            return await Task.FromResult(result);
         }
     }
 }

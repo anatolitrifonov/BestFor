@@ -1,8 +1,6 @@
-﻿using BestFor.Domain.Entities;
-using BestFor.Dto;
+﻿using BestFor.Dto;
 using BestFor.Services.Services;
 using Microsoft.AspNet.Authorization;
-using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Security.Claims;
@@ -18,19 +16,19 @@ namespace BestFor.Controllers
     [ServiceFilter(typeof(LanguageActionFilter))]
     public class AnswerActionController : BaseApiController
     {
-        private IAnswerDescriptionService _answerDescriptionService;
-        private IAnswerService _answerService;
-        private IProfanityService _profanityService;
-        private IResourcesService _resourcesService;
-        private ILogger _logger;
-        private readonly UserManager<ApplicationUser> _userManager;
-        private IVoteService _voteService;
+        private readonly IAnswerDescriptionService _answerDescriptionService;
+        private readonly IAnswerService _answerService;
+        private readonly IProfanityService _profanityService;
+        private readonly IResourcesService _resourcesService;
+        private readonly ILogger _logger;
+        private readonly IUserService _userService;
+        private readonly IVoteService _voteService;
 
         public AnswerActionController(IAnswerDescriptionService answerDescriptionService, IProfanityService profanityService,
-            IAnswerService answerService, IResourcesService resourcesService, UserManager<ApplicationUser> userManager,
+            IAnswerService answerService, IResourcesService resourcesService, IUserService userService,
             IVoteService voteService, ILoggerFactory loggerFactory)
         {
-            _userManager = userManager;
+            _userService = userService;
             _answerDescriptionService = answerDescriptionService;
             _profanityService = profanityService;
             _answerService = answerService;
@@ -55,12 +53,12 @@ namespace BestFor.Controllers
             var cultureBegining = "/" + culture;
             if (requestPath.StartsWith(cultureBegining)) requestPath = requestPath.Substring(cultureBegining.Length);
             // Now try to parse the request path into known words.
-            var commonStrings = _resourcesService.GetCommonStrings(culture);
+            // var commonStrings = await _resourcesService.GetCommonStrings(culture);
             // Load the answer.
-            var answer = _answerService.FindById(answerId);
+            var answer = await _answerService.FindById(answerId);
 
             return View("MyContent",
-                await HomeController.FillInDetails(answer, _answerDescriptionService, _userManager, _voteService, _resourcesService, culture));
+                await HomeController.FillInDetails(answer, _answerDescriptionService, _userService, _voteService, _resourcesService, culture));
         }
 
         /// <summary>
@@ -75,7 +73,7 @@ namespace BestFor.Controllers
             // Let's load the answer.
             // The hope is that service will not have to go to the database and load answer from cache.
             // But please look at the servise implementation for details.
-            var answer = _answerService.FindById(answerId);
+            var answer = await _answerService.FindById(answerId);
 
             // Model is basically empty at this point.
             var model = new AnswerDescriptionDto() { Answer = answer, AnswerId = answerId };
@@ -101,7 +99,7 @@ namespace BestFor.Controllers
             // todo: figure out how to protect from spam posts besides antiforgery
 
             // Let's first check for profanities.
-            var profanityCheckResult = _profanityService.CheckProfanity(answerDescription.Description);
+            var profanityCheckResult = await _profanityService.CheckProfanity(answerDescription.Description);
             if (profanityCheckResult.HasIssues)
             {
                 // answer.ErrorMessage = profanityCheckResult.ErrorMessage;

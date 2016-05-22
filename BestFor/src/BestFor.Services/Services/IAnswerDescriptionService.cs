@@ -15,7 +15,7 @@ namespace BestFor.Services.Services
         /// </summary>
         /// <param name="answerId"></param>
         /// <returns></returns>
-        IEnumerable<AnswerDescriptionDto> FindByAnswerId(int answerId);
+        Task<IEnumerable<AnswerDescriptionDto>> FindByAnswerId(int answerId);
 
         /// <summary>
         /// Add AnswerDescription
