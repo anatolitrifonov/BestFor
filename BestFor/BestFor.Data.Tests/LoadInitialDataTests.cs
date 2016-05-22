@@ -89,7 +89,7 @@ namespace BestFor.Data.Tests
         public void LoadInitialData_Suggestions()
         {
             // Uncomment this to actually run.
-            return;
+           // return;
 
             string pathToSuggestionFile = Directory.GetCurrentDirectory();
             pathToSuggestionFile = pathToSuggestionFile + "\\InitialData\\SuggestionsData\\suggestions.txt";
