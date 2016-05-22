@@ -193,7 +193,7 @@ namespace BestFor.Services.Services
         private async Task<Answer> PersistAnswer(Answer answer)
         {
             // Find if answer already exists
-            var existingAnswer = _repository.List()
+            var existingAnswer = _repository.Queryable()
                 .Where(x => x.LeftWord == answer.LeftWord && x.RightWord == answer.RightWord && x.Phrase == answer.Phrase)
                 .FirstOrDefault();
             // Insert if new.
