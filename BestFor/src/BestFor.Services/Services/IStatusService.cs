@@ -1,4 +1,5 @@
 ﻿using BestFor.Dto;
+using System.Threading.Tasks;
 
 namespace BestFor.Services.Services
 {
@@ -6,7 +7,7 @@ namespace BestFor.Services.Services
     {
         SystemStateDto GetSystemStatus();
 
-        int InitAnswers();
+        Task<int> InitAnswers();
 
         int InitSuggestions();
 

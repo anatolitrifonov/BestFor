@@ -388,8 +388,11 @@
         var searchButtonStyle = {
             display: "none"
         };
-        var overAllDivStyle = {
-            
+
+        var leftImageStyle = {
+            position: "absolute",
+            bottom: "0px",
+            left: "100px"
         };
         var addDescriptionStyle = {
             display: this.state.showAddDescriptionLink ? "" : "none"
@@ -397,42 +400,46 @@
         var linkToExtendedOpinion = "/" + this.props.culture + "/AnswerAction/AddDescription?answerId=" + this.state.lastAddedAnswerId;
 
         return (
-            <div style={overAllDivStyle}>
-                <span className="best-light-text">{ this.state.statusMessage }</span>
-                <div style={ addDescriptionStyle }>
-                    <a className="btn best-index-button"
-                       href={linkToExtendedOpinion}>{this.props.resourceStrings.suggestion_panel_extended_opinion}</a>
-                </div>
+            <div>
+                <img src="/images/woman.png" border="0" width="174" height="245" alt="" style={leftImageStyle} />
 
-                {/* This will be known as leftTextBox */}
-                <SuggestionControl suggestionsUrl={this.props.suggestionsUrl} onValueChange={this.doAnswersSearchFromLeftTextBox}
-                                   antiForgeryToken={this.props.antiForgeryToken} antiForgeryHeaderName={this.props.antiForgeryHeaderName}
-                                   ref={(ref) => this.leftTextBox = ref} focusOnLoad={ true } textBoxGroupId={ "first-text-box" }
-                                   labelText={this.props.resourceStrings.best_start_capital} onGotFocus={this.handleLeftTextBoxGotFocus}
-                                   placeHolder="start typing" />
-                {/* This will be knows as rightTextBox */}
-                <SuggestionControl suggestionsUrl={this.props.suggestionsUrl} onValueChange={this.doAnswersSearchFromRightTextBox}
-                                   antiForgeryToken={this.props.antiForgeryToken} antiForgeryHeaderName={this.props.antiForgeryHeaderName}
-                                   ref={(ref) => this.rightTextBox = ref} focusOnLoad={ false } textBoxGroupId={ "second-text-box" }
-                                   labelText={this.props.resourceStrings.for_lower} onGotFocus={this.handleRightTextBoxGotFocus}
-                                   placeHolder="continue here"/>
-                {/* This will be knows as answerTextBox */}
-                <div className="input-group best-some-padding">
-                    <span className="input-group-addon index-page-label" id="basic-addon3">{this.props.resourceStrings.is_lower}:</span>
-                    <input type="text" className="form-control index-page-input" aria-describedby="basic-addon3"
-                           placeholder="finish with your opinion"
-                           ref={(ref) => this.answerTextBox = ref}
-                           onChange={this.doAnswersSearchFromButton}
-                           onFocus={this.handleAnswerTextBoxGotFocus} />
+                <div className="col-sm-8 col-sm-offset-4">
+                    <span className="best-light-text">{ this.state.statusMessage }</span>
+                    <div style={ addDescriptionStyle }>
+                        <a className="btn best-index-button"
+                           href={linkToExtendedOpinion}>{this.props.resourceStrings.suggestion_panel_extended_opinion}</a>
+                    </div>
+
+                    {/* This will be known as leftTextBox */}
+                    <SuggestionControl suggestionsUrl={this.props.suggestionsUrl} onValueChange={this.doAnswersSearchFromLeftTextBox}
+                                       antiForgeryToken={this.props.antiForgeryToken} antiForgeryHeaderName={this.props.antiForgeryHeaderName}
+                                       ref={(ref) => this.leftTextBox = ref} focusOnLoad={ true } textBoxGroupId={ "first-text-box" }
+                                       labelText={this.props.resourceStrings.best_start_capital} onGotFocus={this.handleLeftTextBoxGotFocus}
+                                       placeHolder="start typing" />
+                    {/* This will be knows as rightTextBox */}
+                    <SuggestionControl suggestionsUrl={this.props.suggestionsUrl} onValueChange={this.doAnswersSearchFromRightTextBox}
+                                       antiForgeryToken={this.props.antiForgeryToken} antiForgeryHeaderName={this.props.antiForgeryHeaderName}
+                                       ref={(ref) => this.rightTextBox = ref} focusOnLoad={ false } textBoxGroupId={ "second-text-box" }
+                                       labelText={this.props.resourceStrings.for_lower} onGotFocus={this.handleRightTextBoxGotFocus}
+                                       placeHolder="continue here"/>
+                    {/* This will be knows as answerTextBox */}
+                    <div className="input-group best-some-padding">
+                        <span className="input-group-addon index-page-label" id="basic-addon3">{this.props.resourceStrings.is_lower}:</span>
+                        <input type="text" className="form-control index-page-input" aria-describedby="basic-addon3"
+                               placeholder="finish with your opinion"
+                               ref={(ref) => this.answerTextBox = ref}
+                               onChange={this.doAnswersSearchFromButton}
+                               onFocus={this.handleAnswerTextBoxGotFocus} />
+                    </div>
+                    <div className="best-some-padding">
+                        <input type="button" value={this.props.resourceStrings.add_capital}
+                               onClick={this.handleAddButtonClick} className="btn best-index-button" />
+                        <input type="button" value="Search" onClick={this.doAnswersSearchFromButton} style={ searchButtonStyle } />
+                    </div>
+                    <span className="best-light-text">{ this.state.answerResultMessage }</span>
+                    <SuggestionAnswerList answers={this.state.answers} onListClicked={this.handleOnListClicked} culture={this.props.culture} />
+                    <textarea style={errorDisplayStyle} ref={(ref) => this.errorDisplay = ref} value={this.state.errorMessage} readOnly />
                 </div>
-                <div className="best-some-padding">
-                    <input type="button" value={this.props.resourceStrings.add_capital}
-                           onClick={this.handleAddButtonClick} className="btn best-index-button" />
-                    <input type="button" value="Search" onClick={this.doAnswersSearchFromButton} style={ searchButtonStyle } />
-                </div>
-                <span className="best-light-text">{ this.state.answerResultMessage }</span>
-                <SuggestionAnswerList answers={this.state.answers} onListClicked={this.handleOnListClicked} culture={this.props.culture} />
-                <textarea style={errorDisplayStyle} ref={(ref) => this.errorDisplay = ref} value={this.state.errorMessage} readOnly />
             </div>
         );
     }

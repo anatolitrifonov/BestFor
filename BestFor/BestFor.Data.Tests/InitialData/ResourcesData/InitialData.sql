@@ -105,10 +105,10 @@ GO
 
 if not exists(select * from ResourceString where CultureName = 'en-US' and [Key] = 'you_are_adding_detailed_description')
 	insert ResourceString(CultureName, [Key], Value, DateAdded) values('en-US', 'you_are_adding_detailed_description',
-		N'You are adding a detailed description for opinion.', getDate());
+		N'You are adding a detailed description for opinion. Try to make it useful. Members will vote for it.', getDate());
 if not exists(select * from ResourceString where CultureName = 'ru-RU' and [Key] = 'you_are_adding_detailed_description')
 	insert ResourceString(CultureName, [Key], Value, DateAdded) values('ru-RU', 'you_are_adding_detailed_description',
-		N'Вы добавляете детальное описание мнения.', getDate());
+		N'Вы добавляете детальное описание мнения. Постарайтесь сделать его полезным, чтобы набрать больше голосов.', getDate());
 GO
 
 if not exists(select * from ResourceString where CultureName = 'en-US' and [Key] = 'add_capital')

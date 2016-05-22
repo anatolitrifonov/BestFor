@@ -14,7 +14,7 @@
     {
         // Link to flagging.TODO how to do this in tag helpers?
         // Get the localized word flag
-        var strings = resourcesService.GetCommonStrings(this.ViewBag.BestForCulture);
+        var strings = await resourcesService.GetCommonStrings(this.ViewBag.BestForCulture);
         string flagString = strings.FlagUpper;
         string voteString = strings.VoteUpper;
         string describeString = strings.DescribeUpper;

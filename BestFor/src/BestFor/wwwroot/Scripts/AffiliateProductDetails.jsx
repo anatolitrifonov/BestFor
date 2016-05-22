@@ -55,8 +55,8 @@ var AffiliateProductDetails = React.createClass({
         for (var i = 0; i < result.length; i++) {
             if (i < 3) keywords += result[i] + " ";
         }
-        keywords = keywords.trim() + " " + this.props.productLeftWord;
-        keywords = keywords.trim() + " " + this.props.productRightWord;
+        //keywords = keywords.trim() + " " + this.props.productLeftWord;
+        //keywords = keywords.trim() + " " + this.props.productRightWord;
         keywords = keywords.trim();
         console.log("sending " + keywords);
 

@@ -61,13 +61,13 @@ namespace BestFor.Services.Tests
         }
 
         [Fact]
-        public void SuggestionService_FindSuggestions_SomeResults()
+        public async Task SuggestionService_FindSuggestions_SomeResults()
         {
             // Setup
             var setup = new TestSetup();
 
             // Call the method we are testing
-            var result = setup.SuggestionService.FindSuggestions("test");
+            var result = await setup.SuggestionService.FindSuggestions("test");
 
             // Check number of test suggestions
             Assert.Equal(result.Count(), setup.FakeSuggestions.NumberOfTestSuggestions);
@@ -78,7 +78,7 @@ namespace BestFor.Services.Tests
             setup.CacheMock.Verify(x => x.Add(CacheConstants.CACHE_KEY_SUGGESTIONS_DATA, It.IsAny<KeyDataSource<Suggestion>>()), Times.Once());
 
             // Call the method we are testing
-            result = setup.SuggestionService.FindSuggestions("abc");
+            result = await setup.SuggestionService.FindSuggestions("abc");
 
             // Check number of abc suggestions returned is max allowed
             Assert.Equal(result.Count(), KeyDataSource<Suggestion>.DEFAULT_TOP_COUNT);
@@ -92,13 +92,13 @@ namespace BestFor.Services.Tests
         }
 
         [Fact]
-        public void SuggestionService_FindSuggestions_NoResults()
+        public async Task SuggestionService_FindSuggestions_NoResults()
         {
             // Setup
             var setup = new TestSetup();
 
             // Call the method we are testing
-            var result = setup.SuggestionService.FindSuggestions("ztest");
+            var result = await setup.SuggestionService.FindSuggestions("ztest");
 
             // Check number of test suggestions
             Assert.Equal(result.Count(), 0);

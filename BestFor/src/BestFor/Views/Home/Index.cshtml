@@ -25,12 +25,8 @@
     Json object will be rendered as good JavaScript defined object. Refer to control jsx file for the list of expected strings.
 *@  
 <div class="row best-theme-color">
-    @* left side *@
-    <div class="col-sm-3">
-
-    </div>
-    @* center section *@
-    <div class="col-sm-6">
+    @* left center section *@
+    <div class="col-sm-9">
         <div class="text-center">
             @* Second part of the banner message *@
             <div class="best-center-light-text">Impress the world with yours!<br /><br /></div>
@@ -44,7 +40,7 @@
             answersUrl = "/api/answer",
             antiForgeryHeaderName = BestFor.Controllers.BaseApiController.ANTI_FORGERY_HEADER_NAME,
             antiForgeryToken = GetAntiXsrfToken(),
-            resourceStrings = resourcesService.GetStringsAsJson(this.ViewBag.BestForCulture,
+            resourceStrings = await resourcesService.GetStringsAsJson(this.ViewBag.BestForCulture,
                 new string[]
                 {
                     "suggestion_panel_initial_message",
@@ -76,7 +72,7 @@
     <div class="panel-heading text-center best-section-header">
         @* Culture is placed into view bag by action filter *@
         @* This is the "normal" way of getting a localized string value *@
-        <h4>@resourcesService.GetString(this.ViewBag.BestForCulture, "trending_today")</h4>
+        <h4>@await resourcesService.GetString(this.ViewBag.BestForCulture, "trending_today")</h4>
     </div>
     <div class="panel-body">
         <div class="row">

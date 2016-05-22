@@ -2,9 +2,10 @@
 using BestFor.Domain.Entities;
 using BestFor.Dto;
 using BestFor.Services.Cache;
+using BestFor.Services.DataSources;
 using Microsoft.Extensions.Logging;
-using System.Threading.Tasks;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace BestFor.Services.Services
 {
@@ -60,8 +61,11 @@ namespace BestFor.Services.Services
             answerVoteObject.FromDto(answerVote);
 
             _answerVoteRepository.Insert(answerVoteObject);
-
             await _answerVoteRepository.SaveChangesAsync();
+
+            // Add to cache.
+            var cachedData = await GetVotesCachedData();
+            await cachedData.Insert(answerVoteObject);
 
             return answerVoteObject.Id;
         }
@@ -93,8 +97,11 @@ namespace BestFor.Services.Services
             answerDescriptionVoteObject.FromDto(answerDescriptionVote);
 
             _answerDescriptionVoteRepository.Insert(answerDescriptionVoteObject);
-
             await _answerDescriptionVoteRepository.SaveChangesAsync();
+
+            // Add to cache.
+            var cachedData = await GetVoteDescriptionsCachedData();
+            await cachedData.Insert(answerDescriptionVoteObject);
 
             return answerDescriptionVoteObject.Id;
         }
@@ -103,7 +110,51 @@ namespace BestFor.Services.Services
         {
             if (answerId <= 0) return 0;
 
-            return _answerVoteRepository.Queryable().Count(x => x.AnswerId == answerId);
+            // Get cache.
+            var cachedData = await GetVotesCachedData();
+            // Get count from cache.
+            var data = await cachedData.Find(answerId.ToString());
+            if (data == null) return 0;
+            return data.Count();
+
+            // int count = _answerVoteRepository.Queryable().Count(x => x.AnswerId == answerId);
+            // return await Task.FromResult<int>(count);
         }
+
+        #region Private Methods
+        /// <summary>
+        /// Get votes data from cache or initialize if empty
+        /// </summary>
+        /// <returns></returns>
+        private async Task<KeyIndexedDataSource<AnswerVote>> GetVotesCachedData()
+        {
+            object data = _cacheManager.Get(CacheConstants.CACHE_KEY_VOTES_DATA);
+            if (data == null)
+            {
+                var dataSource = new KeyIndexedDataSource<AnswerVote>();
+                await dataSource.Initialize(_answerVoteRepository);
+                _cacheManager.Add(CacheConstants.CACHE_KEY_VOTES_DATA, dataSource);
+                return dataSource;
+            }
+            return (KeyIndexedDataSource<AnswerVote>)data;
+        }
+
+        /// <summary>
+        /// Get vote descriptions data from cache or initialize if empty
+        /// </summary>
+        /// <returns></returns>
+        private async Task<KeyIndexedDataSource<AnswerDescriptionVote>> GetVoteDescriptionsCachedData()
+        {
+            object data = _cacheManager.Get(CacheConstants.CACHE_KEY_DESCRIPTION_VOTES_DATA);
+            if (data == null)
+            {
+                var dataSource = new KeyIndexedDataSource<AnswerDescriptionVote>();
+                await dataSource.Initialize(_answerDescriptionVoteRepository);
+                _cacheManager.Add(CacheConstants.CACHE_KEY_DESCRIPTION_VOTES_DATA, dataSource);
+                return dataSource;
+            }
+            return (KeyIndexedDataSource<AnswerDescriptionVote>)data;
+        }
+        #endregion
     }
 }

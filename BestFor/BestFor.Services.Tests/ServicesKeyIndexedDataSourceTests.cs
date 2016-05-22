@@ -1,8 +1,9 @@
-﻿using BestFor.Services.DataSources;
+﻿using Autofac;
 using BestFor.Data;
 using BestFor.Domain.Entities;
+using BestFor.Services.DataSources;
+using System.Threading.Tasks;
 using Xunit;
-using Autofac;
 
 namespace BestFor.Services.Tests
 {
@@ -12,13 +13,13 @@ namespace BestFor.Services.Tests
     public class ServicesKeyIndexedDataSourceTests : BaseTest
     {
         [Fact]
-        public void KeyIndexedDataSource_FakeInitialize_Initializes()
+        public async Task KeyIndexedDataSource_FakeInitialize_Initializes()
         {
             var indexDataSource = new KeyIndexedDataSource<Answer>();
 
             var repo = new Repository<Answer>(resolver.Resolve<IDataContext>());
 
-            indexDataSource.Initialize(repo);
+            await indexDataSource.Initialize(repo);
             //var suggestions = new DefaultSuggestions();
             //var result = suggestions.FindSuggestions("B");
             //Assert.True(result != null);

@@ -19,18 +19,18 @@ namespace BestFor.Controllers
         /// <summary>
         /// Constructor injected answer service. Used for loading the answers.
         /// </summary>
-        private IAnswerService _answerService;
-        private IAnswerDescriptionService _answerDescriptionService;
-        private IResourcesService _resourcesService;
-        private ILogger _logger;
-        private readonly UserManager<ApplicationUser> _userManager;
-        private IVoteService _voteService;
+        private readonly IAnswerService _answerService;
+        private readonly IAnswerDescriptionService _answerDescriptionService;
+        private readonly IResourcesService _resourcesService;
+        private readonly ILogger _logger;
+        private readonly IUserService _userService;
+        private readonly IVoteService _voteService;
 
         public HomeController(IAnswerService answerService, IAnswerDescriptionService answerDescriptionService,
-            IResourcesService resourcesService, UserManager<ApplicationUser> userManager, IVoteService voteService,
+            IResourcesService resourcesService, IUserService userService, IVoteService voteService,
             ILoggerFactory loggerFactory)
         {
-            _userManager = userManager;
+            _userService = userService;
             _answerService = answerService;
             _answerDescriptionService = answerDescriptionService;
             _resourcesService = resourcesService;
@@ -44,11 +44,11 @@ namespace BestFor.Controllers
         /// </summary>
         /// <returns></returns>
         // GET: /<controller>/
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
             var model = new HomePageDto();
 
-            model.TopToday.Answers = _answerService.FindAnswersTrendingToday();
+            model.TopToday.Answers = await _answerService.FindAnswersTrendingToday();
 
             model.Culture = this.Culture;
 
@@ -67,16 +67,16 @@ namespace BestFor.Controllers
             var cultureBegining = "/" + culture;
             if (requestPath.StartsWith(cultureBegining)) requestPath = requestPath.Substring(cultureBegining.Length);
             // Now try to parse the request path into known words.
-            var commonStrings = _resourcesService.GetCommonStrings(culture);
+            var commonStrings = await _resourcesService.GetCommonStrings(culture);
             var answer = LinkingHelper.ParseUrlToAnswer(commonStrings, requestPath);
             // Were we able to parse?
             if (answer == null) RedirectToAction("Index");
             // Let's try to find that answer
-            answer = _answerService.FindExact(answer.LeftWord, answer.RightWord, answer.Phrase);
+            answer = await _answerService.FindExact(answer.LeftWord, answer.RightWord, answer.Phrase);
             // Go to home index if not found
             if (answer == null) RedirectToAction("Index");
             // Get data
-            return View(await FillInDetails(answer, _answerDescriptionService, _userManager, _voteService, _resourcesService, culture));
+            return View(await FillInDetails(answer, _answerDescriptionService, _userService, _voteService, _resourcesService, culture));
         }
 
         /// <summary>
@@ -91,29 +91,31 @@ namespace BestFor.Controllers
         /// <param name="culture"></param>
         /// <returns></returns>
         public static async Task<AnswerDetailsDto> FillInDetails(AnswerDto answer, IAnswerDescriptionService answerDescriptionService,
-            UserManager<ApplicationUser> userManager, IVoteService  voteService, IResourcesService resourcesService, string culture)
+            IUserService userService, IVoteService  voteService, IResourcesService resourcesService, string culture)
         {
             // Load answer descriptions
-            var descriptions = answerDescriptionService.FindByAnswerId(answer.Id);
+            var descriptions = await answerDescriptionService.FindByAnswerId(answer.Id);
             // Fill in result
             var data = new AnswerDetailsDto()
             {
                 Answer = answer,
-                CommonStrings = resourcesService.GetCommonStrings(culture),
+                CommonStrings = await resourcesService.GetCommonStrings(culture),
                 Descriptions = descriptions,
-                UserDisplayName = await GetUserDisplayName(answer.UserId, userManager),
+                UserDisplayName = await GetUserDisplayName(answer.UserId, userService),
                 NumberVotes = await voteService.CountAnswerVotes(answer.Id)
             };
 
             return data;
         }
 
-        public static async Task<string> GetUserDisplayName(string userId, UserManager<ApplicationUser> userManager)
+        public static async Task<string> GetUserDisplayName(string userId, IUserService userService)
         {
             var result = "Anonymous";
-            if (userId == null) return result;
+            if (userId == null || userService == null) return result;
+            if (string.IsNullOrEmpty(userId)) return result;
+            if (string.IsNullOrWhiteSpace(userId)) return result;
             // Get user details.
-            var user = await userManager.FindByIdAsync(userId);
+            var user = await userService.FindByIdAsync(userId);
             if (user == null) return result;
             if (user.DisplayName == null) return user.UserName;
             if (user.DisplayName == string.Empty) return user.UserName;

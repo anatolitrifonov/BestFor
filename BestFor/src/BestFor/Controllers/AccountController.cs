@@ -144,7 +144,7 @@ namespace BestFor.Controllers
             if (!ModelState.IsValid) return View(model);
 
             // Do profanity checks. We already validated the model.
-            if (!IsProfanityCleanProfileCreate(model)) return View(model);
+            if (!await IsProfanityCleanProfileCreate(model)) return View(model);
 
             // Check email is unique.
             if (!await IsEmailUnique(model.Email, null)) return View(model);
@@ -342,7 +342,7 @@ namespace BestFor.Controllers
             }
 
             // Do profanity checks. We already validated the model.
-            if (!IsProfanityCleanProfileUpdate(model)) return View(model);
+            if (!await IsProfanityCleanProfileUpdate(model)) return View(model);
 
             // Verify password
             if (!await _userManager.CheckPasswordAsync(user, model.Password))
@@ -409,11 +409,11 @@ namespace BestFor.Controllers
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        private bool IsProfanityCleanProfileUpdate(ProfileViewDto model)
+        private async Task<bool> IsProfanityCleanProfileUpdate(ProfileViewDto model)
         {
             // Do profanity checks. We already validated the model.
             // we can only change a couple of fields.
-            var result = _profanityService.CheckProfanity(model.DisplayName);
+            var result = await _profanityService.CheckProfanity(model.DisplayName);
             // Disaply name can be blank.
             if (!string.IsNullOrEmpty(model.DisplayName) && !string.IsNullOrWhiteSpace(model.DisplayName))
                 if (result.HasIssues)
@@ -432,18 +432,18 @@ namespace BestFor.Controllers
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        private bool IsProfanityCleanProfileCreate(RegisterViewDto model)
+        private async Task<bool> IsProfanityCleanProfileCreate(RegisterViewDto model)
         {
             // Do profanity checks. We already validated the model.
             // we can only change a couple of fields.
-            var result = _profanityService.CheckProfanity(model.DisplayName);
+            var result = await _profanityService.CheckProfanity(model.DisplayName);
             // Disaply name can be blank.
             if (!string.IsNullOrEmpty(model.DisplayName) && !string.IsNullOrWhiteSpace(model.DisplayName))
                 if (result.HasIssues)
                     ModelState.AddModelError(string.Empty, result.ErrorMessage);
 
             // We do want to check the username since it is displayable
-            result = _profanityService.CheckProfanity(model.UserName);
+            result = await _profanityService.CheckProfanity(model.UserName);
             if (result.HasIssues)
                 ModelState.AddModelError(string.Empty, result.ErrorMessage);
 

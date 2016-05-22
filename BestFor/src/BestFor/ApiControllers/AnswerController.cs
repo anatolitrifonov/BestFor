@@ -30,7 +30,7 @@ namespace BestFor.Controllers
 
         // GET: api/values
         [HttpGet]
-        public AnswersDto Get()
+        public async Task<AnswersDto> Get()
         {
             var result = new AnswersDto();
 
@@ -45,7 +45,7 @@ namespace BestFor.Controllers
 
             // Thread.Sleep(4000);
             // call the service
-            result.Answers = _answerService.FindTopAnswers(leftWord, rightWord);
+            result.Answers = await _answerService.FindTopAnswers(leftWord, rightWord);
 
             return result;
         }
@@ -66,7 +66,7 @@ namespace BestFor.Controllers
             if (!ParseAntiForgeryHeader()) return SetErrorMessage(result, "Antiforgery issue");
 
             // Let's first check for profanities.
-            bool gotProfanityIssues = CheckProfanity(_profanityService, result);
+            bool gotProfanityIssues = await CheckProfanity(_profanityService, result);
             if (gotProfanityIssues) return result;
 
             // Add left word and right word to suggestions
@@ -97,21 +97,21 @@ namespace BestFor.Controllers
         /// <param name="service"></param>
         /// <param name="answer"></param>
         /// <returns>true if profanity found</returns>
-        private bool CheckProfanity(IProfanityService service, AddedAnswerDto answer)
+        private async Task<bool> CheckProfanity(IProfanityService service, AddedAnswerDto answer)
         {
-            var profanityCheckResult = service.CheckProfanity(answer.Answer.LeftWord);
+            var profanityCheckResult = await service.CheckProfanity(answer.Answer.LeftWord);
             if (profanityCheckResult.HasIssues)
             {
                 answer.ErrorMessage = profanityCheckResult.ErrorMessage;
                 return true;
             }
-            profanityCheckResult = service.CheckProfanity(answer.Answer.RightWord);
+            profanityCheckResult = await service.CheckProfanity(answer.Answer.RightWord);
             if (profanityCheckResult.HasIssues)
             {
                 answer.ErrorMessage = profanityCheckResult.ErrorMessage;
                 return true;
             }
-            profanityCheckResult = service.CheckProfanity(answer.Answer.Phrase);
+            profanityCheckResult = await service.CheckProfanity(answer.Answer.Phrase);
             if (profanityCheckResult.HasIssues)
             {
                 answer.ErrorMessage = profanityCheckResult.ErrorMessage;

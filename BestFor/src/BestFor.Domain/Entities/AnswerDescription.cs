@@ -4,7 +4,7 @@ using BestFor.Dto;
 
 namespace BestFor.Domain.Entities
 {
-    public class AnswerDescription : EntityBase, IDtoConvertable<AnswerDescriptionDto>
+    public class AnswerDescription : EntityBase, IFirstIndex, ISecondIndex, IDtoConvertable<AnswerDescriptionDto>
     {
         /// <summary>
         /// Identity ...
@@ -38,6 +38,19 @@ namespace BestFor.Domain.Entities
         /// </summary>
         [ForeignKey("UserId")]
         public ApplicationUser ApplicationUser { get; set; }
+
+        #region IFirstIndex implementation
+        [NotMapped]
+        public string IndexKey { get { return AnswerId.ToString(); } }
+        #endregion
+
+        #region ISecondIndex implementation
+        [NotMapped]
+        public string SecondIndexKey { get { return Id.ToString(); } }
+
+        [NotMapped]
+        public int NumberOfEntries { get { return 1; } set { return; } }
+        #endregion
 
         #region IDtoConvertable implementation
         public AnswerDescriptionDto ToDto()

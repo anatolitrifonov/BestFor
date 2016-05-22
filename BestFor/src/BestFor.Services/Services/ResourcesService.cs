@@ -1,13 +1,12 @@
-﻿using System;
-using System.Text;
+﻿using BestFor.Data;
+using BestFor.Domain.Entities;
+using BestFor.Dto;
+using BestFor.Services.Cache;
+using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
 using System.Linq;
-using Newtonsoft.Json.Linq;
-using BestFor.Dto;
-
-using BestFor.Data;
-using BestFor.Services.Cache;
-using BestFor.Domain.Entities;
+using System.Text;
+using System.Threading.Tasks;
 
 
 namespace BestFor.Services.Services
@@ -45,7 +44,7 @@ namespace BestFor.Services.Services
         /// <param name="culture"></param>
         /// <returns></returns>
         /// <remarks>Has to be a function. I'd rather not set the culture per instance.</remarks>
-        public CommonStringsDto GetCommonStrings(string culture)
+        public async Task<CommonStringsDto> GetCommonStrings(string culture)
         {
             // See if we got the strings already
             if (_commonStrings != null) return _commonStrings;
@@ -53,7 +52,7 @@ namespace BestFor.Services.Services
             var resourceStrings = GetCachedData();
             // Setup common strings so that we do not have to touch cache with no need.
             _commonStrings = LoadCommonStrings(culture, resourceStrings);
-            return _commonStrings;
+            return await Task.FromResult(_commonStrings);
         }
 
         /// <summary>
@@ -67,7 +66,7 @@ namespace BestFor.Services.Services
         /// If not found seach English
         /// If not found return key
         /// </remarks>
-        public string GetString(string culture, string key)
+        public async Task<string> GetString(string culture, string key)
         {
             // Do some checks before we go to cache.
             // No need to touch cache if blanks.
@@ -78,7 +77,7 @@ namespace BestFor.Services.Services
             // Setup common strings so that we do not have to touch cache with no need.
             if (_commonStrings == null) _commonStrings = LoadCommonStrings(culture, resourceStrings);
             // Get the string for this culture
-            return FindOneString(culture, key, resourceStrings);
+            return await Task.FromResult(FindOneString(culture, key, resourceStrings));
         }
 
         /// <summary>
@@ -87,7 +86,7 @@ namespace BestFor.Services.Services
         /// <param name="culture"></param>
         /// <param name="keys"></param>
         /// <returns></returns>
-        public string[] GetStrings(string culture, string[] keys)
+        public async Task<string[]> GetStrings(string culture, string[] keys)
         {
             // Do some checks before we go to cache.
             // No need to touch cache if blanks.
@@ -106,7 +105,7 @@ namespace BestFor.Services.Services
                 else
                     result[i] = FindOneString(culture, keys[i], resourceStrings);
             }
-            return result;
+            return await Task.FromResult(result);
         }
 
         /// <summary>
@@ -123,9 +122,9 @@ namespace BestFor.Services.Services
         /// }
         /// script
         /// </returns>
-        public string GetStringsAsJavaScript(string culture, string javaScriptVariableName, string[] keys)
+        public async Task<string> GetStringsAsJavaScript(string culture, string javaScriptVariableName, string[] keys)
         {
-            var strings = GetStrings(culture, keys);
+            var strings = await GetStrings(culture, keys);
             var sb = new StringBuilder("<script>\n\r")
                 .Append("var ").Append(javaScriptVariableName).Append(" = {\n\r");
             for (var i = 0; i < keys.Length; i++)
@@ -134,7 +133,7 @@ namespace BestFor.Services.Services
                 sb.Append("\"").Append(keys[i]).Append("\" : \"").Append(strings[i]).Append(i < keys.Length - 1 ? "\",\n\r" : "\"\n\r");
             }
             sb.Append("}\r\n</script>\n\r");
-            return sb.ToString();
+            return await Task.FromResult(sb.ToString());
         }
 
         /// <summary>
@@ -144,10 +143,10 @@ namespace BestFor.Services.Services
         /// <param name="culture"></param>
         /// <param name="keys"></param>
         /// <returns></returns>
-        public JObject GetStringsAsJson(string culture, string[] keys)
+        public async Task<JObject> GetStringsAsJson(string culture, string[] keys)
         {
             // Get strings -> build json object
-            var strings = GetStrings(culture, keys);
+            var strings = await GetStrings(culture, keys);
             var result = new JObject();
             for (var i = 0; i < keys.Length; i++)
                 result.Add(new JProperty(keys[i], strings[i]));
@@ -158,14 +157,14 @@ namespace BestFor.Services.Services
         /// Load all known common strings.
         /// </summary>
         /// <returns></returns>
-        public Dictionary<string, CommonStringsDto> GetCommonStringsForAllCultures()
+        public async Task<Dictionary<string, CommonStringsDto>> GetCommonStringsForAllCultures()
         {
             var data = GetCachedData().Where(x => x.Key == "best_start_capital" || x.Key == "for_lower" || x.Key == "is_lower").ToList();
             var result = new Dictionary<string, CommonStringsDto>();
             var cultures = data.Select(x => x.CultureName).Distinct();
             foreach (var culture in cultures)
                 result.Add(culture, LoadCommonStrings(culture, data));
-            return result;
+            return await Task.FromResult(result);
         }
 
 

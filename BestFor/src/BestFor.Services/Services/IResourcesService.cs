@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using System.Threading.Tasks;
+using Newtonsoft.Json.Linq;
 using BestFor.Dto;
 using System.Collections.Generic;
 
@@ -15,7 +16,7 @@ namespace BestFor.Services.Services
         /// <param name="culture"></param>
         /// <param name="key"></param>
         /// <returns></returns>
-        string GetString(string culture, string key);
+        Task<string> GetString(string culture, string key);
 
         /// <summary>
         /// Find a set of strings for set of keys
@@ -23,7 +24,7 @@ namespace BestFor.Services.Services
         /// <param name="culture"></param>
         /// <param name="keys"></param>
         /// <returns></returns>
-        string[] GetStrings(string culture, string[] keys);
+        Task<string[]> GetStrings(string culture, string[] keys);
 
         /// <summary>
         /// Find strings for keys and return as javascript json object.
@@ -39,7 +40,7 @@ namespace BestFor.Services.Services
         /// }
         /// script
         /// </returns>
-        string GetStringsAsJavaScript(string culture, string javaScriptVariableName, string[] keys);
+        Task<string> GetStringsAsJavaScript(string culture, string javaScriptVariableName, string[] keys);
 
         /// <summary>
         /// Return dynamic json object containing keys and strings as properties and values.
@@ -48,19 +49,19 @@ namespace BestFor.Services.Services
         /// <param name="culture"></param>
         /// <param name="keys"></param>
         /// <returns></returns>
-        JObject GetStringsAsJson(string culture, string[] keys);
+        Task<JObject> GetStringsAsJson(string culture, string[] keys);
 
         /// <summary>
         /// Return common strings for a given culture.
         /// </summary>
         /// <param name="culture"></param>
         /// <returns></returns>
-        CommonStringsDto GetCommonStrings(string culture);
+        Task<CommonStringsDto> GetCommonStrings(string culture);
 
         /// <summary>
         /// Load all known common strings.
         /// </summary>
         /// <returns></returns>
-        Dictionary<string, CommonStringsDto> GetCommonStringsForAllCultures();
+        Task<Dictionary<string, CommonStringsDto>> GetCommonStringsForAllCultures();
     }
 }

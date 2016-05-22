@@ -41,11 +41,11 @@ namespace BestFor.Services.Services
         /// <returns>
         /// Loads cache if empty
         /// </returns>
-        public IEnumerable<SuggestionDto> FindSuggestions(string input)
+        public async Task<IEnumerable<SuggestionDto>> FindSuggestions(string input)
         {
             // We are only looking in cache.
             var cachedData = GetCachedData();
-            return cachedData.FindTopItems(input).Select(x => x.ToDto());
+            return await Task.FromResult(cachedData.FindTopItems(input).Select(x => x.ToDto()));
         }
 
         /// <summary>

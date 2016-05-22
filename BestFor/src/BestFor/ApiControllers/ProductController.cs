@@ -1,8 +1,8 @@
-﻿using System;
-using BestFor.Dto.AffiliateProgram;
-using Microsoft.AspNet.Mvc;
-using BestFor.Services.Services;
+﻿using BestFor.Dto.AffiliateProgram;
 using BestFor.Services;
+using BestFor.Services.Services;
+using Microsoft.AspNet.Mvc;
+using System.Threading.Tasks;
 
 namespace BestFor.Controllers
 {
@@ -27,7 +27,7 @@ namespace BestFor.Controllers
         /// <returns>One product</returns>
         // GET: api/product
         [HttpGet]
-        public AffiliateProductDto Get()
+        public async Task<AffiliateProductDto> Get()
         {
             // Input is passed in the query string. Interface might change eventually.
             // For now lets just get a keyword from query string and use that.
@@ -45,7 +45,7 @@ namespace BestFor.Controllers
             // Form the parameters object. This will get smarter then just keyword eventually.
             var parameters = new ProductSearchParameters() { Keyword = keyword };
             // Call the service
-            var product = _productService.FindProduct(parameters);
+            var product = await _productService.FindProduct(parameters);
 
             // this may be null but we are not going to do anything here no pint really. Just let the client side deal with results.
             return product;

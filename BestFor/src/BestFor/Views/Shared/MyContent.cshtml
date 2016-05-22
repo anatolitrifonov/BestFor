@@ -15,14 +15,14 @@
 }
 @{
     // Read localized strings
-    var strings = resourcesService.GetCommonStrings(this.ViewBag.BestForCulture);
+    var strings = await resourcesService.GetCommonStrings(ViewBag.BestForCulture);
     string flagString = strings.FlagUpper;
     string voteString = strings.VoteUpper;
 
-    string addYourDescription = resourcesService.GetString(this.ViewBag.BestForCulture, "add_your_description");
-    string answerDetails = resourcesService.GetString(this.ViewBag.BestForCulture, "answer_details");
-    string noDescriptionLine = resourcesService.GetString(this.ViewBag.BestForCulture, "no_description_or_reasoning");
-    string votedForThis = resourcesService.GetString(this.ViewBag.BestForCulture, "voted_for_this_opinion");
+    string addYourDescription = await resourcesService.GetString(ViewBag.BestForCulture, "add_your_description");
+    string answerDetails = await resourcesService.GetString(ViewBag.BestForCulture, "answer_details");
+    string noDescriptionLine = await resourcesService.GetString(ViewBag.BestForCulture, "no_description_or_reasoning");
+    string votedForThis = await resourcesService.GetString(ViewBag.BestForCulture, "voted_for_this_opinion");
 
 }
 @* Show the answer itself *@
@@ -83,7 +83,7 @@ else
         productPhrase = Model.Answer.Phrase,
         antiForgeryHeaderName = BestFor.Controllers.BaseApiController.ANTI_FORGERY_HEADER_NAME,
         antiForgeryToken = GetAntiXsrfToken(),
-        resourceStrings = resourcesService.GetStringsAsJson(this.ViewBag.BestForCulture,
+        resourceStrings = await resourcesService.GetStringsAsJson(this.ViewBag.BestForCulture,
             new string[]
             {
                 "title_upper",

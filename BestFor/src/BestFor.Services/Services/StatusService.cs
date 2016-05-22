@@ -1,8 +1,9 @@
-﻿using BestFor.Services.Cache;
-using BestFor.Services.DataSources;
+﻿using BestFor.Data;
 using BestFor.Domain.Entities;
 using BestFor.Dto;
-using BestFor.Data;
+using BestFor.Services.Cache;
+using BestFor.Services.DataSources;
+using System.Threading.Tasks;
 
 namespace BestFor.Services.Services
 {
@@ -62,10 +63,10 @@ namespace BestFor.Services.Services
             return result;
         }
 
-        public int InitAnswers()
+        public async Task<int> InitAnswers()
         {
             var dataSource = new KeyIndexedDataSource<Answer>();
-            dataSource.Initialize(_answersRepository);
+            await dataSource.Initialize(_answersRepository);
             _cacheManager.Add(CacheConstants.CACHE_KEY_ANSWERS_DATA, dataSource);
             return dataSource.Size;
         }
