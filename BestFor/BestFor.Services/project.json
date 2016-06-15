@@ -1,0 +1,25 @@
+﻿{
+  "version": "1.0.0-*",
+
+  "dependencies": {
+    "BestFor.Common": "1.0.0-*",
+    "BestFor.Data": "1.0.0-*",
+    "BestFor.Domain": "1.0.0-*",
+    "BestFor.Dto": "1.0.0-*",
+    "Microsoft.NETCore.App": {
+      "type": "platform",
+      "version": "1.0.0-rc2-3002702"
+    },
+    "System.Xml.XmlDocument": "4.0.1-rc2-24027",
+    "Microsoft.AspNetCore.Identity.EntityFrameworkCore": "1.0.0-rc2-final"
+  },
+
+  "frameworks": {
+    "netcoreapp1.0": {
+      "imports": [
+        "dnxcore50",
+        "portable-net45+win8"
+      ]
+    }
+  }
+}
