@@ -1,0 +1,15 @@
+﻿Open visual studio 2015 developer command prompt
+cd "C:\Users\atrifono\Documents\Personal\Fork\BestFor\src\BestFor.Data"
+run "dnx ef database update"
+this will create database from connection string in appsettings.json
+
+Run the following tests from BestFor.Data.Tests project
+Uncomment the return in each test
+LoadInitialDataTests.LoadInitialData_Profanity to load BadWord table
+LoadInitialDataTests.LoadInitialData_Resources to load ResourceString table
+LoadInitialDataTests.LoadInitialData_Suggestions to load Suggestion table
+
+
+Run AddAdminUserTests_AddAdminUser_AddsAdminUser test to add admin user.
+You will not be authorized to admin controller without admin role
+

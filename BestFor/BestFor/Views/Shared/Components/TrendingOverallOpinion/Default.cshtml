@@ -1,0 +1,17 @@
+﻿@model BestFor.Dto.AnswersDto
+@* Inject the service that allows searching for localized strings *@
+@inject BestFor.Services.Services.IResourcesService resourcesService
+@* Trending overall *@
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h4>@await resourcesService.GetString(this.ViewBag.BestForCulture, "trending_overall")</h4>
+    </div>
+    <div class="panel-body">
+        <div class="best-div-fluid">
+            @foreach (var item in Model.Answers)
+            {
+                @Html.DisplayFor(x => item, "AnswerToContent")
+            }
+        </div>
+    </div>
+</div>

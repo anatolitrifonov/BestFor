@@ -1,0 +1,67 @@
+﻿@model BestFor.Dto.AnswerDto
+@using BestFor.Services
+@* Inject the service that allows searching for localized strings *@
+@inject BestFor.Services.Services.IResourcesService resourcesService
+@*
+    Culture is placed into view bag by action filter.
+    This template shows content of the answer with the link to content.
+    <a href="/ru-ru/best-bet-for-me-is-hello">best bet for me is hello</a>
+
+    TODO: Need to render this into something that does not wrap
+*@
+@{
+    if (Model != null)
+    {
+        // Link to flagging.TODO how to do this in tag helpers?
+        // Get the localized word flag
+        var strings = await resourcesService.GetCommonStrings(this.ViewBag.BestForCulture);
+        string flagString = strings.FlagUpper;
+        string voteString = strings.VoteUpper;
+        string describeString = strings.DescribeUpper;
+        string moreString = strings.MoreUpper;
+        string linkToAnswer = LinkingHelper.ConvertAnswerToUrlWithCulture(this.ViewBag.BestForCulture, strings, Model);
+        // TODO make this into something beautiful *@
+        @* Panel best-panel-shadow is our style *@
+        <div class="panel panel-default best-panel-shadow">
+            @* Header *@
+            <div class="panel-heading best-card-links text-center">
+                <yakor y-culture="@this.ViewBag.BestForCulture" y-controller="AnswerAction" y-action="AddDescription"
+                       y-querystring="@new { answerId = Model.Id }"><span class="glyphicon glyphicon-book" aria-hidden="true" /></yakor>
+                <yakor y-culture="@this.ViewBag.BestForCulture" y-controller="AnswerAction" y-action="AddDescription"
+                       y-querystring="@new { answerId = Model.Id }">@describeString</yakor> &nbsp;&nbsp;
+                <yakor y-culture="@this.ViewBag.BestForCulture" y-controller="Vote" y-action="VoteAnswer"
+                       y-querystring="@new { answerId = Model.Id }"><span class="glyphicon glyphicon-ok" aria-hidden="true" /></yakor>
+                <yakor y-culture="@this.ViewBag.BestForCulture" y-controller="Vote" y-action="VoteAnswer"
+                       y-querystring="@new { answerId = Model.Id }">@voteString</yakor> &nbsp;&nbsp;
+                <yakor y-culture="@this.ViewBag.BestForCulture" y-controller="Flag" y-action="FlagAnswer"
+                       y-querystring="@new { answerId = Model.Id }"><span class="glyphicon glyphicon-ban-circle" aria-hidden="true" /></yakor>
+                <yakor y-culture="@this.ViewBag.BestForCulture" y-controller="Flag" y-action="FlagAnswer"
+                       y-querystring="@new { answerId = Model.Id }">@flagString</yakor>
+            </div>
+            @* Content *@
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-md-2 best-card-label">@strings.Best</div>
+                    <div class="col-md-10 best-card-detail"><a class="best-card-dark-links" href="@linkToAnswer">@Model.LeftWord</a></div>
+                </div>
+                <div class="row">
+                    <div class="col-md-2 best-card-label">@strings.For</div>
+                    <div class="col-md-10 best-card-detail"><a class="best-card-dark-links" href="@linkToAnswer">@Model.RightWord</a></div>
+                </div>
+                <div class="row">
+                    <div class="col-md-2 best-card-label">@strings.Is</div>
+                    <div class="col-md-10 best-card-detail"><a class="best-card-dark-links" href="@linkToAnswer">@Model.Phrase</a></div>
+                </div>
+            </div>
+            <div class="panel-footer">
+                @* This is an attempt to move the link to the right from center. Can not quite right align. *@
+                <div class="row">
+                    <div class="col-md-offset-8 col-md-4">
+                        <a class="best-card-links" href="@linkToAnswer">@moreString</a>
+                        <a class="best-card-link-icon" href="@linkToAnswer"><span class="glyphicon glyphicon-circle-arrow-right" aria-hidden="true" /></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+}

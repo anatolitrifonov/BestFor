@@ -1,0 +1,7 @@
+﻿http://www.samulihaverinen.com/web-development/dotnet/2016/01/19/how-to-run-clearscript-v8-javascript-engine-in-azure/
+
+Uninstall-Package React.AspNet -Projectname BestFor
+Install-Package JavaScriptEngineSwitcher.Core -Projectname BestFor
+Install-Package JavaScriptEngineSwitcher.Msie -Projectname BestFor
+Install-Package JavaScriptEngineSwitcher.V8 -Projectname BestFor
+Install-Package React.AspNet -IgnoreDependencies -Projectname BestFor

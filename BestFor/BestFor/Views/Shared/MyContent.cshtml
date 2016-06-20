@@ -1,0 +1,100 @@
+﻿@model BestFor.Dto.AnswerDetailsDto
+@using BestFor.Services
+@* Inject the service that generates anti forgery keys *@
+@inject Microsoft.AspNet.Antiforgery.IAntiforgery Xsrf
+@* Inject the service that allows searching for localized strings *@
+@inject BestFor.Services.Services.IResourcesService resourcesService
+@functions
+{
+    // Generate the token that we will use in requests sending data to server in headers.
+    public string GetAntiXsrfToken()
+    {
+        var tokens = Xsrf.GetTokens(Context);
+        return tokens.CookieToken + ":" + tokens.FormToken;
+    }
+}
+@{
+    // Read localized strings
+    var strings = await resourcesService.GetCommonStrings(ViewBag.BestForCulture);
+    string flagString = strings.FlagUpper;
+    string voteString = strings.VoteUpper;
+
+    string addYourDescription = await resourcesService.GetString(ViewBag.BestForCulture, "add_your_description");
+    string answerDetails = await resourcesService.GetString(ViewBag.BestForCulture, "answer_details");
+    string noDescriptionLine = await resourcesService.GetString(ViewBag.BestForCulture, "no_description_or_reasoning");
+    string votedForThis = await resourcesService.GetString(ViewBag.BestForCulture, "voted_for_this_opinion");
+
+}
+@* Show the answer itself *@
+<h2>@LinkingHelper.ConvertAnswerToText(Model.CommonStrings, Model.Answer)</h2>
+<br />
+@* Who added it originally *@
+Added by @Model.UserDisplayName.
+@* How many times this opinion was repeated *@
+Repeated @Model.Answer.Count times.
+@* How many people voted for this *@
+@Model.NumberVotes @votedForThis<br />
+
+@* Show descriptions or no description *@
+@if (Model.Descriptions == null || Model.Descriptions.Count() == 0)
+{
+    @noDescriptionLine<br />
+}
+else
+{
+    foreach (var item in Model.Descriptions)
+    {
+        @Html.DisplayFor(x => item, "DisplayAnswerDescription")
+    }
+}
+<br />
+@* Links to do something with this answer *@
+<div class="row">
+    <div class="col-sm-10">
+        <yakor y-culture="@this.ViewBag.BestForCulture" y-controller="AnswerAction" y-action="AddDescription"
+                y-querystring="@new { answerId = Model.Answer.Id }"
+                y-class="btn btn-default btn-lg"><span class="glyphicon glyphicon-book" aria-hidden="true"
+                                                       />&nbsp;<span class="special_glyph_anchor">@addYourDescription</span></yakor>
+        <yakor y-culture="@this.ViewBag.BestForCulture" y-controller="Vote" y-action="VoteAnswer"
+                y-querystring="@new { answerId = Model.Answer.Id }"
+                y-class="btn btn-default btn-lg"><span class="glyphicon glyphicon-ok" aria-hidden="true"
+                                                       />&nbsp;<span class="special_glyph_anchor">@voteString</span></yakor>
+    </div>
+    <div class="col-sm-2">
+        <yakor y-culture="@this.ViewBag.BestForCulture" y-controller="Flag" y-action="FlagAnswer"
+                y-querystring="@new { answerId = Model.Answer.Id }"
+                y-class="btn btn-default btn-sm"><span class="glyphicon glyphicon-ban-circle" aria-hidden="true"
+                                                       />&nbsp;<span class="special_glyph_anchor">@flagString</span></yakor>
+    </div>
+</div>
+<br />
+@Html.React("AffiliateProductDetails",
+    new
+    {
+        productsUrl = "/api/product",
+        productLeftWord = Model.Answer.LeftWord,
+        productRightWord = Model.Answer.RightWord,
+        productPhrase = Model.Answer.Phrase,
+        antiForgeryHeaderName = BestFor.Controllers.BaseApiController.ANTI_FORGERY_HEADER_NAME,
+        antiForgeryToken = GetAntiXsrfToken(),
+        resourceStrings = await resourcesService.GetStringsAsJson(this.ViewBag.BestForCulture,
+            new string[]
+            {
+                "title_upper",
+                "link_upper",
+                "price_upper",
+                "not_able_to_find_product",
+                "found_useful_product"
+            })
+    })
+@* Load react client scripts *@
+@section TopScripts {
+    @{ await Html.RenderPartialAsync("_ReactJsScriptsPartial"); }
+}
+@* Load this page specific react sripts *@
+<script src="@Url.Content("~/Scripts/AffiliateProductDetails.jsx")"></script>
+@Html.ReactInitJavaScript()
+
+
+
+

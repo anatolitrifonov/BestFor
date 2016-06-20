@@ -1,0 +1,20 @@
+﻿Api controllers expect the callers to pass the special header in each call.
+All api controllers inherit from BaseApiController
+Each call that needs to be protected must call "if (!ParseAntiForgeryHeader())" from BaseApiController.
+If false is returned controller deals with error.
+Look at the pages that call api controllers for header/token generation.
+
+Doing this in Startup.cs
+// Add MVC services to the services container.
+services.AddMvc().AddViewLocalization().AddDataAnnotationsLocalization();
+automatically enables ability to inject Antiforgery
+
+If you look at home/index view it is asking Antiforgery to generate tokens to protect api controllers used on the page.
+
+However an interesting problem happens. If user is logged in Xsrf.GetTokens(Context); starts returning blank CookieToken.
+I do not know why.
+
+One of the solutons for this that I found is that this token becomes available in a cookie who's name is controlled by AntiForgeryConfig.Cookiename.
+
+This allows us to take a bit of control by taking the cookie name into our hands.
+services.ConfigureAntiforgery(options => options.CookieName = Controllers.BaseApiController.ANTI_FORGERY_COOKIE_NAME);
