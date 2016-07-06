@@ -48,6 +48,7 @@ namespace BestFor.Data
         /// </remarks>
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
+            var path = Directory.GetCurrentDirectory();
             var builder = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
                 .AddJsonFile("appsettings.json");
@@ -56,9 +57,11 @@ namespace BestFor.Data
             string computerName = System.Environment.GetEnvironmentVariable("COMPUTERNAME");
             string connectionString = configuration["Data:DefaultConnection:ConnectionString"];
             // Overwrite default connection string by computername
+            // throw new System.Exception("klsdjlsdfkjsdf " + computerName);
             if (!string.IsNullOrEmpty(computerName))
             {
                 string alterConnectionString = configuration["Data:" + computerName + "Connection:ConnectionString"];
+                //throw new System.Exception("klsdjlsdfkjsdf " + alterConnectionString);
                 if (!string.IsNullOrEmpty(alterConnectionString))
                     connectionString = alterConnectionString;
             }
@@ -86,6 +89,16 @@ namespace BestFor.Data
         //    services.AddEntityFramework()
         //        .AddSqlServer()
         //        .AddDbContext<BestFor.Data.BestDataContext>(); // (options =>
+        //}
+
+        //protected override void OnModelCreating(ModelBuilder builder)
+        //{
+        //    foreach (var entity in builder.Model.GetEntityTypes())
+        //    {
+        //        entity.Relational().TableName = entity.DisplayName();
+        //    }
+
+        //    base.OnModelCreating(builder);
         //}
     }
 }

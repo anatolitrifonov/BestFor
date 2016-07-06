@@ -32,8 +32,10 @@ Important details https://docs.efproject.net/en/latest/cli/dotnet.html
 
 
 C:\Users\atrifono\Documents\Personal\Fork\BestFor\BestFor.Data>
-dotnet ef --configuration Debug --build-base-path .\bin\ migrations add M1 --json
+dotnet ef --configuration Debug --build-base-path .\bin\ migrations add M1 --json --verbose
 
 cd C:\Users\atrifono\Documents\Personal\Fork\BestFor\BestFor.Data
 dotnet ef --configuration Debug --build-base-path .\bin\ database update --verbose
 
+
+update-database -Project BestFor.Data

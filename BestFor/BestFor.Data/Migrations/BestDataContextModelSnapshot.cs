@@ -13,7 +13,7 @@ namespace BestFor.Data.Migrations
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
             modelBuilder
-                .HasAnnotation("ProductVersion", "1.0.0-rc2-20901")
+                .HasAnnotation("ProductVersion", "1.0.0-rtm-21431")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
             modelBuilder.Entity("BestFor.Domain.Entities.Answer", b =>
@@ -200,6 +200,7 @@ namespace BestFor.Data.Migrations
                         .HasName("EmailIndex");
 
                     b.HasIndex("NormalizedUserName")
+                        .IsUnique()
                         .HasName("UserNameIndex");
 
                     b.ToTable("AspNetUsers");
@@ -365,67 +366,67 @@ namespace BestFor.Data.Migrations
 
             modelBuilder.Entity("BestFor.Domain.Entities.Answer", b =>
                 {
-                    b.HasOne("BestFor.Domain.Entities.ApplicationUser")
+                    b.HasOne("BestFor.Domain.Entities.ApplicationUser", "ApplicationUser")
                         .WithMany()
                         .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("BestFor.Domain.Entities.AnswerDescription", b =>
                 {
-                    b.HasOne("BestFor.Domain.Entities.Answer")
-                        .WithMany()
+                    b.HasOne("BestFor.Domain.Entities.Answer", "Answer")
+                        .WithMany("AnswerDescriptions")
                         .HasForeignKey("AnswerId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("BestFor.Domain.Entities.ApplicationUser")
+                    b.HasOne("BestFor.Domain.Entities.ApplicationUser", "ApplicationUser")
                         .WithMany()
                         .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("BestFor.Domain.Entities.AnswerDescriptionFlag", b =>
                 {
-                    b.HasOne("BestFor.Domain.Entities.AnswerDescription")
+                    b.HasOne("BestFor.Domain.Entities.AnswerDescription", "AnswerDescription")
                         .WithMany()
                         .HasForeignKey("AnswerDescriptionId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("BestFor.Domain.Entities.ApplicationUser")
+                    b.HasOne("BestFor.Domain.Entities.ApplicationUser", "ApplicationUser")
                         .WithMany()
                         .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("BestFor.Domain.Entities.AnswerDescriptionVote", b =>
                 {
-                    b.HasOne("BestFor.Domain.Entities.AnswerDescription")
+                    b.HasOne("BestFor.Domain.Entities.AnswerDescription", "AnswerDescription")
                         .WithMany()
                         .HasForeignKey("AnswerDescriptionId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("BestFor.Domain.Entities.ApplicationUser")
+                    b.HasOne("BestFor.Domain.Entities.ApplicationUser", "ApplicationUser")
                         .WithMany()
                         .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("BestFor.Domain.Entities.AnswerFlag", b =>
                 {
-                    b.HasOne("BestFor.Domain.Entities.Answer")
+                    b.HasOne("BestFor.Domain.Entities.Answer", "Answer")
                         .WithMany()
                         .HasForeignKey("AnswerId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("BestFor.Domain.Entities.ApplicationUser")
+                    b.HasOne("BestFor.Domain.Entities.ApplicationUser", "ApplicationUser")
                         .WithMany()
                         .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("BestFor.Domain.Entities.AnswerVote", b =>
                 {
-                    b.HasOne("BestFor.Domain.Entities.Answer")
+                    b.HasOne("BestFor.Domain.Entities.Answer", "Answer")
                         .WithMany()
                         .HasForeignKey("AnswerId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("BestFor.Domain.Entities.ApplicationUser")
+                    b.HasOne("BestFor.Domain.Entities.ApplicationUser", "ApplicationUser")
                         .WithMany()
                         .HasForeignKey("UserId");
                 });
@@ -433,7 +434,7 @@ namespace BestFor.Data.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRole")
-                        .WithMany()
+                        .WithMany("Claims")
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
@@ -441,7 +442,7 @@ namespace BestFor.Data.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityUserClaim<string>", b =>
                 {
                     b.HasOne("BestFor.Domain.Entities.ApplicationUser")
-                        .WithMany()
+                        .WithMany("Claims")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
@@ -449,7 +450,7 @@ namespace BestFor.Data.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityUserLogin<string>", b =>
                 {
                     b.HasOne("BestFor.Domain.Entities.ApplicationUser")
-                        .WithMany()
+                        .WithMany("Logins")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
@@ -457,12 +458,12 @@ namespace BestFor.Data.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityUserRole<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRole")
-                        .WithMany()
+                        .WithMany("Users")
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("BestFor.Domain.Entities.ApplicationUser")
-                        .WithMany()
+                        .WithMany("Roles")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
