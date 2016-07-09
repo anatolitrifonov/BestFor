@@ -1,7 +1,7 @@
 ﻿@model BestFor.Dto.AnswerDetailsDto
 @using BestFor.Services
 @* Inject the service that generates anti forgery keys *@
-@inject Microsoft.AspNet.Antiforgery.IAntiforgery Xsrf
+@inject Microsoft.AspNetCore.Antiforgery.IAntiforgery Xsrf
 @* Inject the service that allows searching for localized strings *@
 @inject BestFor.Services.Services.IResourcesService resourcesService
 @functions
@@ -10,7 +10,7 @@
     public string GetAntiXsrfToken()
     {
         var tokens = Xsrf.GetTokens(Context);
-        return tokens.CookieToken + ":" + tokens.FormToken;
+        return tokens.CookieToken + ":" + tokens.RequestToken;
     }
 }
 @{

@@ -1,6 +1,8 @@
 {
   "version": "1.0.0-*",
+
   "testRunner": "xunit",
+
   "dependencies": {
     "BestFor.Services": "1.0.0-*",
     "BestFor.Fakes": "1.0.0-*",
@@ -13,7 +15,10 @@
     "Microsoft.AspNetCore.Identity.EntityFrameworkCore": "1.0.0",
     "xunit": "2.2.0-beta2-build3300"
   },
+
   "frameworks": {
-    "net461": { }
-  }
+    "net451": {}
+  },
+
+  "buildOptions": {"copyToOutput": { "include": "appsettings.json"}}
 }

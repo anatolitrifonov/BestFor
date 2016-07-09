@@ -29,6 +29,7 @@ namespace BestFor.UnitTests.Data
             // Create role if does not exist.
             if (adminRole == null)
             {
+                adminRole = new IdentityRole(Roles.Admin.ToString());
                 identityResult = await roleManager.CreateAsync(adminRole);
                 Assert.True(identityResult.Succeeded);
             }

@@ -1,0 +1,1 @@
+﻿Add   "buildOptions": {"copyToOutput": { "include": "appsettings.json"}} to include appsettings.json to the output
