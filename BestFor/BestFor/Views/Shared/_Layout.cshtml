@@ -23,19 +23,6 @@
         @RenderSection("TopCenter", required: false)
         @Html.Partial("CurrentUser")
     </div>
-    @* Keep the amount of scripts loaded in this section to minimum *@
-    @RenderSection("TopScripts", required: false)
-    <div class="container">
-        @* Main section view *@
-        @RenderBody()
-    </div>
-    <div class="container">
-        <br />
-        @* Show trending overall on all the pages using view component *@
-        @await Component.InvokeAsync("TrendingOverallOpinion")
-        @* Bottom menu *@
-        @Html.Partial("BottomMenu")
-    </div>
     <environment names="Development">
         <script src="~/lib/jquery/dist/jquery.js"></script>
         <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
@@ -52,6 +39,19 @@
         </script>
         <script src="~/js/site.min.js" asp-append-version="true"></script>
     </environment>
+    @* Keep the amount of scripts loaded in this section to minimum *@
+    @RenderSection("TopScripts", required: false)
+    <div class="container">
+        @* Main section view *@
+        @RenderBody()
+    </div>
+    <div class="container">
+        <br />
+        @* Show trending overall on all the pages using view component *@
+        @await Component.InvokeAsync("TrendingOverallOpinion")
+        @* Bottom menu *@
+        @Html.Partial("BottomMenu")
+    </div>
     @* Give ability to pages to put scripts here. *@
     @RenderSection("Scripts", required: false)
 </body>

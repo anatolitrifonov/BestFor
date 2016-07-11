@@ -117,14 +117,13 @@ $.extend( $.fn, {
 
 	// http://jqueryvalidation.org/rules/
 	rules: function( command, argument ) {
-
-		// If nothing is selected, return nothing; can't chain anyway
-		if ( !this.length ) {
-			return;
-		}
-
 		var element = this[ 0 ],
 			settings, staticRules, existingRules, data, param, filtered;
+
+		// If nothing is selected, return empty object; can't chain anyway
+		if ( element == null || element.form == null ) {
+			return;
+		}
 
 		if ( command ) {
 			settings = $.data( element.form, "validator" ).settings;
@@ -337,7 +336,7 @@ $.extend( $.validator, {
 		email: "Please enter a valid email address.",
 		url: "Please enter a valid URL.",
 		date: "Please enter a valid date.",
-		dateISO: "Please enter a valid date ( ISO ).",
+		dateISO: "Please enter a valid date (ISO).",
 		number: "Please enter a valid number.",
 		digits: "Please enter only digits.",
 		equalTo: "Please enter the same value again.",
@@ -381,6 +380,12 @@ $.extend( $.validator, {
 			} );
 
 			function delegate( event ) {
+
+				// Set form expando on contenteditable
+				if ( !this.form && this.hasAttribute( "contenteditable" ) ) {
+					this.form = $( this ).closest( "form" )[ 0 ];
+				}
+
 				var validator = $.data( this.form, "validator" ),
 					eventType = "on" + event.type.replace( /^validate/, "" ),
 					settings = validator.settings;
@@ -905,7 +910,7 @@ $.extend( $.validator, {
 				if ( this.labelContainer.length ) {
 					this.labelContainer.append( place );
 				} else if ( this.settings.errorPlacement ) {
-					this.settings.errorPlacement( place, $( element ) );
+					this.settings.errorPlacement.call( this, place, $( element ) );
 				} else {
 					place.insertAfter( element );
 				}

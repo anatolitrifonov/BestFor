@@ -31,10 +31,44 @@
             @* Second part of the banner message *@
             <div class="best-center-light-text">Impress the world with yours!<br /><br /></div>
 
-            <!--ReactDOM.render(
-            <MessageComponent message="Hello!" />,
-            document.body
-            );-->
+            <div id="container">
+                <p>
+                    To install React, follow the instructions on
+                    <a href="https://github.com/facebook/react/">GitHub</a>.
+                </p>
+                <p>
+                    If you can see this, React is <strong>not</strong> working right.
+                    If you checked out the source from GitHub make sure to run <code>grunt</code>.
+                </p>
+            </div>
+
+            <script type="text/babel">
+                var ExampleApplication = React.createClass({
+                render: function() {
+                var elapsed = Math.round(this.props.elapsed  / 100);
+                var seconds = elapsed / 10 + (elapsed % 10 ? '' : '.0' );
+                var message =
+                'React has been successfully running for ' + seconds + ' seconds.';
+
+                return
+                <p>{message}</p>;
+                }
+                });
+                var start = new Date().getTime();
+                setInterval(function() {
+                ReactDOM.render(
+                <ExampleApplication elapsed={new Date().getTime() - start} />,
+                document.getElementById('container')
+                );
+                }, 50);
+            </script>
+
+            <!--<script type="text/babel">
+                ReactDOM.render(
+                <SuggestionAnswerItem />,
+                document.getElementById('SuggestionPanelDiv')
+                );
+            </script>-->
 
             @* This is the main ReactJS control working with answers. *@
             @*Html.React("SuggestionPanel",
@@ -101,11 +135,11 @@
     @{ await Html.RenderPartialAsync("_ReactJsScriptsPartial"); }
 }
 @* Load this page specific react sripts *@
-<script src="@Url.Content("~/Scripts/SuggestionControl.jsx")"></script>
-<script src="@Url.Content("~/Scripts/SuggestionLineItem.jsx")"></script>
-<script src="@Url.Content("~/Scripts/SuggestionResultList.jsx")"></script>
-<script src="@Url.Content("~/Scripts/SuggestionTextBox.jsx")"></script>
-<script src="@Url.Content("~/Scripts/SuggestionAnswerList.jsx")"></script>
-<script src="@Url.Content("~/Scripts/SuggestionAnswerItem.jsx")"></script>
-<script src="@Url.Content("~/Scripts/SuggestionPanel.jsx")"></script>
-@* Html.ReactInitJavaScript() *@
+@*<script src="@Url.Content("~/Scripts/SuggestionControl.jsx")"></script>
+    <script src="@Url.Content("~/Scripts/SuggestionLineItem.jsx")"></script>
+    <script src="@Url.Content("~/Scripts/SuggestionResultList.jsx")"></script>
+    <script src="@Url.Content("~/Scripts/SuggestionTextBox.jsx")"></script>
+    <script src="@Url.Content("~/Scripts/SuggestionAnswerList.jsx")"></script>
+    <script src="@Url.Content("~/Scripts/SuggestionAnswerItem.jsx")"></script>
+    <script src="@Url.Content("~/Scripts/SuggestionPanel.jsx")"></script> *@
+    @* Html.ReactInitJavaScript() *@

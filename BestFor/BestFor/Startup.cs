@@ -160,6 +160,11 @@ namespace BestFor
             //    //    .AddScriptWithoutTransform("~/Scripts/bundle.server.js");
             //});
 
+            //app.UseReact(config => {
+            //    config.AddScript("~/Scripts/MenuControl.jsx")
+           //     .AddScript("~/Scripts/SuggestionControl.jsx");
+           // });
+
             app.UseStaticFiles();
 
             // Add cookie-based authentication to the request pipeline.

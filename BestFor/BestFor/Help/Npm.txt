@@ -1,0 +1,4 @@
+﻿list npm packages
+Tool -> Options -> Projects and Solutions -> External Web Tools -> Add reference to node.exe
+Open Node.js interactive Window and run
+.nmp [ReactBowerPractice] list
