@@ -48,7 +48,11 @@
 
   "buildOptions": {
     "emitEntryPoint": true,
-    "preserveCompilationContext": true
+    "preserveCompilationContext": true,
+    "copyToOutput": {
+      "include": [ "ClearScriptV8*.dll", "v8-*.dll" ]
+    }
+
   },
 
   "publishOptions": {
@@ -61,7 +65,14 @@
   },
 
   "scripts": {
-
-    "postpublish": [ "dotnet publish-iis --publish-folder %publish:OutputPath% --framework %publish:FullTargetFramework%" ]
+    "precompile": [
+      "dotnet bundle"
+    ],
+    "prepublish": [
+      "bower install"
+    ],
+    "postpublish": [
+      "dotnet publish-iis --publish-folder %publish:OutputPath% --framework %publish:FullTargetFramework%"
+    ]
   }
 }

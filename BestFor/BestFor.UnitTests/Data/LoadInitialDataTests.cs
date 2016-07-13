@@ -23,7 +23,7 @@ namespace BestFor.UnitTests.Data
             // return;
 
             string pathToSuggestionFile = Directory.GetCurrentDirectory();
-            pathToSuggestionFile = pathToSuggestionFile + "\\InitialData\\ProphanityData\\en.txt";
+            pathToSuggestionFile = pathToSuggestionFile + "\\..\\..\\..\\..\\Data\\InitialData\\ProphanityData\\en.txt";
 
             var context = new BestDataContext();
 
@@ -89,7 +89,7 @@ namespace BestFor.UnitTests.Data
            // return;
 
             string pathToSuggestionFile = Directory.GetCurrentDirectory();
-            pathToSuggestionFile = pathToSuggestionFile + "\\InitialData\\SuggestionsData\\suggestions.txt";
+            pathToSuggestionFile = pathToSuggestionFile + "\\..\\..\\..\\..\\Data\\InitialData\\SuggestionsData\\suggestions.txt";
 
             var context = new BestDataContext();
             if (context.Suggestions.Any()) return;

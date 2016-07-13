@@ -225,7 +225,7 @@
 
     // Handle user clicking on the list of answers to fill in the right textbox
     handleOnListClicked: function (phrase) {
-        this.answerTextBox.getDOMNode().value = phrase.Phrase;
+        ReactDOM.findDOMNode(this.answerTextBox).value = phrase.Phrase;
     },
 
     // Add answer to the server
@@ -247,14 +247,14 @@
         var postData = SuggestionPanel.createAddAnswerData(
             this.leftTextBox.getCurrentValue(), 
             this.rightTextBox.getCurrentValue(),
-            this.answerTextBox.getDOMNode().value);
+            ReactDOM.findDOMNode(this.answerTextBox).value);
 
         // return if could not create form data
         if (postData == null) return;
         
         // Since the post if happening let's optimiztically update the list
         SuggestionPanel.updateAnswersLocally(this.leftTextBox.getCurrentValue(), this.rightTextBox.getCurrentValue(),
-            this.answerTextBox.getDOMNode().value, this.answers);
+            ReactDOM.findDOMNode(this.answerTextBox).value, this.answers);
 
         // build url passing user input
         if (this.xhr == null) this.xhr = new XMLHttpRequest();
@@ -320,7 +320,7 @@
 
     // Clear the form
     clearTheForm: function () {
-        this.answerTextBox.getDOMNode().value = "";
+        ReactDOM.findDOMNode(this.answerTextBox).value = "";
         this.leftTextBox.blankCurrentValue();
         this.rightTextBox.blankCurrentValue();
         this.answers = [];
@@ -355,7 +355,7 @@
         // Get validity
         var leftValid = SuggestionPanel.validateInput(this.leftTextBox.getCurrentValue());
         var rightValid = SuggestionPanel.validateInput(this.rightTextBox.getCurrentValue());
-        var answerValid = SuggestionPanel.validateInput(this.answerTextBox.getDOMNode().value);
+        var answerValid = SuggestionPanel.validateInput(ReactDOM.findDOMNode(this.answerTextBox).value);
         // console.log("handleTextBoxGotFocus leftValid " + leftValid + " rightValid " + rightValid + " answerValid " + answerValid);
         // console.log("handleTextBoxGotFocus leftGotFocus " + leftGotFocus + " rightGotFocus " + rightGotFocus + " answerGotFocus " + answerGotFocus);
         // Only set message in specific situations.
@@ -401,7 +401,7 @@
 
         return (
             <div>
-                <img src="/images/woman.png" border="0" width="174" height="245" alt="" style={leftImageStyle} />
+                <img src="/images/woman.png" width="174" height="245" alt="" style={leftImageStyle} />
 
                 <div className="col-sm-8 col-sm-offset-4">
                     <span className="best-light-text">{ this.state.statusMessage }</span>

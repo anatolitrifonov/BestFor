@@ -17,7 +17,8 @@ var SuggestionTextBox = React.createClass({
     componentDidMount: function () {
         console.log("this.props.focusOnLoad = " + this.props.focusOnLoad);
         if (this.props.focusOnLoad)
-            this.myTextBox.getDOMNode().focus();
+            ReactDOM.findDOMNode(this.myTextBox).focus();
+            //this.myTextBox.getDOMNode().focus();
     },
 
     // Called when user changes the box value without losing focus. Does not fire on losing the focus.

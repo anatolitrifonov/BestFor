@@ -30,74 +30,34 @@
         <div class="text-center">
             @* Second part of the banner message *@
             <div class="best-center-light-text">Impress the world with yours!<br /><br /></div>
-
-            <div id="container">
-                <p>
-                    To install React, follow the instructions on
-                    <a href="https://github.com/facebook/react/">GitHub</a>.
-                </p>
-                <p>
-                    If you can see this, React is <strong>not</strong> working right.
-                    If you checked out the source from GitHub make sure to run <code>grunt</code>.
-                </p>
-            </div>
-
-            <script type="text/babel">
-                var ExampleApplication = React.createClass({
-                render: function() {
-                var elapsed = Math.round(this.props.elapsed  / 100);
-                var seconds = elapsed / 10 + (elapsed % 10 ? '' : '.0' );
-                var message =
-                'React has been successfully running for ' + seconds + ' seconds.';
-
-                return
-                <p>{message}</p>;
-                }
-                });
-                var start = new Date().getTime();
-                setInterval(function() {
-                ReactDOM.render(
-                <ExampleApplication elapsed={new Date().getTime() - start} />,
-                document.getElementById('container')
-                );
-                }, 50);
-            </script>
-
-            <!--<script type="text/babel">
-                ReactDOM.render(
-                <SuggestionAnswerItem />,
-                document.getElementById('SuggestionPanelDiv')
-                );
-            </script>-->
-
             @* This is the main ReactJS control working with answers. *@
-            @*Html.React("SuggestionPanel",
-    new
-    {
-        suggestionsUrl = "/api/suggestion",
-        answersUrl = "/api/answer",
-        antiForgeryHeaderName = BestFor.Controllers.BaseApiController.ANTI_FORGERY_HEADER_NAME,
-        antiForgeryToken = GetAntiXsrfToken(),
-        resourceStrings = await resourcesService.GetStringsAsJson(this.ViewBag.BestForCulture,
-            new string[]
-            {
-                "suggestion_panel_initial_message",
-                "suggestion_panel_no_answers_found",
-                "suggestion_panel_x_answers_found",
-                "suggestion_panel_error_happened_searching_answers",
-                "suggestion_panel_you_were_the_first",
-                "best_start_capital",
-                "for_lower",
-                "is_lower",
-                "suggestion_panel_your_answer",
-                "suggestion_panel_was_added",
-                "suggestion_panel_this_answer_was_given",
-                "times_lower",
-                "suggestion_panel_extended_opinion",
-                "add_capital"
-            }),
-        culture = this.ViewBag.BestForCulture
-    })*@
+            @Html.React("SuggestionPanel",
+                new
+                {
+                    suggestionsUrl = "/api/suggestion",
+                    answersUrl = "/api/answer",
+                    antiForgeryHeaderName = BestFor.Controllers.BaseApiController.ANTI_FORGERY_HEADER_NAME,
+                    antiForgeryToken = GetAntiXsrfToken(),
+                    resourceStrings = await resourcesService.GetStringsAsJson(this.ViewBag.BestForCulture,
+                        new string[]
+                        {
+                            "suggestion_panel_initial_message",
+                            "suggestion_panel_no_answers_found",
+                            "suggestion_panel_x_answers_found",
+                            "suggestion_panel_error_happened_searching_answers",
+                            "suggestion_panel_you_were_the_first",
+                            "best_start_capital",
+                            "for_lower",
+                            "is_lower",
+                            "suggestion_panel_your_answer",
+                            "suggestion_panel_was_added",
+                            "suggestion_panel_this_answer_was_given",
+                            "times_lower",
+                            "suggestion_panel_extended_opinion",
+                            "add_capital"
+                        }),
+                    culture = this.ViewBag.BestForCulture
+                })
         </div>
     </div>
     @* Right side *@
@@ -135,11 +95,11 @@
     @{ await Html.RenderPartialAsync("_ReactJsScriptsPartial"); }
 }
 @* Load this page specific react sripts *@
-@*<script src="@Url.Content("~/Scripts/SuggestionControl.jsx")"></script>
-    <script src="@Url.Content("~/Scripts/SuggestionLineItem.jsx")"></script>
-    <script src="@Url.Content("~/Scripts/SuggestionResultList.jsx")"></script>
-    <script src="@Url.Content("~/Scripts/SuggestionTextBox.jsx")"></script>
-    <script src="@Url.Content("~/Scripts/SuggestionAnswerList.jsx")"></script>
-    <script src="@Url.Content("~/Scripts/SuggestionAnswerItem.jsx")"></script>
-    <script src="@Url.Content("~/Scripts/SuggestionPanel.jsx")"></script> *@
-    @* Html.ReactInitJavaScript() *@
+<script src="@Url.Content("~/Scripts/SuggestionControl.jsx")"></script>
+<script src="@Url.Content("~/Scripts/SuggestionLineItem.jsx")"></script>
+<script src="@Url.Content("~/Scripts/SuggestionResultList.jsx")"></script>
+<script src="@Url.Content("~/Scripts/SuggestionTextBox.jsx")"></script>
+<script src="@Url.Content("~/Scripts/SuggestionAnswerList.jsx")"></script>
+<script src="@Url.Content("~/Scripts/SuggestionAnswerItem.jsx")"></script>
+<script src="@Url.Content("~/Scripts/SuggestionPanel.jsx")"></script>
+@Html.ReactInitJavaScript()
