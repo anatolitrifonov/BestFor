@@ -10,3 +10,7 @@ $ lessc ./less/bootstrap.less > bootstrap.css
 lessc C:\Users\atrifono\Documents\Personal\Fork\BestFor\src\BestFor\wwwroot\lib\bootstrap\less\bootstrap.less > C:\Users\atrifono\Documents\Personal\Fork\BestFor\src\BestFor\wwwroot\lib\bootstrap\dist\css\bootstrap.css
 
 
+lessc C:\Users\atrifono\Documents\Personal\Fork\BestFor\src\BestFor\wwwroot\lib\bootstrap\less\bootstrap.less > C:\Users\atrifono\Documents\Personal\Fork\BestFor\src\BestFor\wwwroot\lib\bootstrap\dist\css\bootstrap.css
+lessc C:\Users\atrifono\Documents\Personal\Fork\BestFor\BestFor\wwwroot\lib\bootstrap\less\bootstrap.less > C:\Users\atrifono\Documents\Personal\Fork\BestFor\BestFor\wwwroot\lib\bootstrap\dist\css\bootstrap.css
+
+
