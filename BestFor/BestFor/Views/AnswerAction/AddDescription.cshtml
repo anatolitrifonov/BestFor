@@ -1,0 +1,14 @@
+﻿@model BestFor.Dto.AnswerDescriptionDto
+@using BestFor.Services
+@* Inject the service that allows searching for localized strings *@
+@inject BestFor.Services.Services.IResourcesService resourcesService
+@* Culture is placed into view bag by action filter *@
+@* This template shows content of the answer with the link to content *@
+@* Form renders with antiforgery token without doing any jumping. We can mark controller as validate anti forgery *@
+<form asp-controller="AnswerAction" asp-action="AddDescription" method="post" class="form-horizontal" role="form">
+    <br />@await resourcesService.GetString(this.ViewBag.BestForCulture, "you_are_adding_detailed_description")<br />
+    <h2>@LinkingHelper.ConvertAnswerToText(await resourcesService.GetCommonStrings(this.ViewBag.BestForCulture), Model.Answer)</h2><br /><br />
+    <input type="hidden" asp-for="AnswerId" />
+    <textarea asp-for="Description" rows="10" cols="100"></textarea><br /><br />
+    <button type="submit" class="btn btn-default btn-lg">@await resourcesService.GetString(this.ViewBag.BestForCulture, "add_your_description")</button>
+</form>

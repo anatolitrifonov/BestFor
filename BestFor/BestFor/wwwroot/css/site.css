@@ -1,0 +1,241 @@
+﻿/* div with top margin */
+div.best-margin-top
+{
+    text-align: center;
+    padding-top:20px;
+    padding-bottom:20px;
+}
+
+/* Panel that drops a shadow */
+.best-panel-shadow
+{
+    box-shadow: 0 5px 5px 0 rgba(0, 0, 0, 0.3)
+}
+
+/* This is our spans with links to opinions */
+span.best-span-round-label-light
+{
+    background-color: #E2DC0E;
+    border-radius: 6px 6px;
+    padding-bottom: 6px;
+    padding-left: 6px;
+    padding-right: 6px;
+    padding-top: 6px;
+    margin-left: 6px;
+    font-size:14px;
+}
+
+/* This is our spans with links to opinions highlighted */
+span.best-span-round-label-light-highlighted
+{
+    background-color: #F7F5BE;
+    border-radius: 6px 6px;
+    padding-bottom: 6px;
+    padding-left: 6px;
+    padding-right: 6px;
+    padding-top: 6px;
+    margin-left: 6px;
+    font-size:14px;
+}
+
+/* contains best-span-round-label labels */
+div.best-div-fluid
+{
+    line-height:45px;
+}
+
+/* sets the font size for the top left bar div */
+div.best-top-left-bar
+{
+    font-size: 36px;
+    float:left;
+    text-align:left;
+}
+
+/* sets the color for top bar left anchors. White :) */
+div.best-top-left-bar a
+{
+    color: #FFFFFF;
+    text-decoration: none;
+}
+
+/* sets the font size for the top bar right div */
+div.best-top-right-bar
+{
+    font-size:18px;
+    float:right;
+    text-align:right;
+    padding-top:20px;
+}
+
+/* sets the color for top bar right anchors. White :) */
+div.best-top-right-bar a.best-light-link
+{
+    color: #FFFFFF;
+    text-decoration: none;
+}
+
+/* sets the colow for the top middle title on index page */
+span.best-top-center-general-text
+{
+    color: #FFFFFF;
+    font-size: 25px;
+    font-weight: bold;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif
+}
+
+/* sets the colow for the top middle title on index page */
+span.best-top-center-highlighted-text
+{
+    color: #CCFF18;
+    font-size: 25px;
+    font-weight: bold;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif
+}
+
+/* set some padding from top */
+div.best-some-padding
+{
+    padding-top:12px;
+}
+
+/* round up the corners of the index page input */
+span.index-page-label
+{
+    height:55px;
+    border-radius: 8px;
+    font-size: 18px;
+    color: #7AB628;
+}
+
+/* overrides some properties of form control */
+input.index-page-input
+{
+    height:55px;
+    border-radius: 8px;
+    border-left-style: none;
+    font-size: 18px;
+}
+
+/* our site button */
+.best-index-button
+{
+    color: #598516; /* green-ish */
+    background-color: #B9E979; /* green-ish */
+    border-color: #617B3A; /* green-ish */
+    height: 50px;
+    padding-left:10px;
+    padding-right:10px;
+    min-width: 150px;
+    font-size: 16px;
+    font-weight: bolder;
+}
+
+/* secondary light message text */
+div.best-center-light-text
+{
+    color: #FFFFFF;
+    font-size: 16px;
+}
+
+/* Text going over the dark surface*/
+.best-light-text
+{
+    color: #FFFFFF;
+}
+
+/* Text going over the dark surface*/
+.best-light-small-text
+{
+    color: #FFFFFF;
+    font-size: 12px;
+}
+
+/* answer card */
+.best-card-top
+{
+    color: gray;
+}
+
+.best-card-links a
+{
+    color: gray;
+    font-size: 12px;
+}
+
+a.best-card-links
+{
+    color: gray;
+    font-size: 12px;
+}
+
+a.best-card-dark-links 
+{
+    color: #000000;
+}
+
+a.best-card-link-icon
+{
+    color: #83BD1A;
+    font-size: 12px;
+}
+
+div.best-card-label
+{
+    color: #83BD1A;
+}
+
+div.best-card-detail
+{
+    color: #000000;
+}
+
+/* Trending overall */
+span.best-trending-overall a
+{
+    color: #FFFFFF;
+    text-decoration: none;
+}
+
+span.best-trending-overall
+{
+    background-color: #8EB656;
+    border-radius: 6px 6px;
+    padding-bottom: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 10px;
+    margin-left: 6px;
+}
+
+div.best-theme-color
+{
+    background-color: #8EB656;
+    background-image: url("/images/pattern.png");
+}
+
+a.best-user-menu
+{
+    color:black;
+}
+
+/* Section header  */
+div.best-section-header h4
+{
+    color: #83BD1A
+}
+
+/* Success colors */
+div.best-success
+{
+    color: #83BD1A;
+    font-size: 16px;
+}
+
+/*
+    Special span for when anchor looking like a button contains a glyphicon and a span
+    Span inside the anchor for some reason becomes the same font aka glyphicon :(
+*/
+span.special_glyph_anchor {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}

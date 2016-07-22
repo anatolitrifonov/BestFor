@@ -1,4 +1,0 @@
-﻿DTO - Data transfer object. Read wiki :)
-
-Dtos in this project are also used as models for views.
-They are absolutely dumb and there is no need to test them at all.

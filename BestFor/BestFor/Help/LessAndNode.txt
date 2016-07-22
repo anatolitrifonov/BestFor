@@ -1,0 +1,12 @@
+﻿Install node from here.
+https://nodejs.org/en/
+Install less
+cd c:\applications
+npm install -g less
+
+
+$ lessc ./less/bootstrap.less > bootstrap.css
+
+lessc C:\Users\atrifono\Documents\Personal\Fork\BestFor\src\BestFor\wwwroot\lib\bootstrap\less\bootstrap.less > C:\Users\atrifono\Documents\Personal\Fork\BestFor\src\BestFor\wwwroot\lib\bootstrap\dist\css\bootstrap.css
+
+

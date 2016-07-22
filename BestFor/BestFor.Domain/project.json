@@ -1,0 +1,13 @@
+{
+  "version": "1.0.0-*",
+
+
+  "dependencies": {
+    "BestFor.Dto": "1.0.0-*",
+    "Microsoft.AspNetCore.Identity.EntityFrameworkCore": "1.0.0"
+  },
+
+  "frameworks": {
+    "net451": {}
+  }
+}

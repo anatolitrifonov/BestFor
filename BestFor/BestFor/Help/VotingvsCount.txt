@@ -1,0 +1,8 @@
+﻿Voting is allowed only if you are logged in.
+
+Count basically counts how many people types the same thing into a form regardless of being logged in or not.
+Stupid, but I wanted a form demo.
+
+We can pick any options to show in the found labels but count is much much easier.
+
+

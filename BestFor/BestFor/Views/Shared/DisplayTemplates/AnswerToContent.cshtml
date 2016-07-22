@@ -1,0 +1,23 @@
+﻿@model BestFor.Dto.AnswerDto
+@using BestFor.Services
+@* Inject the service that allows searching for localized strings *@
+@inject BestFor.Services.Services.IResourcesService resourcesService
+@*
+    Culture is placed into view bag by action filter.
+    This template shows content of the answer with the link to content.
+    <a href="/ru-ru/best-bet-for-me-is-hello">best bet for me is hello</a>
+
+    TODO: Need to render this into something that does not wrap
+*@
+@{
+    if (Model != null)
+    {
+        <span class="best-trending-overall">
+            <a href="@LinkingHelper.ConvertAnswerToUrlWithCulture(
+            ViewBag.BestForCulture,
+            await resourcesService.GetCommonStrings(ViewBag.BestForCulture),
+            Model)">@LinkingHelper.ConvertAnswerToText(await resourcesService.GetCommonStrings(ViewBag.BestForCulture), Model)
+            </a>
+        </span>
+    }
+}
