@@ -25,8 +25,9 @@ namespace BestFor.Controllers
         private IVoteService _voteService;
         private readonly ILogger _logger;
 
-        public VoteController(IVoteService voteService, ILoggerFactory loggerFactory)
+        public VoteController(UserManager<ApplicationUser> userManager, IVoteService voteService, ILoggerFactory loggerFactory)
         {
+            _userManager = userManager;
             _voteService = voteService;
             _logger = loggerFactory.CreateLogger<FlagController>();
         }

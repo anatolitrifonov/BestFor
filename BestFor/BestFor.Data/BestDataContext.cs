@@ -75,7 +75,10 @@ namespace BestFor.Data
 
         public void SyncObjectState<TEntity>(TEntity entity) where TEntity : class, IObjectState
         {
-            Entry(entity).State = StateHelper.ConvertState(entity.ObjectState);
+            // var t = Entry(entity).State;
+            // var state = StateHelper.ConvertState(entity.ObjectState);
+            // Do nothing. 
+            //Entry(entity).State = state;
         }
 
         ///// <summary>

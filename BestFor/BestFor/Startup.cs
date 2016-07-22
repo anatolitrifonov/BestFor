@@ -10,6 +10,10 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using React.AspNet;
 using NLog.Extensions.Logging;
+using Microsoft.AspNetCore.Mvc;
+using System;
+using System.IO;
+using Microsoft.AspNetCore.Antiforgery;
 
 namespace BestFor
 {
@@ -54,7 +58,16 @@ namespace BestFor
             services.AddReact();
 
             // Add MVC services to the services container.
-            services.AddMvc().AddViewLocalization().AddDataAnnotationsLocalization();
+            services.AddMvc(options =>
+            {// this profile is used on all controllers throught base controller class
+                options.CacheProfiles.Add("Hello", new CacheProfile()
+                {
+                    NoStore = true, // this basically says do not cache.
+                    Duration = 56//0, // and this duration does not matter if NoStore is true
+                    //Location = ResponseCacheLocation.Any,
+                    //VaryByHeader = "*"
+                });
+            }).AddViewLocalization().AddDataAnnotationsLocalization();
 
             // Register action filter that deals with localization.
             services.AddScoped<LanguageActionFilter>();
@@ -74,7 +87,7 @@ namespace BestFor
             services.AddMemoryCache();
 
             // Add Application settings to the services container.
-            // services.Configure<BestFor.Common.AppSettings>(Configuration.GetSection("AppSettings"));
+            services.Configure<BestFor.Common.AppSettings>(Configuration.GetSection("AppSettings"));
 
             // Add my services
             // I do not want to add "using" for all projects in solution just to keep the list of fusings clean.
@@ -104,7 +117,7 @@ namespace BestFor
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, IAntiforgery antiforgery)
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
@@ -163,6 +176,20 @@ namespace BestFor
 
             // Add cookie-based authentication to the request pipeline.
             app.UseIdentity();
+
+            //app.Use(next => context =>
+            //{
+            //    //if (string.Equals(context.Request.Path.Value, "/", StringComparison.OrdinalIgnoreCase) ||
+            //    //    string.Equals(context.Request.Path.Value, "/index.html", StringComparison.OrdinalIgnoreCase))
+            //    //{
+            //        var tokens = antiforgery.GetAndStoreTokens(context);
+            //        context.Response.Cookies.Append(Controllers.BaseApiController.ANTI_FORGERY_COOKIE_NAME, tokens.RequestToken,
+            //            new CookieOptions() { HttpOnly = false });
+            //    //}
+
+            //    return next(context);
+            //});
+
 
             // Add external authentication middleware below. To configure them please see http://go.microsoft.com/fwlink/?LinkID=532715
 

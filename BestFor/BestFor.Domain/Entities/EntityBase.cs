@@ -6,7 +6,7 @@ namespace BestFor.Domain.Entities
 {
     public abstract class EntityBase: IObjectState
     {
-        public virtual int Id { get; set; }
+        public virtual int Id { get; set; } = 0;
 
         [Required]
         public virtual DateTime DateAdded { get; set; } = DateTime.Now;

@@ -121,11 +121,11 @@ var SuggestionControl = React.createClass({
             // If all good
             if (this.xhr.status === 200) {
                 var httpResultData = JSON.parse(this.xhr.responseText); // could also go through event
-                if (httpResultData == null || httpResultData.ErrorMessage != null) {
-                    this.processErrorInSuggestionsSearch(httpResultData.ErrorMessage, userInputObject);
+                if (httpResultData == null || httpResultData.errorMessage != null) {
+                    this.processErrorInSuggestionsSearch(httpResultData.errorMessage, userInputObject);
                 }
                 else {
-                    this.processFoundSuggestions(httpResultData.Suggestions, userInputObject)
+                    this.processFoundSuggestions(httpResultData.suggestions, userInputObject)
                 }
             }
             // all is bad
@@ -152,14 +152,17 @@ var SuggestionControl = React.createClass({
 
     // Handles successful search for suggestions
     processFoundSuggestions: function (suggestionsData, userInputObject) {
-        console.log("userInputObject.y = " + userInputObject.y + " userInputObject.x " + userInputObject.x);
+        console.log("SuggestionControl userInputObject.y = " + userInputObject.y + " userInputObject.x " + userInputObject.x);
         this.setState({
             suggestionsData: suggestionsData,
             listTop: userInputObject.y - 150,
             listLeft: 70, //userInputObject.x,
             showList: true
         });
-        if (suggestionsData.length > 0) this.startTicking();
+        if (suggestionsData.length > 0) {
+            console.log("SuggestionControl starting the tick.");
+            this.startTicking();
+        }
     },
 
     // Handle user clicking on the suggestions list. hide it and set the text

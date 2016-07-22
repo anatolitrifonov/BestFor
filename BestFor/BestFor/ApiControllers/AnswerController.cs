@@ -23,11 +23,13 @@ namespace BestFor.Controllers
         private IProfanityService _profanityService;
         private ISuggestionService _suggestionService;
 
-        public AnswerController(IAnswerService answerService, IProfanityService profanityService, ISuggestionService suggestionService)
+        public AnswerController(IAnswerService answerService, IProfanityService profanityService, ISuggestionService suggestionService,
+            UserManager<ApplicationUser> userManager)
         {
             _answerService = answerService;
             _profanityService = profanityService;
             _suggestionService = suggestionService;
+            _userManager = userManager;
         }
 
         // GET: api/values
@@ -73,7 +75,7 @@ namespace BestFor.Controllers
 
             // Add left word and right word to suggestions
             var addedSuggestion = await _suggestionService.AddSuggestion(new SuggestionDto() { Phrase = answer.LeftWord });
-            addedSuggestion = await _suggestionService.AddSuggestion(new SuggestionDto() { Phrase = answer.RightWord });
+            // addedSuggestion = await _suggestionService.AddSuggestion(new SuggestionDto() { Phrase = answer.RightWord });
 
             // If user is logged in let's add him to the object
             // This will return null if user is not logged in and this is OK.

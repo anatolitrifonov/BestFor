@@ -25,10 +25,11 @@ namespace BestFor.Controllers
         private IFlagService _flagService;
         private readonly ILogger _logger;
 
-        public FlagController(IFlagService flagService, ILoggerFactory loggerFactory)
+        public FlagController(UserManager<ApplicationUser> userManager, IFlagService flagService, ILoggerFactory loggerFactory)
         {
             _flagService = flagService;
             _logger = loggerFactory.CreateLogger<FlagController>();
+            _userManager = userManager;
         }
 
         [HttpGet]

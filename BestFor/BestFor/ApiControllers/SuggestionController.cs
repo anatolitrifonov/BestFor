@@ -37,6 +37,7 @@ namespace BestFor.Controllers
 
         // GET: api/values
         [HttpGet]
+        //[ValidateAntiForgeryToken]
         public async Task<SuggestionsDto> Get()
         {
             var result = new SuggestionsDto();
@@ -55,31 +56,6 @@ namespace BestFor.Controllers
             result.Suggestions = await _suggestionService.FindSuggestions(validationResult.CleanedInput);
 
             return result;
-        }
-
-        // GET api/values/5
-        [HttpGet("{id}")]
-        public string Get(int id)
-        {
-            return "value";
-        }
-
-        // POST api/values
-        [HttpPost]
-        public void Post([FromBody]string value)
-        {
-        }
-
-        // PUT api/values/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody]string value)
-        {
-        }
-
-        // DELETE api/values/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
         }
 
         /// <summary>

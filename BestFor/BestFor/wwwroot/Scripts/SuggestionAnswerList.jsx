@@ -35,10 +35,10 @@ var SuggestionAnswerList = React.createClass({
     render: function () {
         var someArray = this.props.answers.map(function (answer, i) {
             return (
-                <SuggestionAnswerItem phrase={answer.Phrase} count={answer.Count}
-                        onItemClicked={this.handleItemClicked.bind(this, answer.Phrase)} key={i}
+                <SuggestionAnswerItem phrase={answer.phrase} count={answer.count}
+                        onItemClicked={this.handleItemClicked.bind(this, answer.phrase)} key={i}
                         culture={this.props.culture}
-                        answerId={answer.Id}></SuggestionAnswerItem>
+                        answerId={answer.id}></SuggestionAnswerItem>
             );
         }, this);
         

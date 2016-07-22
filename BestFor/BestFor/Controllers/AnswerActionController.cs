@@ -27,10 +27,11 @@ namespace BestFor.Controllers
         private readonly IUserService _userService;
         private readonly IVoteService _voteService;
 
-        public AnswerActionController(IAnswerDescriptionService answerDescriptionService, IProfanityService profanityService,
-            IAnswerService answerService, IResourcesService resourcesService, IUserService userService,
+        public AnswerActionController(UserManager<ApplicationUser> userManager, IAnswerDescriptionService answerDescriptionService,
+            IProfanityService profanityService, IAnswerService answerService, IResourcesService resourcesService, IUserService userService,
             IVoteService voteService, ILoggerFactory loggerFactory)
         {
+            _userManager = userManager;
             _userService = userService;
             _answerDescriptionService = answerDescriptionService;
             _profanityService = profanityService;

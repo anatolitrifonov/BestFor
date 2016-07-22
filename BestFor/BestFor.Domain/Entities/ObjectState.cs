@@ -2,9 +2,10 @@
 {
     public enum ObjectState
     {
-        Unchanged,
-        Added,
-        Modified,
-        Deleted
+        Detached = 0,
+        Unchanged = 1,
+        Modified = 3,
+        Deleted = 2,
+        Added = 4
     }
 }

@@ -35,6 +35,7 @@
     "commit": "1621cadc940900a4a7809fe29f2b568328be4340"
   },
   "_source": "https://github.com/jzaefferer/jquery-validation.git",
-  "_target": ">=1.8",
-  "_originalSource": "jquery-validation"
+  "_target": "1.15.0",
+  "_originalSource": "jquery-validation",
+  "_direct": true
 }

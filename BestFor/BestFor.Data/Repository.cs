@@ -54,7 +54,8 @@ namespace BestFor.Data
             // Grand idea is that it is context's job because context deals objects from different sets.
             // Not in our case yet but we will see.
             entity.ObjectState = ObjectState.Added;
-            _dbSet.Attach(entity);
+            var er = _dbSet.Add(entity);
+            // var er = _dbSet.Attach(entity); // Does not work in .Net Core.
             _context.SyncObjectState(entity);
         }
 
@@ -62,7 +63,8 @@ namespace BestFor.Data
         {
             // See comments in insert
             entity.ObjectState = ObjectState.Modified;
-            _dbSet.Attach(entity);
+            _dbSet.Update(entity);
+            // _dbSet.Attach(entity);
             _context.SyncObjectState(entity);
         }
 

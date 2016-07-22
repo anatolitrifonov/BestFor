@@ -112,7 +112,7 @@
             if (answers == null) return;
             if (answers.length == null) return;
             for (var i = 0; i < answers.length; i++)
-                if (answers[i].Phrase == phrase) {
+                if (answers[i].phrase == phrase) {
                     // found it in the list. Up the count. This actually does reflect on UI.
                     answers[i].Count++;
                     return;
@@ -173,11 +173,11 @@
             if (this.xhr.status === 200) {
                 console.log("SuggestionPanel xhr onload returned " + this.xhr.responseText);
                 var httpResultData = JSON.parse(this.xhr.responseText); // could also go through event
-                if (httpResultData == null || httpResultData.ErrorMessage != null) {
-                    this.processErrorInAnswersSearch(httpResultData.ErrorMessage);
+                if (httpResultData == null || httpResultData.errorMessage != null) {
+                    this.processErrorInAnswersSearch(httpResultData.errorMessage);
                 }
                 else {
-                    this.processFoundAnswers(httpResultData.Answers);
+                    this.processFoundAnswers(httpResultData.answers);
                 }
             }
             // all is bad
@@ -291,19 +291,19 @@
         // Let's look at the data. May be there was an error
         var r = this.props.resourceStrings;
         // you were the first to say that "best blah for blah is blah"!
-        var quotedAnswer = "\"" + r.best_start_capital + " " + httpResultData.Answer.LeftWord +
-            " " + r.for_lower + " " + httpResultData.Answer.RightWord +
-            " " + r.is_lower + " " + httpResultData.Answer.Phrase + "\"";
+        var quotedAnswer = "\"" + r.best_start_capital + " " + httpResultData.answer.leftWord +
+            " " + r.for_lower + " " + httpResultData.answer.rightWord +
+            " " + r.is_lower + " " + httpResultData.answer.phrase + "\"";
         var message = r.suggestion_panel_you_were_the_first + quotedAnswer + "!";
         var showErrorPane = false;
-        if (httpResultData.ErrorMessage != null) {
+        if (httpResultData.errorMessage != null) {
             showErrorPane = true;
-            message = httpResultData.ErrorMessage;
+            message = httpResultData.errorMessage;
         }
-        else if (httpResultData.Answer.Count > 1) {
+        else if (httpResultData.answer.Count > 1) {
             // your answer "best blah for blah is blah" was added. This answer was given Z times.
             message = r.suggestion_panel_your_answer + " " + quotedAnswer + " " + r.suggestion_panel_was_added + ". " +
-                r.suggestion_panel_this_answer_was_given + " " + httpResultData.Answer.Count + " " + r.times_lower + ".";
+                r.suggestion_panel_this_answer_was_given + " " + httpResultData.answer.Count + " " + r.times_lower + ".";
         }
  
         // clear the form
@@ -313,7 +313,7 @@
             showErrorPane: showErrorPane,   // hide errors
             errorMessage: message,          // blank the error,
             answers: this.answers,          // set aswers data
-            lastAddedAnswerId: httpResultData.Answer.Id, // set the id of the last added answer
+            lastAddedAnswerId: httpResultData.answer.id, // set the id of the last added answer
             showAddDescriptionLink: true    // do offer user to add extended opinion
         });
     },

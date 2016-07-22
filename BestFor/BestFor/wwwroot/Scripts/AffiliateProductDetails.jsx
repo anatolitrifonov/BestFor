@@ -75,7 +75,7 @@ var AffiliateProductDetails = React.createClass({
                 // we will get null if we were not able to parse
                 // ErrorMessage will be set since AffiliateProductDto inherits ErrorMessageDto
                 if (product == null || product.ErrorMessage != null) {
-                    this.processErrorInProduct(httpResultData.ErrorMessage);
+                    this.processErrorInProduct(httpResultData.errorMessage);
                 }
                 else {
                     this.processFoundProduct(product);
@@ -104,12 +104,12 @@ var AffiliateProductDetails = React.createClass({
         this.setState({
             isVisible: true,
             isCouldNotFindVisible: false,
-            productTitle: product.Title,
-            productLink: product.DetailPageURL,
-            productImageUrl: product.MiddleImageURL,
-            productImageWidth: product.MiddleImageWidth,
-            productImageHeight: product.MiddleImageHeight,
-            productFormattedPrice: product.FormattedPrice
+            productTitle: product.title,
+            productLink: product.detailPageURL,
+            productImageUrl: product.middleImageURL,
+            productImageWidth: product.middleImageWidth,
+            productImageHeight: product.middleImageHeight,
+            productFormattedPrice: product.formattedPrice
         });
     },
 
@@ -134,6 +134,12 @@ var AffiliateProductDetails = React.createClass({
         };
     },
 
+    getLinkImageStyle: function () {
+        return {
+            border: "none"
+        };
+    },
+
     render: function () {
         return (
             <div style={this.getOverallDivStyle()}>
@@ -143,7 +149,7 @@ var AffiliateProductDetails = React.createClass({
                 <b>{this.props.resourceStrings.price_upper}:</b>&nbsp; {this.state.productFormattedPrice}<br /><br />
                 <a href={this.state.productLink} target="_blank">
                     <img width={this.state.productImageWidth} height={this.state.productImageHeight}
-                         src={this.state.productImageUrl} border="0" title={this.state.productTitle} />
+                         src={this.state.productImageUrl} style={this.getLinkImageStyle()} title={this.state.productTitle} />
                 </a>
                 <div style={this.getCouldNotFindDivStyle()}>
                     {this.props.resourceStrings.not_able_to_find_product}

@@ -8,7 +8,10 @@ namespace BestFor.Controllers
 {
     /// <summary>
     /// Contins AntiForgery protection and culture parsing functions helping inheriting api controllers.
+    /// 
+    /// ResponseCache applies to all controllers if I am not mistaken.
     /// </summary>
+    [ResponseCache(CacheProfileName = "Hello")]
     public abstract class BaseApiController : Controller
     {
         //[FromServices]
@@ -70,8 +73,7 @@ namespace BestFor.Controllers
                         }
                     }
 
-                    //Antiforgery.ValidateRequestAsync .ValidateTokens(HttpContext, new AntiforgeryTokenSet(formToken, cookieToken));
-                    Antiforgery.ValidateRequestAsync(HttpContext);
+                    //antiforgery.ValidateRequestAsync(HttpContext);
 
                     return true;
                 }

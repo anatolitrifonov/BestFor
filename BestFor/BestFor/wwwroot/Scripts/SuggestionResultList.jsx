@@ -83,8 +83,8 @@ var SuggestionResultList = React.createClass({
         // ",this" ant the end is part of binding . I am not 100 on how this works.
         var someArray = this.getLocalSuggestions().map(function (suggestion, i) {
             return (
-                <SuggestionLineItem phrase={suggestion.Phrase}
-                                    onItemClicked={this.handleItemClicked.bind(this, suggestion.Phrase)} key={i}></SuggestionLineItem>
+                <SuggestionLineItem phrase={suggestion.phrase}
+                                    onItemClicked={this.handleItemClicked.bind(this, suggestion.phrase)} key={i}></SuggestionLineItem>
             );
         }, this);
         

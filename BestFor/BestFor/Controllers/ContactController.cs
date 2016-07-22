@@ -29,8 +29,9 @@ namespace BestFor.Controllers
         private readonly ILogger _logger;
 
 
-        public ContactController(IResourcesService resourcesService, ILoggerFactory loggerFactory)
+        public ContactController(UserManager<ApplicationUser> userManager, IResourcesService resourcesService, ILoggerFactory loggerFactory)
         {
+            _userManager = userManager;
             _resourcesService = resourcesService;
             _logger = loggerFactory.CreateLogger<HomeController>();
             _logger.LogInformation("created ContactController");
