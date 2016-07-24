@@ -20,7 +20,7 @@ namespace BestFor.UnitTests.Data
         public void LoadInitialData_Profanity()
         {
             // Uncomment this to actually run.
-            var t = 5; if (t > 1) return;
+            //var t = 5; if (t > 1) return;
 
             string pathToSuggestionFile = Directory.GetCurrentDirectory();
             pathToSuggestionFile = pathToSuggestionFile + "\\..\\..\\..\\..\\Data\\InitialData\\ProphanityData\\en.txt";
@@ -61,15 +61,18 @@ namespace BestFor.UnitTests.Data
         public void LoadInitialData_Resources()
         {
             // Uncomment this to actually run.
-            var t = 5; if (t > 1) return;
+            //var t = 5; if (t > 1) return;
 
             string pathToResourcesFile = Directory.GetCurrentDirectory() + "\\..\\..\\..\\..\\Data\\InitialData\\ResourcesData\\InitialData.sql";
             FileInfo file = new FileInfo(pathToResourcesFile);
             string script = file.OpenText().ReadToEnd();
             script = script.Replace("GO", "");
 
-            var configuration = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
-            var connectionString = configuration["Data:ATRIFONO-J28FKConnection:ConnectionString"];
+            var configuration = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json").Build();
+            //var connectionString = configuration["Data:ATRIFONO-J28FKConnection:ConnectionString"];
+            var connectionString = configuration["Data:DefaultConnection:ConnectionString"];
             var connection = new SqlConnection(connectionString);
             var command = new SqlCommand(script, connection);
             connection.Open();
@@ -86,7 +89,7 @@ namespace BestFor.UnitTests.Data
         public void LoadInitialData_Suggestions()
         {
             // Uncomment this to actually run.
-            var t = 5; if (t > 1) return;
+            //var t = 5; if (t > 1) return;
 
             string pathToSuggestionFile = Directory.GetCurrentDirectory();
             pathToSuggestionFile = pathToSuggestionFile + "\\..\\..\\..\\..\\Data\\InitialData\\SuggestionsData\\suggestions.txt";
