@@ -2,6 +2,7 @@
 using BestFor.Common;
 using System.Threading.Tasks;
 using System.Net;
+using System.Net.Mail;
 
 namespace BestFor.Services.Messaging
 {
@@ -27,21 +28,21 @@ namespace BestFor.Services.Messaging
 
         public async Task SendEmailAsync(string email, string subject, string message)
         {
-            //using (var smtp = new SmtpClient(_emailServerAddress)) //, _emailServerPort))
-            //{
-            //    smtp.UseDefaultCredentials = false;
-            //    smtp.EnableSsl = true;
-            //    smtp.Credentials = new NetworkCredential(_emailServerUser, _emailServerPassword);
-            //    var mail = new MailMessage
-            //    {
-            //        Subject = subject,
-            //        From = new MailAddress(_emailFromAddress),
-            //        Body = message
-            //    };
+            using (var smtp = new SmtpClient(_emailServerAddress, _emailServerPort))
+            {
+                smtp.UseDefaultCredentials = false;
+                smtp.EnableSsl = true;
+                smtp.Credentials = new NetworkCredential(_emailServerUser, _emailServerPassword);
+                var mail = new MailMessage
+                {
+                    Subject = subject,
+                    From = new MailAddress(_emailFromAddress),
+                    Body = message
+                };
 
-            //    mail.To.Add(email);
-            //    await smtp.SendMailAsync(mail);
-            //}
+                mail.To.Add(email);
+                await smtp.SendMailAsync(mail);
+            }
         }
 
         public Task SendSmsAsync(string number, string message)

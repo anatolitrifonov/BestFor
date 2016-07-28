@@ -1,11 +1,11 @@
 ﻿using BestFor.Domain.Entities;
-using Microsoft.AspNetCore.Identity;
 using BestFor.Dto;
 using BestFor.Services.Services;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using System.Security.Claims;
+using System;
 using System.Threading.Tasks;
 
 namespace BestFor.Controllers
@@ -46,23 +46,26 @@ namespace BestFor.Controllers
         /// Loads an answer by id to show full details.
         /// </summary>
         /// <param name="answerId"></param>
+        /// <param name="reason">Additional details on what happned to answer before we got redirected here.</param>
         /// <returns></returns>
+        /// <remarks>We can do ShowAnswer(SomeModel blah) where ShowModel has publis properties Prop1 and Prop2
+        /// Or do ShowAnswer(Prop1, Prop2) It will be the same thing since for get we need to pass them in 
+        /// URL anyway as ?prop1=z&prop2=x.
+        /// 
+        /// A bunch of actions will redirect to this one to show the answer after an action does with it.
+        /// </remarks>
         [HttpGet]
         [AllowAnonymous]
-        public async Task<IActionResult> ShowAnswer(int answerId = 0)
+        public async Task<IActionResult> ShowAnswer(int answerId = 0, string reason = null)
         {
             var culture = this.Culture;
-            var requestPath = Request.Path.Value;
-            // cut the culture
-            var cultureBegining = "/" + culture;
-            if (requestPath.StartsWith(cultureBegining)) requestPath = requestPath.Substring(cultureBegining.Length);
-            // Now try to parse the request path into known words.
-            // var commonStrings = await _resourcesService.GetCommonStrings(culture);
             // Load the answer.
             var answer = await _answerService.FindById(answerId);
+            var answerDetailsDto = await HomeController.FillInDetails(answer, _answerDescriptionService, _userService, _voteService, _resourcesService, culture);
+            // Set the reason to be shown on the page in case someone sent it
+            answerDetailsDto.Reason = reason;
 
-            return View("MyContent",
-                await HomeController.FillInDetails(answer, _answerDescriptionService, _userService, _voteService, _resourcesService, culture));
+            return View("MyContent", answerDetailsDto);
         }
 
         /// <summary>
@@ -118,8 +121,11 @@ namespace BestFor.Controllers
             // Add answer description
             var addedAnswerDescription = await _answerDescriptionService.AddAnswerDescription(answerDescription);
 
+            // Read the reason
+            var reason = await _resourcesService.GetString(this.Culture, Lines.DESCRIPTION_WAS_ADDED_SUCCESSFULLY);
+
             // Redirect to show the answer. This will prevent user refreshing the page.
-            return RedirectToAction("ShowAnswer", new { answerId = answerDescription.AnswerId });
+            return RedirectToAction("ShowAnswer", new { answerId = answerDescription.AnswerId, reason = reason });
         }
     }
 }

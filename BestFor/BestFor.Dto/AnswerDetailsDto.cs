@@ -4,7 +4,8 @@ using System.Linq;
 namespace BestFor.Dto
 {
     /// <summary>
-    /// Model dto object used for displaying full answer related information
+    /// Model dto object used for displaying full answer related information.
+    /// Used on Home/MyContent view.
     /// </summary>
     public class AnswerDetailsDto : CrudMessagesDto
     {
@@ -23,5 +24,10 @@ namespace BestFor.Dto
         /// Number of votes that this answer got.
         /// </summary>
         public int NumberVotes { get; set; }
+
+        /// <summary>
+        /// Shows additional message on the content page. Example "Done voiting" or "thanks for voting".
+        /// </summary>
+        public string Reason { get; set; }
     }
 }

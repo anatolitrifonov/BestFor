@@ -258,3 +258,27 @@ if not exists(select * from ResourceStrings where CultureName = 'ru-RU' and [Key
 	insert ResourceStrings(CultureName, [Key], Value, DateAdded) values('ru-RU', 'contact_us_page_text',
 		N'ываываыав', getDate());
 GO
+
+if not exists(select * from ResourceStrings where CultureName = 'en-US' and [Key] = 'description_was_added_successfully')
+	insert ResourceStrings(CultureName, [Key], Value, DateAdded) values('en-US', 'description_was_added_successfully',
+		N'Description was added successfully.', getDate());
+if not exists(select * from ResourceStrings where CultureName = 'ru-RU' and [Key] = 'description_was_added_successfully')
+	insert ResourceStrings(CultureName, [Key], Value, DateAdded) values('ru-RU', 'description_was_added_successfully',
+		N'Описание добавлено успешно.', getDate());
+GO
+
+if not exists(select * from ResourceStrings where CultureName = 'en-US' and [Key] = 'thank_you_for_voting')
+	insert ResourceStrings(CultureName, [Key], Value, DateAdded) values('en-US', 'thank_you_for_voting',
+		N'Thank you for voting!', getDate());
+if not exists(select * from ResourceStrings where CultureName = 'ru-RU' and [Key] = 'thank_you_for_voting')
+	insert ResourceStrings(CultureName, [Key], Value, DateAdded) values('ru-RU', 'thank_you_for_voting',
+		N'Спасибо за Ваш Голос!', getDate());
+GO
+
+if not exists(select * from ResourceStrings where CultureName = 'en-US' and [Key] = 'thank_you_for_flaging')
+	insert ResourceStrings(CultureName, [Key], Value, DateAdded) values('en-US', 'thank_you_for_flaging',
+		N'Thank you for flaging! We will check it.', getDate());
+if not exists(select * from ResourceStrings where CultureName = 'ru-RU' and [Key] = 'thank_you_for_flaging')
+	insert ResourceStrings(CultureName, [Key], Value, DateAdded) values('ru-RU', 'thank_you_for_flaging',
+		N'Спасибо за пометку! Будет проверено.', getDate());
+GO

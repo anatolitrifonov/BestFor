@@ -79,6 +79,25 @@ namespace BestFor.Services.Services
             // Search for all descriptions for a given answer
             // return _repository.Queryable().Where(x => x.AnswerId == answerId).Select(x => x.ToDto());
         }
+
+        /// <summary>
+        /// Find answer descriptions by answer description id
+        /// </summary>
+        /// <param name="answerDescriptionId"></param>
+        /// <returns></returns>
+        public async Task<AnswerDescriptionDto> FindByAnswerDescriptionId(int answerDescriptionId)
+        {
+            // return blank list if invalid answerId
+            if (answerDescriptionId == 0) return await Task.FromResult<AnswerDescriptionDto>(new AnswerDescriptionDto());
+            // Get cache
+            var cachedData = await GetCachedData();
+            // Get data
+            var data = await cachedData.FindExactById(answerDescriptionId);
+            if (data == null) return null;
+
+            // Return data
+            return data.ToDto();
+        }
         #endregion
 
         #region Private Methods

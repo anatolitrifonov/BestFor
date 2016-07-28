@@ -24,12 +24,16 @@ namespace BestFor.Controllers
         private readonly UserManager<ApplicationUser> _userManager;
         private IVoteService _voteService;
         private readonly ILogger _logger;
+        private readonly IResourcesService _resourcesService;
 
-        public VoteController(UserManager<ApplicationUser> userManager, IVoteService voteService, ILoggerFactory loggerFactory)
+        public VoteController(UserManager<ApplicationUser> userManager, IVoteService voteService, IResourcesService resourcesService,
+            ILoggerFactory loggerFactory)
         {
             _userManager = userManager;
             _voteService = voteService;
+            _resourcesService = resourcesService;
             _logger = loggerFactory.CreateLogger<FlagController>();
+            _logger.LogInformation("created VoteController");
         }
 
         [HttpGet]
@@ -43,7 +47,10 @@ namespace BestFor.Controllers
                 await _voteService.VoteAnswer(new AnswerVoteDto() { AnswerId = answerId, UserId = _userManager.GetUserId(User) } );
             }
 
-            return RedirectToAction("ConfirmVote", new { answerId = answerId });
+            // Read the reason
+            var reason = await _resourcesService.GetString(this.Culture, Lines.THANK_YOU_FOR_VOTING);
+
+            return RedirectToAction("ShowAnswer", "AnswerAction", new { answerId = answerId, reason = reason });
         }
 
         [HttpGet]
@@ -51,21 +58,21 @@ namespace BestFor.Controllers
         {
             _logger.LogDebug("VoteAnswerDescription answerDescriptionId = " + answerDescriptionId);
 
+            var answerId = answerDescriptionId; // <- not good
+
             // Only do something is answer id is not zero
             if (answerDescriptionId != 0)
             {
-                await _voteService.VoteAnswerDescription(
+                // this does return answerId
+                answerId = await _voteService.VoteAnswerDescription(
                     new AnswerDescriptionVoteDto() { AnswerDescriptionId = answerDescriptionId, UserId = _userManager.GetUserId(User) }
                     );
             }
 
-            return RedirectToAction("ConfirmVote");
-        }
+            // Read the reason
+            var reason = await _resourcesService.GetString(this.Culture, Lines.THANK_YOU_FOR_VOTING);
 
-        [HttpGet]
-        public async Task<IActionResult> ConfirmVote(int answerId = 0)
-        {
-            return await Task.FromResult(View());
+            return RedirectToAction("ShowAnswer", "AnswerAction", new { answerId = answerId, reason = reason });
         }
     }
 }

@@ -27,6 +27,11 @@
 }
 @* Show the answer itself *@
 <h2>@LinkingHelper.ConvertAnswerToText(Model.CommonStrings, Model.Answer)</h2>
+@* Show additional message if passed *@
+@if (Model.Reason != null)
+{
+    <div class="best-success">@Model.Reason</div>
+}
 <br />
 @* Who added it originally *@
 Added by @Model.UserDisplayName.
