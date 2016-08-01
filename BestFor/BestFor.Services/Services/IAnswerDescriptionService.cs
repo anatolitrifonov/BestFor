@@ -23,5 +23,12 @@ namespace BestFor.Services.Services
         /// <param name="answerDescription"></param>
         /// <returns></returns>
         Task<AnswerDescription> AddAnswerDescription(AnswerDescriptionDto answerDescription);
+
+        /// <summary>
+        /// Find a given description from its id.
+        /// </summary>
+        /// <param name="answerDescriptionId"></param>
+        /// <returns></returns>
+        Task<AnswerDescriptionDto> FindByAnswerDescriptionId(int answerDescriptionId);
     }
 }

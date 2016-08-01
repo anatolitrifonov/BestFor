@@ -13,6 +13,7 @@ namespace BestFor.Controllers
     public class ProductController : BaseApiController
     {
         protected string QUERY_STRING_PARAMETER_KEYWORD = "keyword";
+        protected string QUERY_STRING_PARAMETER_CATEGORY = "category";
 
         private IProductService _productService;
 
@@ -36,6 +37,8 @@ namespace BestFor.Controllers
             if (!Request.Query.ContainsKey(QUERY_STRING_PARAMETER_KEYWORD)) return null;
             var keyword = Request.Query[QUERY_STRING_PARAMETER_KEYWORD][0];
             if (string.IsNullOrEmpty(keyword) || string.IsNullOrWhiteSpace(keyword)) return null;
+            string category = null;
+            if (Request.Query.ContainsKey(QUERY_STRING_PARAMETER_CATEGORY)) category = Request.Query[QUERY_STRING_PARAMETER_CATEGORY][0];
 
             // Check if caller gave us security header.
             // This might throw exception if there was a header but invalid. But if someone is just messing with us we will return null.
@@ -43,7 +46,7 @@ namespace BestFor.Controllers
             if (!ParseAntiForgeryHeader()) return null;
 
             // Form the parameters object. This will get smarter then just keyword eventually.
-            var parameters = new ProductSearchParameters() { Keyword = keyword };
+            var parameters = new ProductSearchParameters() { Keyword = keyword, Category = category };
             // Call the service
             var product = await _productService.FindProduct(parameters);
 

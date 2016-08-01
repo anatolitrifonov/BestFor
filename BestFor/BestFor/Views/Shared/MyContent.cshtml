@@ -23,10 +23,16 @@
     string answerDetails = await resourcesService.GetString(ViewBag.BestForCulture, "answer_details");
     string noDescriptionLine = await resourcesService.GetString(ViewBag.BestForCulture, "no_description_or_reasoning");
     string votedForThis = await resourcesService.GetString(ViewBag.BestForCulture, "voted_for_this_opinion");
+    string editString = await resourcesService.GetString(ViewBag.BestForCulture, "edit_capital");
 
 }
 @* Show the answer itself *@
 <h2>@LinkingHelper.ConvertAnswerToText(Model.CommonStrings, Model.Answer)</h2>
+@* Show additional message if passed *@
+@if (Model.Reason != null)
+{
+    <div class="best-success">@Model.Reason</div>
+}
 <br />
 @* Who added it originally *@
 Added by @Model.UserDisplayName.
@@ -50,20 +56,24 @@ else
 <br />
 @* Links to do something with this answer *@
 <div class="row">
-    <div class="col-sm-10">
+    <div class="col-sm-9">
         <yakor y-culture="@this.ViewBag.BestForCulture" y-controller="AnswerAction" y-action="AddDescription"
-                y-querystring="@new { answerId = Model.Answer.Id }"
-                y-class="btn btn-default btn-lg"><span class="glyphicon glyphicon-book" aria-hidden="true"
+               y-querystring="@new { answerId = Model.Answer.Id }"
+               y-class="btn btn-default btn-lg"><span class="glyphicon glyphicon-book" aria-hidden="true"
                                                        />&nbsp;<span class="special_glyph_anchor">@addYourDescription</span></yakor>
         <yakor y-culture="@this.ViewBag.BestForCulture" y-controller="Vote" y-action="VoteAnswer"
-                y-querystring="@new { answerId = Model.Answer.Id }"
-                y-class="btn btn-default btn-lg"><span class="glyphicon glyphicon-ok" aria-hidden="true"
+               y-querystring="@new { answerId = Model.Answer.Id }"
+               y-class="btn btn-default btn-lg"><span class="glyphicon glyphicon-ok" aria-hidden="true"
                                                        />&nbsp;<span class="special_glyph_anchor">@voteString</span></yakor>
     </div>
-    <div class="col-sm-2">
+    <div class="col-sm-3">
+        <yakor y-culture="@this.ViewBag.BestForCulture" y-controller="AnswerAction" y-action="Edit"
+               y-querystring="@new { id = Model.Answer.Id }"
+               y-class="btn btn-default btn-sm"><span class="glyphicon glyphicon glyphicon-edit" aria-hidden="true"
+                                                      />&nbsp;<span class="special_glyph_anchor">@editString</span></yakor>
         <yakor y-culture="@this.ViewBag.BestForCulture" y-controller="Flag" y-action="FlagAnswer"
-                y-querystring="@new { answerId = Model.Answer.Id }"
-                y-class="btn btn-default btn-sm"><span class="glyphicon glyphicon-ban-circle" aria-hidden="true"
+               y-querystring="@new { answerId = Model.Answer.Id }"
+               y-class="btn btn-default btn-sm"><span class="glyphicon glyphicon-ban-circle" aria-hidden="true"
                                                        />&nbsp;<span class="special_glyph_anchor">@flagString</span></yakor>
     </div>
 </div>
@@ -75,6 +85,7 @@ else
         productLeftWord = Model.Answer.LeftWord,
         productRightWord = Model.Answer.RightWord,
         productPhrase = Model.Answer.Phrase,
+        productCategory = Model.Answer.Category,
         antiForgeryHeaderName = BestFor.Controllers.BaseApiController.ANTI_FORGERY_HEADER_NAME,
         antiForgeryToken = GetAntiXsrfToken(),
         resourceStrings = await resourcesService.GetStringsAsJson(this.ViewBag.BestForCulture,

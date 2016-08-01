@@ -8,9 +8,10 @@ using BestFor.Data;
 namespace BestFor.Data.Migrations
 {
     [DbContext(typeof(BestDataContext))]
-    partial class BestDataContextModelSnapshot : ModelSnapshot
+    [Migration("20160730051125_A01")]
+    partial class A01
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.0.0-rtm-21431")
@@ -21,7 +22,7 @@ namespace BestFor.Data.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("Category");
+                    b.Property<bool>("Category");
 
                     b.Property<int>("Count");
 

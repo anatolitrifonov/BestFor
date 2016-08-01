@@ -17,17 +17,20 @@ namespace BestFor.Services.Services
     /// and not to load the classes to much</remarks>
     public class VoteService : IVoteService
     {
+        private readonly IAnswerDescriptionService _answerDescriptionService;
         private ICacheManager _cacheManager;
         private IRepository<AnswerVote> _answerVoteRepository;
         private IRepository<AnswerDescriptionVote> _answerDescriptionVoteRepository;
         private ILogger _logger;
 
         public VoteService(
+            IAnswerDescriptionService answerDescriptionService,
             ICacheManager cacheManager, 
             IRepository<AnswerVote> answerVoteRepository,
             IRepository<AnswerDescriptionVote> answerDescriptionVoteRepository, 
             ILoggerFactory loggerFactory)
         {
+            _answerDescriptionService = answerDescriptionService;
             _cacheManager = cacheManager;
             _answerVoteRepository = answerVoteRepository;
             _answerDescriptionVoteRepository = answerDescriptionVoteRepository;
@@ -38,7 +41,7 @@ namespace BestFor.Services.Services
         /// Save answer vote
         /// </summary>
         /// <param name="voteVote"></param>
-        /// <returns></returns>
+        /// <returns>Id of the answer whos description was voted.</returns>
         public async Task<int> VoteAnswer(AnswerVoteDto answerVote)
         {
             if (answerVote == null)
@@ -54,7 +57,7 @@ namespace BestFor.Services.Services
             var existingVote = _answerVoteRepository.Queryable()
                 .FirstOrDefault(x => x.UserId == answerVote.UserId && x.AnswerId == answerVote.AnswerId);
             // Do not re-add existing vote.
-            if (existingVote != null) return existingVote.Id;
+            if (existingVote != null) return existingVote.AnswerId;
 
             // Add new vote
             var answerVoteObject = new AnswerVote();
@@ -67,14 +70,14 @@ namespace BestFor.Services.Services
             var cachedData = await GetVotesCachedData();
             await cachedData.Insert(answerVoteObject);
 
-            return answerVoteObject.Id;
+            return answerVoteObject.AnswerId;
         }
 
         /// <summary>
         /// Save answer description Vote
         /// </summary>
         /// <param name="answerVote"></param>
-        /// <returns></returns>
+        /// <returns>Id of the answer whos description was voted.</returns>
         public async Task<int> VoteAnswerDescription(AnswerDescriptionVoteDto answerDescriptionVote)
         {
             if (answerDescriptionVote == null)
@@ -96,6 +99,7 @@ namespace BestFor.Services.Services
             var answerDescriptionVoteObject = new AnswerDescriptionVote();
             answerDescriptionVoteObject.FromDto(answerDescriptionVote);
 
+            // Insert
             _answerDescriptionVoteRepository.Insert(answerDescriptionVoteObject);
             await _answerDescriptionVoteRepository.SaveChangesAsync();
 
@@ -103,7 +107,10 @@ namespace BestFor.Services.Services
             var cachedData = await GetVoteDescriptionsCachedData();
             await cachedData.Insert(answerDescriptionVoteObject);
 
-            return answerDescriptionVoteObject.Id;
+            // Find the id of the answer whos description was voted for
+            var answerDescription = await _answerDescriptionService.FindByAnswerDescriptionId(45);
+
+            return answerDescription.AnswerId;
         }
 
         public async Task<int> CountAnswerVotes(int answerId)

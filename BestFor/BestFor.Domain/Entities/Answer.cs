@@ -23,6 +23,11 @@ namespace BestFor.Domain.Entities
 
         public bool IsHidden { get; set; }
 
+        /// <summary>
+        /// Usually = searchindex name at least for amazon
+        /// </summary>
+        public string Category { get; set; }
+
         public static string FormKey(string leftWord, string rightWord) { return leftWord + " " + rightWord; }
 
         /// <summary>
@@ -64,7 +69,8 @@ namespace BestFor.Domain.Entities
                 RightWord = RightWord,
                 Count = Count,
                 Id = Id,
-                UserId = UserId
+                UserId = UserId,
+                Category = Category
             };
         }
 
@@ -76,6 +82,7 @@ namespace BestFor.Domain.Entities
             Count = dto.Count;
             Id = dto.Id;
             UserId = dto.UserId;
+            Category = dto.Category;
 
             return Id;
         }

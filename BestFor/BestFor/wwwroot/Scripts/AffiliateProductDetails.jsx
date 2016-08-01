@@ -11,6 +11,8 @@ var AffiliateProductDetails = React.createClass({
         productRightWord: React.PropTypes.string,
         // Keyword to use while searching for product
         productPhrase: React.PropTypes.string,
+        // SearchIndex to use while searching for product
+        productCategory: React.PropTypes.string,
         // token given by the controller to send back as verification
         antiForgeryToken: React.PropTypes.string,
         // token is expected to be sent in this header
@@ -60,7 +62,7 @@ var AffiliateProductDetails = React.createClass({
         keywords = keywords.trim();
         console.log("sending " + keywords);
 
-        var url = this.props.productsUrl + "?keyword=" + keywords;
+        var url = this.props.productsUrl + "?keyword=" + keywords + "&category=" + this.props.productCategory;
         if (this.xhr == null) this.xhr = new XMLHttpRequest();
         this.xhr.open("get", url, true);
         // add header for antiforgery validation if header was set as a property
