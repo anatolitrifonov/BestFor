@@ -16,6 +16,7 @@ namespace BestFor.Controllers
     /// Controller itself adds extended descriptions to the answers.
     /// </summary>
     [ServiceFilter(typeof(LanguageActionFilter))]
+    [Authorize]
     public class AnswerActionController : BaseApiController
     {
         private readonly UserManager<ApplicationUser> _userManager;
@@ -68,6 +69,7 @@ namespace BestFor.Controllers
             return View("MyContent", answerDetailsDto);
         }
 
+        #region Answer Description Actions
         /// <summary>
         /// Load view to add answer description.
         /// </summary>
@@ -96,6 +98,7 @@ namespace BestFor.Controllers
         /// <returns></returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [AllowAnonymous]
         public async Task<IActionResult> AddDescription(AnswerDescriptionDto answerDescription)
         {
             // Basic checks first
@@ -127,5 +130,65 @@ namespace BestFor.Controllers
             // Redirect to show the answer. This will prevent user refreshing the page.
             return RedirectToAction("ShowAnswer", new { answerId = answerDescription.AnswerId, reason = reason });
         }
+        #endregion
+
+        #region Edit Answer Actions
+        /// <summary>
+        /// Load view to add answer description.
+        /// </summary>
+        /// <param name="answerId"></param>
+        /// <returns></returns>
+        [HttpGet]
+        public async Task<IActionResult> Edit(int id = 0)
+        {
+            // Let's load the answer.
+            // The hope is that service will not have to go to the database and load answer from cache.
+            // But please look at the servise implementation for details.
+            var answer = await _answerService.FindById(id);
+
+            return View(answer);
+        }
+
+        /// <summary>
+        /// Add description for the answer.
+        /// todo: figure out how to protect from spam posts
+        /// </summary>
+        /// <param name="answerDescription"></param>
+        /// <returns></returns>
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(AnswerDto answer)
+        {
+            // Basic checks first
+            if (answer == null || answer.Id <= 0) return View("Error");
+
+            if (!ModelState.IsValid)
+            {
+                return RedirectToAction("ShowAnswer", new { answerId = answer.Id });
+            }
+
+            // Find the answer that needs changes
+            var answerToModify = await _answerService.FindById(answer.Id);
+
+            // Compare the categories because so far this is all we can edit.
+            string newCategory = (answer.Category + "").ToLower();
+            string oldCategory = (answerToModify.Category + "").ToLower();
+
+            // only do update if changed
+            if (oldCategory != newCategory)
+            {
+                answerToModify.Category = answer.Category;
+
+                // Update answer
+                var updatedAnswer = await _answerService.UpdateAnswer(answerToModify);
+            }
+            // Read the reason
+            var reason = await _resourcesService.GetString(this.Culture, Lines.THANK_YOU_FOR_IMPROVING);
+
+            // Redirect to show the answer. This will prevent user refreshing the page.
+            return RedirectToAction("ShowAnswer", new { answerId = answer.Id, reason = reason });
+        }
+        #endregion
+
     }
 }

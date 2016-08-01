@@ -1,25 +1,17 @@
-﻿using BestFor.Services.Cache;
+﻿using BestFor.Common;
+using BestFor.Dto.AffiliateProgram;
+using BestFor.Services.Cache;
+using BestFor.Services.Services;
+using Microsoft.Extensions.Options;
 using System;
-using System.IO;
-using System.Xml;
-using System.Xml.Serialization;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Security.Cryptography;
-using System.Threading.Tasks;
+using System.IO;
 using System.Net;
 using System.Net.Http;
-
-using BestFor.Dto.AffiliateProgram;
-using BestFor.Services.Services;
-using BestFor.Common;
-using BestFor.Services;
-using System.Globalization;
-using System.Reflection;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Options;
+using System.Security.Cryptography;
+using System.Text;
+using System.Threading.Tasks;
+using System.Xml;
 
 namespace BestFor.Services.AffiliateProgram.Amazon
 {
@@ -54,6 +46,7 @@ namespace BestFor.Services.AffiliateProgram.Amazon
         private ICacheManager _cacheManager;
 
         private int DEFAULT_PRODUCT_EXPIRATION_SECONDS = 300;
+        private string DEFAULT_SEARCH_INDEX = "Toys";
 
         #region Classes
 
@@ -144,6 +137,7 @@ namespace BestFor.Services.AffiliateProgram.Amazon
 
             // Do some cleanup because amazon returns nothing on long searches.
             parameters.Keyword = CleanupKeywords(parameters.Keyword);
+            parameters.Category = CleanupCategory(parameters.Category);
 
             // Generate product cache key
             var key = GetProductCacheKey(parameters);
@@ -258,7 +252,7 @@ namespace BestFor.Services.AffiliateProgram.Amazon
                 "&Keywords=" + Uri.EscapeDataString(parameters.Keyword) +
                 // "&Operation=ItemSearch&ResponseGroup=Offers%2CItemAttributes" +
                 "&Operation=ItemSearch&ResponseGroup=ItemAttributes%2CImages" +
-                "&SearchIndex=SportingGoods&Service=AWSECommerceService" +
+                "&SearchIndex=" + parameters.Category + "&Service=AWSECommerceService" +
                 "&Timestamp=" + Uri.EscapeDataString(timeStamp) + "&Version=2013-08-01";
 
             // Business of signing amazon request. Not a good idea to touch this.
@@ -469,6 +463,21 @@ namespace BestFor.Services.AffiliateProgram.Amazon
                 throw new Exception("AmazonProductService GetProductCacheKey function is called with empty ProductSearchParameters.");
 
             return CacheConstants.CACHE_KEY_PRODUCT_PREFIX + parameters.IndexKey;
+        }
+
+        /// <summary>
+        /// Do some cleanup on the category.
+        /// </summary>
+        /// <param name="keywords"></param>
+        /// <returns></returns>
+        public string CleanupCategory(string category)
+        {
+            if (string.IsNullOrEmpty(category) || string.IsNullOrWhiteSpace(category)) return DEFAULT_SEARCH_INDEX;
+            foreach(string indexKey in _searchIndexes.Keys)
+            {
+                if (indexKey.ToLower() == category.ToLower()) return indexKey;
+            }
+            return DEFAULT_SEARCH_INDEX;
         }
     }
 }

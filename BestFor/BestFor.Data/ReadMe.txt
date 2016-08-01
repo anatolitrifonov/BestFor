@@ -12,7 +12,6 @@ dotnet ef --configuration Debug --build-base-path .\bin\ dbcontext scaffold 'Ser
 
 Make sure that you have PowerShell 5 installed
 
-Add-Migration MyFirstMigration -Project BestFor.Data -Verbose
 
 Script-Migration -Project BestFor.Data 
 
@@ -37,5 +36,6 @@ dotnet ef --configuration Debug --build-base-path .\bin\ migrations add M1 --jso
 cd C:\Users\atrifono\Documents\Personal\Fork\BestFor\BestFor.Data
 dotnet ef --configuration Debug --build-base-path .\bin\ database update --verbose
 
+Add-Migration MyFirstMigration -Project BestFor.Data -Verbose
 
 update-database -Project BestFor.Data

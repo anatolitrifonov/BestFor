@@ -90,6 +90,24 @@ namespace BestFor.Services.Services
             return answerObject;
         }
 
+        public async Task<AnswerDto> UpdateAnswer(AnswerDto answer)
+        {
+            var answerObject = new Answer();
+            answerObject.FromDto(answer);
+
+            // Repository might get a different object back.
+            // We will also let repository do the counting. Repository increases the count.
+            answerObject = await PersistAnswer(answerObject);
+
+            // Update object in cache.
+            var cachedData = await GetCachedData();
+            var cachedAnswer = await cachedData.FindExactById(answerObject.Id);
+            // This is all we are updating for now.
+            cachedAnswer.Category = answerObject.Category;
+
+            return answer;
+        }
+
         public async Task<IEnumerable<AnswerDto>> FindAnswersTrendingToday()
         {
             var data = GetTodayTrendingCachedData();
@@ -207,6 +225,8 @@ namespace BestFor.Services.Services
             else
             {
                 existingAnswer.Count++;
+                // Only category is updated
+                existingAnswer.Category = answer.Category;
                 _repository.Update(existingAnswer);
             }
 

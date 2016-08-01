@@ -1,0 +1,31 @@
+﻿@model BestFor.Dto.AnswerDto
+@using BestFor.Services
+@* Inject the service that allows searching for localized strings *@
+@inject BestFor.Services.Services.IResourcesService resourcesService
+@* Culture is placed into view bag by action filter *@
+@* This template shows content of the answer with the link to content *@
+@* Form renders with antiforgery token without doing any jumping. We can mark controller as validate anti forgery *@
+<form asp-controller="AnswerAction" asp-action="Edit" method="post" class="form-horizontal" role="form">
+    <br />@await resourcesService.GetString(this.ViewBag.BestForCulture, "you_are_editing_your_answer")<br />
+    <h2>@LinkingHelper.ConvertAnswerToText(await resourcesService.GetCommonStrings(this.ViewBag.BestForCulture), Model)</h2>
+
+    @await resourcesService.GetString(this.ViewBag.BestForCulture, "improve_your_answer")<br /><br />
+    @await resourcesService.GetString(this.ViewBag.BestForCulture, "pick_category")<br />
+    @{
+        string none = await resourcesService.GetString(this.ViewBag.BestForCulture, "none_capital");
+        foreach (var category in Model.Categories)
+        {
+            <div>
+                @Html.RadioButtonFor(model => model.Category, category.Code )
+                @Html.Label(category.Name)
+            </div>
+        }
+        <div>
+            @Html.RadioButton("Category", "")
+            @Html.Label("None")
+        </div>
+    }
+    <br />
+    <input type="hidden" asp-for="Id" />
+    <button type="submit" class="btn btn-default btn-lg">@await resourcesService.GetString(this.ViewBag.BestForCulture, "save_capital")</button>
+</form>

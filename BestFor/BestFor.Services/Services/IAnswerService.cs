@@ -61,6 +61,13 @@ namespace BestFor.Services.Services
         /// <returns></returns>
         Task<Answer> AddAnswer(AnswerDto answer);
 
+        /// <summary>
+        /// Edit answer
+        /// </summary>
+        /// <param name="answer"></param>
+        /// <returns></returns>
+        Task<AnswerDto> UpdateAnswer(AnswerDto answer);
+
         Task HideAnswer(int answerId);
     }
 }

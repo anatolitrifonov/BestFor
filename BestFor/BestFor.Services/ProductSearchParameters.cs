@@ -9,6 +9,7 @@ namespace BestFor.Services
     public class ProductSearchParameters : IFirstIndex
     {
         public string Keyword { get; set; }
+        public string Category { get; set; }
 
         /// <summary>
         /// For now let's say that we want to find one product per keyword.
@@ -22,6 +23,10 @@ namespace BestFor.Services
                 // Why would someone 
                 if (string.IsNullOrEmpty(Keyword) || string.IsNullOrWhiteSpace(Keyword))
                     throw new Exception("ProductSearchParameters IndexKey property is called with empty Keyword.");
+
+                if (!string.IsNullOrEmpty(Category) && !string.IsNullOrWhiteSpace(Category))
+                    return Keyword + "_" + Category;
+
                 return Keyword;
             }
         }
