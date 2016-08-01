@@ -146,6 +146,11 @@ namespace BestFor.Controllers
             // But please look at the servise implementation for details.
             var answer = await _answerService.FindById(id);
 
+            // Kick them if answer was andded not by the current user
+            // This prevents going directly to the answer
+            if (answer.UserId != _userManager.GetUserId(User))
+                return RedirectToAction("ShowAnswer", new { answerId = id });
+
             return View(answer);
         }
 
@@ -169,6 +174,11 @@ namespace BestFor.Controllers
 
             // Find the answer that needs changes
             var answerToModify = await _answerService.FindById(answer.Id);
+
+            // Kick them if answer was andded not by the current user
+            // This prevents going directly to the answer
+            if (answerToModify.UserId != _userManager.GetUserId(User))
+                return RedirectToAction("ShowAnswer", new { answerId = answerToModify.Id });
 
             // Compare the categories because so far this is all we can edit.
             string newCategory = (answer.Category + "").ToLower();
