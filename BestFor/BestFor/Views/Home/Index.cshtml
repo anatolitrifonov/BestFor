@@ -25,11 +25,16 @@
     Json object will be rendered as good JavaScript defined object. Refer to control jsx file for the list of expected strings.
 *@  
 <div class="row best-theme-color">
+    @* Second part of the banner message *@
+    <div class="text-center best-center-light-text">Impress the world with yours!<br /><br /></div>
+    @if (!string.IsNullOrEmpty(Model.Reason) && !string.IsNullOrWhiteSpace(Model.Reason))
+    {
+        @* Second part of the banner message *@
+        <div class="text-center col-lg-offset-3 col-sm-6 text-center best-message-light">@Model.Reason</div>
+    }
     @* left center section *@
     <div class="col-sm-9">
         <div class="text-center">
-            @* Second part of the banner message *@
-            <div class="best-center-light-text">Impress the world with yours!<br /><br /></div>
             @* This is the main ReactJS control working with answers. *@
             @Html.React("SuggestionPanel",
                 new

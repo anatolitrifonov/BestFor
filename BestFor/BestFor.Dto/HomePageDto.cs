@@ -1,14 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace BestFor.Dto
+﻿namespace BestFor.Dto
 {
+    /// <summary>
+    /// Model for home index controller.
+    /// </summary>
     public class HomePageDto
     {
         public AnswersDto TopToday { get; set; } = new AnswersDto();
 
-        public string Culture { get; set; }
+        // Reason user got redirected to the page.
+        public string Reason { get; set; }
     }
 }

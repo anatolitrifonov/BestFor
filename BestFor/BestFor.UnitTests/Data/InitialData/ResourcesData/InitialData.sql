@@ -128,6 +128,15 @@ if not exists(select * from ResourceStrings where CultureName = 'ru-RU' and [Key
 	insert ResourceStrings(CultureName, [Key], Value, DateAdded) values('ru-RU', 'save_capital',
 		N'Сохранить', getDate());
 GO
+
+if not exists(select * from ResourceStrings where CultureName = 'en-US' and [Key] = 'send_capital')
+	insert ResourceStrings(CultureName, [Key], Value, DateAdded) values('en-US', 'send_capital',
+		N'Send', getDate());
+if not exists(select * from ResourceStrings where CultureName = 'ru-RU' and [Key] = 'send_capital')
+	insert ResourceStrings(CultureName, [Key], Value, DateAdded) values('ru-RU', 'send_capital',
+		N'Отправить', getDate());
+GO
+
 if not exists(select * from ResourceStrings where CultureName = 'en-US' and [Key] = 'add_capital')
 	insert ResourceStrings(CultureName, [Key], Value, DateAdded) values('en-US', 'add_capital',
 		N'Add', getDate());
@@ -336,4 +345,12 @@ if not exists(select * from ResourceStrings where CultureName = 'en-US' and [Key
 if not exists(select * from ResourceStrings where CultureName = 'ru-RU' and [Key] = 'thank_you_for_improving')
 	insert ResourceStrings(CultureName, [Key], Value, DateAdded) values('ru-RU', 'thank_you_for_improving',
 		N'Спасибо за улучшение мнения.', getDate());
+GO
+
+if not exists(select * from ResourceStrings where CultureName = 'en-US' and [Key] = 'thank_you_for_contacting')
+	insert ResourceStrings(CultureName, [Key], Value, DateAdded) values('en-US', 'thank_you_for_contacting',
+		N'Thank you for contacting us. We will get back to you as soon as we can.', getDate());
+if not exists(select * from ResourceStrings where CultureName = 'ru-RU' and [Key] = 'thank_you_for_contacting')
+	insert ResourceStrings(CultureName, [Key], Value, DateAdded) values('ru-RU', 'thank_you_for_contacting',
+		N'Спасибо за контакт. Обязательно прочтем.', getDate());
 GO

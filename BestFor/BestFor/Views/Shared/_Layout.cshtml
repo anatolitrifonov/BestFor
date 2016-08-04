@@ -20,6 +20,7 @@
     @* Container-fluid takes the whole width. *@
     <div class="container best-margin-top best-theme-color">
         @Html.Partial("TopMenu")
+        @* This section is only filed in on the home page.*@
         @RenderSection("TopCenter", required: false)
         @Html.Partial("CurrentUser")
     </div>
