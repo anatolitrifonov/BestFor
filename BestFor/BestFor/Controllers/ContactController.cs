@@ -1,14 +1,12 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
-using System.Security.Claims;
+﻿using BestFor.Domain.Entities;
 using BestFor.Dto.Contact;
-using BestFor.Domain.Entities;
+using BestFor.Services.Messaging;
 using BestFor.Services.Services;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace BestFor.Controllers
 {
@@ -27,12 +25,15 @@ namespace BestFor.Controllers
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IResourcesService _resourcesService;
         private readonly ILogger _logger;
+        private readonly IEmailSender _emailSender;
 
 
-        public ContactController(UserManager<ApplicationUser> userManager, IResourcesService resourcesService, ILoggerFactory loggerFactory)
+        public ContactController(UserManager<ApplicationUser> userManager, IResourcesService resourcesService, IEmailSender emailSender,
+            ILoggerFactory loggerFactory)
         {
             _userManager = userManager;
             _resourcesService = resourcesService;
+            _emailSender = emailSender;
             _logger = loggerFactory.CreateLogger<HomeController>();
             _logger.LogInformation("created ContactController");
         }
@@ -53,14 +54,26 @@ namespace BestFor.Controllers
         }
 
         [HttpPost]
-        [AllowAnonymous]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Index(ContactUsDto model)
         {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
 
             model.UserName = _userManager.GetUserName(User);
 
-            return await Task.FromResult<IActionResult>(View(model));
+            string message = "User " + model.UserName + " is contacting us. " + model.Content;
+
+            await _emailSender.SendEmailAsync(model.Subject, message);
+
+            // Read the reason
+            var reason = await _resourcesService.GetString(this.Culture, Lines.THANK_YOU_FOR_CONTACTING);
+
+            // return await Task.FromResult<IActionResult>(View(model));
+            return RedirectToAction("Index", "Home", new { reason = reason });
+
         }
     }
 }

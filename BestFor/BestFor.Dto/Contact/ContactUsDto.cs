@@ -20,7 +20,7 @@ namespace BestFor.Dto.Contact
         /// <summary>
         /// User will have to type something to check if he is human.
         /// </summary>
-        [Required(ErrorMessage = "*")]
+        //[Required(ErrorMessage = "*")]
         public string Check { get; set; }
 
         [EmailAddress(ErrorMessage = "*")]

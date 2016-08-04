@@ -26,6 +26,13 @@ namespace BestFor.Services.Messaging
             _emailFromAddress = appSettings.Value.EmailFromAddress;
         }
 
+        /// <summary>
+        /// Send message to someone
+        /// </summary>
+        /// <param name="email"></param>
+        /// <param name="subject"></param>
+        /// <param name="message"></param>
+        /// <returns></returns>
         public async Task SendEmailAsync(string email, string subject, string message)
         {
             using (var smtp = new SmtpClient(_emailServerAddress, _emailServerPort))
@@ -41,6 +48,31 @@ namespace BestFor.Services.Messaging
                 };
 
                 mail.To.Add(email);
+                await smtp.SendMailAsync(mail);
+            }
+        }
+
+        /// <summary>
+        /// Send message to ourselves
+        /// </summary>
+        /// <param name="subject"></param>
+        /// <param name="message"></param>
+        /// <returns></returns>
+        public async Task SendEmailAsync(string subject, string message)
+        {
+            using (var smtp = new SmtpClient(_emailServerAddress, _emailServerPort))
+            {
+                smtp.UseDefaultCredentials = false;
+                smtp.EnableSsl = true;
+                smtp.Credentials = new NetworkCredential(_emailServerUser, _emailServerPassword);
+                var mail = new MailMessage
+                {
+                    Subject = subject,
+                    From = new MailAddress(_emailFromAddress),
+                    Body = message
+                };
+
+                mail.To.Add(_emailFromAddress);
                 await smtp.SendMailAsync(mail);
             }
         }

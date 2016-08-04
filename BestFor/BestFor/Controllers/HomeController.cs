@@ -44,13 +44,13 @@ namespace BestFor.Controllers
         /// </summary>
         /// <returns></returns>
         // GET: /<controller>/
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string reason = null)
         {
             var model = new HomePageDto();
 
             model.TopToday.Answers = await _answerService.FindAnswersTrendingToday();
 
-            model.Culture = this.Culture;
+            model.Reason = reason;
 
             return View(model);
         }

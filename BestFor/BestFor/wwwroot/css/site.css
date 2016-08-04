@@ -38,6 +38,12 @@ span.best-span-round-label-light-highlighted
     font-size:14px;
 }
 
+div.best-message-light
+{
+    background-color: #F7F5BE;
+    font-size:18px;
+}
+
 /* contains best-span-round-label labels */
 div.best-div-fluid
 {

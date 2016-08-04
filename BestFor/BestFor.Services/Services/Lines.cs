@@ -6,5 +6,6 @@
         public static readonly string THANK_YOU_FOR_VOTING = "thank_you_for_voting";
         public static readonly string THANK_YOU_FOR_FLAGING = "thank_you_for_flaging";
         public static readonly string THANK_YOU_FOR_IMPROVING = "thank_you_for_improving";
+        public static readonly string THANK_YOU_FOR_CONTACTING = "thank_you_for_contacting";
     }
 }
