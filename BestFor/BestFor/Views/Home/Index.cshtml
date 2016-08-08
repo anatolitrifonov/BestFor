@@ -12,6 +12,11 @@
         return tokens.CookieToken + ":" + tokens.RequestToken;
     }
 }
+@{
+    // Set the title
+    ViewData["Title"] = await resourcesService.GetString(ViewBag.BestForCulture, "global_site_index_title");
+}
+@section MetaKeyword {<meta name="keywords" content="best opinions on thousands of questions and best products" />}
 @section TopCenter {
     <div style="display: inline-block; padding-top:9px">
         <span class="best-top-center-general-text">More than</span>
@@ -61,7 +66,8 @@
                             "suggestion_panel_extended_opinion",
                             "add_capital"
                         }),
-                    culture = this.ViewBag.BestForCulture
+                    culture = this.ViewBag.BestForCulture,
+                    debug = Model.DebugReactControls
                 })
         </div>
     </div>

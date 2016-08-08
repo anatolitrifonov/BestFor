@@ -22,5 +22,12 @@ namespace BestFor.Services.Services
 
         Task<int> AddUserToCache(ApplicationUser user);
 
+        /// <summary>
+        /// Increase the answer count in user's cache.
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
+        Task<int> UpdateUserFromAnswer(Answer answer);
+
     }
 }

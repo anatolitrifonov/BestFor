@@ -81,6 +81,29 @@ namespace BestFor.Controllers
             return false;
         }
 
+        /// <summary>
+        /// Read Url parameter as string
+        /// </summary>
+        /// <param name="parameterName"></param>
+        /// <returns></returns>
+        protected string ReadUrlParameter(string parameterName)
+        {
+            if (!Request.Query.ContainsKey(parameterName)) return null;
+            return Request.Query[parameterName][0];
+        }
+
+        /// <summary>
+        /// Read Url parameter as bool
+        /// </summary>
+        /// <param name="parameterName"></param>
+        /// <returns></returns>
+        protected bool ReadUrlParameterAsBoolean(string parameterName)
+        {
+            bool result;
+            if (bool.TryParse(ReadUrlParameter(parameterName), out result)) return result;
+            return false;
+        }
+
         #region Private Methods
         /// <summary>
         /// Parse the culture string from the url or return the default culture string

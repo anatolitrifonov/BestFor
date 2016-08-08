@@ -1,9 +1,18 @@
-﻿<!DOCTYPE html>
+﻿@*Inject the service that allows searching for localized strings *@
+@inject BestFor.Services.Services.IResourcesService resourcesService
+@{
+    string siteDescription = await resourcesService.GetString(ViewBag.BestForCulture, "site_description");
+}
+<!DOCTYPE html>
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewBag.Title</title>
+    <title>@ViewBag.Title - www.completeopinion.com</title>
+    <meta name="description" content="@siteDescription" />
+    @RenderSection("MetaKeyword", required: false)
+    @*<!--<link rel="alternate" href="http://www.apple.com/ae-ar/ipad/" hreflang="ar-AE" />
+    <link rel="alternate" href="http://www.apple.com/ae/ipad/" hreflang="en-AE" />-->*@
     <environment names="Development">
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
         <link rel="stylesheet" href="~/css/site.css" />

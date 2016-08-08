@@ -37,5 +37,6 @@ cd C:\Users\atrifono\Documents\Personal\Fork\BestFor\BestFor.Data
 dotnet ef --configuration Debug --build-base-path .\bin\ database update --verbose
 
 Add-Migration MyFirstMigration -Project BestFor.Data -Verbose
+Add-Migration A03 -Project BestFor.Data -Verbose
 
-update-database -Project BestFor.Data
+update-database -Project BestFor.Data -Verbose

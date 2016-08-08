@@ -1,11 +1,11 @@
 ﻿if not exists(select * from ResourceStrings where CultureName = 'en-US' and [Key] = 'trending_today')
-	insert ResourceStrings(CultureName, [Key], Value, DateAdded) values('en-US', 'trending_today', N'Treding Today', getDate());
+	insert ResourceStrings(CultureName, [Key], Value, DateAdded) values('en-US', 'trending_today', N'Trending Today', getDate());
 if not exists(select * from ResourceStrings where CultureName = 'ru-RU' and [Key] = 'trending_today')
 	insert ResourceStrings(CultureName, [Key], Value, DateAdded) values('ru-RU', 'trending_today', N'Популярные сегодня', getDate());
 GO
 
 if not exists(select * from ResourceStrings where CultureName = 'en-US' and [Key] = 'trending_overall')
-	insert ResourceStrings(CultureName, [Key], Value, DateAdded) values('en-US', 'trending_overall', N'Treding Overall', getDate());
+	insert ResourceStrings(CultureName, [Key], Value, DateAdded) values('en-US', 'trending_overall', N'Trending Overall', getDate());
 if not exists(select * from ResourceStrings where CultureName = 'ru-RU' and [Key] = 'trending_overall')
 	insert ResourceStrings(CultureName, [Key], Value, DateAdded) values('ru-RU', 'trending_overall', N'Популярные за все время', getDate());
 GO
@@ -354,3 +354,32 @@ if not exists(select * from ResourceStrings where CultureName = 'ru-RU' and [Key
 	insert ResourceStrings(CultureName, [Key], Value, DateAdded) values('ru-RU', 'thank_you_for_contacting',
 		N'Спасибо за контакт. Обязательно прочтем.', getDate());
 GO
+
+if not exists(select * from ResourceStrings where CultureName = 'en-US' and [Key] = 'site_description')
+	insert ResourceStrings(CultureName, [Key], Value, DateAdded) values('en-US', 'site_description',
+		N'Impress the world with your opinion about the best stuff on Earth! Join the fun today! www.completeopinion.com', getDate());
+if not exists(select * from ResourceStrings where CultureName = 'ru-RU' and [Key] = 'site_description')
+	insert ResourceStrings(CultureName, [Key], Value, DateAdded) values('ru-RU', 'site_description',
+		N'Поразите мир своим мнением о лучших вещах на Земле! Присоединяйтесь сегодня! www.completeopinion.com', getDate());
+GO
+
+if not exists(select * from ResourceStrings where CultureName = 'en-US' and [Key] = 'global_site_index_title')
+	insert ResourceStrings(CultureName, [Key], Value, DateAdded) values('en-US', 'global_site_index_title',
+		N'Opinions on the best stuff on Earth!', getDate());
+if not exists(select * from ResourceStrings where CultureName = 'ru-RU' and [Key] = 'global_site_index_title')
+	insert ResourceStrings(CultureName, [Key], Value, DateAdded) values('ru-RU', 'global_site_index_title',
+		N'Лучшие мнения на Земле!', getDate());
+GO
+
+if not exists(select * from ResourceStrings where CultureName = 'en-US' and [Key] = 'your_profile')
+	insert ResourceStrings(CultureName, [Key], Value, DateAdded) values('en-US', 'your_profile',
+		N'Your profile.', getDate());
+if not exists(select * from ResourceStrings where CultureName = 'ru-RU' and [Key] = 'your_profile')
+	insert ResourceStrings(CultureName, [Key], Value, DateAdded) values('ru-RU', 'your_profile',
+		N'Ваш профиль.', getDate());
+GO
+
+
+
+
+

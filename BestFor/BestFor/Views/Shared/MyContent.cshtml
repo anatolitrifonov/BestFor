@@ -28,9 +28,15 @@
     string votedForThis = await resourcesService.GetString(ViewBag.BestForCulture, "voted_for_this_opinion");
     string editString = await resourcesService.GetString(ViewBag.BestForCulture, "edit_capital");
 
+    // get the list to use for answer
+    string thisPageAnswer = LinkingHelper.ConvertAnswerToText(Model.CommonStrings, Model.Answer);
+    
+    // Set it as a title
+    ViewData["Title"] = thisPageAnswer;
 }
+@section MetaKeyword {<meta name="keywords" content="@thisPageAnswer" />}
 @* Show the answer itself *@
-<h2>@LinkingHelper.ConvertAnswerToText(Model.CommonStrings, Model.Answer)</h2>
+<h1>@thisPageAnswer</h1>
 @* Show additional message if passed *@
 @if (Model.Reason != null)
 {

@@ -24,14 +24,17 @@ namespace BestFor.Services.Services
         private ICacheManager _cacheManager;
         private IAnswerRepository _repository;
         private ILogger _logger;
+        private IUserService _userService;
 
         // private static 
-        public AnswerService(ICacheManager cacheManager, IAnswerRepository repository, ILoggerFactory loggerFactory)
+        public AnswerService(ICacheManager cacheManager, IAnswerRepository repository, ILoggerFactory loggerFactory, IUserService userService)
         {
             _cacheManager = cacheManager;
             _repository = repository;
+            _userService = userService;
             _logger = loggerFactory.CreateLogger<AnswerService>();
             _logger.LogInformation("created AnswerService");
+
         }
 
         #region IAnswerService implementation
@@ -68,14 +71,14 @@ namespace BestFor.Services.Services
             return result.ToDto();
         }
 
-        public async Task<Answer> AddAnswer(AnswerDto answer)
+        public async Task<AddedAnswerDto> AddAnswer(AnswerDto answer)
         {
             var answerObject = new Answer();
             answerObject.FromDto(answer);
 
             // Repository might get a different object back.
             // We will also let repository do the counting. Repository increases the count.
-            answerObject = await PersistAnswer(answerObject);
+            var isNew = await PersistAnswer(answerObject);
 
             // Add to cache.
             var cachedData = await GetCachedData();
@@ -87,7 +90,10 @@ namespace BestFor.Services.Services
             // Add to thrending overall
             AddToTrendingOverall(answerObject);
 
-            return answerObject;
+            // Update User if new answer
+            if (isNew) await _userService.UpdateUserFromAnswer(answerObject);
+
+            return new AddedAnswerDto() { Answer = answerObject.ToDto() };
         }
 
         public async Task<AnswerDto> UpdateAnswer(AnswerDto answer)
@@ -97,7 +103,7 @@ namespace BestFor.Services.Services
 
             // Repository might get a different object back.
             // We will also let repository do the counting. Repository increases the count.
-            answerObject = await PersistAnswer(answerObject);
+            var isNew = await PersistAnswer(answerObject);
 
             // Update object in cache.
             var cachedData = await GetCachedData();
@@ -208,12 +214,14 @@ namespace BestFor.Services.Services
             }
         }
 
-        private async Task<Answer> PersistAnswer(Answer answer)
+        private async Task<bool> PersistAnswer(Answer answer)
         {
             // Find if answer already exists
             var existingAnswer = _repository.Queryable()
                 .Where(x => x.LeftWord == answer.LeftWord && x.RightWord == answer.RightWord && x.Phrase == answer.Phrase)
                 .FirstOrDefault();
+            bool isNew = true;
+
             // Insert if new.
             if (existingAnswer == null)
             {
@@ -228,12 +236,13 @@ namespace BestFor.Services.Services
                 // Only category is updated
                 existingAnswer.Category = answer.Category;
                 _repository.Update(existingAnswer);
+                isNew = false;
             }
 
             await _repository.SaveChangesAsync();
 
-            // return existingAnswer == null ? answer : existingAnswer;
-            return existingAnswer; 
+            // return new or not
+            return isNew; 
         }
 
         private async Task<KeyIndexedDataSource<Answer>> GetCachedData()

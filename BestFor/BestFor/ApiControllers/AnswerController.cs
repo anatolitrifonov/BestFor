@@ -5,6 +5,7 @@ using BestFor.Services.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
+using System.Security.Claims;
 
 namespace BestFor.Controllers
 {
@@ -75,16 +76,18 @@ namespace BestFor.Controllers
 
             // Add left word and right word to suggestions
             var addedSuggestion = await _suggestionService.AddSuggestion(new SuggestionDto() { Phrase = answer.LeftWord });
-            // addedSuggestion = await _suggestionService.AddSuggestion(new SuggestionDto() { Phrase = answer.RightWord });
+            // Add the right word if different from left
+            if (answer.LeftWord != answer.RightWord)
+                addedSuggestion = await _suggestionService.AddSuggestion(new SuggestionDto() { Phrase = answer.RightWord });
 
             // If user is logged in let's add him to the object
             // This will return null if user is not logged in and this is OK.
+            ClaimsPrincipal z = User;
+
             answer.UserId = _userManager.GetUserId(User);
 
             // Add answer
-            var addedAnswer = await _answerService.AddAnswer(answer);
-            result.Answer = addedAnswer.ToDto();
-            return result;
+            return await _answerService.AddAnswer(answer);
         }
 
         #region Private Members
@@ -123,6 +126,7 @@ namespace BestFor.Controllers
             }
             return false;
         }
+
         /// <summary>
         /// Returns validated query string for GET method or null.
         /// </summary>
