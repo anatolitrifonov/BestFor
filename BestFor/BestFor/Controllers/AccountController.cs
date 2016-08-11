@@ -1,4 +1,5 @@
 ﻿using BestFor.Domain.Entities;
+using BestFor.Models;
 using BestFor.Dto.Account;
 using BestFor.Services.Messaging;
 using BestFor.Services.Services;
@@ -137,7 +138,7 @@ namespace BestFor.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Register(RegisterViewDto model)
+        public async Task<IActionResult> Register(RegisterViewModel model)
         {
             // redisplay the form if something is wrong with model.
             if (!ModelState.IsValid) return View(model);
@@ -469,7 +470,7 @@ namespace BestFor.Controllers
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        private async Task<bool> IsProfanityCleanProfileCreate(RegisterViewDto model)
+        private async Task<bool> IsProfanityCleanProfileCreate(RegisterViewModel model)
         {
             // Do profanity checks. We already validated the model.
             // we can only change a couple of fields.

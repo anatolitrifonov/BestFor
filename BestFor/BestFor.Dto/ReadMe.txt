@@ -1,11 +1,4 @@
-﻿DTO - Data transfer object. Read wiki :)
-
-Dtos in this project are also used as models for views.
-They are absolutely dumb and there is no need to test them at all.
-
-Update 2016 08 08
-
-Dto classes are returned by services and serve as input to services.
+﻿Dto classes are returned by services and serve as input to services.
 
 Unfortunately we can not use them in forms with validation because we can not have Dtos referene ResourceService that gives us strings.
 If we were to enable this then we would need to mess around iwth somehoe bringing down at least a resource service interface and feed it to 
@@ -16,6 +9,3 @@ So we will use dtos for services only and bring the rest to Models to UI.
 Models in UI will have data annotations enabled.
 
 Worst case scenario we convert Model to Dto. Not good but clean separation.
-
-Had to introdue Models because I can use localized annotations only on the level higher than services :(
-

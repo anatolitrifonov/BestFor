@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Primitives;
@@ -114,10 +115,10 @@ namespace BestFor.Controllers
             _culture = "en-US";
             var requestPath = Request.Path.ToString();
             // theoretically this can never happen
-            if (string.IsNullOrEmpty(requestPath) || string.IsNullOrWhiteSpace(requestPath)) return _culture;
+            if (string.IsNullOrEmpty(requestPath) || string.IsNullOrWhiteSpace(requestPath)) return SetCulture(_culture);
             // Theoretically requestPath can never start with space because spaces in URL are replaces with %20 but we will check anyway
             requestPath = requestPath.Trim();
-            if (requestPath == "/") return _culture;
+            if (requestPath == "/") return SetCulture(_culture);
             // URL "/////blah" is converted by browser to "/blah". Therefor we can never get into the situation of path being "///blah".
             // Although I only checked Chrome
             // first remove the starting "/"
@@ -140,6 +141,8 @@ namespace BestFor.Controllers
         private string SetCulture(string culture)
         {
             _culture = culture;
+            // Save the culture in the thread.
+            Thread.SetData(Thread.GetNamedDataSlot("SavedThreadCulture"), culture);
             return _culture;
         }
         #endregion
