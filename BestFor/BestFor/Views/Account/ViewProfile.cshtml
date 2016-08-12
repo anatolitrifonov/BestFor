@@ -1,0 +1,35 @@
+﻿@model BestFor.Dto.Account.ProfileViewDto
+@* Inject the service that allows searching for localized strings *@
+@inject BestFor.Services.Services.IResourcesService resourcesService
+@{
+    // Read localized strings
+    string stringYourProfile = await resourcesService.GetString(ViewBag.BestForCulture, "your_profile");
+
+    ViewData["Title"] = stringYourProfile;
+}
+<h2>@ViewData["Title"]</h2>
+
+<div class="row">
+    <div class="col-md-offset-2 col-md-8">
+        <div class="row">
+            <label asp-for="UserName" class="col-md-3"></label><span class="col-md-9">@Model.UserName</span>
+        </div>
+        <div class="row">
+            <label asp-for="DisplayName" class="col-md-3"></label><span class="col-md-9">@Model.DisplayName</span>
+        </div>
+        <div class="row">
+            <label asp-for="NumberOfAnswers" class="col-md-3"></label><span class="col-md-9">@Model.NumberOfAnswers</span>
+        </div>
+        <br /><br />
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-6">
+                <yakor y-culture="@this.ViewBag.BestForCulture" y-controller="AnswerAction" y-action="Edit"
+                        y-querystring="@new { id = Model.UserName }"
+                        y-class="btn btn-default btn-lg">
+                    <span class="glyphicon glyphicon glyphicon-edit" aria-hidden="true" />&nbsp;<span class="special_glyph_anchor">@stringYourProfile</span>
+                </yakor>
+            </div>
+        </div>
+    </div>
+</div>

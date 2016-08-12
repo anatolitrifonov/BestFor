@@ -14,7 +14,7 @@
                 <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
             </button>
             <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="accountDropdownMenu">
-                <li><a class="best-user-menu" asp-controller="Account" asp-action="Profile" title="Manage">@UserManager.GetUserName(User)</a></li>
+                <li><a class="best-user-menu" asp-controller="Account" asp-action="ViewProfile" title="Manage">@UserManager.GetUserName(User)</a></li>
                 <li>
                     <form asp-controller="Account" asp-action="LogOff" method="post" id="logoutForm">
                         <button type="submit" class="btn btn-link">Log off</button>

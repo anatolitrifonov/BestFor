@@ -38,8 +38,13 @@ namespace BestFor
 
         public IConfigurationRoot Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
-        // For more information on how to configure your application, visit http://go.microsoft.com/fwlink/?LinkID=398940
+        /// <summary>
+        /// This method gets called by the runtime. Use this method to add services to the container.
+        /// For more information on how to configure your application, visit http://go.microsoft.com/fwlink/?LinkID=398940
+        /// 
+        /// This is called first (before .Configure)
+        /// </summary>
+        /// <param name="services"></param>
         public void ConfigureServices(IServiceCollection services)
         {
             // Add framework services.
@@ -97,7 +102,6 @@ namespace BestFor
             services.AddScoped<BestFor.Data.IRepository<BestFor.Domain.Entities.Suggestion>, BestFor.Data.Repository<BestFor.Domain.Entities.Suggestion>>();
             services.AddScoped<BestFor.Data.IRepository<BestFor.Domain.Entities.BadWord>, BestFor.Data.Repository<BestFor.Domain.Entities.BadWord>>();
             services.AddScoped<BestFor.Data.IRepository<BestFor.Domain.Entities.ResourceString>, BestFor.Data.Repository<BestFor.Domain.Entities.ResourceString>>();
-            // services.AddScoped<BestFor.Data.IRepository<BestFor.Domain.Entities.AnswerDescription>, BestFor.Data.Repository<BestFor.Domain.Entities.AnswerDescription>>();
             services.AddScoped<BestFor.Data.IRepository<BestFor.Domain.Entities.AnswerFlag>, BestFor.Data.Repository<BestFor.Domain.Entities.AnswerFlag>>();
             services.AddScoped<BestFor.Data.IRepository<BestFor.Domain.Entities.AnswerDescriptionFlag>, BestFor.Data.Repository<BestFor.Domain.Entities.AnswerDescriptionFlag>>();
             services.AddScoped<BestFor.Data.IRepository<BestFor.Domain.Entities.AnswerVote>, BestFor.Data.Repository<BestFor.Domain.Entities.AnswerVote>>();
@@ -114,9 +118,20 @@ namespace BestFor
             services.AddScoped<BestFor.Services.Services.IFlagService, BestFor.Services.Services.FlagService>();
             services.AddScoped<BestFor.Services.Services.IVoteService, BestFor.Services.Services.VoteService>();
             services.AddScoped<BestFor.Services.Services.IUserService, BestFor.Services.Services.UserService>();
+
+            // Inject HttpContextAccessor to be able to access http context from classes.
+            // services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        /// <summary>
+        /// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        /// 
+        /// This is called second. After ConfigureServices
+        /// </summary>
+        /// <param name="app"></param>
+        /// <param name="env"></param>
+        /// <param name="loggerFactory"></param>
+        /// <param name="antiforgery"></param>
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, IAntiforgery antiforgery)
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
@@ -125,7 +140,6 @@ namespace BestFor
             // loggerFactory.MinimumLevel = LogLevel.Information;
 
             loggerFactory.AddNLog();
-
 
             if (env.IsDevelopment())
             {
@@ -233,6 +247,10 @@ namespace BestFor
                 // Uncomment the following line to add a route for porting Web API 2 controllers.
                 // routes.MapWebApiRoute("DefaultApi", "api/{controller}/{id?}");
             });
+
+            // Configure http helper storing httpcontext accessor
+            // IHttpContextAccessor should have been injected by default in ConfigureServices.
+            Resources.BestHttpHelper.Configure(app.ApplicationServices.GetRequiredService<IHttpContextAccessor>());
         }
     }
 }

@@ -16,22 +16,22 @@ namespace BestFor.Dto.Account
     /// </remarks>
     public class ProfileViewDto : CrudMessagesDto
     {
-        [Required(ErrorMessage = "*")]
-        [EmailAddress(ErrorMessage = "*")]
-        [Display(Name = "Email")]
-        public string Email { get; set; }
-
-        [Required]
-        [StringLength(100, ErrorMessage = "*", MinimumLength = 6)] // The {0} must be at least {2} characters long.
-        [DataType(DataType.Password)]
-        [Display(Name = "Password")]
-        public string Password { get; set; }
-
         [Display(Name = "User Name")]
         public string UserName { get; set; }
 
-        [StringLength(100, ErrorMessage = "*", MinimumLength = 6)] // The {0} must be at least {2} characters long.
         [Display(Name = "Display Name")]
         public string DisplayName { get; set; }
+
+        public int NumberOfAnswers { get; set; }
+
+        public int NumberOfDescriptions { get; set; }
+
+        public int NumberOfVotes { get; set; }
+
+        public int NumberOfFlags { get; set; }
+
+        public int NumberOfComments { get; set; }
+
+        public DateTime JoinDate { get; set; }
     }
 }

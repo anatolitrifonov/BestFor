@@ -59,7 +59,7 @@ namespace BestFor.Services.Services
         /// </summary>
         /// <param name="answer"></param>
         /// <returns></returns>
-        Task<Answer> AddAnswer(AnswerDto answer);
+        Task<AddedAnswerDto> AddAnswer(AnswerDto answer);
 
         /// <summary>
         /// Edit answer

@@ -1,4 +1,5 @@
 ﻿using BestFor.Domain.Entities;
+using BestFor.Models;
 using BestFor.Dto.Account;
 using BestFor.Services.Messaging;
 using BestFor.Services.Services;
@@ -137,7 +138,7 @@ namespace BestFor.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Register(RegisterViewDto model)
+        public async Task<IActionResult> Register(RegisterViewModel model)
         {
             // redisplay the form if something is wrong with model.
             if (!ModelState.IsValid) return View(model);
@@ -294,7 +295,41 @@ namespace BestFor.Controllers
         /// <returns></returns>
         /// <remarks>This is just a get to load current profile</remarks>
         [HttpGet]
-        public async Task<IActionResult> Profile()
+        public async Task<IActionResult> ViewProfile()
+        {
+            var currentUserId = _userManager.GetUserId(User);
+
+            // User manager will go to database to find info about the user.
+            // Let's go to cache.
+            // we are authenticated so currentUserId will be there.
+            var user = await _userService.FindByIdAsync(currentUserId);
+
+            // var user = await _userManager.FindByIdAsync(currentUserId);
+            if (user == null)
+            {
+                // Would be funny if this happens. Someone is hacking us I guess.
+                return View("Error");
+            }
+            var model = new ProfileViewDto();
+            model.UserName = user.UserName;
+            model.DisplayName = user.DisplayName;
+            model.NumberOfAnswers = user.NumberOfAnswers;
+
+            return View(model);
+        }
+
+        /// <summary>
+        /// GET: /Account/Profile
+        /// Has to be logged in.
+        /// Can only change email and display name. Display name can be blank or unique.
+        /// Can not change user name.
+        /// Can not change password.
+        /// Have to type password to confirm update.
+        /// </summary>
+        /// <returns></returns>
+        /// <remarks>This is just a get to load current profile</remarks>
+        [HttpGet]
+        public async Task<IActionResult> EditProfile()
         {
             var currentUserId = _userManager.GetUserId(User);
             var user = await _userManager.FindByIdAsync(currentUserId);
@@ -303,7 +338,7 @@ namespace BestFor.Controllers
                 // Would be funny if this happens. Someone is hacking us I guess.
                 return View("Error");
             }
-            var model = new ProfileViewDto();
+            var model = new ProfileEditDto();
             model.Email = user.Email;
             model.UserName = user.UserName;
             model.DisplayName = user.DisplayName;
@@ -319,7 +354,7 @@ namespace BestFor.Controllers
         /// <returns></returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Profile(ProfileViewDto model)
+        public async Task<IActionResult> EditProfile(ProfileEditDto model)
         {
             // Check the model first
             if (!ModelState.IsValid)
@@ -412,7 +447,7 @@ namespace BestFor.Controllers
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        private async Task<bool> IsProfanityCleanProfileUpdate(ProfileViewDto model)
+        private async Task<bool> IsProfanityCleanProfileUpdate(ProfileEditDto model)
         {
             // Do profanity checks. We already validated the model.
             // we can only change a couple of fields.
@@ -435,7 +470,7 @@ namespace BestFor.Controllers
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        private async Task<bool> IsProfanityCleanProfileCreate(RegisterViewDto model)
+        private async Task<bool> IsProfanityCleanProfileCreate(RegisterViewModel model)
         {
             // Do profanity checks. We already validated the model.
             // we can only change a couple of fields.

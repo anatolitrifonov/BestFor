@@ -13,7 +13,9 @@
         // resource strings are given by the user in this design.
         resourceStrings: React.PropTypes.object,
         // culture for building links
-        culture: React.PropTypes.string
+        culture: React.PropTypes.string,
+        // produce debugging info?
+        debug: React.PropTypes.bool
     },
 
     // List of strings this control wants in resourceStrings:
@@ -58,26 +60,33 @@
             return true;
         },
 
-        createAddAnswerData: function (leftValue, rightValue, answer) {
+        writeDebug(debug, message) {
+            if (debug) console.log("SuggestionPanel: " + message);
+        },
+
+        createAddAnswerData: function (leftValue, rightValue, answer, debug) {
             var leftValueValidationResult = SuggestionPanel.validateInput(leftValue);
-            if (leftValueValidationResult)
-                console.log("Left value " + leftValue + " a is good");
+            if (leftValueValidationResult) {
+                SuggestionPanel.writeDebug(debug, "Left value " + leftValue + " a is good");
+            }
             else {
-                console.log("Left value " + leftValue + " is bad. Returning.");
+                SuggestionPanel.writeDebug(debug, "Left value " + leftValue + " is bad. Returning.");
                 return null;
             }
             var rightValueValidationResult = SuggestionPanel.validateInput(rightValue);
-            if (rightValueValidationResult)
-                console.log("Right value " + rightValue + "a is good");
+            if (rightValueValidationResult) {
+                SuggestionPanel.writeDebug(debug, "Right value " + rightValue + "a is good");
+            }
             else {
-                console.log("Right value " + rightValue + " is bad. Returning.");
+                SuggestionPanel.writeDebug(debug, "Right value " + rightValue + " is bad. Returning.");
                 return null;
             }
             var answerValueValidationResult = SuggestionPanel.validateInput(answer);
-            if (answerValueValidationResult)
-                console.log("Answer value " + answer + "a is good");
+            if (answerValueValidationResult) {
+                SuggestionPanel.writeDebug(debug, "Answer value " + answer + "a is good");
+            }
             else {
-                console.log("Answer value " + answer + " is bad. Returning.");
+                SuggestionPanel.writeDebug(debug, "Answer value " + answer + " is bad. Returning.");
                 return null;
             }
             var data = new FormData();
@@ -87,19 +96,21 @@
             return data;
         },
 
-        createSearchAnswersData: function (leftValue, rightValue) {
+        createSearchAnswersData: function (leftValue, rightValue, debug) {
             var leftValueValidationResult = SuggestionPanel.validateInput(leftValue);
-            if (leftValueValidationResult)
-                console.log("createSearchAnswersData left value " + leftValue + " is good");
+            if (leftValueValidationResult) {
+                SuggestionPanel.writeDebug(debug, "createSearchAnswersData left value " + leftValue + " is good");
+            }
             else {
-                console.log("createSearchAnswersData left value " + leftValue + " is bad. Returning null.");
+                SuggestionPanel.writeDebug(debug, "createSearchAnswersData left value " + leftValue + " is bad. Returning null.");
                 return null;
             }
             var rightValueValidationResult = SuggestionPanel.validateInput(rightValue);
-            if (rightValueValidationResult)
-                console.log("createSearchAnswersData right value " + rightValue + " is good");
+            if (rightValueValidationResult) {
+                SuggestionPanel.writeDebug(debug, "createSearchAnswersData right value " + rightValue + " is good");
+            }
             else {
-                console.log("createSearchAnswersData right value " + rightValue + " is bad. Returning null.");
+                SuggestionPanel.writeDebug(debug, "createSearchAnswersData right value " + rightValue + " is bad. Returning null.");
                 return null;
             }
             
@@ -134,13 +145,13 @@
 
     // Handles answers search launch from the right box
     doAnswersSearchFromRightTextBox: function (phrase) {
-        console.log("doAnswersSearchFromRightTextBox");
+        SuggestionPanel.writeDebug(this.props.debug, "doAnswersSearchFromRightTextBox");
         this.doAnswersSearch(this.leftTextBox.getCurrentValue(), phrase);
     },
 
     // Launch the search for existing answers
     doAnswersSearch: function(leftWord, rightWord) {
-        console.log("click the search button was handled leftWord:" + leftWord + " rightWord:" + rightWord);
+        SuggestionPanel.writeDebug(this.props.debug, "click the search button was handled leftWord:" + leftWord + " rightWord:" + rightWord);
 
         // No point in doing anything if answer URL was not given
         if (this.props.answersUrl === null || this.props.answersUrl === "") return null;
@@ -149,13 +160,13 @@
         // check if there is a request is process already
         // will not do anything if xht is not done. Could be anything but as we said only one at a time.
         if (this.xhr != null && this.xhr.readyState != 4) {
-            console.log("SuggestionPanel xhr is busy with state " + this.xhr.readyState +
+            SuggestionPanel.writeDebug(this.props.debug, "SuggestionPanel xhr is busy with state " + this.xhr.readyState +
                 " " + SuggestionControl.readyStateToText(this.xhr.readyState));
             return;
         }
 
         // build url passing user input
-        var userInput = SuggestionPanel.createSearchAnswersData(leftWord, rightWord);
+        var userInput = SuggestionPanel.createSearchAnswersData(leftWord, rightWord, this.props.debug);
 
         // get out if data is invalid
         if (userInput == null) return;
@@ -171,7 +182,7 @@
         this.xhr.onload = function (e) { // e is of type XMLHttpRequestProgressEvent
             // if all good
             if (this.xhr.status === 200) {
-                console.log("SuggestionPanel xhr onload returned " + this.xhr.responseText);
+                SuggestionPanel.writeDebug(this.props.debug, "SuggestionPanel xhr onload returned " + this.xhr.responseText);
                 var httpResultData = JSON.parse(this.xhr.responseText); // could also go through event
                 if (httpResultData == null || httpResultData.errorMessage != null) {
                     this.processErrorInAnswersSearch(httpResultData.errorMessage);
@@ -212,7 +223,7 @@
 
     // Handles ubsuccessful search for opinions
     processErrorInAnswersSearch: function (errorMessage) {
-        console.log("SuggestionPanel xhr onload errored out. Error text is probably too long.");
+        SuggestionPanel.writeDebug(this.props.debug, "SuggestionPanel xhr onload errored out. Error text is probably too long.");
         this.answers = [];
         this.setState({
             statusMessage: this.props.resourceStrings.suggestion_panel_error_happened_searching_answers, // message
@@ -232,14 +243,14 @@
     handleAddButtonClick: function () {
         //  First check if the url for the answers was set
         if (this.props.answersUrl == null || this.props.answersUrl == "") {
-            console.log("SuggestionPanel handleAddButtonClick answersUrl property is not set. Can't send data.");
+            SuggestionPanel.writeDebug(this.props.debug, "SuggestionPanel handleAddButtonClick answersUrl property is not set. Can't send data.");
         }
 
         // We are going to handle only one request at a time.
         // check if there is a request is process already
         // will not do anything if xht is not done. Could be anything but as we said only one at a time.
         if (this.xhr != null && this.xhr.readyState != 4) {
-            console.log("SuggestionPanel handleAddButtonClick xhr is busy with state " + this.xhr.readyState +
+            SuggestionPanel.writeDebug(this.props.debug, "SuggestionPanel handleAddButtonClick xhr is busy with state " + this.xhr.readyState +
                 " " + SuggestionControl.readyStateToText(this.xhr.readyState));
             return;
         }
@@ -247,7 +258,7 @@
         var postData = SuggestionPanel.createAddAnswerData(
             this.leftTextBox.getCurrentValue(), 
             this.rightTextBox.getCurrentValue(),
-            ReactDOM.findDOMNode(this.answerTextBox).value);
+            ReactDOM.findDOMNode(this.answerTextBox).value, this.props.debug);
 
         // return if could not create form data
         if (postData == null) return;
@@ -270,7 +281,7 @@
             }
             // all is bad
             else {
-                console.log("SuggestionPanel handleAddButtonClick xhr onload errored out. Error text is probably too long.");
+                SuggestionPanel.writeDebug(this.props.debug, "SuggestionPanel handleAddButtonClick xhr onload errored out. Error text is probably too long.");
                 this.setState({
                     statusMessage: this.props.resourceStrings.suggestion_panel_error_happened_searching_answers, // message
                     showErrorPane: true, // show errors
@@ -286,7 +297,7 @@
 
     // Handles successful answer addition
     processAddedResult: function() {
-        console.log("SuggestionPanel handleAddButtonClick xhr onload returned " + this.xhr.responseText);
+        SuggestionPanel.writeDebug(this.props.debug, "SuggestionPanel handleAddButtonClick xhr onload returned " + this.xhr.responseText);
         var httpResultData = JSON.parse(this.xhr.responseText);
         // Let's look at the data. May be there was an error
         var r = this.props.resourceStrings;
@@ -351,13 +362,10 @@
         var leftGotFocus = whichOne == 1;
         var rightGotFocus = whichOne == 2;
         var answerGotFocus = whichOne == 3;
-        // console.log("handleTextBoxGotFocus");
         // Get validity
         var leftValid = SuggestionPanel.validateInput(this.leftTextBox.getCurrentValue());
         var rightValid = SuggestionPanel.validateInput(this.rightTextBox.getCurrentValue());
         var answerValid = SuggestionPanel.validateInput(ReactDOM.findDOMNode(this.answerTextBox).value);
-        // console.log("handleTextBoxGotFocus leftValid " + leftValid + " rightValid " + rightValid + " answerValid " + answerValid);
-        // console.log("handleTextBoxGotFocus leftGotFocus " + leftGotFocus + " rightGotFocus " + rightGotFocus + " answerGotFocus " + answerGotFocus);
         // Only set message in specific situations.
         if (leftValid && !answerValid && !answerGotFocus) {
             this.setState({
@@ -415,12 +423,14 @@
                                        antiForgeryToken={this.props.antiForgeryToken} antiForgeryHeaderName={this.props.antiForgeryHeaderName}
                                        ref={(ref) => this.leftTextBox = ref} focusOnLoad={ true } textBoxGroupId={ "first-text-box" }
                                        labelText={this.props.resourceStrings.best_start_capital} onGotFocus={this.handleLeftTextBoxGotFocus}
+                                       debug={this.props.debug}
                                        placeHolder="start typing" />
                     {/* This will be knows as rightTextBox */}
                     <SuggestionControl suggestionsUrl={this.props.suggestionsUrl} onValueChange={this.doAnswersSearchFromRightTextBox}
                                        antiForgeryToken={this.props.antiForgeryToken} antiForgeryHeaderName={this.props.antiForgeryHeaderName}
                                        ref={(ref) => this.rightTextBox = ref} focusOnLoad={ false } textBoxGroupId={ "second-text-box" }
                                        labelText={this.props.resourceStrings.for_lower} onGotFocus={this.handleRightTextBoxGotFocus}
+                                       debug={this.props.debug}
                                        placeHolder="continue here"/>
                     {/* This will be knows as answerTextBox */}
                     <div className="input-group best-some-padding">

@@ -52,6 +52,9 @@ namespace BestFor.Controllers
 
             model.Reason = reason;
 
+            // Check if we need to debug react
+            model.DebugReactControls = ReadUrlParameterAsBoolean("debugreact");
+
             return View(model);
         }
 
@@ -70,11 +73,11 @@ namespace BestFor.Controllers
             var commonStrings = await _resourcesService.GetCommonStrings(culture);
             var answer = LinkingHelper.ParseUrlToAnswer(commonStrings, requestPath);
             // Were we able to parse?
-            if (answer == null) RedirectToAction("Index");
+            if (answer == null) return RedirectToAction("Index");
             // Let's try to find that answer
             answer = await _answerService.FindExact(answer.LeftWord, answer.RightWord, answer.Phrase);
             // Go to home index if not found
-            if (answer == null) RedirectToAction("Index");
+            if (answer == null) return RedirectToAction("Index");
             // Get data
             return View(await FillInDetails(answer, _answerDescriptionService, _userService, _voteService, _resourcesService, culture));
         }

@@ -12,5 +12,16 @@ namespace BestFor.Domain.Entities
         /// </summary>
         [StringLength(100, ErrorMessage = "*", MinimumLength = 6)] // The {0} must be at least {2} characters long.
         public string DisplayName { get; set; }
+
+        public int NumberOfAnswers { get; set; }
+
+        public int NumberOfDescriptions { get; set; }
+
+        public int NumberOfVotes { get; set; }
+
+        public int NumberOfFlags { get; set; }
+
+        public int NumberOfComments { get; set; }
+
     }
 }

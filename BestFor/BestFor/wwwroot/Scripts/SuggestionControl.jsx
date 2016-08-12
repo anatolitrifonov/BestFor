@@ -8,15 +8,16 @@ var SuggestionControl = React.createClass({
     // Built in ability to verify type of each property
     propTypes: {
         // not required but very useful
-        suggestionsUrl: React.PropTypes.string,     // suggestionsUrl event handler should be a string
-        onValueChange: React.PropTypes.func,        // onValueChange event handler should be a function
-        onGotFocus: React.PropTypes.func,           // onGotFocus event handler should be a function
-        focusOnLoad: React.PropTypes.bool,          // focusOnLoad is aboolean
-        antiForgeryToken: React.PropTypes.string,   // token given by the controller to send back as verification
+        suggestionsUrl: React.PropTypes.string,        // suggestionsUrl event handler should be a string
+        onValueChange: React.PropTypes.func,           // onValueChange event handler should be a function
+        onGotFocus: React.PropTypes.func,              // onGotFocus event handler should be a function
+        focusOnLoad: React.PropTypes.bool,             // focusOnLoad is aboolean
+        antiForgeryToken: React.PropTypes.string,      // token given by the controller to send back as verification
         antiForgeryHeaderName: React.PropTypes.string, // token is expected to be sent in this header
-        labelText: React.PropTypes.string,          // Give this value to label
-        inputGroupId: React.PropTypes.string,        // This id will go into input group
-        placeHolder: React.PropTypes.string         // Placeholder for the text box
+        labelText: React.PropTypes.string,             // Give this value to label
+        inputGroupId: React.PropTypes.string,          // This id will go into input group
+        placeHolder: React.PropTypes.string,           // Placeholder for the text box
+        debug: React.PropTypes.bool                    // produce debugging info?
 },
 
     // Built in ability to set initial state
@@ -49,6 +50,10 @@ var SuggestionControl = React.createClass({
             if (readyState == 1) return "DONE The operation is complete.";
             return "Unknown";
         },
+
+        writeDebug(debug, message) {
+            if (debug) console.log("SuggestionControl: " + message);
+        },
     },
 
     // list of suggestions is shown -> start ticking and checking if we need to autohide the list
@@ -59,12 +64,12 @@ var SuggestionControl = React.createClass({
         // setInterval is javascript built in. It fires function every interval until stopped.
         // This is the timer in milliseconds that checks if it is time to close the list.
         this.interval = setInterval(this.tick, 2000);
-        console.log("started ticking");
+        SuggestionControl.writeDebug(this.props.debug, "started ticking");
     },
 
     // Check if list is inactive and close it
     tick: function () {
-        console.log("ticked this.listIsActive = " + this.listIsActive + " interval = " + this.interval);
+        SuggestionControl.writeDebug(this.props.debug, "ticked this.listIsActive = " + this.listIsActive + " interval = " + this.interval);
         if (this.interval != null && !this.listIsActive) {
             // clearInterval is javascript built in. It stopps the ticking.
             clearInterval(this.interval);
@@ -95,12 +100,11 @@ var SuggestionControl = React.createClass({
         // Let the listeners know that something has changed
         this.notifyListenersOnValueChange(userInputObject.Phrase);
 
-        // console.log("user typing was handled");
         // We are going to handle only one request at a time.
         // check if there is a request is process already
         // will not do anything if xht is not done. Could be anything but as we said only one at a time.
         if (this.xhr != null && this.xhr.readyState != 4) {
-            console.log("SuggestionControl xhr is busy with state " + this.xhr.readyState +
+            SuggestionControl.writeDebug(this.props.debug, "xhr is busy with state " + this.xhr.readyState +
                 " " + SuggestionControl.readyStateToText(this.xhr.readyState));
             return;
         }
@@ -109,14 +113,14 @@ var SuggestionControl = React.createClass({
         if (userInputObject == null || userInputObject.Phrase == null || userInputObject.Phrase.trim().length < 3) return;
 
         // build url passing user input
-        var url = this.props.suggestionsUrl + "?userInput=" + userInputObject.Phrase;
+        var url = this.props.suggestionsUrl + "?userInput=" + encodeURIComponent(userInputObject.Phrase);
         if (this.xhr == null) this.xhr = new XMLHttpRequest();
         this.xhr.open("get", url, true);
         if (this.props.antiForgeryHeaderName != null || this.props.antiForgeryHeaderName != "")
             this.xhr.setRequestHeader(this.props.antiForgeryHeaderName, this.props.antiForgeryToken);
         // handle received data.
         this.xhr.onload = function (e) { // e is of type XMLHttpRequestProgressEvent
-            console.log("SuggestionControl xhr onload returned " + this.xhr.responseText);
+            SuggestionControl.writeDebug(this.props.debug, "xhr onload returned " + this.xhr.responseText);
             this.listIsActive = false;
             // If all good
             if (this.xhr.status === 200) {
@@ -140,8 +144,8 @@ var SuggestionControl = React.createClass({
     },
 
     processErrorInSuggestionsSearch: function(errorMessage, userInputObject) {
-        console.log("SuggestionControl xhr onload errored out. Error text is probably too long.");
-        console.log("errorMessage:" + errorMessage);
+        SuggestionControl.writeDebug(this.props.debug, "xhr onload errored out. Error text is probably too long.");
+        SuggestionControl.writeDebug(this.props.debug, "errorMessage:" + errorMessage);
         this.setState({
             suggestionsData: [],
             listTop: userInputObject.y - 75,
@@ -152,7 +156,7 @@ var SuggestionControl = React.createClass({
 
     // Handles successful search for suggestions
     processFoundSuggestions: function (suggestionsData, userInputObject) {
-        console.log("SuggestionControl userInputObject.y = " + userInputObject.y + " userInputObject.x " + userInputObject.x);
+        SuggestionControl.writeDebug(this.props.debug, "userInputObject.y = " + userInputObject.y + " userInputObject.x " + userInputObject.x);
         this.setState({
             suggestionsData: suggestionsData,
             listTop: userInputObject.y - 150,
@@ -160,7 +164,7 @@ var SuggestionControl = React.createClass({
             showList: true
         });
         if (suggestionsData.length > 0) {
-            console.log("SuggestionControl starting the tick.");
+            SuggestionControl.writeDebug(this.props.debug, "starting the tick.");
             this.startTicking();
         }
     },
@@ -192,7 +196,7 @@ var SuggestionControl = React.createClass({
     // Fire value change event if anyone is listening
     notifyListenersOnValueChange: function (phrase) {
         if (this.props.onValueChange == null)
-            console.log("SuggestionControl, no onValueChange listener.");
+            SuggestionControl.writeDebug(this.props.debug, "no onValueChange listener.");
         else
             this.props.onValueChange(phrase);
     },

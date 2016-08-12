@@ -78,6 +78,25 @@ namespace BestFor.Services.Services
             return Task.FromResult(1);
         }
 
+        public Task<int> UpdateUserFromAnswer(Answer answer)
+        {
+            var badResult = Task.FromResult(0);
+            if (answer.UserId == null) return badResult;
+
+            // load cache
+            Dictionary<string, ApplicationUser> data = GetCachedData();
+            // Something went wrong if this is null.
+            if (data == null) return badResult;
+
+            ApplicationUser user;
+            if (!data.TryGetValue(answer.UserId, out user)) return badResult;
+
+            // If user is in cache -> increase the count of added answers
+            user.NumberOfAnswers++;
+
+            return Task.FromResult(1);
+        }
+
         #endregion
 
         #region Private Methods
