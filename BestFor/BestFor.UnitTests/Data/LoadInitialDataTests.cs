@@ -83,6 +83,34 @@ namespace BestFor.UnitTests.Data
         }
 
         /// <summary>
+        /// Load Resources data
+        /// </summary>
+        [Fact]
+        public void LoadInitialData_DataAnnotations()
+        {
+            // Uncomment this to actually run.
+            //var t = 5; if (t > 1) return;
+
+            string pathToResourcesFile = Directory.GetCurrentDirectory() + "\\..\\..\\..\\..\\Data\\InitialData\\ResourcesData\\DataAnnotations.sql";
+            FileInfo file = new FileInfo(pathToResourcesFile);
+            string script = file.OpenText().ReadToEnd();
+            script = script.Replace("GO", "");
+
+            var configuration = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json").Build();
+            //var connectionString = configuration["Data:ATRIFONO-J28FKConnection:ConnectionString"];
+            var connectionString = configuration["Data:DefaultConnection:ConnectionString"];
+            var connection = new SqlConnection(connectionString);
+            var command = new SqlCommand(script, connection);
+            connection.Open();
+            command.ExecuteNonQuery();
+            connection.Close();
+
+            Assert.True(true);
+        }
+
+        /// <summary>
         /// Load Suggestions data
         /// </summary>
         [Fact]
