@@ -29,5 +29,30 @@ namespace BestFor.Dto
         /// Shows additional message on the content page. Example "Done voiting" or "thanks for voting".
         /// </summary>
         public string Reason { get; set; }
+
+        /// <summary>
+        /// This setting has different values depending on controller
+        /// </summary>
+        public bool EnableFacebookSharing { get; set; } = false;
+
+        /// <summary>
+        /// Link to this page
+        /// </summary>
+        public string ThisAnswerLink { get; set; }
+
+        /// <summary>
+        /// Link to this page with domain name
+        /// </summary>
+        public string ThisAnswerFullLink { get; set; }
+
+        /// <summary>
+        /// Escaped link to this page with domain name
+        /// </summary>
+        public string ThisAnswerFullLinkEscaped { get; set; }
+
+        /// <summary>
+        /// Text for this answer "best something for  something is something"
+        /// </summary>
+        public string ThisAnswerText { get; set; }
     }
 }

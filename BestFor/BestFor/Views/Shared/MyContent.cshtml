@@ -28,15 +28,12 @@
     string votedForThis = await resourcesService.GetString(ViewBag.BestForCulture, "voted_for_this_opinion");
     string editString = await resourcesService.GetString(ViewBag.BestForCulture, "edit_capital");
 
-    // get the list to use for answer
-    string thisPageAnswer = LinkingHelper.ConvertAnswerToText(Model.CommonStrings, Model.Answer);
-    
     // Set it as a title
-    ViewData["Title"] = thisPageAnswer;
+    ViewData["Title"] = Model.ThisAnswerText;
 }
-@section MetaKeyword {<meta name="keywords" content="@thisPageAnswer" />}
+@section MetaKeyword {<meta name="keywords" content="@Model.ThisAnswerText" />}
 @* Show the answer itself *@
-<h1>@thisPageAnswer</h1>
+<h1>@Model.ThisAnswerText</h1>
 @* Show additional message if passed *@
 @if (Model.Reason != null)
 {
@@ -65,7 +62,7 @@ else
 <br />
 @* Links to do something with this answer *@
 <div class="row">
-    <div class="col-sm-9">
+    <div class="col-sm-6">
         <yakor y-culture="@this.ViewBag.BestForCulture" y-controller="AnswerAction" y-action="AddDescription"
                y-querystring="@new { answerId = Model.Answer.Id }"
                y-class="btn btn-default btn-lg"><span class="glyphicon glyphicon-book" aria-hidden="true"
@@ -74,6 +71,13 @@ else
                y-querystring="@new { answerId = Model.Answer.Id }"
                y-class="btn btn-default btn-lg"><span class="glyphicon glyphicon-ok" aria-hidden="true"
                                                        />&nbsp;<span class="special_glyph_anchor">@voteString</span></yakor>
+    </div>
+    <div class="col-sm-3" style="padding-top:10px">
+        @* Show share of facebook *@
+        @if (Model.EnableFacebookSharing)
+        {
+            await Html.RenderPartialAsync("ShareOnFacebook", Model);
+        }
     </div>
     <div class="col-sm-3">
         @* Show edit only the answer owner *@

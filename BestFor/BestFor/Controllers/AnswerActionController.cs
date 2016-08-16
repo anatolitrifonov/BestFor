@@ -1,11 +1,12 @@
-﻿using BestFor.Domain.Entities;
+﻿using BestFor.Common;
+using BestFor.Domain.Entities;
 using BestFor.Dto;
 using BestFor.Services.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using System;
+using Microsoft.Extensions.Options;
 using System.Threading.Tasks;
 
 namespace BestFor.Controllers
@@ -27,10 +28,11 @@ namespace BestFor.Controllers
         private readonly ILogger _logger;
         private readonly IUserService _userService;
         private readonly IVoteService _voteService;
+        private readonly IOptions<AppSettings> _appSettings;
 
         public AnswerActionController(UserManager<ApplicationUser> userManager, IAnswerDescriptionService answerDescriptionService,
             IProfanityService profanityService, IAnswerService answerService, IResourcesService resourcesService, IUserService userService,
-            IVoteService voteService, ILoggerFactory loggerFactory)
+            IVoteService voteService, ILoggerFactory loggerFactory, IOptions<AppSettings> appSettings)
         {
             _userManager = userManager;
             _userService = userService;
@@ -39,6 +41,7 @@ namespace BestFor.Controllers
             _answerService = answerService;
             _resourcesService = resourcesService;
             _voteService = voteService;
+            _appSettings = appSettings;
             _logger = loggerFactory.CreateLogger<HomeController>();
             _logger.LogInformation("created AnswerActionController");
         }
@@ -62,7 +65,8 @@ namespace BestFor.Controllers
             var culture = this.Culture;
             // Load the answer.
             var answer = await _answerService.FindById(answerId);
-            var answerDetailsDto = await HomeController.FillInDetails(answer, _answerDescriptionService, _userService, _voteService, _resourcesService, culture);
+            var answerDetailsDto = await HomeController.FillInDetails(answer, _answerDescriptionService, _userService, _voteService,
+                _resourcesService, culture, _appSettings.Value.FullDomainAddress);
             // Set the reason to be shown on the page in case someone sent it
             answerDetailsDto.Reason = reason;
 
