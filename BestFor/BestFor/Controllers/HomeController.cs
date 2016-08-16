@@ -1,11 +1,13 @@
-﻿using BestFor.Dto;
+﻿using BestFor.Common;
+using BestFor.Dto;
 using BestFor.Services;
 using BestFor.Services.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using System.Threading.Tasks;
+using Microsoft.Extensions.Options;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace BestFor.Controllers
 {
@@ -25,16 +27,18 @@ namespace BestFor.Controllers
         private readonly ILogger _logger;
         private readonly IUserService _userService;
         private readonly IVoteService _voteService;
+        private readonly IOptions<AppSettings> _appSettings;
 
         public HomeController(IAnswerService answerService, IAnswerDescriptionService answerDescriptionService,
             IResourcesService resourcesService, IUserService userService, IVoteService voteService,
-            ILoggerFactory loggerFactory)
+            ILoggerFactory loggerFactory, IOptions<AppSettings> appSettings)
         {
             _userService = userService;
             _answerService = answerService;
             _answerDescriptionService = answerDescriptionService;
             _resourcesService = resourcesService;
             _voteService = voteService;
+            _appSettings = appSettings;
             _logger = loggerFactory.CreateLogger<HomeController>();
             _logger.LogInformation("created HomeController");
         }
@@ -79,7 +83,13 @@ namespace BestFor.Controllers
             // Go to home index if not found
             if (answer == null) return RedirectToAction("Index");
             // Get data
-            return View(await FillInDetails(answer, _answerDescriptionService, _userService, _voteService, _resourcesService, culture));
+            var answerDetails = await FillInDetails(answer, _answerDescriptionService, _userService, _voteService, _resourcesService,
+                culture, _appSettings.Value.FullDomainAddress);
+
+            // Do a bit more playing with data
+            answerDetails.EnableFacebookSharing = _appSettings.Value.EnableFacebookSharing;
+
+            return View(answerDetails);
         }
 
         /// <summary>
@@ -94,7 +104,7 @@ namespace BestFor.Controllers
         /// <param name="culture"></param>
         /// <returns></returns>
         public static async Task<AnswerDetailsDto> FillInDetails(AnswerDto answer, IAnswerDescriptionService answerDescriptionService,
-            IUserService userService, IVoteService  voteService, IResourcesService resourcesService, string culture)
+            IUserService userService, IVoteService  voteService, IResourcesService resourcesService, string culture, string fullDomainName)
         {
             // Load answer descriptions
             // Have to do the list otherwise setting description.UserDisplayName below will not work.
@@ -119,6 +129,12 @@ namespace BestFor.Controllers
                 UserDisplayName = await GetUserDisplayName(answer.UserId, userService),
                 NumberVotes = await voteService.CountAnswerVotes(answer.Id)
             };
+
+            // Fill in link to this page and other usefull data.
+            data.ThisAnswerLink = LinkingHelper.ConvertAnswerToUrlWithCulture(culture, data.CommonStrings, answer);
+            data.ThisAnswerFullLink = fullDomainName.EndsWith("/") ? fullDomainName.Substring(0, fullDomainName.Length - 1) : fullDomainName + data.ThisAnswerLink;
+            data.ThisAnswerText = LinkingHelper.ConvertAnswerToText(data.CommonStrings, answer);
+            data.ThisAnswerFullLinkEscaped = System.Uri.EscapeDataString(data.ThisAnswerFullLink);
 
             return data;
         }

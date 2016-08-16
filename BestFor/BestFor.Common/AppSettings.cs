@@ -27,6 +27,10 @@ namespace BestFor.Common
 
         public string MiscSetting { get; set; }
 
+        public bool EnableFacebookSharing { get; set; }
+
+        public string FullDomainAddress { get; set; }
+
         /// <summary>
         /// Used only for debugging to track when an instance of this class is created.
         /// </summary>

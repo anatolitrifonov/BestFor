@@ -50,8 +50,7 @@
                 </div>
                 <div class="row">
                     <div class="col-md-2 best-card-label">@strings.Is</div>
-                    <div class="col-md-10 best-card-detail"><yakor y-culture="@this.ViewBag.BestForCulture"
-                        y-controller="AnswerAction" y-action="ShowAnswer" y-querystring="@new { answerId = Model.Id, testId = 6 }">@Model.Phrase</yakor></div>
+                    <div class="col-md-10 best-card-detail"><a class="best-card-dark-links" href="@linkToAnswer">@Model.Phrase</a></div>
                 </div>
             </div>
             <div class="panel-footer">
