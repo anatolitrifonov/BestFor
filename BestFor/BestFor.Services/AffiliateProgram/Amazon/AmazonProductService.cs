@@ -251,7 +251,7 @@ namespace BestFor.Services.AffiliateProgram.Amazon
             var url = "AWSAccessKeyId=" + _accessKeyId + "&AssociateTag=" + _associateId +
                 "&Keywords=" + Uri.EscapeDataString(parameters.Keyword) +
                 // "&Operation=ItemSearch&ResponseGroup=Offers%2CItemAttributes" +
-                "&Operation=ItemSearch&ResponseGroup=ItemAttributes%2CImages" +
+                "&Operation=ItemSearch&ResponseGroup=ItemAttributes%2CImages%2CLarge%2CEditorialReview%2CItemIds%2CReviews" +
                 "&SearchIndex=" + parameters.Category + "&Service=AWSECommerceService" +
                 "&Timestamp=" + Uri.EscapeDataString(timeStamp) + "&Version=2013-08-01";
 
@@ -285,7 +285,7 @@ namespace BestFor.Services.AffiliateProgram.Amazon
             var nodes = xmlDoc.GetElementsByTagName("Item");
             // I doubt this can ever be null but we wil check anyway
             if (nodes == null || nodes.Count == 0) return null;
-            // Lets parse all
+            // Lets parse all nodes under "Item"
             var products = new List<AffiliateProductDto>();
             for(var i = 0; i < nodes.Count; i++)
                 products.Add(ParseProduct(nodes[i], nsmgr, namespacePrefix));
@@ -314,6 +314,7 @@ namespace BestFor.Services.AffiliateProgram.Amazon
         /// </remarks>
         public AffiliateProductDto ParseProduct(XmlNode productXmlNode, XmlNamespaceManager nsmgr, string namespacePrefix)
         {
+            // This starts in Item node
             // check input
             if (productXmlNode == null) return null;
 
@@ -324,8 +325,41 @@ namespace BestFor.Services.AffiliateProgram.Amazon
             var attributesNode = GetChildNode(productXmlNode, "ItemAttributes");
             product.Title = GetChildNodeValue(attributesNode, "Title");
 
+            // Parse price
             var listPriceNode = GetChildNode(attributesNode, "ListPrice");
-            product.FormattedPrice = GetChildNodeValue(listPriceNode, "FormattedPrice");
+            // Parse list price node if there. Search for ItemAttributes/ListPrice/FormattedPrice
+            if (listPriceNode != null)
+            {
+                product.FormattedPrice = GetChildNodeValue(listPriceNode, "FormattedPrice");
+            }
+            else
+            {
+                // Search for OfferSummary/LowestNewPrice/FormattedPrice
+                var offerSummaryNode = GetChildNode(productXmlNode, "OfferSummary");
+                if (offerSummaryNode != null)
+                {
+                    var lowestNewPriceNode = GetChildNode(offerSummaryNode, "LowestNewPrice");
+                    if (lowestNewPriceNode != null)
+                        product.FormattedPrice = GetChildNodeValue(lowestNewPriceNode, "FormattedPrice");
+                }
+
+            }
+
+            // Parse description
+            // Search for OfferSummary/LowestNewPrice/FormattedPrice
+            var editorialReviewsNode = GetChildNode(productXmlNode, "EditorialReviews");
+            if (editorialReviewsNode != null)
+            {
+                foreach(XmlNode editorialReviewNode in editorialReviewsNode.ChildNodes)
+                {
+                    if (editorialReviewNode.Name == "EditorialReview")
+                    {
+                        var source = GetChildNodeValue(editorialReviewNode, "Source");
+                        var content = GetChildNodeValue(editorialReviewNode, "Content");
+                        product.Descriptions.Add(source, content);
+                    }
+                }
+            }
 
             // Let's get all images because we need to pick some decent size.
             // I will let the function to add of not add image
