@@ -102,6 +102,20 @@ var AffiliateProductDetails = React.createClass({
         //    message = answers.length + this.props.resourceStrings.suggestion_panel_x_answers_found;
         //// Save the answers to use later
         //this.answers = answers;
+
+        // Loop through all descriptions returned by the service and combine them into one string.
+        var productDescription = "";
+        if (product.descriptions != null) {
+            var d = product.descriptions;
+            var keys = Object.keys(d);
+            console.log(keys);
+            for (var i = 0; i < keys.length; i++) {
+                if (productDescription.length > 0) productDescription += " ";
+                // productDescription = keys[i] + ":" + d[keys[i]];
+                productDescription = d[keys[i]];
+            }
+        }
+
         // this is expected to update the list that is bound to this state data.
         this.setState({
             isVisible: true,
@@ -111,7 +125,8 @@ var AffiliateProductDetails = React.createClass({
             productImageUrl: product.middleImageURL,
             productImageWidth: product.middleImageWidth,
             productImageHeight: product.middleImageHeight,
-            productFormattedPrice: product.formattedPrice
+            productFormattedPrice: product.formattedPrice,
+            productDescription: productDescription
         });
     },
 
@@ -146,9 +161,9 @@ var AffiliateProductDetails = React.createClass({
         return (
             <div style={this.getOverallDivStyle()}>
                 <b>{this.props.resourceStrings.found_useful_product}</b><br /><br />
-                <b>{this.props.resourceStrings.title_upper}:</b>&nbsp;
-                    <a href={this.state.productLink} target="_blank">{this.state.productTitle}</a><br /><br />
-                <b>{this.props.resourceStrings.price_upper}:</b>&nbsp; {this.state.productFormattedPrice}<br /><br />
+                <b>{this.props.resourceStrings.title_upper}:</b>&nbsp;<a href={this.state.productLink} target="_blank">{this.state.productTitle}</a><br />
+                <b>{this.props.resourceStrings.price_upper}:</b>&nbsp;{this.state.productFormattedPrice}<br />
+                {this.state.productDescription}<br />
                 <a href={this.state.productLink} target="_blank">
                     <img width={this.state.productImageWidth} height={this.state.productImageHeight}
                          src={this.state.productImageUrl} style={this.getLinkImageStyle()} title={this.state.productTitle} />

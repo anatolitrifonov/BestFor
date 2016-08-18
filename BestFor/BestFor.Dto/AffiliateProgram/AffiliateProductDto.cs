@@ -48,6 +48,10 @@ namespace BestFor.Dto.AffiliateProgram
 
         public int MiddleImageHeight { get; set; }
 
+        /// <summary>
+        /// Description
+        /// </summary>
+        public Dictionary<string, string> Descriptions { get; set; } = new Dictionary<string, string>();
 
     }
 }
