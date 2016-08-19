@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace BestFor.Domain.Entities
@@ -23,5 +24,17 @@ namespace BestFor.Domain.Entities
 
         public int NumberOfComments { get; set; }
 
+        /// <summary>
+        /// User's favorite opinions category
+        /// </summary>
+        public string FavoriteCategory { get; set; }
+
+        public DateTime DateAdded { get; set; }
+
+        public DateTime DateUpdated { get; set; }
+
+        public DateTime DateCancelled { get; set; }
+
+        public bool IsCancelled { get; set; }
     }
 }

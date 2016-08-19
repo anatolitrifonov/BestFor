@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -157,7 +158,9 @@ namespace BestFor.Controllers
             {
                 UserName = model.UserName,
                 Email = model.Email,
-                DisplayName = model.DisplayName
+                DisplayName = model.DisplayName,
+                DateAdded = DateTime.Now,
+                DateUpdated = DateTime.Now
             };
             var result = await _userManager.CreateAsync(user, model.Password);
             if (result.Succeeded)

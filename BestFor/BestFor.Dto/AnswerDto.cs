@@ -17,12 +17,17 @@ namespace BestFor.Dto
         public AnswerDto()
         {
             this.Categories = new List<AnswerCategory>();
+            this.Categories.Add(new AnswerCategory() { Code = "Baby", Name = "Baby" });
+            this.Categories.Add(new AnswerCategory() { Code = "Beauty", Name = "Beauty" });
             this.Categories.Add(new AnswerCategory() { Code = "Books", Name = "Books" });
+            this.Categories.Add(new AnswerCategory() { Code = "Electronics", Name = "Electronics" });
             this.Categories.Add(new AnswerCategory() { Code = "Fashion", Name = "Fashion" });
             this.Categories.Add(new AnswerCategory() { Code = "Movies", Name = "Movies" });
             this.Categories.Add(new AnswerCategory() { Code = "Toys", Name = "Toys" });
             this.Categories.Add(new AnswerCategory() { Code = "VideoGames", Name = "Video Games" });
             this.Categories.Add(new AnswerCategory() { Code = "SportingGoods", Name = "Sporting Goods" });
+            this.Categories.Add(new AnswerCategory() { Code = "OfficeProducts", Name = "Office Products" });
+            this.Categories.Add(new AnswerCategory() { Code = "HealthPersonalCare", Name = "Health & Personal Care" });
 
             //{ "All", "All" },
             //{ "UnboxVideo", "Amazon Instant Video" },

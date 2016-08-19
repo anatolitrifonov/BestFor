@@ -379,7 +379,59 @@ if not exists(select * from ResourceStrings where CultureName = 'ru-RU' and [Key
 		N'Ваш профиль.', getDate());
 GO
 
+if not exists(select * from ResourceStrings where CultureName = 'en-US' and [Key] = 'cancel_capital')
+	insert ResourceStrings(CultureName, [Key], Value, DateAdded) values('en-US', 'cancel_capital',
+		N'Cancel', getDate());
+if not exists(select * from ResourceStrings where CultureName = 'ru-RU' and [Key] = 'cancel_capital')
+	insert ResourceStrings(CultureName, [Key], Value, DateAdded) values('ru-RU', 'cancel_capital',
+		N'Отменить', getDate());
+GO
 
+if not exists(select * from ResourceStrings where CultureName = 'en-US' and [Key] = 'terms_of_use')
+	insert ResourceStrings(CultureName, [Key], Value, DateAdded) values('en-US', 'terms_of_use',
+		N'Anything you write and post stays with us.
 
+Your username and display name cannot be reused.
 
+If you cancel the account, we will delete all your personal information except for username and display name. Your opinions and descriptions will be marked as Anonymous.', getDate());
+if not exists(select * from ResourceStrings where CultureName = 'ru-RU' and [Key] = 'terms_of_use')
+	insert ResourceStrings(CultureName, [Key], Value, DateAdded) values('ru-RU', 'terms_of_use',
+		N'Anything you write and post stays with us.
+
+Your username and display name cannot be reused.
+
+If you cancel the account, we will delete all your personal information except for username and display name. Your opinions and descriptions will be marked as Anonymous.', getDate());
+GO
+
+if not exists(select * from ResourceStrings where CultureName = 'en-US' and [Key] = 'terms_title')
+	insert ResourceStrings(CultureName, [Key], Value, DateAdded) values('en-US', 'terms_title',
+		N'Terms', getDate());
+if not exists(select * from ResourceStrings where CultureName = 'ru-RU' and [Key] = 'terms_title')
+	insert ResourceStrings(CultureName, [Key], Value, DateAdded) values('ru-RU', 'terms_title',
+		N'Соглашение', getDate());
+GO
+
+if not exists(select * from ResourceStrings where CultureName = 'en-US' and [Key] = 'register_capital')
+	insert ResourceStrings(CultureName, [Key], Value, DateAdded) values('en-US', 'register_capital',
+		N'Register', getDate());
+if not exists(select * from ResourceStrings where CultureName = 'ru-RU' and [Key] = 'register_capital')
+	insert ResourceStrings(CultureName, [Key], Value, DateAdded) values('ru-RU', 'register_capital',
+		N'Зарегистрироваться', getDate());
+GO
+
+if not exists(select * from ResourceStrings where CultureName = 'en-US' and [Key] = 'registration_capital')
+	insert ResourceStrings(CultureName, [Key], Value, DateAdded) values('en-US', 'registration_capital',
+		N'Registration', getDate());
+if not exists(select * from ResourceStrings where CultureName = 'ru-RU' and [Key] = 'registration_capital')
+	insert ResourceStrings(CultureName, [Key], Value, DateAdded) values('ru-RU', 'registration_capital',
+		N'Зарегистрация', getDate());
+GO
+
+if not exists(select * from ResourceStrings where CultureName = 'en-US' and [Key] = 'create_a_new_account')
+	insert ResourceStrings(CultureName, [Key], Value, DateAdded) values('en-US', 'create_a_new_account',
+		N'Create a new account', getDate());
+if not exists(select * from ResourceStrings where CultureName = 'ru-RU' and [Key] = 'create_a_new_account')
+	insert ResourceStrings(CultureName, [Key], Value, DateAdded) values('ru-RU', 'create_a_new_account',
+		N'Создать учетную запись', getDate());
+GO
 

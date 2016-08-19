@@ -46,7 +46,8 @@ namespace BestFor.Services.AffiliateProgram.Amazon
         private ICacheManager _cacheManager;
 
         private int DEFAULT_PRODUCT_EXPIRATION_SECONDS = 300;
-        private string DEFAULT_SEARCH_INDEX = "Toys";
+        // private string DEFAULT_SEARCH_INDEX = "Toys";
+        private string DEFAULT_SEARCH_INDEX = "All";
 
         #region Classes
 
@@ -119,19 +120,13 @@ namespace BestFor.Services.AffiliateProgram.Amazon
         }
 
         #region IProductService implementation
+        /// <summary>
+        /// Parameters are read and filled by controller/caller.
+        /// </summary>
+        /// <param name="parameters"></param>
+        /// <returns></returns>
         public async Task<AffiliateProductDto> FindProduct(ProductSearchParameters parameters)
         {
-            //return new AffiliateProductDto()
-            //{
-            //    CurrencyCode = "sdfsdf",
-            //    DetailPageURL = "sdlfslkdfjlsdfjsdf",
-            //    FormattedPrice = "354,345",
-            //    Merchant = "sdf",
-            //    MerchantProductId = "sadfsdfsdf",
-            //    Price = 56.87,
-            //    Title = "alksdflskdjflskdjfjdsflsdkjlsdkjfsdf"
-            //};
-
             // Check parameters. Do not throw expection if blank, just say that nothing found since this is an interface implementation. :)
             if (parameters == null || string.IsNullOrEmpty(parameters.Keyword) || string.IsNullOrWhiteSpace(parameters.Keyword)) return null;
 

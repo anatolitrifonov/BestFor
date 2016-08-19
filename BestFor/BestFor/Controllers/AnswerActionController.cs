@@ -112,6 +112,9 @@ namespace BestFor.Controllers
 
             // todo: figure out how to protect from spam posts besides antiforgery
 
+            // cleanup the input
+            answerDescription.Description = Services.TextCleaner.Clean(answerDescription.Description);
+
             // Let's first check for profanities.
             var profanityCheckResult = await _profanityService.CheckProfanity(answerDescription.Description);
             if (profanityCheckResult.HasIssues)
@@ -128,7 +131,7 @@ namespace BestFor.Controllers
             // Add answer description
             var addedAnswerDescription = await _answerDescriptionService.AddAnswerDescription(answerDescription);
 
-            // Read the reason
+            // Read the reason to return it to UI.
             var reason = await _resourcesService.GetString(this.Culture, Lines.DESCRIPTION_WAS_ADDED_SUCCESSFULLY);
 
             // Redirect to show the answer. This will prevent user refreshing the page.
