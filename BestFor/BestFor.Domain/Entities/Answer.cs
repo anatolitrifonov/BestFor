@@ -28,7 +28,7 @@ namespace BestFor.Domain.Entities
         /// </summary>
         public string Category { get; set; }
 
-        public static string FormKey(string leftWord, string rightWord) { return leftWord + " " + rightWord; }
+        public static string FormKey(string leftWord, string rightWord) { return leftWord.ToLower() + " " + rightWord.ToLower(); }
 
         /// <summary>
         /// Foreign key to user. Checking if it has to be marked as [Required]. We do not have to have it required since users can add answers without
@@ -53,7 +53,7 @@ namespace BestFor.Domain.Entities
 
         #region ISecondIndex implementation
         [NotMapped]
-        public string SecondIndexKey { get { return Phrase; } }
+        public string SecondIndexKey { get { return Phrase.ToLower(); } }
 
         [NotMapped]
         public int NumberOfEntries { get { return Count; } set { Count = value; } }

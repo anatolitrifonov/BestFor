@@ -435,3 +435,39 @@ if not exists(select * from ResourceStrings where CultureName = 'ru-RU' and [Key
 		N'Создать учетную запись', getDate());
 GO
 
+if not exists(select * from ResourceStrings where CultureName = 'en-US' and [Key] = 'edit_profile')
+	insert ResourceStrings(CultureName, [Key], Value, DateAdded) values('en-US', 'edit_profile',
+		N'Edit profile', getDate());
+if not exists(select * from ResourceStrings where CultureName = 'ru-RU' and [Key] = 'edit_profile')
+	insert ResourceStrings(CultureName, [Key], Value, DateAdded) values('ru-RU', 'edit_profile',
+		N'Ваш профиль', getDate());
+GO
+
+
+if not exists(select * from ResourceStrings where CultureName = 'en-US' and [Key] = 'remove_profile')
+	insert ResourceStrings(CultureName, [Key], Value, DateAdded) values('en-US', 'remove_profile',
+		N'Remove profile', getDate());
+if not exists(select * from ResourceStrings where CultureName = 'ru-RU' and [Key] = 'remove_profile')
+	insert ResourceStrings(CultureName, [Key], Value, DateAdded) values('ru-RU', 'remove_profile',
+		N'Ваш профиль', getDate());
+GO
+
+if not exists(select * from ResourceStrings where CultureName = 'en-US' and [Key] = 'are_you_sure_you_want_to_remove_profile')
+	insert ResourceStrings(CultureName, [Key], Value, DateAdded) values('en-US', 'are_you_sure_you_want_to_remove_profile',
+		N'Are you sure you want to remove your profile?
+
+Please tell us why.
+
+Upon account removal we will delete all your personal information and mark all your opinions and descriptions as anonymous.', getDate());
+if not exists(select * from ResourceStrings where CultureName = 'ru-RU' and [Key] = 'are_you_sure_you_want_to_remove_profile')
+	insert ResourceStrings(CultureName, [Key], Value, DateAdded) values('ru-RU', 'are_you_sure_you_want_to_remove_profile',
+		N'Ваш профиль', getDate());
+GO
+
+if not exists(select * from ResourceStrings where CultureName = 'en-US' and [Key] = 'your_profile_was_removed')
+	insert ResourceStrings(CultureName, [Key], Value, DateAdded) values('en-US', 'your_profile_was_removed',
+		N'Your profile was removed', getDate());
+if not exists(select * from ResourceStrings where CultureName = 'ru-RU' and [Key] = 'your_profile_was_removed')
+	insert ResourceStrings(CultureName, [Key], Value, DateAdded) values('ru-RU', 'your_profile_was_removed',
+		N'Ваш профиль был удален', getDate());
+GO

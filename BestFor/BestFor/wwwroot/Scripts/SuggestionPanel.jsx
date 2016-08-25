@@ -311,10 +311,10 @@
             showErrorPane = true;
             message = httpResultData.errorMessage;
         }
-        else if (httpResultData.answer.Count > 1) {
+        else if (httpResultData.answer.count > 1) {
             // your answer "best blah for blah is blah" was added. This answer was given Z times.
             message = r.suggestion_panel_your_answer + " " + quotedAnswer + " " + r.suggestion_panel_was_added + ". " +
-                r.suggestion_panel_this_answer_was_given + " " + httpResultData.answer.Count + " " + r.times_lower + ".";
+                r.suggestion_panel_this_answer_was_given + " " + httpResultData.answer.count + " " + r.times_lower + ".";
         }
  
         // clear the form

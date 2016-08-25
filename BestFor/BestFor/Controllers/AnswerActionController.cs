@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using System;
 using System.Threading.Tasks;
 
 namespace BestFor.Controllers
@@ -114,6 +115,8 @@ namespace BestFor.Controllers
 
             // cleanup the input
             answerDescription.Description = Services.TextCleaner.Clean(answerDescription.Description);
+            // Clean up the endings
+            answerDescription.Description = answerDescription.Description.TrimEnd(new Char[] { ' ', '\n', '\r' });
 
             // Let's first check for profanities.
             var profanityCheckResult = await _profanityService.CheckProfanity(answerDescription.Description);

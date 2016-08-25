@@ -73,7 +73,8 @@ namespace BestFor.Services.Services
             // Something went wrong if this is null.
             if (data == null) return Task.FromResult(0);
 
-            data.Add(user.Id, user);
+            if (!data.ContainsKey(user.Id))
+                data.Add(user.Id, user);
 
             return Task.FromResult(1);
         }

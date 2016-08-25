@@ -7,5 +7,6 @@
         public static readonly string THANK_YOU_FOR_FLAGING = "thank_you_for_flaging";
         public static readonly string THANK_YOU_FOR_IMPROVING = "thank_you_for_improving";
         public static readonly string THANK_YOU_FOR_CONTACTING = "thank_you_for_contacting";
+        public static readonly string YOUR_PROFILE_WAS_REMOVED = "your_profile_was_removed";
     }
 }

@@ -351,7 +351,8 @@ namespace BestFor.Services.AffiliateProgram.Amazon
                     {
                         var source = GetChildNodeValue(editorialReviewNode, "Source");
                         var content = GetChildNodeValue(editorialReviewNode, "Content");
-                        product.Descriptions.Add(source, content);
+                        if (!product.Descriptions.ContainsKey(source))
+                            product.Descriptions.Add(source, content);
                     }
                 }
             }

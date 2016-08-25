@@ -83,8 +83,10 @@ namespace BestFor.Services.Profanity
             if (localInput == null) return null;
             foreach (var word in badwords)
             {
-                if (input.Contains(" " + word.Phrase)) return word.Phrase;
-                if (input.Contains(word.Phrase + " ")) return word.Phrase;
+                if (input.EndsWith(" " + word.Phrase)) return word.Phrase;
+                if (input.EndsWith(word.Phrase + ".")) return word.Phrase;
+                if (input.StartsWith(word.Phrase + " ")) return word.Phrase;
+                if (input.Contains(" " + word.Phrase + " ")) return word.Phrase;
                 if (input == word.Phrase) return word.Phrase;
                 if (input + "." == word.Phrase) return word.Phrase;
             }

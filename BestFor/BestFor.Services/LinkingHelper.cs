@@ -78,8 +78,8 @@ namespace BestFor.Services
             if (string.IsNullOrWhiteSpace(url)) return null;
 
             //^/best\\s+(.*)\\s+for\\s+(.*)\\s+is\\s+(.*)
-            var expression = "^/" + commonStrings.Best + "\\s+(.*)\\s+" + commonStrings.For + "\\s+(.*)\\s+" + commonStrings.Is + "\\s+(.*)";
-            var matches = Regex.Matches(url.Replace("-", " "), expression);
+            var expression = "^/" + commonStrings.Best.ToLower() + "\\s+(.*)\\s+" + commonStrings.For.ToLower() + "\\s+(.*)\\s+" + commonStrings.Is.ToLower() + "\\s+(.*)";
+            var matches = Regex.Matches(url.Replace("-", " ").ToLower(), expression);
             if (matches == null) return null; // Should not be null. Could be count zero but not null.
             if (matches.Count == 0) return null;
             if (matches[0].Groups.Count != NUMBER_GROUPS) return null;

@@ -3,7 +3,9 @@
 @inject BestFor.Services.Services.IResourcesService resourcesService
 @{
     // Read localized strings
+    string stringEditProfile = await resourcesService.GetString(ViewBag.BestForCulture, "edit_profile");
     string stringYourProfile = await resourcesService.GetString(ViewBag.BestForCulture, "your_profile");
+    string stringRemoveProfile = await resourcesService.GetString(ViewBag.BestForCulture, "remove_profile");
 
     ViewData["Title"] = stringYourProfile;
 }
@@ -21,13 +23,17 @@
             <label asp-for="NumberOfAnswers" class="col-md-3"></label><span class="col-md-9">@Model.NumberOfAnswers</span>
         </div>
         <br /><br />
-
         <div class="form-group">
-            <div class="col-md-offset-2 col-md-6">
-                <yakor y-culture="@this.ViewBag.BestForCulture" y-controller="AnswerAction" y-action="Edit"
-                        y-querystring="@new { id = Model.UserName }"
+            <div class="col-md-offset-2 col-md-9">
+                <yakor y-culture="@this.ViewBag.BestForCulture" y-controller="Account" y-action="EditProfile"
                         y-class="btn btn-default btn-lg">
-                    <span class="glyphicon glyphicon glyphicon-edit" aria-hidden="true" />&nbsp;<span class="special_glyph_anchor">@stringYourProfile</span>
+                    <span class="glyphicon glyphicon glyphicon-edit" aria-hidden="true" />&nbsp;<span class="special_glyph_anchor">@stringEditProfile</span>
+                </yakor>
+            </div>
+            <div class="col-md-1">
+                <yakor y-culture="@this.ViewBag.BestForCulture" y-controller="Account" y-action="CancelProfile"
+                       y-class="btn btn-default btn-sm">
+                    <span class="glyphicon glyphicon glyphicon-remove" aria-hidden="true" />&nbsp;<span class="special_glyph_anchor">@stringRemoveProfile</span>
                 </yakor>
             </div>
         </div>

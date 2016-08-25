@@ -82,12 +82,14 @@ namespace BestFor.Controllers
 
             // If user is logged in let's add him to the object
             // This will return null if user is not logged in and this is OK.
-            ClaimsPrincipal z = User;
+            // ClaimsPrincipal z = User;
 
             answer.UserId = _userManager.GetUserId(User);
 
             // Add answer
-            return await _answerService.AddAnswer(answer);
+            result = await _answerService.AddAnswer(answer);
+
+            return result;
         }
 
         #region Private Members

@@ -17,7 +17,7 @@ namespace BestFor.Domain.Entities
 
         #region IFirstIndex implementation
         [NotMapped]
-        public string IndexKey { get { return Phrase; } }
+        public string IndexKey { get { return Phrase.ToLower(); } }
         #endregion
 
         #region IDtoConvertable implementation
