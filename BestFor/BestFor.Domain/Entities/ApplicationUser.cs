@@ -36,5 +36,9 @@ namespace BestFor.Domain.Entities
         public DateTime DateCancelled { get; set; }
 
         public bool IsCancelled { get; set; }
+
+
+        [StringLength(1000, MinimumLength = 3)]
+        public string CancellationReason { get; set; }
     }
 }

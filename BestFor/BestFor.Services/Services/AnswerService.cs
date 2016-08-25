@@ -18,6 +18,14 @@ namespace BestFor.Services.Services
     /// </summary>
     public class AnswerService : IAnswerService
     {
+        #region Private Classes
+        private struct PersistAnswerResult
+        {
+            public Answer Answer;
+            public bool IsNew;
+        }
+        #endregion
+
         public const int TRENDING_TOP_TODAY = 9;
         public const int TRENDING_TOP_OVERALL = 9;
 
@@ -78,22 +86,24 @@ namespace BestFor.Services.Services
 
             // Repository might get a different object back.
             // We will also let repository do the counting. Repository increases the count.
-            var isNew = await PersistAnswer(answerObject);
+            var persistResult = await PersistAnswer(answerObject);
 
             // Add to cache.
             var cachedData = await GetCachedData();
-            await cachedData.Insert(answerObject);
+            await cachedData.Insert(persistResult.Answer);
 
             // Add to trending today
-            AddToTrendingToday(answerObject);
+            AddToTrendingToday(persistResult.Answer);
 
             // Add to thrending overall
-            AddToTrendingOverall(answerObject);
+            AddToTrendingOverall(persistResult.Answer);
 
             // Update User if new answer
-            if (isNew) await _userService.UpdateUserFromAnswer(answerObject);
+            if (persistResult.IsNew) await _userService.UpdateUserFromAnswer(answerObject);
 
-            return new AddedAnswerDto() { Answer = answerObject.ToDto() };
+            var result = new AddedAnswerDto() { Answer = persistResult.Answer.ToDto() };
+
+            return result;
         }
 
         public async Task<AnswerDto> UpdateAnswer(AnswerDto answer)
@@ -103,7 +113,7 @@ namespace BestFor.Services.Services
 
             // Repository might get a different object back.
             // We will also let repository do the counting. Repository increases the count.
-            var isNew = await PersistAnswer(answerObject);
+            var persistResult = await PersistAnswer(answerObject);
 
             // Update object in cache.
             var cachedData = await GetCachedData();
@@ -214,7 +224,7 @@ namespace BestFor.Services.Services
             }
         }
 
-        private async Task<bool> PersistAnswer(Answer answer)
+        private async Task<PersistAnswerResult> PersistAnswer(Answer answer)
         {
             // Find if answer already exists
             var existingAnswer = _repository.Queryable()
@@ -242,7 +252,7 @@ namespace BestFor.Services.Services
             await _repository.SaveChangesAsync();
 
             // return new or not
-            return isNew; 
+            return new PersistAnswerResult() { Answer = existingAnswer, IsNew = isNew }; 
         }
 
         private async Task<KeyIndexedDataSource<Answer>> GetCachedData()

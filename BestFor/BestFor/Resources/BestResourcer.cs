@@ -59,6 +59,12 @@ namespace BestFor.Resources
 
         public static string AnnotationErrorMessageComparePassword { get { return GetString("AnnotationErrorMessageComparePassword"); } }
 
+        public static string AnnotationErrorMessageRequiredReason { get { return GetString("AnnotationErrorMessageRequiredReason"); } }
+
+        public static string AnnotationDisplayNameReason { get { return GetString("AnnotationDisplayNameReason"); } }
+
+        public static string AnnotationErrorMessageStringLength1000X3Reason { get { return GetString("AnnotationErrorMessageStringLength1000X3Reason"); } }
+
         private static string GetString(string key)
         {
             // First get the http context

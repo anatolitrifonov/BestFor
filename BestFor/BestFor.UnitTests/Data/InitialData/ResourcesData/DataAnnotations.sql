@@ -69,7 +69,7 @@ if not exists(select * from ResourceStrings where CultureName = 'en-US' and [Key
 		N'User Name is required.', getDate());
 if not exists(select * from ResourceStrings where CultureName = 'ru-RU' and [Key] = 'AnnotationErrorMessageRequiredUserName')
 	insert ResourceStrings(CultureName, [Key], Value, DateAdded) values('ru-RU', 'AnnotationErrorMessageRequiredUserName',
-		N'Популярные сегодня', getDate());
+		N'Укажите Имя Пользователя', getDate());
 GO
 
 if not exists(select * from ResourceStrings where CultureName = 'en-US' and [Key] = 'AnnotationErrorMessageStringLength100X6UserName')
@@ -77,7 +77,7 @@ if not exists(select * from ResourceStrings where CultureName = 'en-US' and [Key
 		N'User Name must be 6 to 100 characters.', getDate());
 if not exists(select * from ResourceStrings where CultureName = 'ru-RU' and [Key] = 'AnnotationErrorMessageStringLength100X6UserName')
 	insert ResourceStrings(CultureName, [Key], Value, DateAdded) values('ru-RU', 'AnnotationErrorMessageStringLength100X6UserName',
-		N'Популярные сегодня', getDate());
+		N'Имя Пользователя должен быть между 6 и 100 символов.', getDate());
 GO
 
 if not exists(select * from ResourceStrings where CultureName = 'en-US' and [Key] = 'AnnotationDisplayNameUserName')
@@ -85,7 +85,7 @@ if not exists(select * from ResourceStrings where CultureName = 'en-US' and [Key
 		N'User Name', getDate());
 if not exists(select * from ResourceStrings where CultureName = 'ru-RU' and [Key] = 'AnnotationDisplayNameUserName')
 	insert ResourceStrings(CultureName, [Key], Value, DateAdded) values('ru-RU', 'AnnotationDisplayNameUserName',
-		N'Популярные сегодня', getDate());
+		N'Имя Пользователя', getDate());
 GO
 
 if not exists(select * from ResourceStrings where CultureName = 'en-US' and [Key] = 'AnnotationErrorMessageStringLength100X6DisplayName')
@@ -93,7 +93,7 @@ if not exists(select * from ResourceStrings where CultureName = 'en-US' and [Key
 		N'Display Name must be 6 to 100 characters.', getDate());
 if not exists(select * from ResourceStrings where CultureName = 'ru-RU' and [Key] = 'AnnotationErrorMessageStringLength100X6DisplayName')
 	insert ResourceStrings(CultureName, [Key], Value, DateAdded) values('ru-RU', 'AnnotationErrorMessageStringLength100X6DisplayName',
-		N'Популярные сегодня', getDate());
+		N'Псевдоним должен быть между 6 и 100 символов.', getDate());
 GO
 
 if not exists(select * from ResourceStrings where CultureName = 'en-US' and [Key] = 'AnnotationDisplayNameDisplayName')
@@ -101,5 +101,29 @@ if not exists(select * from ResourceStrings where CultureName = 'en-US' and [Key
 		N'Display Name', getDate());
 if not exists(select * from ResourceStrings where CultureName = 'ru-RU' and [Key] = 'AnnotationDisplayNameDisplayName')
 	insert ResourceStrings(CultureName, [Key], Value, DateAdded) values('ru-RU', 'AnnotationDisplayNameDisplayName',
-		N'Популярные сегодня', getDate());
+		N'Псевдоним', getDate());
+GO
+
+if not exists(select * from ResourceStrings where CultureName = 'en-US' and [Key] = 'AnnotationErrorMessageRequiredReason')
+	insert ResourceStrings(CultureName, [Key], Value, DateAdded) values('en-US', 'AnnotationErrorMessageRequiredReason',
+		N'Please specify the reason.', getDate());
+if not exists(select * from ResourceStrings where CultureName = 'ru-RU' and [Key] = 'AnnotationErrorMessageRequiredReason')
+	insert ResourceStrings(CultureName, [Key], Value, DateAdded) values('ru-RU', 'AnnotationErrorMessageRequiredReason',
+		N'Пожалуйста укажите причину.', getDate());
+GO
+
+if not exists(select * from ResourceStrings where CultureName = 'en-US' and [Key] = 'AnnotationDisplayNameReason')
+	insert ResourceStrings(CultureName, [Key], Value, DateAdded) values('en-US', 'AnnotationDisplayNameReason',
+		N'Reason', getDate());
+if not exists(select * from ResourceStrings where CultureName = 'ru-RU' and [Key] = 'AnnotationDisplayNameReason')
+	insert ResourceStrings(CultureName, [Key], Value, DateAdded) values('ru-RU', 'AnnotationDisplayNameReason',
+		N'Причина', getDate());
+GO
+
+if not exists(select * from ResourceStrings where CultureName = 'en-US' and [Key] = 'AnnotationErrorMessageStringLength1000X3Reason')
+	insert ResourceStrings(CultureName, [Key], Value, DateAdded) values('en-US', 'AnnotationErrorMessageStringLength1000X3Reason',
+		N'Reason must be 6 to 100 characters.', getDate());
+if not exists(select * from ResourceStrings where CultureName = 'ru-RU' and [Key] = 'AnnotationErrorMessageStringLength1000X3Reason')
+	insert ResourceStrings(CultureName, [Key], Value, DateAdded) values('ru-RU', 'AnnotationErrorMessageStringLength1000X3Reason',
+		N'Причина должна быть от 6 до 1000 символов.', getDate());
 GO

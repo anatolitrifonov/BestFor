@@ -1,0 +1,51 @@
+﻿@model BestFor.Models.RemoveProfileViewModel
+@* Inject the service that allows searching for localized strings *@
+@inject BestFor.Services.Services.IResourcesService resourcesService
+@{
+    // Read localized strings
+    string stringCancel = await resourcesService.GetString(ViewBag.BestForCulture, "cancel_capital");
+    string stringRemoveProfile = await resourcesService.GetString(ViewBag.BestForCulture, "remove_profile");
+    string stringAreYouSure = await resourcesService.GetString(ViewBag.BestForCulture, "are_you_sure_you_want_to_remove_profile");
+
+    ViewData["Title"] = stringRemoveProfile;
+}
+<h2>@ViewData["Title"]</h2>
+
+<div class="row">
+    <div class="col-md-offset-2 col-md-8">
+        <section>
+            <form asp-controller="Account" asp-action="CancelProfile" method="post" class="form-horizontal" role="form">
+                <h4>@stringAreYouSure</h4>
+                <hr />
+                <div asp-validation-summary="All" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="UserName" class="col-md-3"></label><span class="col-md-9">@Model.UserName</span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="DisplayName" class="col-md-3"></label><span class="col-md-9">@Model.DisplayName</span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Reason" class="col-md-2 control-label"></label>
+                    <div class="col-md-6">
+                        <span asp-validation-for="Reason" class="text-danger"></span>
+                        <textarea asp-for="Reason" rows="10" cols="100"></textarea>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-6">
+                        <button type="submit" class="btn btn-default btn-lg">@stringRemoveProfile</button>
+                        <yakor y-culture="@this.ViewBag.BestForCulture" y-controller="Account" y-action="ViewProfile"
+                               y-class="btn btn-default btn-lg">
+                            <span class="glyphicon glyphicon glyphicon glyphicon-remove" aria-hidden="true" />&nbsp;<span class="special_glyph_anchor">@stringCancel</span>
+                        </yakor>
+                    </div>
+
+                </div>
+            </form>
+        </section>
+    </div>
+</div>
+
+@section Scripts {
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+}

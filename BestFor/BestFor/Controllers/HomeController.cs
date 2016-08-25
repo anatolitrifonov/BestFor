@@ -156,6 +156,7 @@ namespace BestFor.Controllers
             if (user == null) return result;
             if (user.DisplayName == null) return user.UserName;
             if (user.DisplayName == string.Empty) return user.UserName;
+            if (user.IsCancelled) return result; // <-- Anonymous if user is cancelled.
             return user.DisplayName;
         }
     }

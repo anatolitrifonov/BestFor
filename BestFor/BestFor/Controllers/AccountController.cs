@@ -31,10 +31,11 @@ namespace BestFor.Controllers
         private readonly ILogger _logger;
         private readonly IUserService _userService;
         private IProfanityService _profanityService;
+        private readonly IResourcesService _resourcesService;
 
         public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager,
             IEmailSender emailSender, ISmsSender smsSender, IUserService userService, IProfanityService profanityService,
-            ILoggerFactory loggerFactory)
+            ILoggerFactory loggerFactory, IResourcesService resourcesService)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -43,6 +44,8 @@ namespace BestFor.Controllers
             _logger = loggerFactory.CreateLogger<AccountController>();
             _userService = userService;
             _profanityService = profanityService;
+            _resourcesService = resourcesService;
+
         }
 
         //
@@ -66,6 +69,12 @@ namespace BestFor.Controllers
             ViewData["ReturnUrl"] = returnUrl;
             if (ModelState.IsValid)
             {
+                var user = await _userManager.FindByNameAsync(model.UserName);
+                // User is cancelled -> Go to home page.
+                if (user != null && user.IsCancelled)
+                {
+                    return RedirectToAction("Index", "Home");
+                }
                 // This doesn't count login failures towards account lockout
                 // To enable password failures to trigger account lockout, set lockoutOnFailure: true
                 var result = await _signInManager.PasswordSignInAsync(model.UserName, model.Password, model.RememberMe, lockoutOnFailure: false);
@@ -407,6 +416,71 @@ namespace BestFor.Controllers
             if (updateResult.Succeeded)
             {
                 model.SuccessMessage = "Your profile was successfully updated.";
+            }
+
+            AddErrors(updateResult);
+
+            return View(model);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> CancelProfile()
+        {
+            var currentUserId = _userManager.GetUserId(User);
+            var user = await _userManager.FindByIdAsync(currentUserId);
+            if (user == null)
+            {
+                // Would be funny if this happens. Someone is hacking us I guess.
+                return View("Error");
+            }
+            var model = new RemoveProfileViewModel();
+            model.UserName = user.UserName;
+            model.DisplayName = user.DisplayName;
+
+            return View(model);
+        }
+
+        /// <summary>
+        /// POST: /Account/Profile
+        /// Update user's profile. Does not navigate away.
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CancelProfile(RemoveProfileViewModel model)
+        {
+            // Check the model first
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+            // Find id
+            var currentUserId = _userManager.GetUserId(User);
+            // Find user
+            var user = await _userManager.FindByIdAsync(currentUserId);
+            if (user == null)
+            {
+                // Would be funny if this happens. Someone is hacking us I guess.
+                return View("Error");
+            }
+
+            user.IsCancelled = true;
+            user.DateUpdated = DateTime.Now;
+            user.DateCancelled = DateTime.Now;
+            user.CancellationReason = model.Reason;
+
+            var updateResult = await _userManager.UpdateAsync(user);
+
+            // Log out.
+            await _signInManager.SignOutAsync();
+
+            // If all good we redirect to home.
+            if (updateResult.Succeeded)
+            {
+                // Read the reason
+                var reason = await _resourcesService.GetString(this.Culture, Lines.YOUR_PROFILE_WAS_REMOVED);
+                return RedirectToAction("Index", "Home", new { reason = reason });
             }
 
             AddErrors(updateResult);

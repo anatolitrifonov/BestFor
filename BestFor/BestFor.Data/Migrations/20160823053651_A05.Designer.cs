@@ -8,9 +8,10 @@ using BestFor.Data;
 namespace BestFor.Data.Migrations
 {
     [DbContext(typeof(BestDataContext))]
-    partial class BestDataContextModelSnapshot : ModelSnapshot
+    [Migration("20160823053651_A05")]
+    partial class A05
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.0.0-rtm-21431")
@@ -278,9 +279,6 @@ namespace BestFor.Data.Migrations
                         .IsRequired();
 
                     b.HasKey("Id");
-
-                    b.HasIndex("Phrase")
-                        .IsUnique();
 
                     b.ToTable("Suggestions");
                 });

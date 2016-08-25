@@ -1,8 +1,14 @@
-﻿@model BestFor.Dto.Account.ProfileViewDto
+﻿@model BestFor.Dto.Account.ProfileEditDto
+@* Inject the service that allows searching for localized strings *@
+@inject BestFor.Services.Services.IResourcesService resourcesService
 @{
-    ViewData["Title"] = "Manage Profile";
-}
+    // Read localized strings
+    string stringEditProfile = await resourcesService.GetString(ViewBag.BestForCulture, "edit_profile");
+    string stringSave = await resourcesService.GetString(ViewBag.BestForCulture, "save_capital");
+    string cancelString = await resourcesService.GetString(this.ViewBag.BestForCulture, "cancel_capital");
 
+    ViewData["Title"] = stringEditProfile;
+}
 <h2>@ViewData["Title"]</h2>
 
 <div class="row">
@@ -47,8 +53,13 @@
                 </div>
                 <div class="form-group">
                     <div class="col-md-offset-2 col-md-6">
-                        <button type="submit" class="btn btn-default btn-lg">Update Profile</button>
+                        <button type="submit" class="btn btn-default btn-lg">@stringSave</button>
+                        <yakor y-culture="@this.ViewBag.BestForCulture" y-controller="Account" y-action="ViewProfile"
+                               y-class="btn btn-default btn-lg">
+                            <span class="glyphicon glyphicon glyphicon glyphicon-remove" aria-hidden="true" />&nbsp;<span class="special_glyph_anchor">@cancelString</span>
+                        </yakor>
                     </div>
+
                 </div>
             </form>
         </section>

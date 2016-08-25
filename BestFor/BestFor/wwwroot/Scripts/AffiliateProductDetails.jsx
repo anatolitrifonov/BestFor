@@ -157,13 +157,20 @@ var AffiliateProductDetails = React.createClass({
         };
     },
 
+    // We trust the html that comes from amazon
+    rawMarkup: function () {
+        if (this.state.productDescription)
+            return { __html: this.state.productDescription.toString() };
+        return null;
+    },
+
     render: function () {
         return (
             <div style={this.getOverallDivStyle()}>
                 <b>{this.props.resourceStrings.found_useful_product}</b><br /><br />
                 <b>{this.props.resourceStrings.title_upper}:</b>&nbsp;<a href={this.state.productLink} target="_blank">{this.state.productTitle}</a><br />
                 <b>{this.props.resourceStrings.price_upper}:</b>&nbsp;{this.state.productFormattedPrice}<br />
-                {this.state.productDescription}<br />
+                <div dangerouslySetInnerHTML={this.rawMarkup()} />
                 <a href={this.state.productLink} target="_blank">
                     <img width={this.state.productImageWidth} height={this.state.productImageHeight}
                          src={this.state.productImageUrl} style={this.getLinkImageStyle()} title={this.state.productTitle} />
