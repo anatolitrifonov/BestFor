@@ -10,6 +10,8 @@ namespace BestFor.Services.Profanity
 
         public bool NoData { get; set; }
 
+        public string ErrorMessage { get; set; }
+
         public bool HasIssues
         {
             get
@@ -18,7 +20,7 @@ namespace BestFor.Services.Profanity
             }
         }
 
-        public string ErrorMessage
+        public string DefaultErrorMessage
         {
             get
             {

@@ -1,11 +1,7 @@
-﻿using Microsoft.AspNetCore.Routing;
-using System.Collections.Generic;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using BestFor.Services.Services;
-using BestFor.Dto;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Routing;
 
-namespace BestFor
+namespace BestFor.RouteConstraints
 {
     /// <summary>
     /// Matches if URL starts with "best"
@@ -16,15 +12,8 @@ namespace BestFor
     /// Check if content is in format "<best in language><something><for in language><something><is in language><something>"
     /// Return match if it is
     /// </summary>
-    public class ContentRouteConstraint : IRouteConstraint
+    public class ContentRouteConstraint : BaseRouteConstraint, IRouteConstraint
     {
-        /// <summary>
-        /// Store all common strings for all known cultures. 
-        /// This is static and will be initialized once per application.
-        /// This is done intentionally since this dictionary wll be used a lot.
-        /// </summary>
-        private static Dictionary<string, CommonStringsDto> _allCommonStrings;
-
         //
         // Summary:
         //     Determines whether the URL parameter contains a valid value for this constraint.
@@ -52,36 +41,20 @@ namespace BestFor
         public bool Match(HttpContext httpContext, IRouter route, string routeKey, RouteValueDictionary values, 
             RouteDirection routeDirection)
         {
-            // Set common strings so that we can validate the request. Variable is static. Will happen once per application.
-            if (_allCommonStrings == null)
-            {
-                // ResourceService is injected in start up. It loads localized strings from database and caches them.
-                var service = httpContext.RequestServices.GetService(typeof(IResourcesService));
-                if (service != null)
-                {
-                    var resourceService = (IResourcesService)service;
-                    _allCommonStrings = resourceService.GetCommonStringsForAllCultures().Result;
-                }
-            }
-
             // This should never happen according to template definition but who knows.
             if (!values.ContainsKey("content") || values["content"] == null) return false;
 
-            // First check if we need to be concerned about culture. Culture is there if we got here from second tempalte.
-            string culture = "en-US";
-            if (values.ContainsKey("country") && values.ContainsKey("language"))
-            {
-                // Do we know this culture?
-                if (_allCommonStrings.ContainsKey(values["language"] + "-" + values["country"]))
-                    culture = values["language"] + "-" + values["country"];
-            }
+            string culture = GetCulture(httpContext, values);
 
             // For now we will only check the content although we can build a full regualr expression
             // But we will let the controller to the job.
 
             // Find the word "best" in the specified culture.
             // Return true if found.
-            return values["content"].ToString().ToLower().Trim().StartsWith(_allCommonStrings[culture].Best.ToLower());
+            string content = values["content"].ToString().ToLower().Trim();
+            string best = _allCommonStrings[culture].Best.ToLower();
+            // See if url starts with /best
+            return content.StartsWith(best);
         }
     }
 }

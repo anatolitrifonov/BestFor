@@ -1,6 +1,7 @@
 ﻿using BestFor.Common;
 using BestFor.Domain.Entities;
 using BestFor.Dto;
+using BestFor.Models;
 using BestFor.Services.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -119,12 +120,18 @@ namespace BestFor.Controllers
             answerDescription.Description = answerDescription.Description.TrimEnd(new Char[] { ' ', '\n', '\r' });
 
             // Let's first check for profanities.
-            var profanityCheckResult = await _profanityService.CheckProfanity(answerDescription.Description);
+            var profanityCheckResult = await _profanityService.CheckProfanity(answerDescription.Description, this.Culture);
             if (profanityCheckResult.HasIssues)
             {
                 // answer.ErrorMessage = profanityCheckResult.ErrorMessage;
                 // todo: settle on displaying errors from controller posts and gets
-                return View("Error");
+                // Can't use error message from profanity object because it is not localized.
+                // Have to localize ourself
+                // Might have to move this to profanity service.
+                var errorData = new ErrorViewModel();
+                errorData.AddError(profanityCheckResult.ErrorMessage);
+
+                return View("Error", errorData);
             }
 
             // If user is logged in let's add him to the object

@@ -8,5 +8,8 @@
         public static readonly string THANK_YOU_FOR_IMPROVING = "thank_you_for_improving";
         public static readonly string THANK_YOU_FOR_CONTACTING = "thank_you_for_contacting";
         public static readonly string YOUR_PROFILE_WAS_REMOVED = "your_profile_was_removed";
+        public static readonly string ERROR_BAD_CHARACTERS = "error_bad_characters";
+        public static readonly string ERROR_PROFANITY = "error_profanity";
+        
     }
 }

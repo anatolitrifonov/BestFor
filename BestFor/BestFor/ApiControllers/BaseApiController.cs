@@ -43,6 +43,21 @@ namespace BestFor.Controllers
         }
 
         /// <summary>
+        /// Cut the culture in request path
+        /// </summary>
+        protected string RequestPathNoCulture
+        {
+            get
+            {
+                var requestPath = Request.Path.Value;
+                // cut the culture
+                var cultureBegining = "/" + Culture;
+                if (requestPath.StartsWith(cultureBegining)) requestPath = requestPath.Substring(cultureBegining.Length);
+                return requestPath;
+            }
+        }
+
+        /// <summary>
         /// Parses values passed in anti forgery header.
         /// The idea is that if someone blindly calls controller methods we will simply return nothing and not throw expection.
         /// Exceptions are expensive.

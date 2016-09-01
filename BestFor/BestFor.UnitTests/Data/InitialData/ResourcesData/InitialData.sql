@@ -471,3 +471,35 @@ if not exists(select * from ResourceStrings where CultureName = 'ru-RU' and [Key
 	insert ResourceStrings(CultureName, [Key], Value, DateAdded) values('ru-RU', 'your_profile_was_removed',
 		N'Ваш профиль был удален', getDate());
 GO
+
+if not exists(select * from ResourceStrings where CultureName = 'en-US' and [Key] = 'error_page_general_message')
+	insert ResourceStrings(CultureName, [Key], Value, DateAdded) values('en-US', 'error_page_general_message',
+		N'An error occurred while processing your request.', getDate());
+if not exists(select * from ResourceStrings where CultureName = 'ru-RU' and [Key] = 'error_page_general_message')
+	insert ResourceStrings(CultureName, [Key], Value, DateAdded) values('ru-RU', 'error_page_general_message',
+		N'Произошла ошибка.', getDate());
+GO
+
+if not exists(select * from ResourceStrings where CultureName = 'en-US' and [Key] = 'error_capital')
+	insert ResourceStrings(CultureName, [Key], Value, DateAdded) values('en-US', 'error_capital',
+		N'Error', getDate());
+if not exists(select * from ResourceStrings where CultureName = 'ru-RU' and [Key] = 'error_capital')
+	insert ResourceStrings(CultureName, [Key], Value, DateAdded) values('ru-RU', 'error_capital',
+		N'Ошибка', getDate());
+GO
+
+if not exists(select * from ResourceStrings where CultureName = 'en-US' and [Key] = 'error_bad_characters')
+	insert ResourceStrings(CultureName, [Key], Value, DateAdded) values('en-US', 'error_bad_characters',
+		N'Some strange characters where found in the data you posted.', getDate());
+if not exists(select * from ResourceStrings where CultureName = 'ru-RU' and [Key] = 'error_bad_characters')
+	insert ResourceStrings(CultureName, [Key], Value, DateAdded) values('ru-RU', 'error_bad_characters',
+		N'Вы отправили нам странные символы.', getDate());
+GO
+
+if not exists(select * from ResourceStrings where CultureName = 'en-US' and [Key] = 'error_profanity')
+	insert ResourceStrings(CultureName, [Key], Value, DateAdded) values('en-US', 'error_profanity',
+		N'Profanity', getDate());
+if not exists(select * from ResourceStrings where CultureName = 'ru-RU' and [Key] = 'error_profanity')
+	insert ResourceStrings(CultureName, [Key], Value, DateAdded) values('ru-RU', 'error_profanity',
+		N'Не разрешено', getDate());
+GO
