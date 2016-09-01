@@ -69,10 +69,7 @@ namespace BestFor.Controllers
         public async Task<IActionResult> MyContent()
         {
             var culture = this.Culture;
-            var requestPath = Request.Path.Value;
-            // cut the culture
-            var cultureBegining = "/" + culture;
-            if (requestPath.StartsWith(cultureBegining)) requestPath = requestPath.Substring(cultureBegining.Length);
+            var requestPath = this.RequestPathNoCulture;
             // Now try to parse the request path into known words.
             var commonStrings = await _resourcesService.GetCommonStrings(culture);
             var answer = LinkingHelper.ParseUrlToAnswer(commonStrings, requestPath);

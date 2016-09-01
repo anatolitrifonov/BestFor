@@ -32,7 +32,7 @@ namespace BestFor.Controllers
             _userManager = userManager;
             _voteService = voteService;
             _resourcesService = resourcesService;
-            _logger = loggerFactory.CreateLogger<FlagController>();
+            _logger = loggerFactory.CreateLogger<VoteController>();
             _logger.LogInformation("created VoteController");
         }
 

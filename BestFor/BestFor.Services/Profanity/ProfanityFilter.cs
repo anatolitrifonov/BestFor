@@ -83,13 +83,30 @@ namespace BestFor.Services.Profanity
             if (localInput == null) return null;
             foreach (var word in badwords)
             {
-                if (input.EndsWith(" " + word.Phrase)) return word.Phrase;
-                if (input.EndsWith(word.Phrase + ".")) return word.Phrase;
-                if (input.StartsWith(word.Phrase + " ")) return word.Phrase;
-                if (input.Contains(" " + word.Phrase + " ")) return word.Phrase;
-                if (input == word.Phrase) return word.Phrase;
-                if (input + "." == word.Phrase) return word.Phrase;
+                if (localInput.EndsWith(" " + word.Phrase)) return word.Phrase;
+                if (localInput.EndsWith(word.Phrase + ".")) return word.Phrase;
+                if (localInput.StartsWith(word.Phrase + " ")) return word.Phrase;
+                if (localInput.Contains(" " + word.Phrase + " ")) return word.Phrase;
+                if (localInput == word.Phrase) return word.Phrase;
+                if (localInput + "." == word.Phrase) return word.Phrase;
+
+                var result = CheckContains(localInput, word.Phrase, " `~!@#$%^&*()-_+=[{]};:'\"<>/?,.№");
+                if (result != null)
+                    return result;
             }
+            return null;
+        }
+
+        public static string CheckContains(string input, string badWord, string charsToCheck)
+        {
+            var chars = charsToCheck.ToCharArray();
+            foreach (var c in chars)
+                foreach (var c1 in chars)
+                {
+                    var check = c + badWord + c1;
+                    if (input.Contains(check))
+                        return c + badWord + c1;
+                }
             return null;
         }
 

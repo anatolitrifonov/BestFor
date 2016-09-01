@@ -17,8 +17,10 @@ namespace BestFor.Services
             //char c = '‘';
             //int y = Convert.ToInt32(c);
 
-           // c = '’';
-          //  y = Convert.ToInt32(c);
+            char c = '–';
+            int y = Convert.ToInt32(c);
+            // c = '’';
+            //  y = Convert.ToInt32(c);
 
             var result = input.Replace((char)147, '"').Replace((char)148, '"'); // word's double quotes starting and ending
             result = input.Replace((char)8220, '"').Replace((char)8221, '"'); // word's double quotes starting and ending
@@ -34,6 +36,7 @@ namespace BestFor.Services
 
             result = result.Replace((char)145, '\''); // single quote.
             result = result.Replace((char)8216, '\''); // single quote.
+            result = result.Replace((char)8211, '-'); // single quote.
 
         //    g = result.Contains("’");
 

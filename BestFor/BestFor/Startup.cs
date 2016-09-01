@@ -1,19 +1,18 @@
 ﻿using BestFor.Data;
 using BestFor.Domain.Entities;
+using BestFor.RouteConstraints;
 using BestFor.Services.Messaging;
+using Microsoft.AspNetCore.Antiforgery;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using React.AspNet;
 using NLog.Extensions.Logging;
-using Microsoft.AspNetCore.Mvc;
-using System;
-using System.IO;
-using Microsoft.AspNetCore.Antiforgery;
+using React.AspNet;
 
 namespace BestFor
 {
@@ -231,7 +230,18 @@ namespace BestFor
                         template: "{language}-{country}/{content}",
                         defaults: new { controller = "Home", action = "MyContent" },
                         constraints: new { constraint = new ContentRouteConstraint() });
-
+                // Search route
+                routes.MapRoute(
+                        name: "Search",
+                        template: "first/{data}",
+                        defaults: new { controller = "Search", action = "Get" },
+                        constraints: new { constraint = new FirstRouteConstraint() });
+                // Search route
+                routes.MapRoute(
+                        name: "SearchWithCulture",
+                        template: "{language}-{country}/first/{data}",
+                        defaults: new { controller = "Search", action = "Get" },
+                        constraints: new { constraint = new FirstRouteConstraint() });
                 // See LocalizationRouteConstraint for description of how this mapping works.
                 routes.MapRoute(
                         name: "DefaultWithCulture",

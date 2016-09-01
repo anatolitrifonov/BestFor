@@ -1,8 +1,7 @@
-﻿using Microsoft.AspNetCore.Routing;
-using System.Collections.Generic;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Routing;
 
-namespace BestFor
+namespace BestFor.RouteConstraints
 {
     public class LocalizationRouteConstraint : IRouteConstraint
     {
