@@ -1,13 +1,10 @@
-﻿using Microsoft.AspNetCore.Identity;
-using System.Security.Claims;
-using System;
-using BestFor.Services.Services;
+﻿using BestFor.Domain.Entities;
 using BestFor.Dto;
-using BestFor.Domain.Entities;
+using BestFor.Services.Services;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Authorization;
-using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
+using System.Threading.Tasks;
 
 namespace BestFor.Controllers
 {
@@ -36,20 +33,37 @@ namespace BestFor.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Get()
+        public async Task<IActionResult> Left()
         {
-            _logger.LogDebug("SearchController Get");
+            _logger.LogDebug("SearchController Left");
 
             // we expect /{culture}/search/{data} or /search/{data} this will give us /search/{data}
             var requestPath = this.RequestPathNoCulture;
 
-            var data = ParseData(requestPath);
+            var data = ParseData(requestPath, "left");
 
             var result = new AnswersDto();
 
             result.Answers = await _answerService.FindLeftAnswers(data);
 
-            return View(result);
+            return View("Result", result);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Right()
+        {
+            _logger.LogDebug("SearchController Right");
+
+            // we expect /{culture}/search/{data} or /search/{data} this will give us /search/{data}
+            var requestPath = this.RequestPathNoCulture;
+
+            var data = ParseData(requestPath, "right");
+
+            var result = new AnswersDto();
+
+            result.Answers = await _answerService.FindRightAnswers(data);
+
+            return View("Result", result);
         }
 
         /// <summary>
@@ -61,9 +75,9 @@ namespace BestFor.Controllers
         /// <remarks>
         /// any funny url like /first/blah?blah#blah or /first/blah#blah?blah will be sut at the first blah
         /// </remarks>
-        public string ParseData(string requestPath)
+        public string ParseData(string requestPath, string matchPath)
         {
-            const string path = "/first/";
+            string path = "/" + matchPath + "/";
             if (requestPath == null) return null;
             if (!requestPath.ToLower().StartsWith(path)) return null;
             // cut /first

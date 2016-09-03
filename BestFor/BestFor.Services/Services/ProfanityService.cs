@@ -54,7 +54,8 @@ namespace BestFor.Services.Services
             // Theoretically this shold never throw exception unless we got some timeout on initialization or something strange.
             var cachedData = GetCachedData();
             result.ProfanityWord = ProfanityFilter.GetProfanity(input, cachedData.Items);
-            return await LocalizeResult(result, culture);
+
+            return await (result.HasIssues ? LocalizeResult(result, culture) : Task.FromResult<ProfanityCheckResult>(result));
         }
 
         /// <summary>

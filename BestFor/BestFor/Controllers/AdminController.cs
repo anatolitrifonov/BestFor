@@ -1,8 +1,7 @@
-﻿using System;
-using BestFor.Services.Services;
-using BestFor.Domain.Entities;
-using Microsoft.AspNetCore.Mvc;
+﻿using BestFor.Services.Services;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 namespace BestFor.Controllers
 {
@@ -66,16 +65,16 @@ namespace BestFor.Controllers
         }
 
         [HttpPost]
-        public IActionResult ShowAnswer(int answerId)
+        public async Task<IActionResult> ShowAnswer(int answerId)
         {
-            var answer = _answerService.FindById(answerId);
+            var answer = await _answerService.FindById(answerId);
 
             return View(answer);
         }
 
-        public IActionResult HideAnswer(int id)
+        public async Task<IActionResult> HideAnswer(int id)
         {
-            var answer = _answerService.HideAnswer(id);
+            var answer = await _answerService.HideAnswer(id);
 
             return View(id);
         }

@@ -34,6 +34,21 @@ namespace BestFor.Services.Services
         Task<IEnumerable<AnswerDto>> FindLeftAnswers(string leftWord, int count);
 
         /// <summary>
+        /// Find the top N answers matching the right word
+        /// </summary>
+        /// <param name="rightWord"></param>
+        /// <returns></returns>
+        Task<IEnumerable<AnswerDto>> FindRightAnswers(string rightWord);
+
+        /// <summary>
+        /// Find top <paramref name="count"/> answers matching the right word
+        /// </summary>
+        /// <param name="rightWord"></param>
+        /// <param name="count"></param>
+        /// <returns></returns>
+        Task<IEnumerable<AnswerDto>> FindRightAnswers(string rightWord, int count);
+
+        /// <summary>
         /// Find the last ten answers for the pair of suggestions.
         /// </summary>
         /// <param name="leftWord"></param>
@@ -83,6 +98,6 @@ namespace BestFor.Services.Services
         /// <returns></returns>
         Task<AnswerDto> UpdateAnswer(AnswerDto answer);
 
-        Task HideAnswer(int answerId);
+        Task<int> HideAnswer(int answerId);
     }
 }

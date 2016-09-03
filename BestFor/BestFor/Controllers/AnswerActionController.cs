@@ -67,6 +67,9 @@ namespace BestFor.Controllers
             var culture = this.Culture;
             // Load the answer.
             var answer = await _answerService.FindById(answerId);
+            // Go home is not found
+            if (answer == null) return RedirectToAction("Index", "Home");
+
             var answerDetailsDto = await HomeController.FillInDetails(answer, _answerDescriptionService, _userService, _voteService,
                 _resourcesService, culture, _appSettings.Value.FullDomainAddress);
             // Set the reason to be shown on the page in case someone sent it

@@ -1,0 +1,25 @@
+﻿@model BestFor.Dto.AnswersDto
+@* Inject the service that allows searching for localized strings *@
+@inject BestFor.Services.Services.IResourcesService resourcesService
+@{
+    string registrationString = await resourcesService.GetString(this.ViewBag.BestForCulture, "registration_capital");
+    string registerString = await resourcesService.GetString(this.ViewBag.BestForCulture, "register_capital");
+    string createANewAccountString = await resourcesService.GetString(this.ViewBag.BestForCulture, "create_a_new_account");
+    string termsTitleString = await resourcesService.GetString(this.ViewBag.BestForCulture, "terms_title");
+    string termsOfUseString = await resourcesService.GetString(this.ViewBag.BestForCulture, "terms_of_use");
+
+    ViewData["Title"] = registrationString;
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<div class="row">
+    <div class="col-md-offset-2 col-md-8">
+        <div class="best-div-fluid">
+            @foreach (var item in Model.Answers)
+            {
+                @Html.DisplayFor(x => item, "AnswerToContent")
+            }
+        </div>
+    </div>
+</div>

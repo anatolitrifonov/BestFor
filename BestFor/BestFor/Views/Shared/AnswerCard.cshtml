@@ -42,11 +42,13 @@
             <div class="panel-body">
                 <div class="row">
                     <div class="col-md-2 best-card-label">@strings.Best</div>
-                    <div class="col-md-10 best-card-detail"><a class="best-card-dark-links" href="@linkToAnswer">@Model.LeftWord</a></div>
+                    <div class="col-md-10 best-card-detail"><yakor y-culture="@this.ViewBag.BestForCulture"
+                        y-controller="Left" y-action="@Model.LeftWord" y-class="best-card-dark-links">@Model.LeftWord</yakor></div>
                 </div>
                 <div class="row">
                     <div class="col-md-2 best-card-label">@strings.For</div>
-                    <div class="col-md-10 best-card-detail"><a class="best-card-dark-links" href="@linkToAnswer">@Model.RightWord</a></div>
+                    <div class="col-md-10 best-card-detail"><yakor y-culture="@this.ViewBag.BestForCulture"
+                        y-controller="Right" y-action="@Model.RightWord" y-class="best-card-dark-links">@Model.RightWord</yakor></div>
                 </div>
                 <div class="row">
                     <div class="col-md-2 best-card-label">@strings.Is</div>

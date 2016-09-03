@@ -232,25 +232,25 @@ namespace BestFor
                         constraints: new { constraint = new ContentRouteConstraint() });
                 // Search route
                 routes.MapRoute(
-                        name: "Search",
-                        template: "first/{data}",
+                        name: "SearchLeftWord",
+                        template: "left/{data}",
                         defaults: new { controller = "Search", action = "Left" },
                         constraints: new { constraint = new SearchRouteConstraint() });
                 // Search route
                 routes.MapRoute(
-                        name: "SearchWithCulture",
-                        template: "{language}-{country}/first/{data}",
+                        name: "SearchLeftWordWithCulture",
+                        template: "{language}-{country}/left/{data}",
                         defaults: new { controller = "Search", action = "Left" },
                         constraints: new { constraint = new SearchRouteConstraint() });
                 // Search route
                 routes.MapRoute(
-                        name: "Search",
+                        name: "SearchRightWord",
                         template: "right/{data}",
                         defaults: new { controller = "Search", action = "Right" },
                         constraints: new { constraint = new SearchRouteConstraint() });
                 // Search route
                 routes.MapRoute(
-                        name: "SearchWithCulture",
+                        name: "SearchRightWordWithCulture",
                         template: "{language}-{country}/right/{data}",
                         defaults: new { controller = "Search", action = "Right" },
                         constraints: new { constraint = new SearchRouteConstraint() });
