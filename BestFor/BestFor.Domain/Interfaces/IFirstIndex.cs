@@ -1,5 +1,5 @@
 ﻿
-namespace BestFor.Domain.Entities
+namespace BestFor.Domain.Interfaces
 {
     public interface IFirstIndex
     {

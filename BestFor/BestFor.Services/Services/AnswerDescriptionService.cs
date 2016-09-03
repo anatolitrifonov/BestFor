@@ -111,7 +111,7 @@ namespace BestFor.Services.Services
             if (data == null)
             {
                 var dataSource = new KeyIndexedDataSource<AnswerDescription>();
-                await dataSource.Initialize(_repository);
+                await dataSource.Initialize(_repository.Active());
                 _cacheManager.Add(CacheConstants.CACHE_KEY_ANSWER_DESCRIPTIONS_DATA, dataSource);
                 return dataSource;
             }

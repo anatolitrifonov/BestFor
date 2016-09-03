@@ -139,7 +139,7 @@ namespace BestFor.Services.Services
             if (data == null)
             {
                 var dataSource = new KeyIndexedDataSource<AnswerVote>();
-                await dataSource.Initialize(_answerVoteRepository);
+                await dataSource.Initialize(_answerVoteRepository.Active());
                 _cacheManager.Add(CacheConstants.CACHE_KEY_VOTES_DATA, dataSource);
                 return dataSource;
             }
@@ -156,7 +156,7 @@ namespace BestFor.Services.Services
             if (data == null)
             {
                 var dataSource = new KeyIndexedDataSource<AnswerDescriptionVote>();
-                await dataSource.Initialize(_answerDescriptionVoteRepository);
+                await dataSource.Initialize(_answerDescriptionVoteRepository.Active());
                 _cacheManager.Add(CacheConstants.CACHE_KEY_DESCRIPTION_VOTES_DATA, dataSource);
                 return dataSource;
             }

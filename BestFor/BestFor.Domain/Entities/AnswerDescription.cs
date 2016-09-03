@@ -1,16 +1,19 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using BestFor.Domain.Interfaces;
 using BestFor.Dto;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BestFor.Domain.Entities
 {
-    public class AnswerDescription : EntityBase, IFirstIndex, ISecondIndex, IDtoConvertable<AnswerDescriptionDto>
+    public class AnswerDescription : EntityBase, IFirstIndex, ISecondIndex, IDtoConvertable<AnswerDescriptionDto>, IIdIndex
     {
+        #region IIdIndex implementation
         /// <summary>
         /// Identity ...
         /// </summary>
         [Key, Required, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public override int Id { get; set; }
+        #endregion
 
         [Required]
         public string Description { get; set; }

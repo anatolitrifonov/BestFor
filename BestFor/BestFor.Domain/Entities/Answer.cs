@@ -1,11 +1,12 @@
-﻿using BestFor.Dto;
+﻿using BestFor.Domain.Interfaces;
+using BestFor.Dto;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BestFor.Domain.Entities
 {
-    public class Answer : EntityBase, IFirstIndex, ISecondIndex, IDtoConvertable<AnswerDto>
+    public class Answer : EntityBase, IFirstIndex, ISecondIndex, IDtoConvertable<AnswerDto>, IIdIndex
     {
         [Key, Required, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public override int Id { get; set; }

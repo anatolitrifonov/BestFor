@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 
-namespace BestFor.Domain.Entities
+namespace BestFor.Domain.Interfaces
 {
     public interface IObjectState
     {

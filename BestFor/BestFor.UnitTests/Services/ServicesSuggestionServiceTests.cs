@@ -1,16 +1,17 @@
-﻿using BestFor.Data;
-using BestFor.Fakes;
+﻿using Autofac;
+using BestFor.Data;
 using BestFor.Domain.Entities;
+using BestFor.Domain.Interfaces;
 using BestFor.Dto;
+using BestFor.Fakes;
 using BestFor.Services.Cache;
 using BestFor.Services.DataSources;
 using BestFor.Services.Services;
+using Microsoft.Extensions.Logging;
 using Moq;
 using System.Linq;
 using System.Threading.Tasks;
 using Xunit;
-using Autofac;
-using Microsoft.Extensions.Logging;
 
 namespace BestFor.UnitTests.Services
 {

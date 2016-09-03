@@ -1,5 +1,6 @@
 ﻿using BestFor.Data;
 using BestFor.Domain.Entities;
+using BestFor.Domain.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -41,7 +42,8 @@ namespace BestFor.Services.DataSources
     /// on insert too but should not be a big deal. At some point we will have to add locking on add anyway.
     /// todo: May be turn this into all asynchronous?
     /// </remarks>
-    public class KeyIndexedDataSource<TEntity> where TEntity : EntityBase, IFirstIndex, ISecondIndex
+    //public class KeyIndexedDataSource<TEntity> where TEntity : EntityBase, IFirstIndex, ISecondIndex
+    public class KeyIndexedDataSource<TEntity> where TEntity : IFirstIndex, ISecondIndex, IIdIndex
     {
         private const int DEFAULT_TOP_COUNT = 10;
         /// <summary>
@@ -74,14 +76,15 @@ namespace BestFor.Services.DataSources
         /// </summary>
         /// <param name="repository"></param>
         /// <returns></returns>
-        public async Task<int> Initialize(IRepository<TEntity> repository)
+        public async Task<int> Initialize(IEnumerable<TEntity> data)
         {
             if (_initialized) throw new Exception("This index is already initialized.");
 
             _data = new Dictionary<string, Dictionary<string, TEntity>>();
             _iddata = new Dictionary<int, TEntity>();
-            var howMany = repository.Active().Count();
-            foreach (var entity in repository.Active())
+            // var howMany = repository.Active().Count();
+//            foreach (var entity in repository.Active())
+            foreach (var entity in data)
                 await Insert(entity);
             _initialized = true;
             return _data.Count;
@@ -116,14 +119,14 @@ namespace BestFor.Services.DataSources
         public async Task<TEntity> FindExact(string key, string secondKey)
         {
             // No need to throw exception although might be a good idea to tell whoever is calling this to initialize first.
-            if (_data == null) return null;
+            if (_data == null) return default(TEntity);
 
-            if (!_data.ContainsKey(key)) return null;
+            if (!_data.ContainsKey(key)) return default(TEntity);
 
             // got the first key
             var firstData = _data[key];
 
-            if (!firstData.ContainsKey(secondKey)) return null;
+            if (!firstData.ContainsKey(secondKey)) return default(TEntity);
 
             // got the second key
             return await Task.FromResult(firstData[secondKey]);
@@ -137,9 +140,9 @@ namespace BestFor.Services.DataSources
         public async Task<TEntity> FindExactById(int id)
         {
             // No need to throw exception although might be a good idea to tell whoever is calling this to initialize first.
-            if (_iddata == null) return null;
+            if (_iddata == null) return default(TEntity);
 
-            if (!_iddata.ContainsKey(id)) return null;
+            if (!_iddata.ContainsKey(id)) return default(TEntity);
 
             // We got direct pointer to the item.
             return await Task.FromResult(_iddata[id]);
@@ -186,8 +189,8 @@ namespace BestFor.Services.DataSources
         /// <returns></returns>
         public async Task<TEntity> Delete(TEntity entity)
         {
-            if (entity == null) return null;
-            if (!_data.ContainsKey(entity.IndexKey)) return null;
+            if (entity == null) return default(TEntity);
+            if (!_data.ContainsKey(entity.IndexKey)) return default(TEntity);
             // remove from the second index
             var howManyLeft = RemoveSecondaryKey(_data[entity.IndexKey], entity);
             // remove from the first index
@@ -196,6 +199,17 @@ namespace BestFor.Services.DataSources
             _iddata.Remove(entity.Id);
 
             return await Task.FromResult(entity);
+        }
+
+        /// <summary>
+        /// Return all items indexed by IIdIndex.Id
+        /// </summary>
+        /// <returns></returns>
+        public async Task<IEnumerable<TEntity>> All()
+        {
+            if (_iddata == null) return null;
+
+            return await Task.FromResult(_iddata.Values.AsEnumerable<TEntity>());
         }
 
         #region Private Methods

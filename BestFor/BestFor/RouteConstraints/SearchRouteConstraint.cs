@@ -12,7 +12,7 @@ namespace BestFor.RouteConstraints
     /// 
     /// The only reason we need this constraint is to check that data is not blank.
     /// </summary>
-    public class FirstRouteConstraint : BaseRouteConstraint, IRouteConstraint
+    public class SearchRouteConstraint : BaseRouteConstraint, IRouteConstraint
     {
         //
         // Summary:

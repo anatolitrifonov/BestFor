@@ -19,6 +19,21 @@ namespace BestFor.Services.Services
         Task<IEnumerable<AnswerDto>> FindAnswers(string leftWord, string rightWord);
 
         /// <summary>
+        /// Find the top N answers matching the left word
+        /// </summary>
+        /// <param name="leftWord"></param>
+        /// <returns></returns>
+        Task<IEnumerable<AnswerDto>> FindLeftAnswers(string leftWord);
+
+        /// <summary>
+        /// Find top <paramref name="count"/> answers matching the left word
+        /// </summary>
+        /// <param name="leftWord"></param>
+        /// <param name="count"></param>
+        /// <returns></returns>
+        Task<IEnumerable<AnswerDto>> FindLeftAnswers(string leftWord, int count);
+
+        /// <summary>
         /// Find the last ten answers for the pair of suggestions.
         /// </summary>
         /// <param name="leftWord"></param>

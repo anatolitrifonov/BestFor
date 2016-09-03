@@ -1,8 +1,6 @@
-﻿using System;
-using BestFor.Dto;
-using BestFor.Domain.Entities;
+﻿using BestFor.Dto;
 
-namespace BestFor.Domain.Entities
+namespace BestFor.Domain.Interfaces
 {
     public interface IDtoConvertable<T> where T : BaseDto
     {

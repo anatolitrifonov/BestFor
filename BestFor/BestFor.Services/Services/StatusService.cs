@@ -81,7 +81,7 @@ namespace BestFor.Services.Services
         public async Task<int> InitAnswers()
         {
             var dataSource = new KeyIndexedDataSource<Answer>();
-            await dataSource.Initialize(_answersRepository);
+            await dataSource.Initialize(_answersRepository.Active());
             _cacheManager.Add(CacheConstants.CACHE_KEY_ANSWERS_DATA, dataSource);
             return dataSource.Size;
         }

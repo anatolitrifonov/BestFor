@@ -1,5 +1,11 @@
-﻿namespace BestFor.Domain.Entities
+﻿namespace BestFor.Domain
 {
+    public enum Roles
+    {
+        Admin,
+        Moderator
+    }
+
     public enum ObjectState
     {
         Detached = 0,

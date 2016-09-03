@@ -234,14 +234,26 @@ namespace BestFor
                 routes.MapRoute(
                         name: "Search",
                         template: "first/{data}",
-                        defaults: new { controller = "Search", action = "Get" },
-                        constraints: new { constraint = new FirstRouteConstraint() });
+                        defaults: new { controller = "Search", action = "Left" },
+                        constraints: new { constraint = new SearchRouteConstraint() });
                 // Search route
                 routes.MapRoute(
                         name: "SearchWithCulture",
                         template: "{language}-{country}/first/{data}",
-                        defaults: new { controller = "Search", action = "Get" },
-                        constraints: new { constraint = new FirstRouteConstraint() });
+                        defaults: new { controller = "Search", action = "Left" },
+                        constraints: new { constraint = new SearchRouteConstraint() });
+                // Search route
+                routes.MapRoute(
+                        name: "Search",
+                        template: "right/{data}",
+                        defaults: new { controller = "Search", action = "Right" },
+                        constraints: new { constraint = new SearchRouteConstraint() });
+                // Search route
+                routes.MapRoute(
+                        name: "SearchWithCulture",
+                        template: "{language}-{country}/right/{data}",
+                        defaults: new { controller = "Search", action = "Right" },
+                        constraints: new { constraint = new SearchRouteConstraint() });
                 // See LocalizationRouteConstraint for description of how this mapping works.
                 routes.MapRoute(
                         name: "DefaultWithCulture",

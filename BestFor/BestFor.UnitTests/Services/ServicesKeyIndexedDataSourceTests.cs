@@ -1,5 +1,6 @@
 ﻿using Autofac;
 using BestFor.Data;
+using BestFor.Domain;
 using BestFor.Domain.Entities;
 using BestFor.Services.DataSources;
 using System.Threading.Tasks;
@@ -19,7 +20,7 @@ namespace BestFor.UnitTests.Services
 
             var repo = new Repository<Answer>(resolver.Resolve<IDataContext>());
 
-            await indexDataSource.Initialize(repo);
+            await indexDataSource.Initialize(repo.Active());
             //var suggestions = new DefaultSuggestions();
             //var result = suggestions.FindSuggestions("B");
             //Assert.True(result != null);
