@@ -1,12 +1,30 @@
-﻿@model BestFor.Dto.AnswerDto
+﻿@model BestFor.Models.AdminAnswerViewModel
 @Html.Partial("Menu")
 Showing answer info
 <dl>
-    <dt>Id</dt><dd>@Model.Id</dd>
-    <dt>LeftWord</dt><dd>@Model.LeftWord</dd>
-    <dt>RightWord</dt><dd>@Model.RightWord</dd>
-    <dt>Phrase</dt><dd>@Model.Phrase</dd>
-    <dt>Count</dt><dd>@Model.Count</dd>
-    <dt>UserId</dt><dd>@Model.UserId</dd>
+    <dt>Id</dt><dd>@Model.Answer.Id</dd>
+    <dt>LeftWord</dt><dd>@Model.Answer.LeftWord</dd>
+    <dt>RightWord</dt><dd>@Model.Answer.RightWord</dd>
+    <dt>Phrase</dt><dd>@Model.Answer.Phrase</dd>
+    <dt>Count</dt><dd>@Model.Answer.Count</dd>
+    <dt>UserId</dt><dd>@Model.Answer.UserId</dd>
 </dl>
-<a asp-controller="Admin" asp-action="HideAnswer" asp-route-id="@Model.Id">Hide</a>
+<table class="table">
+    <tr><th colspan="4">Descriptions (@(Model.AnswerDescriptions == null ? 0 : Model.AnswerDescriptions.Count()))</th></tr>
+    <tr><th>Description</th><th>User</th><th>Actions</th></tr>
+    @if (Model.AnswerDescriptions != null)
+    {
+        foreach (var description in Model.AnswerDescriptions)
+        {
+            <tr>
+                <td>@Html.DisplayFor(x => description.Description)</td>
+                <td>@Html.DisplayFor(x => description.UserId)</td>
+                <td>
+                    @Html.ActionLink("Show/Hide", "GetAnswer", new { answerId = Model.Answer.Id })
+                </td>
+            </tr>
+        }
+    }
+</table>
+
+<a asp-controller="Admin" asp-action="HideAnswer" asp-route-id="@Model.Answer.Id">Hide</a>

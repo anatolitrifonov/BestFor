@@ -1,4 +1,5 @@
-﻿using BestFor.Domain.Entities;
+﻿using BestFor.Domain;
+using BestFor.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System;

@@ -51,8 +51,8 @@ namespace BestFor.Controllers
             {
                 var requestPath = Request.Path.Value;
                 // cut the culture
-                var cultureBegining = "/" + Culture;
-                if (requestPath.StartsWith(cultureBegining)) requestPath = requestPath.Substring(cultureBegining.Length);
+                var cultureBegining = "/" + Culture.ToLower();
+                if (requestPath.ToLower().StartsWith(cultureBegining)) requestPath = requestPath.Substring(cultureBegining.Length);
                 return requestPath;
             }
         }

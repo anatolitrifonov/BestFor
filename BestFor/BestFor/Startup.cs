@@ -232,16 +232,28 @@ namespace BestFor
                         constraints: new { constraint = new ContentRouteConstraint() });
                 // Search route
                 routes.MapRoute(
-                        name: "Search",
-                        template: "first/{data}",
-                        defaults: new { controller = "Search", action = "Get" },
-                        constraints: new { constraint = new FirstRouteConstraint() });
+                        name: "SearchLeftWord",
+                        template: "left/{data}",
+                        defaults: new { controller = "Search", action = "Left" },
+                        constraints: new { constraint = new SearchRouteConstraint() });
                 // Search route
                 routes.MapRoute(
-                        name: "SearchWithCulture",
-                        template: "{language}-{country}/first/{data}",
-                        defaults: new { controller = "Search", action = "Get" },
-                        constraints: new { constraint = new FirstRouteConstraint() });
+                        name: "SearchLeftWordWithCulture",
+                        template: "{language}-{country}/left/{data}",
+                        defaults: new { controller = "Search", action = "Left" },
+                        constraints: new { constraint = new SearchRouteConstraint() });
+                // Search route
+                routes.MapRoute(
+                        name: "SearchRightWord",
+                        template: "right/{data}",
+                        defaults: new { controller = "Search", action = "Right" },
+                        constraints: new { constraint = new SearchRouteConstraint() });
+                // Search route
+                routes.MapRoute(
+                        name: "SearchRightWordWithCulture",
+                        template: "{language}-{country}/right/{data}",
+                        defaults: new { controller = "Search", action = "Right" },
+                        constraints: new { constraint = new SearchRouteConstraint() });
                 // See LocalizationRouteConstraint for description of how this mapping works.
                 routes.MapRoute(
                         name: "DefaultWithCulture",

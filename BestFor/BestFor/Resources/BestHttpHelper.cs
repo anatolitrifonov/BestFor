@@ -10,7 +10,7 @@ namespace BestFor.Resources
         static BestHttpHelper()
         {
             // checking that this is called once per application life
-            var t = "45";
+            // var t = "45";
         }
 
         /// <summary>

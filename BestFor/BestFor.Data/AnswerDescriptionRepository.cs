@@ -1,4 +1,6 @@
-﻿using BestFor.Domain.Entities;
+﻿using System.Linq;
+using System.Collections.Generic;
+using BestFor.Domain.Entities;
 
 namespace BestFor.Data
 {
@@ -17,5 +19,16 @@ namespace BestFor.Data
         public AnswerDescriptionRepository(IDataContext context) : base(context)
         {
         }
-    }
+
+        public IEnumerable<AnswerDescription> FindAnswerDescriptionsWithNoUser()
+        {
+            return _dbSet.Where(x => x.UserId == null);
+        }
+
+        public IEnumerable<AnswerDescription> FindByAnswerId(int answerId)
+        {
+            return _dbSet.Where(x => x.AnswerId == answerId);
+        }
+   }
 }
+

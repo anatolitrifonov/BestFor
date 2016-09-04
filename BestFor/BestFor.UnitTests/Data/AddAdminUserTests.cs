@@ -1,4 +1,5 @@
 ﻿using BestFor.Data;
+using BestFor.Domain;
 using BestFor.Domain.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;

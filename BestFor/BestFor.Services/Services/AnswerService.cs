@@ -1,5 +1,6 @@
 ﻿using BestFor.Data;
 using BestFor.Domain.Entities;
+using BestFor.Domain.Masks;
 using BestFor.Dto;
 using BestFor.Services.Cache;
 using BestFor.Services.DataSources;
@@ -28,6 +29,7 @@ namespace BestFor.Services.Services
 
         public const int TRENDING_TOP_TODAY = 9;
         public const int TRENDING_TOP_OVERALL = 9;
+        public const int DEFAULT_SEARCH_RESULT_COUNT = 15;
 
         private ICacheManager _cacheManager;
         private IAnswerRepository _repository;
@@ -92,6 +94,14 @@ namespace BestFor.Services.Services
             var cachedData = await GetCachedData();
             await cachedData.Insert(persistResult.Answer);
 
+            // Add to left cache
+            var leftCachedData = await GetLeftCachedData();
+            await leftCachedData.Insert(new AnswerLeftMask(persistResult.Answer));
+
+            // Add to right cache
+            var rightCachedData = await GetRightCachedData();
+            await rightCachedData.Insert(new AnswerRightMask(persistResult.Answer));
+
             // Add to trending today
             AddToTrendingToday(persistResult.Answer);
 
@@ -136,7 +146,7 @@ namespace BestFor.Services.Services
             return await Task.FromResult(data.Select(x => x.ToDto()));
         }
 
-        public async Task<AnswerDto> FindById(int answerId)
+        public async Task<AnswerDto> FindByAnswerId(int answerId)
         {
             var cachedData = await GetCachedData();
             var answer = await cachedData.FindExactById(answerId);
@@ -146,18 +156,40 @@ namespace BestFor.Services.Services
         }
 
         /// <summary>
+        /// Find all answers for user going directly to the database
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        public async Task<IEnumerable<AnswerDto>> FindDirectByUserId(string userId)
+        {
+            var data = _repository.FindByUserId(userId);
+            return await Task.FromResult(data.Select(x => x.ToDto()));
+        }
+
+        /// <summary>
+        /// Find all answers with no user going directly to the database
+        /// </summary>
+        /// <returns></returns>
+        public async Task<IEnumerable<AnswerDto>> FindDirectBlank()
+        {
+            var data = _repository.FindAnswersWithNoUser();
+            return await Task.FromResult(data.Select(x => x.ToDto()));
+        }
+
+
+        /// <summary>
         /// Hides answer is the database and removes it from cache.
         /// </summary>
         /// <param name="answerId"></param>
         /// <returns></returns>
-        public async Task HideAnswer(int answerId)
+        public async Task<int> HideAnswer(int answerId)
         {
-            if (answerId <= 0) return;
+            if (answerId <= 0) return answerId;
 
             // Find if answer already exists
             var existingAnswer = _repository.Queryable().Where(x => x.Id == answerId).FirstOrDefault();
             // Return if does not.
-            if (existingAnswer == null) return;
+            if (existingAnswer == null) return answerId;
             // Remove from cache
             var cachedData = await GetCachedData();
             await cachedData.Delete(existingAnswer);
@@ -169,6 +201,73 @@ namespace BestFor.Services.Services
             // Save changes.
             await _repository.SaveChangesAsync();
 
+            return answerId;
+        }
+
+        /// <summary>
+        /// Find the top N answers matching the left word
+        /// </summary>
+        /// <param name="leftWord"></param>
+        /// <returns></returns>
+        public async Task<IEnumerable<AnswerDto>> FindLeftAnswers(string leftWord)
+        {
+            return await FindLeftAnswers(leftWord, DEFAULT_SEARCH_RESULT_COUNT);
+        }
+
+        /// <summary>
+        /// Find top <paramref name="count"/> answers matching the left word
+        /// </summary>
+        /// <param name="leftWord"></param>
+        /// <param name="count"></param>
+        /// <returns></returns>
+        public async Task<IEnumerable<AnswerDto>> FindLeftAnswers(string leftWord, int count)
+        {
+            if (string.IsNullOrEmpty(leftWord) || string.IsNullOrWhiteSpace(leftWord))
+                throw new Exception("Invalid leftWord parameter passed to AnswerService.FindLeftAnswers");
+            if (count < 1)
+                throw new Exception("Invalid count parameter passed to AnswerService.FindLeftAnswers");
+
+            var cachedData = await GetLeftCachedData();
+
+            var result = await cachedData.Find(leftWord);
+
+            // This is just getting a list of answers with number of "votes" for each. Cache stored answers, not votes.
+            // Each answer in cache has number of votes.
+            if (result == null) return Enumerable.Empty<AnswerDto>();
+            return result.Select(x => x.ToDto()).Take(count);
+        }
+
+        /// <summary>
+        /// Find the top N answers matching the right word
+        /// </summary>
+        /// <param name="rightWord"></param>
+        /// <returns></returns>
+        public async Task<IEnumerable<AnswerDto>> FindRightAnswers(string rightWord)
+        {
+            return await FindRightAnswers(rightWord, DEFAULT_SEARCH_RESULT_COUNT);
+        }
+
+        /// <summary>
+        /// Find top <paramref name="count"/> answers matching the right word
+        /// </summary>
+        /// <param name="rightWord"></param>
+        /// <param name="count"></param>
+        /// <returns></returns>
+        public async Task<IEnumerable<AnswerDto>> FindRightAnswers(string rightWord, int count)
+        {
+            if (string.IsNullOrEmpty(rightWord) || string.IsNullOrWhiteSpace(rightWord))
+                throw new Exception("Invalid rightWord parameter passed to AnswerService.FindRightAnswers");
+            if (count < 1)
+                throw new Exception("Invalid count parameter passed to AnswerService.FindRightAnswers");
+
+            var cachedData = await GetRightCachedData();
+
+            var result = await cachedData.Find(rightWord);
+
+            // This is just getting a list of answers with number of "votes" for each. Cache stored answers, not votes.
+            // Each answer in cache has number of votes.
+            if (result == null) return Enumerable.Empty<AnswerDto>();
+            return result.Select(x => x.ToDto()).Take(count);
         }
         #endregion
 
@@ -261,11 +360,55 @@ namespace BestFor.Services.Services
             if (data == null)
             {
                 var dataSource = new KeyIndexedDataSource<Answer>();
-                await dataSource.Initialize(_repository);
+                await dataSource.Initialize(_repository.Active());
                 _cacheManager.Add(CacheConstants.CACHE_KEY_ANSWERS_DATA, dataSource);
                 return dataSource;
             }
             return (KeyIndexedDataSource<Answer>)data;
+        }
+
+        /// <summary>
+        /// Get data indexed on the left word
+        /// 
+        /// Load from normally cached data if empty.
+        /// </summary>
+        /// <returns></returns>
+        private async Task<KeyIndexedDataSource<AnswerLeftMask>> GetLeftCachedData()
+        {
+            object data = _cacheManager.Get(CacheConstants.CACHE_KEY_LEFT_ANSWERS_DATA);
+            if (data == null)
+            {
+                // Initialize from answers
+                var dataSource = await GetCachedData();
+                var allItems = await dataSource.All();
+                var leftDataSource = new KeyIndexedDataSource<AnswerLeftMask>();
+                await leftDataSource.Initialize(allItems.Select(x => new AnswerLeftMask(x)));
+                _cacheManager.Add(CacheConstants.CACHE_KEY_LEFT_ANSWERS_DATA, leftDataSource);
+                return leftDataSource;
+            }
+            return (KeyIndexedDataSource<AnswerLeftMask>)data;
+        }
+
+        /// <summary>
+        /// Get data indexed on the right word
+        /// 
+        /// Load from normally cached data if empty.
+        /// </summary>
+        /// <returns></returns>
+        private async Task<KeyIndexedDataSource<AnswerRightMask>> GetRightCachedData()
+        {
+            object data = _cacheManager.Get(CacheConstants.CACHE_KEY_RIGHT_ANSWERS_DATA);
+            if (data == null)
+            {
+                // Initialize from answers
+                var dataSource = await GetCachedData();
+                var allItems = await dataSource.All();
+                var rightDataSource = new KeyIndexedDataSource<AnswerRightMask>();
+                await rightDataSource.Initialize(allItems.Select(x => new AnswerRightMask(x)));
+                _cacheManager.Add(CacheConstants.CACHE_KEY_RIGHT_ANSWERS_DATA, rightDataSource);
+                return rightDataSource;
+            }
+            return (KeyIndexedDataSource<AnswerRightMask>)data;
         }
 
         /// <summary>

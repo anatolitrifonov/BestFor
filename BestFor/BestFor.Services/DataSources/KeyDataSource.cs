@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using BestFor.Domain.Entities;
+using BestFor.Domain.Interfaces;
 using BestFor.Data;
 
 namespace BestFor.Services.DataSources

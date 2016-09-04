@@ -11,5 +11,9 @@ namespace BestFor.Data
         IEnumerable<Answer> FindAnswersTrendingToday(int numberItemsToReturn, DateTime today);
 
         IEnumerable<Answer> FindAnswersTrendingOverall(int numberItemsToReturn);
+
+        IEnumerable<Answer> FindByUserId(string userId);
+
+        IEnumerable<Answer> FindAnswersWithNoUser();
     }
 }

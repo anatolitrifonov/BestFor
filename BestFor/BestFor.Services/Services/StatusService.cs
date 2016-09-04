@@ -16,15 +16,17 @@ namespace BestFor.Services.Services
         private IRepository<Suggestion> _suggestionRepository;
         private IRepository<BadWord> _badWordsRepository;
         private UserManager<ApplicationUser> _userManager;
+        private IAnswerDescriptionRepository _answersDescriptionRepository;
 
         public StatusService(ICacheManager cacheManager, IAnswerRepository answersRepository, IRepository<Suggestion> suggestionRepository,
-            IRepository<BadWord> badWordsRepository, UserManager<ApplicationUser> userManager)
+            IRepository<BadWord> badWordsRepository, UserManager<ApplicationUser> userManager, IAnswerDescriptionRepository answersDescriptionRepository)
         {
             _cacheManager = cacheManager;
             _answersRepository = answersRepository;
             _suggestionRepository = suggestionRepository;
             _badWordsRepository = badWordsRepository;
             _userManager = userManager;
+            _answersDescriptionRepository = answersDescriptionRepository;
         }
 
         public SystemStateDto GetSystemStatus()
@@ -40,6 +42,17 @@ namespace BestFor.Services.Services
             {
                 result.AnswersCacheStatus = "Loaded";
                 result.AnswersCacheNumberItems = ((KeyIndexedDataSource<Answer>)answersData).Size;
+            }
+
+            var answerDescriptionsData = _cacheManager.Get(CacheConstants.CACHE_KEY_ANSWER_DESCRIPTIONS_DATA);
+            if (answerDescriptionsData == null)
+            {
+                result.AnswersDescriptionCacheStatus = "Not loaded";
+            }
+            else
+            {
+                result.AnswersDescriptionCacheStatus = "Loaded";
+                result.AnswersDescriptionCacheNumberItems = ((KeyIndexedDataSource<AnswerDescription>)answerDescriptionsData).Size;
             }
 
             var suggestionsData = _cacheManager.Get(CacheConstants.CACHE_KEY_SUGGESTIONS_DATA);
@@ -81,8 +94,16 @@ namespace BestFor.Services.Services
         public async Task<int> InitAnswers()
         {
             var dataSource = new KeyIndexedDataSource<Answer>();
-            await dataSource.Initialize(_answersRepository);
+            await dataSource.Initialize(_answersRepository.Active());
             _cacheManager.Add(CacheConstants.CACHE_KEY_ANSWERS_DATA, dataSource);
+            return dataSource.Size;
+        }
+
+        public async Task<int> InitAnswerDescriptions()
+        {
+            var dataSource = new KeyIndexedDataSource<AnswerDescription>();
+            await dataSource.Initialize(_answersDescriptionRepository.Active());
+            _cacheManager.Add(CacheConstants.CACHE_KEY_ANSWER_DESCRIPTIONS_DATA, dataSource);
             return dataSource.Size;
         }
 

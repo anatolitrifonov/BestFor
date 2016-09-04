@@ -1,10 +1,11 @@
-﻿using System;
+﻿using BestFor.Data;
+using BestFor.Domain.Interfaces;
+using BestFor.Domain.Entities;
+using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
-using BestFor.Domain.Entities;
-using BestFor.Data;
 
 namespace BestFor.Fakes
 {

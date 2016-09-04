@@ -1,56 +1,28 @@
 ﻿@model BestFor.Dto.SystemStateDto
 @Html.Partial("Menu")
 <div>
-    <h4>Admin. System status</h4>
+    <h4>Admin. System status.</h4>
     <hr />
     <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.AnswersCacheStatus)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.AnswersCacheStatus) @Html.ActionLink("Load Answers", "LoadAnswers")
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.AnswersCacheNumberItems)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.AnswersCacheNumberItems)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.SuggestionsCacheStatus)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.SuggestionsCacheStatus) @Html.ActionLink("Load Suggestions", "LoadSuggestions")
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.SuggestionsCacheNumberItems)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.SuggestionsCacheNumberItems)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.BadWordsCacheStatus)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.BadWordsCacheStatus) @Html.ActionLink("Load Bad Words", "LoadBadWords")
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.BadWordsCacheNumberItems)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.BadWordsCacheNumberItems)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.UsersCacheStatus)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.UsersCacheStatus) @Html.ActionLink("Load Users", "LoadUsers")
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.UsersCacheNumberItems)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.UsersCacheNumberItems)
-        </dd>
+        <dt>@Html.DisplayNameFor(model => model.AnswersCacheStatus)</dt>
+        <dd>@Html.DisplayFor(model => model.AnswersCacheStatus) @Html.ActionLink("Load Answers", "LoadAnswers")</dd>
+        <dt>@Html.DisplayNameFor(model => model.AnswersCacheNumberItems)</dt>
+        <dd>@Html.DisplayFor(model => model.AnswersCacheNumberItems)</dd>
+        <dt>@Html.DisplayNameFor(model => model.AnswersDescriptionCacheStatus)</dt>
+        <dd>@Html.DisplayFor(model => model.AnswersDescriptionCacheStatus) @Html.ActionLink("Load Answer Descriptions", "LoadAnswerDescriptions")</dd>
+        <dt>@Html.DisplayNameFor(model => model.AnswersDescriptionCacheNumberItems)</dt>
+        <dd>@Html.DisplayFor(model => model.AnswersDescriptionCacheNumberItems)</dd>
+        <dt>@Html.DisplayNameFor(model => model.SuggestionsCacheStatus)</dt>
+        <dd>@Html.DisplayFor(model => model.SuggestionsCacheStatus) @Html.ActionLink("Load Suggestions", "LoadSuggestions")</dd>
+        <dt>@Html.DisplayNameFor(model => model.SuggestionsCacheNumberItems)</dt>
+        <dd>@Html.DisplayFor(model => model.SuggestionsCacheNumberItems)</dd>
+        <dt>@Html.DisplayNameFor(model => model.BadWordsCacheStatus)</dt>
+        <dd>@Html.DisplayFor(model => model.BadWordsCacheStatus) @Html.ActionLink("Load Bad Words", "LoadBadWords")</dd>
+        <dt>@Html.DisplayNameFor(model => model.BadWordsCacheNumberItems)</dt>
+        <dd>@Html.DisplayFor(model => model.BadWordsCacheNumberItems)</dd>
+        <dt>@Html.DisplayNameFor(model => model.UsersCacheStatus)</dt>
+        <dd>@Html.DisplayFor(model => model.UsersCacheStatus) @Html.ActionLink("Load Users", "LoadUsers")</dd>
+        <dt>@Html.DisplayNameFor(model => model.UsersCacheNumberItems)</dt>
+        <dd>@Html.DisplayFor(model => model.UsersCacheNumberItems)</dd>
     </dl>
 </div>

@@ -66,6 +66,11 @@ namespace BestFor.Services.Services
             // return Task.FromResult(_userManager.Users.FirstOrDefault(x => x.DisplayName == displayName));
         }
 
+        /// <summary>
+        /// Cache user
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
         public Task<int> AddUserToCache(ApplicationUser user)
         {
             // load cache
@@ -79,6 +84,13 @@ namespace BestFor.Services.Services
             return Task.FromResult(1);
         }
 
+        /// <summary>
+        /// Update user from answer.
+        /// 
+        /// Increase countes.
+        /// </summary>
+        /// <param name="answer"></param>
+        /// <returns></returns>
         public Task<int> UpdateUserFromAnswer(Answer answer)
         {
             var badResult = Task.FromResult(0);
@@ -96,6 +108,19 @@ namespace BestFor.Services.Services
             user.NumberOfAnswers++;
 
             return Task.FromResult(1);
+        }
+
+        /// <summary>
+        /// Find all users
+        /// </summary>
+        /// <returns></returns>
+        public Task<IEnumerable<ApplicationUser>> FindAll()
+        {
+            var data = GetCachedData();
+
+            var result = data.Values.AsEnumerable<ApplicationUser>();
+
+            return Task.FromResult<IEnumerable<ApplicationUser>>(result);
         }
 
         #endregion

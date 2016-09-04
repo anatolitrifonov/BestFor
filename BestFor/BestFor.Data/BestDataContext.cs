@@ -1,4 +1,5 @@
 ﻿using BestFor.Domain.Entities;
+using BestFor.Domain.Interfaces;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;

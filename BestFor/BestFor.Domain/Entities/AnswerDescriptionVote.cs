@@ -1,6 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using BestFor.Domain.Interfaces;
 using BestFor.Dto;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BestFor.Domain.Entities
 {
@@ -9,13 +10,15 @@ namespace BestFor.Domain.Entities
     /// Flag for answer and flag for answer description are separate to avoid funny database manipulations.
     /// We may end up storing cache of flags but for sure different tables.
     /// </summary>
-    public class AnswerDescriptionVote : EntityBase, IFirstIndex, ISecondIndex, IDtoConvertable<AnswerDescriptionVoteDto>
+    public class AnswerDescriptionVote : EntityBase, IFirstIndex, ISecondIndex, IDtoConvertable<AnswerDescriptionVoteDto>, IIdIndex
     {
+        #region IIdIndex implementation
         /// <summary>
         /// Identity ...
         /// </summary>
         [Key, Required, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public override int Id { get; set; }
+        #endregion
 
         /// <summary>
         /// Foreign key to answer

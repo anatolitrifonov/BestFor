@@ -1,0 +1,32 @@
+﻿@model BestFor.Dto.AnswersDto
+@* Inject the service that allows searching for localized strings *@
+@inject BestFor.Services.Services.IResourcesService resourcesService
+@{
+    string searchResultsString = await resourcesService.GetString(this.ViewBag.BestForCulture, "search_results_for");
+    string helpOthersString = await resourcesService.GetString(this.ViewBag.BestForCulture, "help_others");
+    string addYourOpinionString = await resourcesService.GetString(this.ViewBag.BestForCulture, "add_your_opinion");
+
+    ViewData["Title"] = searchResultsString;
+}
+
+<h1>@ViewData["Title"]: @Model.SearchKeyword</h1>
+
+@helpOthersString <yakor y-culture="@this.ViewBag.BestForCulture" y-controller="Home" y-action="Index">@addYourOpinionString</yakor>
+
+<div class="row">
+    <div class="col-md-offset-2 col-md-8">
+        <div class="best-div-fluid">
+            @foreach (var item in Model.Answers)
+            {
+                if (Model.IsLeft)
+                {
+                    @Html.DisplayFor(x => item, "AnswerSearchResultLeftEntry")
+                }
+                else
+                {
+                    @Html.DisplayFor(x => item, "AnswerSearchResultRightEntry")
+                }
+            }
+        </div>
+    </div>
+</div>

@@ -17,5 +17,9 @@
         public string UsersCacheStatus { get; set; }
 
         public int UsersCacheNumberItems { get; set; }
+
+        public string AnswersDescriptionCacheStatus { get; set; }
+
+        public int AnswersDescriptionCacheNumberItems { get; set; }
     }
 }

@@ -1,5 +1,5 @@
 ﻿using System;
-using BestFor.Domain.Entities;
+using BestFor.Domain;
 using Microsoft.EntityFrameworkCore;
 
 namespace BestFor.Data

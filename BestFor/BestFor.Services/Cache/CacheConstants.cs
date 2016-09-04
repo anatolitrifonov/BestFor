@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace BestFor.Services.Cache
+﻿namespace BestFor.Services.Cache
 {
     public class CacheConstants
     {
         public const string CACHE_KEY_ANSWERS_DATA = "Answers Cache";
+        public const string CACHE_KEY_LEFT_ANSWERS_DATA = "Answers Left Cache";
+        public const string CACHE_KEY_RIGHT_ANSWERS_DATA = "Answers Right Cache";
         public const string CACHE_KEY_SUGGESTIONS_DATA = "Suggestions Cache";
         public const string CACHE_KEY_BADWORDS_DATA = "BadWords Cache";
         public const string CACHE_KEY_TRENDING_TODAY_DATA = "Trending Today Cache";

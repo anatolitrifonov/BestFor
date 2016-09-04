@@ -1,6 +1,6 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
-using BestFor.Domain.Entities;
+using BestFor.Domain.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 

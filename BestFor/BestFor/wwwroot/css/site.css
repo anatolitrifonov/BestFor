@@ -245,3 +245,8 @@ div.best-success
 span.special_glyph_anchor {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
+
+div.best-search-result
+{
+    font-size: 26px;
+}

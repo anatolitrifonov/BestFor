@@ -503,3 +503,29 @@ if not exists(select * from ResourceStrings where CultureName = 'ru-RU' and [Key
 	insert ResourceStrings(CultureName, [Key], Value, DateAdded) values('ru-RU', 'error_profanity',
 		N'Не разрешено', getDate());
 GO
+
+if not exists(select * from ResourceStrings where CultureName = 'en-US' and [Key] = 'search_results_for')
+	insert ResourceStrings(CultureName, [Key], Value, DateAdded) values('en-US', 'search_results_for',
+		N'Search results', getDate());
+if not exists(select * from ResourceStrings where CultureName = 'ru-RU' and [Key] = 'search_results_for')
+	insert ResourceStrings(CultureName, [Key], Value, DateAdded) values('ru-RU', 'search_results_for',
+		N'Результаты поиска', getDate());
+GO
+
+if not exists(select * from ResourceStrings where CultureName = 'en-US' and [Key] = 'help_others')
+	insert ResourceStrings(CultureName, [Key], Value, DateAdded) values('en-US', 'help_others',
+		N'Help others.', getDate());
+if not exists(select * from ResourceStrings where CultureName = 'ru-RU' and [Key] = 'help_others')
+	insert ResourceStrings(CultureName, [Key], Value, DateAdded) values('ru-RU', 'help_others',
+		N'Помогите другим.', getDate());
+GO
+
+if not exists(select * from ResourceStrings where CultureName = 'en-US' and [Key] = 'add_your_opinion')
+	insert ResourceStrings(CultureName, [Key], Value, DateAdded) values('en-US', 'add_your_opinion',
+		N'Add your opinion!', getDate());
+if not exists(select * from ResourceStrings where CultureName = 'ru-RU' and [Key] = 'add_your_opinion')
+	insert ResourceStrings(CultureName, [Key], Value, DateAdded) values('ru-RU', 'add_your_opinion',
+		N'Добавьте Ваше мнение!', getDate());
+GO
+
+-- delete from ResourceStrings where [key] in ('help_others', 'add_your_opinion', 'if_search_is_not_sufficient')

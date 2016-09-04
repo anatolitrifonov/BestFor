@@ -1,6 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using BestFor.Domain.Interfaces;
 using BestFor.Dto;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BestFor.Domain.Entities
 {
@@ -9,13 +10,15 @@ namespace BestFor.Domain.Entities
     /// Vote for answer and vote for answer description are separate to avoid funny database manipulations.
     /// We may end up storing cache of votes but for sure different tables.
     /// </summary>
-    public class AnswerVote : EntityBase, IFirstIndex, ISecondIndex, IDtoConvertable<AnswerVoteDto>
+    public class AnswerVote : EntityBase, IFirstIndex, ISecondIndex, IDtoConvertable<AnswerVoteDto>, IIdIndex
     {
+        #region IIdIndex implementation
         /// <summary>
         /// Identity ...
         /// </summary>
         [Key, Required, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public override int Id { get; set; }
+        #endregion
 
         /// <summary>
         /// Foreign key to answer

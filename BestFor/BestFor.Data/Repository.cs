@@ -1,11 +1,12 @@
-﻿using System.Linq;
-using System.Collections.Generic;
+﻿using BestFor.Domain;
 using BestFor.Domain.Entities;
-using System.Threading;
-using System.Threading.Tasks;
 // This is needed for DbSet. We would need to wrap the dbset with something in order to avoid this reference
 // and not depend on ef in this class
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace BestFor.Data
 {

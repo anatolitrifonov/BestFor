@@ -19,6 +19,36 @@ namespace BestFor.Services.Services
         Task<IEnumerable<AnswerDto>> FindAnswers(string leftWord, string rightWord);
 
         /// <summary>
+        /// Find the top N answers matching the left word
+        /// </summary>
+        /// <param name="leftWord"></param>
+        /// <returns></returns>
+        Task<IEnumerable<AnswerDto>> FindLeftAnswers(string leftWord);
+
+        /// <summary>
+        /// Find top <paramref name="count"/> answers matching the left word
+        /// </summary>
+        /// <param name="leftWord"></param>
+        /// <param name="count"></param>
+        /// <returns></returns>
+        Task<IEnumerable<AnswerDto>> FindLeftAnswers(string leftWord, int count);
+
+        /// <summary>
+        /// Find the top N answers matching the right word
+        /// </summary>
+        /// <param name="rightWord"></param>
+        /// <returns></returns>
+        Task<IEnumerable<AnswerDto>> FindRightAnswers(string rightWord);
+
+        /// <summary>
+        /// Find top <paramref name="count"/> answers matching the right word
+        /// </summary>
+        /// <param name="rightWord"></param>
+        /// <param name="count"></param>
+        /// <returns></returns>
+        Task<IEnumerable<AnswerDto>> FindRightAnswers(string rightWord, int count);
+
+        /// <summary>
         /// Find the last ten answers for the pair of suggestions.
         /// </summary>
         /// <param name="leftWord"></param>
@@ -52,7 +82,20 @@ namespace BestFor.Services.Services
         /// </summary>
         /// <param name="answerId"></param>
         /// <returns></returns>
-        Task<AnswerDto> FindById(int answerId);
+        Task<AnswerDto> FindByAnswerId(int answerId);
+
+        /// <summary>
+        /// Find all answers for user going directly to the database
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        Task<IEnumerable<AnswerDto>> FindDirectByUserId(string userId);
+
+        /// <summary>
+        /// Find all answers with no user going directly to the database
+        /// </summary>
+        /// <returns></returns>
+        Task<IEnumerable<AnswerDto>> FindDirectBlank();
 
         /// <summary>
         /// Add answer
@@ -68,6 +111,6 @@ namespace BestFor.Services.Services
         /// <returns></returns>
         Task<AnswerDto> UpdateAnswer(AnswerDto answer);
 
-        Task HideAnswer(int answerId);
+        Task<int> HideAnswer(int answerId);
     }
 }
