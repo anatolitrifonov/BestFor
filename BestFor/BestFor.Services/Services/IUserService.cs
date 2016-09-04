@@ -29,5 +29,11 @@ namespace BestFor.Services.Services
         /// <returns></returns>
         Task<int> UpdateUserFromAnswer(Answer answer);
 
+        /// <summary>
+        /// List all users
+        /// </summary>
+        /// <returns></returns>
+        Task<IEnumerable<ApplicationUser>> FindAll();
+
     }
 }

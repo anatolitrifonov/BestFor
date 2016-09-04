@@ -146,7 +146,7 @@ namespace BestFor.Services.Services
             return await Task.FromResult(data.Select(x => x.ToDto()));
         }
 
-        public async Task<AnswerDto> FindById(int answerId)
+        public async Task<AnswerDto> FindByAnswerId(int answerId)
         {
             var cachedData = await GetCachedData();
             var answer = await cachedData.FindExactById(answerId);
@@ -154,6 +154,28 @@ namespace BestFor.Services.Services
             if (answer == null) return null;
             return answer.ToDto();
         }
+
+        /// <summary>
+        /// Find all answers for user going directly to the database
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        public async Task<IEnumerable<AnswerDto>> FindDirectByUserId(string userId)
+        {
+            var data = _repository.FindByUserId(userId);
+            return await Task.FromResult(data.Select(x => x.ToDto()));
+        }
+
+        /// <summary>
+        /// Find all answers with no user going directly to the database
+        /// </summary>
+        /// <returns></returns>
+        public async Task<IEnumerable<AnswerDto>> FindDirectBlank()
+        {
+            var data = _repository.FindAnswersWithNoUser();
+            return await Task.FromResult(data.Select(x => x.ToDto()));
+        }
+
 
         /// <summary>
         /// Hides answer is the database and removes it from cache.

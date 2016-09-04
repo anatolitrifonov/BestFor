@@ -82,7 +82,20 @@ namespace BestFor.Services.Services
         /// </summary>
         /// <param name="answerId"></param>
         /// <returns></returns>
-        Task<AnswerDto> FindById(int answerId);
+        Task<AnswerDto> FindByAnswerId(int answerId);
+
+        /// <summary>
+        /// Find all answers for user going directly to the database
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        Task<IEnumerable<AnswerDto>> FindDirectByUserId(string userId);
+
+        /// <summary>
+        /// Find all answers with no user going directly to the database
+        /// </summary>
+        /// <returns></returns>
+        Task<IEnumerable<AnswerDto>> FindDirectBlank();
 
         /// <summary>
         /// Add answer

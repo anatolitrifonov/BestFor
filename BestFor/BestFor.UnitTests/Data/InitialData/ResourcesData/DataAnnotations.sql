@@ -80,6 +80,14 @@ if not exists(select * from ResourceStrings where CultureName = 'ru-RU' and [Key
 		N'Имя Пользователя должен быть между 6 и 100 символов.', getDate());
 GO
 
+if not exists(select * from ResourceStrings where CultureName = 'en-US' and [Key] = 'AnnotationErrorMessageStringLength100X4UserName')
+	insert ResourceStrings(CultureName, [Key], Value, DateAdded) values('en-US', 'AnnotationErrorMessageStringLength100X4UserName',
+		N'User Name must be 4 to 100 characters.', getDate());
+if not exists(select * from ResourceStrings where CultureName = 'ru-RU' and [Key] = 'AnnotationErrorMessageStringLength100X4UserName')
+	insert ResourceStrings(CultureName, [Key], Value, DateAdded) values('ru-RU', 'AnnotationErrorMessageStringLength100X4UserName',
+		N'Имя Пользователя должен быть между 4 и 100 символов.', getDate());
+GO
+
 if not exists(select * from ResourceStrings where CultureName = 'en-US' and [Key] = 'AnnotationDisplayNameUserName')
 	insert ResourceStrings(CultureName, [Key], Value, DateAdded) values('en-US', 'AnnotationDisplayNameUserName',
 		N'User Name', getDate());
@@ -94,6 +102,14 @@ if not exists(select * from ResourceStrings where CultureName = 'en-US' and [Key
 if not exists(select * from ResourceStrings where CultureName = 'ru-RU' and [Key] = 'AnnotationErrorMessageStringLength100X6DisplayName')
 	insert ResourceStrings(CultureName, [Key], Value, DateAdded) values('ru-RU', 'AnnotationErrorMessageStringLength100X6DisplayName',
 		N'Псевдоним должен быть между 6 и 100 символов.', getDate());
+GO
+
+if not exists(select * from ResourceStrings where CultureName = 'en-US' and [Key] = 'AnnotationErrorMessageStringLength100X3DisplayName')
+	insert ResourceStrings(CultureName, [Key], Value, DateAdded) values('en-US', 'AnnotationErrorMessageStringLength100X3DisplayName',
+		N'Display Name must be 3 to 100 characters.', getDate());
+if not exists(select * from ResourceStrings where CultureName = 'ru-RU' and [Key] = 'AnnotationErrorMessageStringLength100X3DisplayName')
+	insert ResourceStrings(CultureName, [Key], Value, DateAdded) values('ru-RU', 'AnnotationErrorMessageStringLength100X3DisplayName',
+		N'Псевдоним должен быть между 3 и 100 символов.', getDate());
 GO
 
 if not exists(select * from ResourceStrings where CultureName = 'en-US' and [Key] = 'AnnotationDisplayNameDisplayName')

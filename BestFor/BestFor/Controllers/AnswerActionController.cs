@@ -66,7 +66,7 @@ namespace BestFor.Controllers
         {
             var culture = this.Culture;
             // Load the answer.
-            var answer = await _answerService.FindById(answerId);
+            var answer = await _answerService.FindByAnswerId(answerId);
             // Go home is not found
             if (answer == null) return RedirectToAction("Index", "Home");
 
@@ -91,7 +91,7 @@ namespace BestFor.Controllers
             // Let's load the answer.
             // The hope is that service will not have to go to the database and load answer from cache.
             // But please look at the servise implementation for details.
-            var answer = await _answerService.FindById(answerId);
+            var answer = await _answerService.FindByAnswerId(answerId);
 
             // Model is basically empty at this point.
             var model = new AnswerDescriptionDto() { Answer = answer, AnswerId = answerId };
@@ -164,7 +164,7 @@ namespace BestFor.Controllers
             // Let's load the answer.
             // The hope is that service will not have to go to the database and load answer from cache.
             // But please look at the servise implementation for details.
-            var answer = await _answerService.FindById(id);
+            var answer = await _answerService.FindByAnswerId(id);
 
             // Kick them if answer was andded not by the current user
             // This prevents going directly to the answer
@@ -193,7 +193,7 @@ namespace BestFor.Controllers
             }
 
             // Find the answer that needs changes
-            var answerToModify = await _answerService.FindById(answer.Id);
+            var answerToModify = await _answerService.FindByAnswerId(answer.Id);
 
             // Kick them if answer was andded not by the current user
             // This prevents going directly to the answer

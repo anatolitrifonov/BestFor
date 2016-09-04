@@ -45,6 +45,7 @@ namespace BestFor.Controllers
             var result = new AnswersDto();
 
             result.Answers = await _answerService.FindLeftAnswers(data);
+            result.SearchKeyword = data;
 
             return View("Result", result);
         }
@@ -62,6 +63,8 @@ namespace BestFor.Controllers
             var result = new AnswersDto();
 
             result.Answers = await _answerService.FindRightAnswers(data);
+            result.IsLeft = false;
+            result.SearchKeyword = data;
 
             return View("Result", result);
         }

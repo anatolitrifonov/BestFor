@@ -81,6 +81,22 @@ namespace BestFor.Services.Services
         }
 
         /// <summary>
+        /// Load answer descriptions for a given answer.
+        /// </summary>
+        /// <param name="answerId"></param>
+        /// <returns></returns>
+        public async Task<IEnumerable<AnswerDescriptionDto>> FindDirectByAnswerId(int answerId)
+        {
+            // return blank list if invalid answerId
+            if (answerId == 0) return await Task.FromResult(Enumerable.Empty<AnswerDescriptionDto>());
+
+            var data = _repository.FindByAnswerId(answerId);
+
+            // Return data
+            return data.Select(x => x.ToDto());
+        }
+
+        /// <summary>
         /// Find answer descriptions by answer description id
         /// </summary>
         /// <param name="answerDescriptionId"></param>
@@ -98,6 +114,18 @@ namespace BestFor.Services.Services
             // Return data
             return data.ToDto();
         }
+
+        /// <summary>
+        /// Find all answers with no user going directly to the database
+        /// </summary>
+        /// <returns></returns>
+        public async Task<IEnumerable<AnswerDescriptionDto>> FindDirectBlank()
+        {
+            var data = _repository.FindAnswerDescriptionsWithNoUser();
+            return await Task.FromResult(data.Select(x => x.ToDto()));
+        }
+
+
         #endregion
 
         #region Private Methods

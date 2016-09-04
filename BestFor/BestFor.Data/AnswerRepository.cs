@@ -66,5 +66,16 @@ namespace BestFor.Data
         {
             return _dbSet.Where(x => !x.IsHidden);
         }
+
+
+        public IEnumerable<Answer> FindByUserId(string userId)
+        {
+            return _dbSet.Where(x => x.UserId == userId);
+        }
+
+        public IEnumerable<Answer> FindAnswersWithNoUser()
+        {
+            return _dbSet.Where(x => x.UserId == null);
+        }
     }
 }

@@ -37,13 +37,13 @@ namespace BestFor.Models
         public string ConfirmPassword { get; set; }
 
         [Required(ErrorMessageResourceName = "AnnotationErrorMessageRequiredUserName", ErrorMessageResourceType = typeof(R))]
-        [StringLength(100, MinimumLength = 6,
-            ErrorMessageResourceName = "AnnotationErrorMessageStringLength100X6UserName", ErrorMessageResourceType = typeof(R))]
+        [StringLength(100, MinimumLength = 4,
+            ErrorMessageResourceName = "AnnotationErrorMessageStringLength100X4UserName", ErrorMessageResourceType = typeof(R))]
         [Display(Name = "AnnotationDisplayNameUserName", ResourceType = typeof(R))]
         public string UserName { get; set; }
 
-        [StringLength(100, MinimumLength = 6,
-            ErrorMessageResourceName = "AnnotationErrorMessageStringLength100X6DisplayName", ErrorMessageResourceType = typeof(R))]
+        [StringLength(100, MinimumLength = 3,
+            ErrorMessageResourceName = "AnnotationErrorMessageStringLength100X3DisplayName", ErrorMessageResourceType = typeof(R))]
         [Display(Name = "AnnotationDisplayNameDisplayName", ResourceType = typeof(R))]
         public string DisplayName { get; set; }
     }

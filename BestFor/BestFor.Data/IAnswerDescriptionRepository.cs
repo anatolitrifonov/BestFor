@@ -8,5 +8,8 @@ namespace BestFor.Data
 {
     public interface IAnswerDescriptionRepository : IRepository<AnswerDescription>
     {
+        IEnumerable<AnswerDescription> FindAnswerDescriptionsWithNoUser();
+
+        IEnumerable<AnswerDescription> FindByAnswerId(int answerId);
     }
 }

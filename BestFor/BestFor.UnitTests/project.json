@@ -17,7 +17,7 @@
   },
 
   "frameworks": {
-    "net451": {}
+    "net452": {}
   },
 
   "buildOptions": {"copyToOutput": { "include": "appsettings.json"}}
