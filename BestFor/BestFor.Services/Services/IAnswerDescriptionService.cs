@@ -38,10 +38,17 @@ namespace BestFor.Services.Services
         Task<IEnumerable<AnswerDescriptionDto>> FindDirectBlank();
 
         /// <summary>
-        /// Find all answer description for a given answer going directly to database
+        /// Find all answer descriptions for a given answer going directly to database
         /// </summary>
         /// <param name="answerId"></param>
         /// <returns></returns>
         Task<IEnumerable<AnswerDescriptionDto>> FindDirectByAnswerId(int answerId);
+
+        /// <summary>
+        /// Find all answer descriptions for a given user
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        Task<IEnumerable<AnswerDescriptionDto>> FindDirectByUserId(string userId);
     }
 }

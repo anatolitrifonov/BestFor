@@ -125,7 +125,16 @@ namespace BestFor.Services.Services
             return await Task.FromResult(data.Select(x => x.ToDto()));
         }
 
-
+        /// <summary>
+        /// Find all answer descriptions for a given user
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        public async Task<IEnumerable<AnswerDescriptionDto>> FindDirectByUserId(string userId)
+        {
+            var data = _repository.FindByUserId(userId);
+            return await Task.FromResult(data.Select(x => x.ToDto()));
+        }
         #endregion
 
         #region Private Methods

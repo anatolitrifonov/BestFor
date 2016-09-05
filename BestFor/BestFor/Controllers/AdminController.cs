@@ -126,6 +126,22 @@ namespace BestFor.Controllers
             return View(model);
         }
 
+        /// <summary>
+        /// Show all answer descriptions that user added.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public async Task<IActionResult> ShowUserDescriptions(string id)
+        {
+            var user = await _userService.FindByIdAsync(id);
+
+            var answerDescriptions = await _answerDescriptionService.FindDirectByUserId(id);
+
+            var model = new AdminUserDescriptionsViewModel() { User = user, AnswerDescriptions = answerDescriptions };
+
+            return View(model);
+        }
+
         public async Task<IActionResult> ListBlankAnswer()
         {
             var answers = await _answerService.FindDirectBlank();

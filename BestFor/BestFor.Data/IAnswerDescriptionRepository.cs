@@ -11,5 +11,7 @@ namespace BestFor.Data
         IEnumerable<AnswerDescription> FindAnswerDescriptionsWithNoUser();
 
         IEnumerable<AnswerDescription> FindByAnswerId(int answerId);
+
+        IEnumerable<AnswerDescription> FindByUserId(string userId);
     }
 }

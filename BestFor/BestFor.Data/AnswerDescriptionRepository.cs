@@ -29,6 +29,11 @@ namespace BestFor.Data
         {
             return _dbSet.Where(x => x.AnswerId == answerId);
         }
-   }
+
+        public IEnumerable<AnswerDescription> FindByUserId(string userId)
+        {
+            return _dbSet.Where(x => x.UserId == userId);
+        }
+    }
 }
 

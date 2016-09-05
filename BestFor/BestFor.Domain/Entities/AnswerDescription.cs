@@ -63,7 +63,8 @@ namespace BestFor.Domain.Entities
                 Id = Id,
                 AnswerId = AnswerId,
                 Description = Description,
-                UserId = UserId
+                UserId = UserId,
+                DateAdded = DateAdded
             };
         }
 
@@ -73,6 +74,7 @@ namespace BestFor.Domain.Entities
             AnswerId = dto.AnswerId;
             Description = dto.Description;
             UserId = dto.UserId;
+            //DateAdded = dto.DateAdded;
 
             return Id;
         }

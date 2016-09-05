@@ -1,5 +1,8 @@
 ﻿@model BestFor.Models.AdminUserViewModel
 @Html.Partial("Menu")
+@{
+    int numberOfRecords = Model.Answers == null ? 0 : Model.Answers.Count();
+}
 <div>
     <h4>User @Model.User.UserName</h4>
     <hr />
@@ -12,18 +15,16 @@
         </dd>
     </dl>
     <table class="table">
-        <tr><th colspan="4">Answers</th></tr>
-        <tr><th>Left</th><th>Right</th><th>Phrase</th><th>User</th><th>Actions</th></tr>
+        <tr><th colspan="5">Answers (@numberOfRecords) @Html.ActionLink("Show User's Answer Descriptions", "ShowUserDescriptions", new { id = Model.User.Id })</th></tr>
+        <tr><th>Left</th><th>Right</th><th>Phrase</th><th>Date Added</th><th>Action</th></tr>
         @foreach (var answer in Model.Answers)
         {
             <tr>
                 <td>@Html.DisplayFor(x => answer.LeftWord)</td>
                 <td>@Html.DisplayFor(x => answer.RightWord)</td>
                 <td>@Html.DisplayFor(x => answer.Phrase)</td>
-                <td>@Html.ActionLink("User", "ShowUser", new { id = answer.Id })</td>
-                <td>
-                    @Html.ActionLink("View", "GetAnswer", new { answerId = answer.Id })
-                </td>
+                <td>@Html.DisplayFor(x => answer.DateAdded)</td>
+                <td>@Html.ActionLink("View Answer", "GetAnswer", new { answerId = answer.Id })</td>
             </tr>
         }
     </table>
