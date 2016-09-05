@@ -8,6 +8,8 @@ Showing answer info
     <dt>Phrase</dt><dd>@Model.Answer.Phrase</dd>
     <dt>Count</dt><dd>@Model.Answer.Count</dd>
     <dt>UserId</dt><dd>@Html.ActionLink(Model.Answer.UserId, "ShowUser", new { id = Model.Answer.UserId })</dd>
+    <dt>View on the site</dt>
+    <dd>@Html.ActionLink(Model.Answer.Id.ToString(), "ShowAnswer", "AnswerAction", new { answerId = Model.Answer.Id }, new { target = "_blank"})</dd>
 </dl>
 <table class="table">
     <tr><th colspan="4">Descriptions (@(Model.AnswerDescriptions == null ? 0 : Model.AnswerDescriptions.Count()))</th></tr>
