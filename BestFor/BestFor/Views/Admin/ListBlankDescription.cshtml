@@ -1,18 +1,25 @@
 ﻿@model IEnumerable<BestFor.Dto.AnswerDescriptionDto>
 @Html.Partial("Menu")
+@{
+    int numberOfRecords = Model == null ? 0 : Model.Count();
+}
 <div>
     <h4>Answer Descriptions with no User</h4>
     <hr />
     <table class="table">
+        <tr><th colspan="4">Descriptions (@numberOfRecords)</th></tr>
         <tr><th>Description</th><th>Answer</th></tr>
-        @foreach (var answerDescription in Model)
+        @if (Model != null)
         {
+            foreach (var answerDescription in Model)
+            {
             <tr>
                 <td>@Html.DisplayFor(x => answerDescription.Description)</td>
                 <td>
                     @Html.ActionLink(answerDescription.AnswerId.ToString(), "GetAnswer", new { answerId = answerDescription.AnswerId })
                 </td>
             </tr>
+            }
         }
     </table>
 </div>

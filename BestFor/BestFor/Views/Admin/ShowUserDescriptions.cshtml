@@ -1,0 +1,30 @@
+﻿@model BestFor.Models.AdminUserDescriptionsViewModel
+@Html.Partial("Menu")
+@{ 
+    int numberOfRecords = Model.AnswerDescriptions == null ? 0 : Model.AnswerDescriptions.Count();
+}
+<div>
+    <h4>User @Model.User.UserName</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.User.DisplayName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.User.DisplayName)
+        </dd>
+    </dl>
+    <table class="table">
+        <tr><th colspan="4">Answer Descriptions (@numberOfRecords) @Html.ActionLink("Show User's Answers", "ShowUser", new { id = Model.User.Id })</th></tr>
+        <tr><th>Left</th><th>DateAdded</th><th>Answer</th><th>Actions</th></tr>
+        @foreach (var answerDescription in Model.AnswerDescriptions)
+        {
+            <tr>
+                <td>@Html.DisplayFor(x => answerDescription.Description)</td>
+                <td>@Html.DisplayFor(x => answerDescription.DateAdded)</td>
+                <td>@Html.ActionLink("View Answer", "GetAnswer", new { answerId = answerDescription.AnswerId })</td>
+                <td>N/A</td>
+            </tr>
+        }
+    </table>
+</div>

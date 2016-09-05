@@ -16,9 +16,7 @@
         <td>@Html.DisplayFor(modelItem => item.DisplayName)</td>
         <td>@Html.DisplayFor(modelItem => item.UserName)</td>
         <td>@Html.DisplayFor(modelItem => item.Email)</td>
-        <td>
-            @Html.ActionLink("View", "ShowUser", new { id = item.Id })
-        </td>
+        <td>@Html.ActionLink("View", "ShowUser", new { id = item.Id })</td>
     </tr>
 }
     </table>

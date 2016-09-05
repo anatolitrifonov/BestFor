@@ -71,7 +71,8 @@ namespace BestFor.Domain.Entities
                 Count = Count,
                 Id = Id,
                 UserId = UserId,
-                Category = Category
+                Category = Category,
+                DateAdded = DateAdded
             };
         }
 
@@ -84,6 +85,7 @@ namespace BestFor.Domain.Entities
             Id = dto.Id;
             UserId = dto.UserId;
             Category = dto.Category;
+            //DateAdded = dto.DateAdded;
 
             return Id;
         }
