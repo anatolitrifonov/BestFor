@@ -291,6 +291,18 @@ namespace BestFor.Services.Services
                 todaysTrending.Add(answer);
                 return;
             }
+
+            // Do the date manipulation first.
+            for (int i = 0; i < TRENDING_TOP_TODAY; i++)
+            {
+                if (todaysTrending[i].DateAdded.AddHours(24) < answer.DateAdded)
+                {
+                    todaysTrending.RemoveAt(i);
+                    todaysTrending.Insert(0, answer);
+                    return;
+                }
+            }
+
             // If last one is not with count 1 -> nothing to do. That means the last one already has more than one vote.
             if (todaysTrending[length - 1].Count > 1) return;
             // Logically that means the last one is with count one.
