@@ -21,7 +21,7 @@ Showing answer info
             <tr>
                 <td>@Html.DisplayFor(x => description.Description)</td>
                 <td>@Html.DisplayFor(x => description.DateAdded)</td>
-                <td>@Html.ActionLink(Model.Answer.UserId, "ShowUser", new { id = description.UserId })</td>
+                <td>@Html.ActionLink(description.UserId, "ShowUser", new { id = description.UserId })</td>
             </tr>
         }
     }
