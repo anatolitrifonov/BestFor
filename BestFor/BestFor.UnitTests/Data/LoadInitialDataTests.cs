@@ -20,7 +20,7 @@ namespace BestFor.UnitTests.Data
         public void LoadInitialData_Profanity()
         {
             // Uncomment this to actually run.
-            //var t = 5; if (t > 1) return;
+            var t = 5; if (t > 1) return;
 
             string pathToSuggestionFile = Directory.GetCurrentDirectory();
             pathToSuggestionFile = pathToSuggestionFile + "\\..\\..\\..\\..\\Data\\InitialData\\ProphanityData\\en.txt";
@@ -61,7 +61,7 @@ namespace BestFor.UnitTests.Data
         public void LoadInitialData_Resources()
         {
             // Uncomment this to actually run.
-            //var t = 5; if (t > 1) return;
+            var t = 5; if (t > 1) return;
 
             string pathToResourcesFile = Directory.GetCurrentDirectory() + "\\..\\..\\..\\..\\Data\\InitialData\\ResourcesData\\InitialData.sql";
             FileInfo file = new FileInfo(pathToResourcesFile);
@@ -89,7 +89,7 @@ namespace BestFor.UnitTests.Data
         public void LoadInitialData_DataAnnotations()
         {
             // Uncomment this to actually run.
-            //var t = 5; if (t > 1) return;
+            var t = 5; if (t > 1) return;
 
             string pathToResourcesFile = Directory.GetCurrentDirectory() + "\\..\\..\\..\\..\\Data\\InitialData\\ResourcesData\\DataAnnotations.sql";
             FileInfo file = new FileInfo(pathToResourcesFile);
@@ -117,7 +117,7 @@ namespace BestFor.UnitTests.Data
         public void LoadInitialData_Suggestions()
         {
             // Uncomment this to actually run.
-            //var t = 5; if (t > 1) return;
+            var t = 5; if (t > 1) return;
 
             string pathToSuggestionFile = Directory.GetCurrentDirectory();
             pathToSuggestionFile = pathToSuggestionFile + "\\..\\..\\..\\..\\Data\\InitialData\\SuggestionsData\\suggestions.txt";
