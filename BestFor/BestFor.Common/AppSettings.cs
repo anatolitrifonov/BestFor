@@ -5,7 +5,7 @@ using Microsoft.Extensions.Options;
 namespace BestFor.Common
 {
     /// <summary>
-    /// Represents general application settings. Contains static methods to load appsettings.
+    /// Represents Typed general application settings. Contains static methods to load appsettings.
     /// </summary>
     public class AppSettings
     {
@@ -17,12 +17,19 @@ namespace BestFor.Common
         }
 
         public string AmazonAccessKeyId { get; set; }
+
         public string AmazonAssociateId { get; set; }
+
         public string AmazonSecretKey { get; set; }
+
         public string EmailServerAddress { get; set; }
+
         public int EmailServerPort { get; set; }
+
         public string EmailServerUser { get; set; }
+
         public string EmailServerPassword { get; set; }
+
         public string EmailFromAddress { get; set; }
 
         public string MiscSetting { get; set; }

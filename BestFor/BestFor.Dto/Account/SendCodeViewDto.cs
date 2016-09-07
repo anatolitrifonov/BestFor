@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 
 namespace BestFor.Dto.Account
 {
+    [ExcludeFromCodeCoverage]
     public class SendCodeViewDto
     {
         public string SelectedProvider { get; set; }

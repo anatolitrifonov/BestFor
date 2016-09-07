@@ -24,6 +24,7 @@ namespace BestFor.Fakes
             AddFakeDbSet<Answer, FakeAnswers>();
             AddFakeDbSet<BadWord, FakeBadWords>();
             AddFakeDbSet<Suggestion, FakeSuggestions>();
+            AddFakeDbSet<AnswerDescription, FakeAnswerDescriptions>();
         }
 
         public virtual DbSet<TEntity> EntitySet<TEntity>() where TEntity : class

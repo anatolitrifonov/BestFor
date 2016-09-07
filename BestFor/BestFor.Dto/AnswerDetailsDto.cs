@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 
 namespace BestFor.Dto
@@ -7,6 +8,7 @@ namespace BestFor.Dto
     /// Model dto object used for displaying full answer related information.
     /// Used on Home/MyContent view.
     /// </summary>
+    [ExcludeFromCodeCoverage]
     public class AnswerDetailsDto : CrudMessagesDto
     {
         public AnswerDto Answer { get; set; }

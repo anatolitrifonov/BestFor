@@ -1,8 +1,11 @@
-﻿namespace BestFor.Dto
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace BestFor.Dto
 {
     /// <summary>
     /// Model for home index controller.
     /// </summary>
+    [ExcludeFromCodeCoverage]
     public class HomePageDto
     {
         public AnswersDto TopToday { get; set; } = new AnswersDto();

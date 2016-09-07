@@ -1,8 +1,11 @@
-﻿namespace BestFor.Dto
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace BestFor.Dto
 {
     /// <summary>
     /// Model dto object used for adding answer description page
     /// </summary>
+    [ExcludeFromCodeCoverage]
     public class AnswerDescriptionDto : BaseDto
     {
         public AnswerDto Answer { get; set; }

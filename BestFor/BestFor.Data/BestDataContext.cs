@@ -3,10 +3,12 @@ using BestFor.Domain.Interfaces;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 
 namespace BestFor.Data
 {
+    [ExcludeFromCodeCoverage]
     public class BestDataContext : IdentityDbContext<ApplicationUser>, IDataContext
     {
         public DbSet<Answer> Answers { get; set; }
@@ -39,6 +41,7 @@ namespace BestFor.Data
             // For example, you can rename the ASP.NET Identity table names and more.
             // Add your customizations after calling base.OnModelCreating(builder);
 
+            // This is right now the only way to stick in the unique index that is not a key into the database.
             builder.Entity<Suggestion>().HasIndex(b => b.Phrase).IsUnique();
         }
 
@@ -71,40 +74,30 @@ namespace BestFor.Data
             optionsBuilder.UseSqlServer(connectionString);
         }
 
+        /// <summary>
+        /// Give direct access to sets. Should be limited to may be internal but then it is not clear how to test it.
+        /// </summary>
+        /// <typeparam name="TEntity"></typeparam>
+        /// <returns></returns>
         public virtual DbSet<TEntity> EntitySet<TEntity>() where TEntity : class
         {
-            return this.Set<TEntity>();
+            return Set<TEntity>();
         }
 
+        /// <summary>
+        /// This was taken from some implementation of unit of work.
+        /// But then EF in .Net is a bit bette and has its own state tracking.
+        /// I left the methos just in case but most probably it is not needed.
+        /// </summary>
+        /// <typeparam name="TEntity"></typeparam>
+        /// <param name="entity"></param>
         public void SyncObjectState<TEntity>(TEntity entity) where TEntity : class, IObjectState
         {
             // var t = Entry(entity).State;
             // var state = StateHelper.ConvertState(entity.ObjectState);
             // Do nothing. 
-            //Entry(entity).State = state;
+            // Entry(entity).State = state;
         }
 
-        ///// <summary>
-        ///// Now I really lost the track of when this is called.
-        ///// For not from tests. I checked. For sure not from web.
-        ///// Probably when used from executable that I had at some point and then deleted.
-        ///// </summary>
-        ///// <param name="services"></param>
-        //public void ConfigureServices(IServiceCollection services)
-        //{
-        //    services.AddEntityFramework()
-        //        .AddSqlServer()
-        //        .AddDbContext<BestFor.Data.BestDataContext>(); // (options =>
-        //}
-
-        //protected override void OnModelCreating(ModelBuilder builder)
-        //{
-        //    foreach (var entity in builder.Model.GetEntityTypes())
-        //    {
-        //        entity.Relational().TableName = entity.DisplayName();
-        //    }
-
-        //    base.OnModelCreating(builder);
-        //}
     }
 }
