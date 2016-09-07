@@ -29,7 +29,7 @@ namespace BestFor.Data
         /// <returns></returns>
         public IEnumerable<Answer> FindAnswersTrendingToday(int numberItemsToReturn, DateTime today)
         {
-            if (numberItemsToReturn < 1 && numberItemsToReturn > 1000)
+            if (numberItemsToReturn < 1 || numberItemsToReturn > 1000)
                 throw new ArgumentOutOfRangeException("numberItemsToReturn", "numberItemsToReturn must be between 1 and 1000");
 
             return Queryable().Where(x =>
@@ -49,7 +49,7 @@ namespace BestFor.Data
         /// <returns></returns>
         public IEnumerable<Answer> FindAnswersTrendingOverall(int numberItemsToReturn)
         {
-            if (numberItemsToReturn < 1 && numberItemsToReturn > 1000)
+            if (numberItemsToReturn < 1 || numberItemsToReturn > 1000)
                 throw new ArgumentOutOfRangeException("numberItemsToReturn", "numberItemsToReturn must be between 1 and 1000");
 
             return Queryable().Where(x => !x.IsHidden)

@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 
 namespace BestFor.Dto.Account
 {
@@ -10,6 +11,7 @@ namespace BestFor.Dto.Account
     /// Plus I still have no idea how to do the localized validation without setting the thread locale.
     /// I do not want to set the thread locale.
     /// </remarks>
+    [ExcludeFromCodeCoverage]
     public class ProfileEditDto : CrudMessagesDto
     {
         [Required(ErrorMessage = "*")]

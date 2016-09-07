@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Diagnostics.CodeAnalysis;
 
 namespace BestFor.Data
 {
     public class Program
     {
+        [ExcludeFromCodeCoverage]
         public static void Main(string[] args)
         {
         }

@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Diagnostics.CodeAnalysis;
 
 namespace BestFor.Dto
 {
     /// <summary>
     /// Used by resource service to pass around commongly known strings
     /// </summary>
+    [ExcludeFromCodeCoverage]
     public class CommonStringsDto
     {
         public string Best { get; set; } = "Best";

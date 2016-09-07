@@ -65,6 +65,10 @@ namespace BestFor.Resources
 
         public static string AnnotationErrorMessageStringLength1000X3Reason { get { return GetString("AnnotationErrorMessageStringLength1000X3Reason"); } }
 
+        public static string AnnotationErrorMessageStringLength100X4UserName { get { return GetString("AnnotationErrorMessageStringLength100X4UserName"); } }
+
+        public static string AnnotationErrorMessageStringLength100X3DisplayName { get { return GetString("AnnotationErrorMessageStringLength100X3DisplayName"); } }
+
         private static string GetString(string key)
         {
             // First get the http context

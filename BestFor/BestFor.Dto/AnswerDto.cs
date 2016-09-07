@@ -1,10 +1,12 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 
 namespace BestFor.Dto
 {
     /// <summary>
     /// Represents a simple words suggestion for typeahead text box.
     /// </summary>
+    [ExcludeFromCodeCoverage]
     public class AnswerDto : BaseDto
     {
         public class AnswerCategory

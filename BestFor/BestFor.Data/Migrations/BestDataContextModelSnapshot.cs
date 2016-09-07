@@ -4,9 +4,11 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using BestFor.Data;
+using System.Diagnostics.CodeAnalysis;
 
 namespace BestFor.Data.Migrations
 {
+    [ExcludeFromCodeCoverage]
     [DbContext(typeof(BestDataContext))]
     partial class BestDataContextModelSnapshot : ModelSnapshot
     {

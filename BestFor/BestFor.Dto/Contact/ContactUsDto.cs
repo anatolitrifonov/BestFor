@@ -1,10 +1,12 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 
 namespace BestFor.Dto.Contact
 {
     /// <summary>
     /// Model used on contact us page
     /// </summary>
+    [ExcludeFromCodeCoverage]
     public class ContactUsDto
     {
         public string UserId { get; set; }

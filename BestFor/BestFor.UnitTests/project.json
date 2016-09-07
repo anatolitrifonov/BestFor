@@ -10,10 +10,11 @@
     "BestFor.Domain": "1.0.0-*",
     "BestFor.Data": "1.0.0-*",
     "BestFor.Common": "1.0.0-*",
-    "Autofac": "4.0.0-rc3-286",
     "dotnet-test-xunit": "2.2.0-preview2-build1029",
     "Microsoft.AspNetCore.Identity.EntityFrameworkCore": "1.0.0",
-    "xunit": "2.2.0-beta2-build3300"
+    "xunit": "2.2.0-beta2-build3300",
+    "Moq": "4.6.38-alpha",
+    "Autofac": "4.1.0"
   },
 
   "frameworks": {

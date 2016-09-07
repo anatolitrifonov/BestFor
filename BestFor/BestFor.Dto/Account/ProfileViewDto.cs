@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
+using System.Diagnostics.CodeAnalysis;
 
 namespace BestFor.Dto.Account
 {
@@ -14,6 +12,7 @@ namespace BestFor.Dto.Account
     /// Plus I still have no idea how to do the localized validation without setting the thread locale.
     /// I do not want to set the thread locale.
     /// </remarks>
+    [ExcludeFromCodeCoverage]
     public class ProfileViewDto : CrudMessagesDto
     {
         [Display(Name = "User Name")]

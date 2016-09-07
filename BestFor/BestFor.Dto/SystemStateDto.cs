@@ -1,5 +1,8 @@
-﻿namespace BestFor.Dto
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace BestFor.Dto
 {
+    [ExcludeFromCodeCoverage]
     public class SystemStateDto
     {
         public string AnswersCacheStatus { get; set; }

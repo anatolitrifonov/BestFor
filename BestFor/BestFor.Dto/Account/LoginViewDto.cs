@@ -1,7 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 
 namespace BestFor.Dto.Account
 {
+    [ExcludeFromCodeCoverage]
     public class LoginViewDto
     {
         [Required]

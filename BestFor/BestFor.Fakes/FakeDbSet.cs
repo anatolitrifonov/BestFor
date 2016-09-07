@@ -43,11 +43,16 @@ namespace BestFor.Fakes
         public IQueryProvider Provider { get { return _query.Provider; } }
         #endregion
 
-        //public TEntity Add(TEntity entity)
-        //{
-        //    _items.Add(entity);
-        //    return entity;
-        //}
+        public override EntityEntry<TEntity> Add(TEntity entity)
+        {
+            _items.Add(entity);
+            return default(EntityEntry<TEntity>);
+        }
+
+         public override EntityEntry<TEntity> Update(TEntity entity)
+        {
+            return default(EntityEntry<TEntity>);
+        }
 
 
         //public override TEntity Add(TEntity entity, GraphBehavior behavior)
