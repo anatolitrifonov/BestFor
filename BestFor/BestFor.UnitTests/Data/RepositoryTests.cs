@@ -89,6 +89,7 @@ namespace BestFor.UnitTests.Data
         public async void RepositoryTests_SaveChangesAsync_SavesChanges()
         {
             var dataContextMock = new Mock<FakeDataContext>();
+            // dataContextMock.Setup(x => x.A());
 
             var repository = new Repository<Answer>(dataContextMock.Object);
 
@@ -97,8 +98,7 @@ namespace BestFor.UnitTests.Data
             await repository.SaveChangesAsync(token);
 
             // verify that SaveChangesAsync on repo calls SaveChangesAsync on dataContext
-            //dataContextMock.Verify<Task<int>>(x => x.SaveChangesAsync(token)); //, Times.Once());
-            dataContextMock.Verify<Task<int>>(x => x.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Once());
+            dataContextMock.Verify(x => x.SaveChangesAsync(token), Times.Once());
         }
     }
 }

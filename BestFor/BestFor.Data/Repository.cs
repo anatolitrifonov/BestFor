@@ -73,6 +73,5 @@ namespace BestFor.Data
         {
             return _context.SaveChangesAsync(cancellationToken);
         }
-
     }
 }

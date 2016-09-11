@@ -40,9 +40,18 @@ namespace BestFor.Fakes
             _fakeDbSets.Add(typeof(TEntity), fakeDbSet);
         }
 
-        public Task<int> SaveChangesAsync(CancellationToken cancellationToken) { return Task.FromResult(0); }
+        /// <summary>
+        /// Has to be virtual otherwise can not mock it using Moq
+        /// </summary>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public virtual Task<int> SaveChangesAsync(CancellationToken cancellationToken) { return Task.FromResult(0); }
 
-        public Task<int> SaveChangesAsync() { return Task.FromResult(0); }
+        /// <summary>
+        /// Has to be virtual otherwise can not mock it using Moq
+        /// </summary>
+        /// <returns></returns>
+        public virtual Task<int> SaveChangesAsync() { return Task.FromResult(0); }
 
         public void SyncObjectState<TEntity>(TEntity entity) where TEntity : class, IObjectState
         {
