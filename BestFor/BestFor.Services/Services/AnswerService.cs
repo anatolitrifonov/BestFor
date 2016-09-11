@@ -42,9 +42,12 @@ namespace BestFor.Services.Services
             _cacheManager = cacheManager;
             _repository = repository;
             _userService = userService;
-            _logger = loggerFactory.CreateLogger<AnswerService>();
-            _logger.LogInformation("created AnswerService");
-
+            // Have to check for null because ILoggerFactory.CreateLogger<AnswerService>() is an extension method and can not be mocked.
+            if (loggerFactory != null)
+            {
+                _logger = loggerFactory.CreateLogger<AnswerService>();
+                _logger.LogInformation("created AnswerService");
+            }
         }
 
         #region IAnswerService implementation
@@ -77,7 +80,32 @@ namespace BestFor.Services.Services
             // This is just getting a list of answers with number of "votes" for each. Cache stored answers, not votes.
             // Each answer in cache has number of votes.
             var result = await cachedData.FindExact(Answer.FormKey(leftWord, rightWord), phrase);
-            if (result == null) return null;
+            if (result == null)
+            {
+                // Lets try variations
+                var variations = Variations(leftWord);
+                foreach(string variation in variations)
+                {
+                    result = await cachedData.FindExact(Answer.FormKey(variation, rightWord), phrase);
+                    if (result != null) return result.ToDto();
+                }
+
+                variations = Variations(rightWord);
+                foreach (string variation in variations)
+                {
+                    result = await cachedData.FindExact(Answer.FormKey(leftWord, variation), phrase);
+                    if (result != null) return result.ToDto();
+                }
+
+                variations = Variations(phrase);
+                foreach (string variation in variations)
+                {
+                    result = await cachedData.FindExact(Answer.FormKey(leftWord, rightWord), variation);
+                    if (result != null) return result.ToDto();
+                }
+
+                return null;
+            };
             return result.ToDto();
         }
 
@@ -176,7 +204,6 @@ namespace BestFor.Services.Services
             return await Task.FromResult(data.Select(x => x.ToDto()));
         }
 
-
         /// <summary>
         /// Hides answer is the database and removes it from cache.
         /// </summary>
@@ -270,6 +297,72 @@ namespace BestFor.Services.Services
             return result.Select(x => x.ToDto()).Take(count);
         }
         #endregion
+
+        /// <summary>
+        /// Gives variations of the first three words of input with spaces replaced by dashes
+        /// Example: input = "a b c"
+        /// Result: "a-b c", "a b-c", "a-b-c"
+        /// Example: input = "a b c d"
+        /// Result: "a-b c d", "a b-c d", "a-b-c d" 
+        /// Notice only the first three words.
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns>At least empty list is always returned</returns>
+        public List<string> Variations(string input)
+        {
+            var result = new List<string>();
+            if (input == null) return result;
+            if (string.IsNullOrEmpty(input) || string.IsNullOrWhiteSpace(input)) return result;
+            // first space
+            int firstSpace = input.IndexOf(' ');
+            // No spaces
+            if (firstSpace < 0) return result;
+            // We know it has at least one none space. And it is not just a space or two spaces.
+            // starts with space?
+            var firstSection = (firstSpace > 0 ? input.Substring(0, firstSpace) : "");
+            var secondSection = "";
+            // ends with the first space?
+            if (firstSpace != input.Length - 1) secondSection = input.Substring(firstSpace + 1);
+            // first replacement
+            var replacement = firstSection + "-" + secondSection;
+            result.Add(replacement);
+
+            // Do the same one more time with the second section. Need to turn this into recursion
+
+            int secondSpace = secondSection.IndexOf(' ');
+            // No spaces
+            if (secondSpace < 0) return result;
+            // We know it has at least one none space. And it is not just a space or two spaces.
+            // starts with space?
+            var firstSection1 = (secondSpace > 0 ? secondSection.Substring(0, secondSpace) : "");
+            var secondSection1 = "";
+            // ends with the first space?
+            if (secondSpace != secondSection.Length - 1) secondSection1 = secondSection.Substring(secondSpace + 1);
+
+            result.Add(firstSection + " " + firstSection1 + "-" + secondSection1);
+            result.Add(firstSection + "-" + firstSection1 + "-" + secondSection1);
+
+            int thirdSpace = secondSection1.IndexOf(' ');
+            // No spaces
+            if (thirdSpace < 0) return result;
+            // starts with space?
+            var firstSection2 = (thirdSpace > 0 ? secondSection1.Substring(0, thirdSpace) : "");
+            var secondSection2 = "";
+            // ends with the first space?
+            if (thirdSpace != secondSection1.Length - 1) secondSection2 = secondSection1.Substring(thirdSpace + 1);
+
+            //result.Add(firstSection + " " + firstSection1 + " " + firstSection2 + " " + secondSection2);
+            //result.Add(firstSection + " " + firstSection1 + "-" + firstSection2 + " " + secondSection2);
+            //result.Add(firstSection + "-" + firstSection1 + " " + firstSection2 + " " + secondSection2);
+            //result.Add(firstSection + "-" + firstSection1 + "-" + firstSection2 + " " + secondSection2);
+
+            result.Add(firstSection + " " + firstSection1 + " " + firstSection2 + "-" + secondSection2);
+            result.Add(firstSection + " " + firstSection1 + "-" + firstSection2 + "-" + secondSection2);
+            result.Add(firstSection + "-" + firstSection1 + " " + firstSection2 + "-" + secondSection2);
+            result.Add(firstSection + "-" + firstSection1 + "-" + firstSection2 + "-" + secondSection2);
+
+            return result;
+        }
 
         #region Private Methods
         /// <summary>

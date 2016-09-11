@@ -90,7 +90,7 @@ namespace BestFor.Fakes
                     throw new ArgumentOutOfRangeException();
             }
             // Fake fake fake!
-            return new EntityEntry<TEntity>(new FakeInternalEntityEntry<TEntity>(entity));
+            return default(EntityEntry<TEntity>);
             // TODO. Cloud not solve this.
             //return null;
         }
