@@ -528,4 +528,14 @@ if not exists(select * from ResourceStrings where CultureName = 'ru-RU' and [Key
 		N'Добавьте Ваше мнение!', getDate());
 GO
 
+if not exists(select * from ResourceStrings where CultureName = 'en-US' and [Key] = 'search_capital')
+	insert ResourceStrings(CultureName, [Key], Value, DateAdded) values('en-US', 'search_capital',
+		N'Search', getDate());
+if not exists(select * from ResourceStrings where CultureName = 'ru-RU' and [Key] = 'search_capital')
+	insert ResourceStrings(CultureName, [Key], Value, DateAdded) values('ru-RU', 'search_capital',
+		N'Искать', getDate());
+GO
+
+
+
 -- delete from ResourceStrings where [key] in ('help_others', 'add_your_opinion', 'if_search_is_not_sufficient')

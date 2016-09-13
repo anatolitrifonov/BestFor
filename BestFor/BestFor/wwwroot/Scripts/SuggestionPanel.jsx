@@ -34,6 +34,7 @@
     // times_lower : "times"
     // suggestion_panel_extended_opinion : "Would you like to add an extended opinion?"
     // add_capital : "Add"
+    // search_capital : "Search"
 
 
     // Built in ability to set initial state
@@ -133,7 +134,31 @@
         },
     },
 
-    // Handles answers search launch from buttons
+    // Navigate to a search page
+    doNavigationSearchFromButton: function() {
+        var leftTextBoxValue = this.leftTextBox.getCurrentValue();
+        var leftTextBoxValidationResult = SuggestionPanel.validateInput(leftTextBoxValue);
+        var rightTextBoxValue = this.rightTextBox.getCurrentValue();
+        var rightTextBoxValidationResult = SuggestionPanel.validateInput(rightTextBoxValue);
+        var data = "";
+        var url = "/";
+        // if only left is filled in search left
+        if (leftTextBoxValidationResult && !rightTextBoxValidationResult) {
+            url += "left/";
+            data = leftTextBoxValue.trim();
+        }
+        else {
+            url += "right/";
+            data = rightTextBoxValue.trim();
+        }
+        
+        // escape ???
+        url += data;
+        window.location.href = url;
+    },
+
+    // Handles answers search launch from search button
+    // This is old and no used right now
     doAnswersSearchFromButton: function() {
         this.doAnswersSearch(this.leftTextBox.getCurrentValue(), this.rightTextBox.getCurrentValue());
     },
@@ -393,9 +418,6 @@
             width: 500,
             height:500
         };
-        var searchButtonStyle = {
-            display: "none"
-        };
 
         var leftImageStyle = {
             position: "absolute",
@@ -444,7 +466,8 @@
                     <div className="best-some-padding">
                         <input type="button" value={this.props.resourceStrings.add_capital}
                                onClick={this.handleAddButtonClick} className="btn best-index-button" />
-                        <input type="button" value="Search" onClick={this.doAnswersSearchFromButton} style={ searchButtonStyle } />
+                        <input type="button" value={this.props.resourceStrings.search_capital}
+                               onClick={this.doNavigationSearchFromButton} className="btn best-index-button" />
                     </div>
                     <span className="best-light-text">{ this.state.answerResultMessage }</span>
                     <SuggestionAnswerList answers={this.state.answers} onListClicked={this.handleOnListClicked} culture={this.props.culture} />
