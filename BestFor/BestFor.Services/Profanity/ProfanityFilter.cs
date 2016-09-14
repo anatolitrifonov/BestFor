@@ -49,14 +49,16 @@ namespace BestFor.Services.Profanity
         /// <returns></returns>
         public static bool AllCharactersAllowed(string data)
         {
-            Regex r = new Regex("[^\x20-\x7e\r\n\t\xa1-\x10fffd]");
+            // \x2022 is a unicode bullet point
+            Regex r = new Regex("[^\x20-\x7e\r\n\t\x2022\xa1-\x10fffd]");
             // var matches = r.Matches(data);
             return !r.IsMatch(data);
         }
 
         public static string FirstDisallowedCharacter(string data)
         {
-            Regex r = new Regex("[^\x20-\x7e\r\n\t\xa1-\x10fffd]");
+            // \x2022 is a unicode bullet point
+            Regex r = new Regex("[^\x20-\x7e\r\n\t\x2022\xa1-\x10fffd]");
             var matches = r.Matches(data);
             if (matches.Count > 0)
                 return matches[0].Value;

@@ -1,13 +1,13 @@
 ﻿using BestFor.Services;
-using BestFor.Dto;
+using System.Diagnostics.CodeAnalysis;
 using Xunit;
-// using Autofac;
 
 namespace BestFor.UnitTests.Services
 {
     /// <summary>
     /// Unit tests for DefaultSuggestions object
     /// </summary>
+    [ExcludeFromCodeCoverage]
     public class ServicesLinkingHelperTests // : BaseTest
     {
         [Fact]

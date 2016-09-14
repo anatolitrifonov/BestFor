@@ -1,9 +1,11 @@
 ﻿using Autofac;
-using BestFor.Fakes;
 using BestFor.Data;
+using BestFor.Fakes;
+using System.Diagnostics.CodeAnalysis;
 
 namespace BestFor.UnitTests.Services
 {
+    [ExcludeFromCodeCoverage]
     public class BaseTest
     {
         protected IContainer resolver;

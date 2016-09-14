@@ -3,11 +3,13 @@ using BestFor.Domain;
 using BestFor.Domain.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
 using Xunit;
 
 namespace BestFor.UnitTests.Data
 {
+    [ExcludeFromCodeCoverage]
     public class AddAdminUserTests
     {
         /// <summary>

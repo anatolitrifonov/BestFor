@@ -1,6 +1,5 @@
-﻿using BestFor.Domain;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using Xunit;
 
 namespace BestFor.UnitTests.Domain
@@ -8,6 +7,7 @@ namespace BestFor.UnitTests.Domain
     /// <summary>
     /// Unit tests for DefaultSuggestions object
     /// </summary>
+    [ExcludeFromCodeCoverage]
     public class DomainDefaultSuggestionsTests
     {
         //[Fact]

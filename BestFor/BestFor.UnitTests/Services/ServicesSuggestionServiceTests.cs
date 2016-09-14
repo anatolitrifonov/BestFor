@@ -1,7 +1,6 @@
 ﻿using Autofac;
 using BestFor.Data;
 using BestFor.Domain.Entities;
-using BestFor.Domain.Interfaces;
 using BestFor.Dto;
 using BestFor.Fakes;
 using BestFor.Services.Cache;
@@ -9,12 +8,14 @@ using BestFor.Services.DataSources;
 using BestFor.Services.Services;
 using Microsoft.Extensions.Logging;
 using Moq;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
 using Xunit;
 
 namespace BestFor.UnitTests.Services
 {
+    [ExcludeFromCodeCoverage]
     public class ServicesSuggestionServiceTests
     {
         /// <summary>

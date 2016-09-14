@@ -2,6 +2,7 @@
 using BestFor.Domain.Entities;
 using Microsoft.Extensions.Configuration;
 using System.Data.SqlClient;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
 using Xunit;
@@ -9,6 +10,7 @@ using Xunit;
 namespace BestFor.UnitTests.Data
 {
     // Used for loading initial data
+    [ExcludeFromCodeCoverage]
     public class LoadInitialDataTests
     {
 

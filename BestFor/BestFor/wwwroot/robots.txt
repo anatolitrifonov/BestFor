@@ -1,4 +1,8 @@
-﻿User-agent: *
-Allow: *
+User-agent: *
+Disallow: /sdch
 
+User-agent: Twitterbot
+Disallow: /images
 
+User-agent: facebookexternalhit
+Disallow: /images

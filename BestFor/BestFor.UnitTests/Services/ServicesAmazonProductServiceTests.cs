@@ -3,6 +3,7 @@ using BestFor.Services.AffiliateProgram.Amazon;
 using BestFor.Services.Cache;
 using Microsoft.Extensions.Options;
 using Moq;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Threading.Tasks;
 using System.Xml;
@@ -10,6 +11,7 @@ using Xunit;
 
 namespace BestFor.UnitTests.Services
 {
+    [ExcludeFromCodeCoverage]
     public class ServicesAmazonProductServiceTests
     {
         /// <summary>

@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using Xunit;
 
 namespace BestFor.UnitTests.Data
 {
+    [ExcludeFromCodeCoverage]
     public class EnvironmentForDataTests
     {
         [Fact]

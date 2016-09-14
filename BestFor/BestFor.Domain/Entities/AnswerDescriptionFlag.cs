@@ -56,7 +56,8 @@ namespace BestFor.Domain.Entities
                 Reason = Reason,
                 UserId = UserId,
                 AnswerDescriptionId = AnswerDescriptionId,
-                Id = Id
+                Id = Id,
+                DateAdded = DateAdded
             };
         }
 
@@ -66,6 +67,7 @@ namespace BestFor.Domain.Entities
             Id = dto.Id;
             UserId = dto.UserId;
             AnswerDescriptionId = dto.AnswerDescriptionId;
+            DateAdded = dto.DateAdded;
 
             return Id;
         }
