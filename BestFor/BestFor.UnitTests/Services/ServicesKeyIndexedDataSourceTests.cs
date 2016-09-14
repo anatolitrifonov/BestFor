@@ -5,12 +5,14 @@ using BestFor.Domain.Entities;
 using BestFor.Services.DataSources;
 using System.Threading.Tasks;
 using Xunit;
+using System.Diagnostics.CodeAnalysis;
 
 namespace BestFor.UnitTests.Services
 {
     /// <summary>
     /// Unit tests for DefaultSuggestions object
     /// </summary>
+    [ExcludeFromCodeCoverage]
     public class ServicesKeyIndexedDataSourceTests : BaseTest
     {
         //[Fact]

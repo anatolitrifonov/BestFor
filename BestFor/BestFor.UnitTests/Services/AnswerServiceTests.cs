@@ -1,8 +1,10 @@
 ﻿using BestFor.Services.Services;
+using System.Diagnostics.CodeAnalysis;
 using Xunit;
 
 namespace BestFor.UnitTests.Services
 {
+    [ExcludeFromCodeCoverage]
     public class AnswerServiceTests
     {
         AnswerService _answerService;

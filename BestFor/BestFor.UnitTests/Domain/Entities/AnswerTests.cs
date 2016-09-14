@@ -1,14 +1,15 @@
-﻿using System;
+﻿using BestFor.Domain;
+using BestFor.Domain.Entities;
+using BestFor.Domain.Interfaces;
+using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using Xunit;
-using BestFor.Domain;
-using BestFor.Domain.Interfaces;
-using BestFor.Domain.Masks;
-using BestFor.Domain.Entities;
 
 namespace BestFor.UnitTests.Domain.Entities
 {
+    [ExcludeFromCodeCoverage]
     public class AnswerTests
     {
         Answer _answer;

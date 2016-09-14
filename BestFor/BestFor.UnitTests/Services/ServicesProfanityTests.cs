@@ -1,7 +1,8 @@
-﻿using BestFor.Data;
-using BestFor.Services.Profanity;
+﻿using Autofac;
+using BestFor.Data;
 using BestFor.Domain.Entities;
-using Autofac;
+using BestFor.Services.Profanity;
+using System.Diagnostics.CodeAnalysis;
 using Xunit;
 
 namespace BestFor.UnitTests.Services
@@ -9,6 +10,7 @@ namespace BestFor.UnitTests.Services
     /// <summary>
     /// Unit tests for DefaultSuggestions object
     /// </summary>
+    [ExcludeFromCodeCoverage]
     public class ServicesProfanityTests : BaseTest
     {
         [Fact]

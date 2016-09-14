@@ -17,7 +17,8 @@ namespace BestFor.Services
             //char c = '‘';
             //int y = Convert.ToInt32(c);
 
-            char c = '–';
+            // char c = '–';
+            char c = '•';
             int y = Convert.ToInt32(c);
             // c = '’';
             //  y = Convert.ToInt32(c);

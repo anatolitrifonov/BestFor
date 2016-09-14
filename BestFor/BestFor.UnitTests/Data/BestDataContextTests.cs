@@ -1,9 +1,11 @@
 ﻿using BestFor.Data;
 using System.Linq;
+using System.Diagnostics.CodeAnalysis;
 using Xunit;
 
 namespace BestFor.UnitTests.Data
 {
+    [ExcludeFromCodeCoverage]
     public class BestDataContextTests
     {
 

@@ -1,14 +1,11 @@
-﻿using System.Threading;
-using Moq;
-using BestFor.Fakes;
-using BestFor.Data;
+﻿using BestFor.Data;
 using BestFor.Domain;
 using BestFor.Domain.Entities;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using System.Threading.Tasks;
+using BestFor.Fakes;
+using Moq;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
-using System;
+using System.Threading;
 using Xunit;
 
 namespace BestFor.UnitTests.Data
@@ -16,6 +13,7 @@ namespace BestFor.UnitTests.Data
     /// <summary>
     /// Tests BestFor.Data.Repository
     /// </summary>
+    [ExcludeFromCodeCoverage]
     public class RepositoryTests
     {
         private FakeDataContext _dataContext;

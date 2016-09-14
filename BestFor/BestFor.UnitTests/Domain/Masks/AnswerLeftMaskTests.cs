@@ -1,14 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Xunit;
-using BestFor.Domain;
+﻿using BestFor.Domain;
+using BestFor.Domain.Entities;
 using BestFor.Domain.Interfaces;
 using BestFor.Domain.Masks;
-using BestFor.Domain.Entities;
+using System;
+using System.Diagnostics.CodeAnalysis;
+using Xunit;
 
 namespace BestFor.UnitTests.Domain.Masks
 {
+    [ExcludeFromCodeCoverage]
     public class AnswerLeftMaskTests
     {
         Answer _answer;

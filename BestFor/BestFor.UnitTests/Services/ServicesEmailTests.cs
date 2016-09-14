@@ -1,10 +1,12 @@
 ﻿using BestFor.Services.Messaging;
 using System.Threading.Tasks;
 using Xunit;
+using System.Diagnostics.CodeAnalysis;
 
 
 namespace BestFor.UnitTests.Services
 {
+    [ExcludeFromCodeCoverage]
     public class ServicesEmailTests
     {
         /// <summary>

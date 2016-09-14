@@ -1,12 +1,9 @@
-﻿using BestFor.Fakes;
-using BestFor.Data;
-using BestFor.Domain;
+﻿using BestFor.Data;
 using BestFor.Domain.Entities;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using System.Threading.Tasks;
-using System.Linq;
+using BestFor.Fakes;
 using System;
+using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 using Xunit;
 
 namespace BestFor.UnitTests.Data
@@ -15,6 +12,7 @@ namespace BestFor.UnitTests.Data
     /// Tests BestFor.Data.AnswerRepository
     /// </summary>
     /// <remarks>Repository operations are not asynchronous. No need to make these tests asynchronous too.</remarks>
+    [ExcludeFromCodeCoverage]
     public class AnswerRepositoryTests
     {
         private FakeDataContext _dataContext;
