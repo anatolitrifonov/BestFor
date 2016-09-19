@@ -57,7 +57,7 @@ namespace BestFor.Controllers
             model.Reason = reason;
 
             // Check if we need to debug react
-            model.DebugReactControls = ReadUrlParameterAsBoolean("debugreact");
+            model.DebugReactControls = ReadUrlParameterAsBoolean(DEBUG_REACTJS_URL_PARAMETER_NAME);
 
             return View(model);
         }
@@ -85,6 +85,8 @@ namespace BestFor.Controllers
 
             // Do a bit more playing with data
             answerDetails.EnableFacebookSharing = _appSettings.Value.EnableFacebookSharing;
+
+            answerDetails.DebugReactControls = ReadUrlParameterAsBoolean(DEBUG_REACTJS_URL_PARAMETER_NAME);
 
             return View(answerDetails);
         }

@@ -10,6 +10,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewBag.Title - www.completeopinion.com</title>
     <meta name="description" content="@siteDescription" />
+    <meta property="og:title" content="@ViewBag.Title" />
+    <meta property="og:site_name" content="completeopinion" />
     @RenderSection("MetaKeyword", required: false)
     @*<!--<link rel="alternate" href="http://www.apple.com/ae-ar/ipad/" hreflang="ar-AE" />
     <link rel="alternate" href="http://www.apple.com/ae/ipad/" hreflang="en-AE" />-->*@
@@ -23,6 +25,33 @@
               asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
         <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
     </environment>
+    <script type="application/ld+json">
+        {
+            "@@context": "http://schema.org",
+            "@@type": "WebSite",
+            "name": "completeopinion",
+            "url": "http://www.completeopinion.com/"@*,
+    "sameAs":[
+    "https://www.facebook.com/pages/UncommonGoods/44340057816",
+    "http://www.twitter.com/uncommongoods",
+    "http://pinterest.com/uncommongoods",
+    "http://instagram.com/uncommongoods",
+    "https://plus.google.com/+uncommongoods",
+    "https://en.wikipedia.org/wiki/UncommonGoods"
+    ],
+    "potentialAction": {
+    "@type": "SearchAction",
+    "target": "http://www.uncommongoods.com/search.html/find/?q={q}",
+    "query-input": {
+    "@type": "PropertyValueSpecification",
+    "valueRequired": true,
+    "valueMaxlength": 100,
+    "valueName": "q"
+    }
+            }*@
+        }
+    </script>
+
 </head>
 <body>
     @* We are going with container, not container-fluid at least for now because container has a fixed width. *@

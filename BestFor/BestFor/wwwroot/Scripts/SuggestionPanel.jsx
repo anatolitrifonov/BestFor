@@ -143,7 +143,11 @@
         var data = "";
         var url = "/";
         // if only left is filled in search left
-        if (leftTextBoxValidationResult && !rightTextBoxValidationResult) {
+        if (!leftTextBoxValidationResult && !rightTextBoxValidationResult) {
+            SuggestionPanel.writeDebug(this.props.debug, "SuggestionPanel not going to search. Empty data.");
+            return;
+        }
+        else if (leftTextBoxValidationResult && !rightTextBoxValidationResult) {
             url += "left/";
             data = leftTextBoxValue.trim();
         }

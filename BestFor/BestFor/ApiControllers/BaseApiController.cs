@@ -26,6 +26,7 @@ namespace BestFor.Controllers
         /// Sometimes pages will send this cookie.
         /// </summary>
         public const string ANTI_FORGERY_COOKIE_NAME = "ANTI_FORGERY_COOKIE_NAME";
+        public const string DEBUG_REACTJS_URL_PARAMETER_NAME = "debugreact";
 
         /// <summary>
         /// URL may contain referene to cuture as /culture/controller/action/something
