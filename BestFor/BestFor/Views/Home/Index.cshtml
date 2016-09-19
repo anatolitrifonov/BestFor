@@ -16,7 +16,10 @@
     // Set the title
     ViewData["Title"] = await resourcesService.GetString(ViewBag.BestForCulture, "global_site_index_title");
 }
-@section MetaKeyword {<meta name="keywords" content="best opinions on thousands of questions and best products" />}
+@section MetaKeyword {
+    <meta name="keywords" content="best opinions on thousands of questions and best products" />
+    <meta property="og:description" content="best opinions on thousands of questions and best products" />
+}
 @section TopCenter {
     <div style="display: inline-block; padding-top:9px">
         <span class="best-top-center-general-text">More than</span>

@@ -18,7 +18,9 @@ var AffiliateProductDetails = React.createClass({
         // token is expected to be sent in this header
         antiForgeryHeaderName: React.PropTypes.string,
         // resource strings are given by the user in this design. Used for displaying localized strings. Provided by server side.
-        resourceStrings: React.PropTypes.object
+        resourceStrings: React.PropTypes.object,
+        // produce debugging info?
+        debug: React.PropTypes.bool
     },
 
     // built in ablity to set initial state
@@ -30,9 +32,16 @@ var AffiliateProductDetails = React.createClass({
         };
     },
 
+    // Static functions that are ... well just static functions ... they can not access state
+    statics: {
+        writeDebug(debug, message) {
+            if (debug) console.log("SuggestionPanel: " + message);
+        }
+    },
+
     // Built in event that fires when component is first mounted.
     componentDidMount: function () {
-        console.log("AffiliateProductDetails control: launching product search.");
+        AffiliateProductDetails.writeDebug(this.props.debug, "AffiliateProductDetails control: launching product search.");
         
         // No point in doing anything if answer URL was not given or the product keyword
         if (this.props.productsUrl === null || this.props.productsUrl.trim() === "") return null;
@@ -43,11 +52,11 @@ var AffiliateProductDetails = React.createClass({
         // In this particular case I doubt we can ever run into the situation like this since answer is fixed and this fires once on load
         // But just in case ... to be safe ...
         if (this.xhr != null && this.xhr.readyState != 4) {
-            console.log("AffiliateProductDetails xhr is busy with state " + this.xhr.readyState +
+            AffiliateProductDetails.writeDebug(this.props.debug, "AffiliateProductDetails xhr is busy with state " + this.xhr.readyState +
                 " " + AffiliateProductDetails.readyStateToText(this.xhr.readyState) + ". Will not do the search.");
             return;
         } else {
-            console.log("AffiliateProductDetails xhr is free. Will start searching for products.")
+            AffiliateProductDetails.writeDebug(this.props.debug, "AffiliateProductDetails xhr is free. Will start searching for products.")
         }
 
         // lets do a bit of manipulation
@@ -60,7 +69,7 @@ var AffiliateProductDetails = React.createClass({
         //keywords = keywords.trim() + " " + this.props.productLeftWord;
         //keywords = keywords.trim() + " " + this.props.productRightWord;
         keywords = keywords.trim();
-        console.log("sending " + keywords);
+        AffiliateProductDetails.writeDebug(this.props.debug, "sending " + keywords);
 
         var url = this.props.productsUrl + "?keyword=" + keywords + "&category=" + this.props.productCategory;
         if (this.xhr == null) this.xhr = new XMLHttpRequest();
@@ -72,7 +81,7 @@ var AffiliateProductDetails = React.createClass({
         this.xhr.onload = function (e) { // e is of type XMLHttpRequestProgressEvent
             // if all good
             if (this.xhr.status === 200) {
-                console.log("AffiliateProductDetails xhr onload returned " + this.xhr.responseText);
+                AffiliateProductDetails.writeDebug(this.props.debug, "AffiliateProductDetails xhr onload returned " + this.xhr.responseText);
                 var product = JSON.parse(this.xhr.responseText);
                 // we will get null if we were not able to parse
                 // ErrorMessage will be set since AffiliateProductDto inherits ErrorMessageDto
@@ -85,7 +94,7 @@ var AffiliateProductDetails = React.createClass({
             }
             // all is bad. Just FYI: code 204 meas no content.
             else {
-                console.log("AffiliateProductDetails ERROR!!!!!! xhr onload returned " + this.xhr.responseText);
+                AffiliateProductDetails.writeDebug(this.props.debug, "AffiliateProductDetails ERROR!!!!!! xhr onload returned " + this.xhr.responseText);
                 this.processErrorInProduct(this.xhr.responseText);
             }
             // without this xhr event handler will not have access to this.xhr
@@ -108,7 +117,7 @@ var AffiliateProductDetails = React.createClass({
         if (product.descriptions != null) {
             var d = product.descriptions;
             var keys = Object.keys(d);
-            console.log(keys);
+            AffiliateProductDetails.writeDebug(this.props.debug, keys);
             for (var i = 0; i < keys.length; i++) {
                 if (productDescription.length > 0) productDescription += " ";
                 // productDescription = keys[i] + ":" + d[keys[i]];
@@ -131,7 +140,7 @@ var AffiliateProductDetails = React.createClass({
     },
 
     processErrorInProduct: function (errorMessage) {
-        console.log("AffiliateProductDetail xhr onload errored out. Error text is probably too long.");
+        AffiliateProductDetails.writeDebug(this.props.debug, "AffiliateProductDetail xhr onload errored out. Error text is probably too long.");
         this.setState({
             isVisible: false,
             isCouldNotFindVisible: true

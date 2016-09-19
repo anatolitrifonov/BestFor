@@ -31,7 +31,10 @@
     // Set it as a title
     ViewData["Title"] = Model.ThisAnswerText;
 }
-@section MetaKeyword {<meta name="keywords" content="@Model.ThisAnswerText" />}
+@section MetaKeyword {
+    <meta name="keywords" content="@Model.ThisAnswerText" />
+    <meta property="og:description" content="@Model.ThisAnswerText" />
+}
 @* Show the answer itself *@
 <h1>@Model.ThisAnswerText</h1>
 @* Show additional message if passed *@
@@ -113,7 +116,8 @@ else
                 "price_upper",
                 "not_able_to_find_product",
                 "found_useful_product"
-            })
+            }),
+        debug = Model.DebugReactControls
     })
 @* Load react client scripts *@
 @section TopScripts {

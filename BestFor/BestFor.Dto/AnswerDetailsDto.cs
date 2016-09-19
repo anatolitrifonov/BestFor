@@ -56,5 +56,10 @@ namespace BestFor.Dto
         /// Text for this answer "best something for  something is something"
         /// </summary>
         public string ThisAnswerText { get; set; }
+
+        /// <summary>
+        /// React controls rendered on the page will show debug messages if URL parameter is set to true
+        /// </summary>
+        public bool DebugReactControls { get; set; } = false;
     }
 }
