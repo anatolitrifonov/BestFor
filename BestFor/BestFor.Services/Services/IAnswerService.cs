@@ -112,5 +112,44 @@ namespace BestFor.Services.Services
         Task<AnswerDto> UpdateAnswer(AnswerDto answer);
 
         Task<int> HideAnswer(int answerId);
+
+        /// <summary>
+        /// Return top N of all answers
+        /// </summary>
+        /// <returns></returns>
+        Task<IEnumerable<AnswerDto>> FindAllAnswers();
+
+        /// <summary>
+        /// Find top <paramref name="count"/> answers
+        /// </summary>
+        /// <param name="count"></param>
+        /// <returns></returns>
+        Task<IEnumerable<AnswerDto>> FindAllAnswers(int count);
+
+        /// <summary>
+        /// Return top N of Last answers ordered by date
+        /// </summary>
+        /// <returns></returns>
+        Task<IEnumerable<AnswerDto>> FindLastAnswers();
+
+        /// <summary>
+        /// Find top <paramref name="count"/> answers sorted by date
+        /// </summary>
+        /// <param name="count"></param>
+        /// <returns></returns>
+        Task<IEnumerable<AnswerDto>> FindLastAnswers(int count);
+
+        /// <summary>
+        /// Return top N of Last answers ordered by date desc by keyword
+        /// </summary>
+        /// <returns></returns>
+        Task<IEnumerable<AnswerDto>> FindLastAnswers(string searchPhrase);
+
+        /// <summary>
+        /// Return top N of Last answers ordered by date desc by keyword
+        /// </summary>
+        /// <returns></returns>
+        Task<IEnumerable<AnswerDto>> FindLastAnswers(int count, string searchPhrase);
+
     }
 }

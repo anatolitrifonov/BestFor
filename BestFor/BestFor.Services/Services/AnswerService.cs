@@ -30,6 +30,7 @@ namespace BestFor.Services.Services
         public const int TRENDING_TOP_TODAY = 9;
         public const int TRENDING_TOP_OVERALL = 9;
         public const int DEFAULT_SEARCH_RESULT_COUNT = 15;
+        public const int DEFAULT_SEARCH_RESULT_FOR_EVERYTHING = 100;
 
         private ICacheManager _cacheManager;
         private IAnswerRepository _repository;
@@ -295,6 +296,100 @@ namespace BestFor.Services.Services
             // Each answer in cache has number of votes.
             if (result == null) return Enumerable.Empty<AnswerDto>();
             return result.Select(x => x.ToDto()).Take(count);
+        }
+
+        /// <summary>
+        /// Return top N of all answers
+        /// </summary>
+        /// <returns></returns>
+        public async Task<IEnumerable<AnswerDto>> FindAllAnswers()
+        {
+            return await FindAllAnswers(DEFAULT_SEARCH_RESULT_FOR_EVERYTHING);
+        }
+
+        /// <summary>
+        /// Find top <paramref name="count"/> answers
+        /// </summary>
+        /// <param name="count"></param>
+        /// <returns></returns>
+        public async Task<IEnumerable<AnswerDto>> FindAllAnswers(int count)
+        {
+            if (count < 1)
+                throw new Exception("Invalid count parameter passed to AnswerService.FindAllAnswers");
+
+            var cachedData = await GetCachedData();
+
+            var allItems = await cachedData.All();
+            if (allItems == null) return Enumerable.Empty<AnswerDto>();
+
+            // take top n latest items.
+            var result = allItems.OrderByDescending(x => x.DateAdded).Take(count).Select(x => x.ToDto());
+            return result;
+        }
+
+        /// <summary>
+        /// Return top N of last answers by date
+        /// </summary>
+        /// <returns></returns>
+        public async Task<IEnumerable<AnswerDto>> FindLastAnswers()
+        {
+            return await FindLastAnswers(DEFAULT_SEARCH_RESULT_FOR_EVERYTHING);
+        }
+
+        /// <summary>
+        /// Find top <paramref name="count"/> answers by date added
+        /// </summary>
+        /// <param name="count"></param>
+        /// <returns></returns>
+        public async Task<IEnumerable<AnswerDto>> FindLastAnswers(int count)
+        {
+            if (count < 1)
+                throw new Exception("Invalid count parameter passed to AnswerService.FindLastAnswers");
+
+            var cachedData = await GetCachedData();
+
+            var allItems = await cachedData.All();
+            if (allItems == null) return Enumerable.Empty<AnswerDto>();
+
+            // take top n latest items.
+            var result = allItems.OrderByDescending(x => x.DateAdded).Take(count).Select(x => x.ToDto());
+            return result;
+        }
+
+        /// <summary>
+        /// Return top N of Last answers ordered by date desc by keyword
+        /// </summary>
+        /// <returns></returns>
+        public async Task<IEnumerable<AnswerDto>> FindLastAnswers(string searchPhrase)
+        {
+            return await FindLastAnswers(DEFAULT_SEARCH_RESULT_FOR_EVERYTHING, searchPhrase);
+        }
+
+        /// <summary>
+        /// Return top N of Last answers ordered by date desc by keyword
+        /// </summary>
+        /// <param name="count"></param>
+        /// <returns></returns>
+        public async Task<IEnumerable<AnswerDto>> FindLastAnswers(int count, string searchPhrase)
+        {
+            if (count < 1)
+                throw new Exception("Invalid count parameter passed to AnswerService.FindAllAnswers");
+            if (string.IsNullOrEmpty(searchPhrase) || string.IsNullOrWhiteSpace(searchPhrase))
+                throw new Exception("Invalid searchPhrase parameter passed to AnswerService.FindLastAnswers");
+
+            var cachedData = await GetCachedData();
+
+            var allItems = await cachedData.All();
+            if (allItems == null) return Enumerable.Empty<AnswerDto>();
+
+            var keyword = searchPhrase.Trim().ToLower();
+
+            // take top n latest items searching by keyword.
+            var result = allItems.Where(
+                x => x.LeftWord.ToLower().Contains(keyword) || x.RightWord.ToLower().Contains(keyword) ||
+                x.Phrase.ToLower().Contains(keyword))
+                .OrderByDescending(x => x.DateAdded).Take(count).Select(x => x.ToDto());
+            return result;
         }
         #endregion
 

@@ -35,6 +35,7 @@
     // suggestion_panel_extended_opinion : "Would you like to add an extended opinion?"
     // add_capital : "Add"
     // search_capital : "Search"
+    // last_100: "Everything"
 
 
     // Built in ability to set initial state
@@ -432,6 +433,7 @@
             display: this.state.showAddDescriptionLink ? "" : "none"
         };
         var linkToExtendedOpinion = "/" + this.props.culture + "/AnswerAction/AddDescription?answerId=" + this.state.lastAddedAnswerId;
+        var linkToEverything = "/" + this.props.culture + "/Search/Everything";
 
         return (
             <div>
@@ -472,6 +474,7 @@
                                onClick={this.handleAddButtonClick} className="btn best-index-button" />
                         <input type="button" value={this.props.resourceStrings.search_capital}
                                onClick={this.doNavigationSearchFromButton} className="btn best-index-button" />
+                        <a href={linkToEverything} className="btn best-index-button best-some-padding">{this.props.resourceStrings.last_100}</a>
                     </div>
                     <span className="best-light-text">{ this.state.answerResultMessage }</span>
                     <SuggestionAnswerList answers={this.state.answers} onListClicked={this.handleOnListClicked} culture={this.props.culture} />

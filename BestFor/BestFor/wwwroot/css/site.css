@@ -105,6 +105,12 @@ div.best-some-padding
     padding-top:12px;
 }
 
+/* set some padding from top */
+a.best-some-padding
+{
+    padding-top:12px;
+}
+
 /* round up the corners of the index page input */
 span.index-page-label
 {
