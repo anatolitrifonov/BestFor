@@ -32,12 +32,16 @@ namespace BestFor.Controllers
             _logger.LogInformation("created SearchController");
         }
 
+        /// <summary>
+        /// Search on the left word
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public async Task<IActionResult> Left()
         {
             _logger.LogDebug("SearchController Left");
 
-            // we expect /{culture}/search/{data} or /search/{data} this will give us /search/{data}
+            // we expect /{culture}/left/{data} or /left/{data} this will give us /left/{data}
             var requestPath = this.RequestPathNoCulture;
 
             var data = ParseData(requestPath, "left");
@@ -50,12 +54,16 @@ namespace BestFor.Controllers
             return View("Result", result);
         }
 
+        /// <summary>
+        /// Search on the right word
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public async Task<IActionResult> Right()
         {
             _logger.LogDebug("SearchController Right");
 
-            // we expect /{culture}/search/{data} or /search/{data} this will give us /search/{data}
+            // we expect /{culture}/right/{data} or /right/{data} this will give us /right/{data}
             var requestPath = this.RequestPathNoCulture;
 
             var data = ParseData(requestPath, "right");
@@ -70,13 +78,44 @@ namespace BestFor.Controllers
         }
 
         /// <summary>
-        /// Request path is /first/{data} or /second/{data}
+        /// Return all data
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public async Task<IActionResult> Everything()
+        {
+            _logger.LogDebug("SearchController Everything");
+
+            var result = new AnswersDto();
+            result.Answers = await _answerService.FindLastAnswers();
+
+            return View(result);
+        }
+
+        /// <summary>
+        /// Return all data
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost]
+        public async Task<IActionResult> Everything(string searchPhrase)
+        {
+            _logger.LogDebug("SearchController Everything(" + searchPhrase + ")");
+
+            var result = new AnswersDto();
+            result.Answers = await _answerService.FindLastAnswers(searchPhrase);
+
+            return View(result);
+        }
+
+
+        /// <summary>
+        /// Request path is /left/{data} or /right/{data}
         /// Check that it does start with /first
         /// </summary>
         /// <param name="requestPath"></param>
         /// <returns></returns>
         /// <remarks>
-        /// any funny url like /first/blah?blah#blah or /first/blah#blah?blah will be sut at the first blah
+        /// any funny url like /first/blah?blah#blah or /first/blah#blah?blah will be cut at the first blah
         /// </remarks>
         public string ParseData(string requestPath, string matchPath)
         {
