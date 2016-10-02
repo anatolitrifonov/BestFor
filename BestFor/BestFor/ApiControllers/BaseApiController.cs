@@ -28,6 +28,8 @@ namespace BestFor.Controllers
         public const string ANTI_FORGERY_COOKIE_NAME = "ANTI_FORGERY_COOKIE_NAME";
         public const string DEBUG_REACTJS_URL_PARAMETER_NAME = "debugreact";
 
+        public const string DEFAULT_CULTURE = "en-US";
+
         /// <summary>
         /// URL may contain referene to cuture as /culture/controller/action/something
         /// This class will parse the culture and store it between calls to save on parsing.
@@ -128,7 +130,7 @@ namespace BestFor.Controllers
         /// <returns></returns>
         private string ParseCulture()
         {
-            _culture = "en-US";
+            _culture = DEFAULT_CULTURE;
             var requestPath = Request.Path.ToString();
             // theoretically this can never happen
             if (string.IsNullOrEmpty(requestPath) || string.IsNullOrWhiteSpace(requestPath)) return SetCulture(_culture);
@@ -146,7 +148,7 @@ namespace BestFor.Controllers
             // Got the culture ... now let's see if we know it.
             if (culture == "fi" || culture == "fi-fi") return SetCulture("fi-FI");
             if (culture == "ru" || culture == "ru-ru") return SetCulture("ru-RU");
-            return SetCulture("en-US");
+            return SetCulture(DEFAULT_CULTURE);
         }
 
         /// <summary>

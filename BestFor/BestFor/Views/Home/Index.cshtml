@@ -13,8 +13,13 @@
     }
 }
 @{
+    @* Culture is placed into view bag by action filter *@
+    @* This is the "normal" way of getting a localized string value *@
     // Set the title
     ViewData["Title"] = await resourcesService.GetString(ViewBag.BestForCulture, "global_site_index_title");
+    var searchFor = await resourcesService.GetString(ViewBag.BestForCulture, "search_for_opinion");
+    var searchContribute = await resourcesService.GetString(ViewBag.BestForCulture, "contribute_capital");
+    var searchButton = await resourcesService.GetString(ViewBag.BestForCulture, "search_capital");
 }
 @section MetaKeyword {
     <meta name="keywords" content="best opinions on thousands of questions and best products" />
@@ -34,88 +39,56 @@
 *@  
 <div class="row best-theme-color">
     @* Second part of the banner message *@
-    <div class="text-center best-center-light-text">Impress the world with yours!<br /><br /></div>
+    <div class="text-center best-center-light-text">
+        <form method="get" class="form-horizontal" role="form">
+            <div class="row">
+                <div class="col-md-offset-1 col-md-8">
+                    <div class="input-group input-group-lg">
+                        <input type="text" class="form-control" name="searchPhrase" placeholder="@searchFor">
+                        <span class="input-group-btn">
+                            <button class="btn btn-default" type="submit">@searchButton</button>
+                        </span>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <yakor y-culture="@this.ViewBag.BestForCulture" y-controller="Home" y-action="Contribute"
+                           y-class="btn btn-default btn-lg">@searchContribute</yakor>
+                </div>
+            </div>
+        </form>
+        <br />
+        <br />
+    </div>
     @if (!string.IsNullOrEmpty(Model.Reason) && !string.IsNullOrWhiteSpace(Model.Reason))
     {
         @* Second part of the banner message *@
         <div class="text-center col-lg-offset-3 col-sm-6 text-center best-message-light">@Model.Reason</div>
     }
-    @* left center section *@
-    <div class="col-sm-9">
-        <div class="text-center">
-            @* This is the main ReactJS control working with answers. *@
-            @Html.React("SuggestionPanel",
-                new
-                {
-                    suggestionsUrl = "/api/suggestion",
-                    answersUrl = "/api/answer",
-                    antiForgeryHeaderName = BestFor.Controllers.BaseApiController.ANTI_FORGERY_HEADER_NAME,
-                    antiForgeryToken = GetAntiXsrfToken(),
-                    resourceStrings = await resourcesService.GetStringsAsJson(this.ViewBag.BestForCulture,
-                        new string[]
-                        {
-                            "suggestion_panel_initial_message",
-                            "suggestion_panel_no_answers_found",
-                            "suggestion_panel_x_answers_found",
-                            "suggestion_panel_error_happened_searching_answers",
-                            "suggestion_panel_you_were_the_first",
-                            "best_start_capital",
-                            "for_lower",
-                            "is_lower",
-                            "suggestion_panel_your_answer",
-                            "suggestion_panel_was_added",
-                            "suggestion_panel_this_answer_was_given",
-                            "times_lower",
-                            "suggestion_panel_extended_opinion",
-                            "add_capital",
-                            "search_capital",
-                            "last_100"
-                        }),
-                    culture = this.ViewBag.BestForCulture,
-                    debug = Model.DebugReactControls
-                })
-        </div>
-    </div>
-    @* Right side *@
-    <div class="col-sm-3">
-        @Html.Partial("NeedHelp")
-    </div>
 </div>
 @* Trending today *@
 <div class="panel panel-default">
     <div class="panel-heading text-center best-section-header">
-        @* Culture is placed into view bag by action filter *@
-        @* This is the "normal" way of getting a localized string value *@
-        <h4>@await resourcesService.GetString(this.ViewBag.BestForCulture, "trending_today")</h4>
+        <h4>@Model.HeaderText</h4>
     </div>
     <div class="panel-body">
-        <div class="row">
-            <div class="col-sm-4">@Html.Partial("AnswerCard", Model.TopToday.Answers.ElementAtOrDefault(0))</div>
-            <div class="col-sm-4">@Html.Partial("AnswerCard", Model.TopToday.Answers.ElementAtOrDefault(1))</div>
-            <div class="col-sm-4">@Html.Partial("AnswerCard", Model.TopToday.Answers.ElementAtOrDefault(2))</div>
-        </div>
-        <div class="row">
-            <div class="col-sm-4">@Html.Partial("AnswerCard", Model.TopToday.Answers.ElementAtOrDefault(3))</div>
-            <div class="col-sm-4">@Html.Partial("AnswerCard", Model.TopToday.Answers.ElementAtOrDefault(4))</div>
-            <div class="col-sm-4">@Html.Partial("AnswerCard", Model.TopToday.Answers.ElementAtOrDefault(5))</div>
-        </div>
-        <div class="row">
-            <div class="col-sm-4">@Html.Partial("AnswerCard", Model.TopToday.Answers.ElementAtOrDefault(6))</div>
-            <div class="col-sm-4">@Html.Partial("AnswerCard", Model.TopToday.Answers.ElementAtOrDefault(7))</div>
-            <div class="col-sm-4">@Html.Partial("AnswerCard", Model.TopToday.Answers.ElementAtOrDefault(8))</div>
-        </div>
+        @if (Model.TopToday != null && Model.TopToday.Answers != null)
+        {
+            for (int i = 0; i < Model.TopToday.Answers.Count(); i++)
+            {
+                <div class="row">
+                    <div class="col-sm-4">@Html.Partial("AnswerCard", Model.TopToday.Answers.ElementAtOrDefault(i))</div>
+                    @if (i < Model.TopToday.Answers.Count())
+                    {
+                        i++;
+                        <div class="col-sm-4">@Html.Partial("AnswerCard", Model.TopToday.Answers.ElementAtOrDefault(i))</div>
+                    }
+                    @if (i < Model.TopToday.Answers.Count())
+                    {
+                        i++;
+                        <div class="col-sm-4">@Html.Partial("AnswerCard", Model.TopToday.Answers.ElementAtOrDefault(i))</div>
+                    }
+                </div>
+            }
+        }
     </div>
 </div>
-@* Load react client scripts *@
-@section TopScripts {
-    @{ await Html.RenderPartialAsync("_ReactJsScriptsPartial"); }
-}
-@* Load this page specific react sripts *@
-<script src="@Url.Content("~/Scripts/SuggestionControl.jsx")"></script>
-<script src="@Url.Content("~/Scripts/SuggestionLineItem.jsx")"></script>
-<script src="@Url.Content("~/Scripts/SuggestionResultList.jsx")"></script>
-<script src="@Url.Content("~/Scripts/SuggestionTextBox.jsx")"></script>
-<script src="@Url.Content("~/Scripts/SuggestionAnswerList.jsx")"></script>
-<script src="@Url.Content("~/Scripts/SuggestionAnswerItem.jsx")"></script>
-<script src="@Url.Content("~/Scripts/SuggestionPanel.jsx")"></script>
-@Html.ReactInitJavaScript()

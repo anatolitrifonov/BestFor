@@ -1,13 +1,11 @@
-﻿using Microsoft.AspNetCore.Identity;
-using System.Security.Claims;
-using System;
-using BestFor.Services.Services;
+﻿using BestFor.Domain.Entities;
 using BestFor.Dto;
-using BestFor.Domain.Entities;
-using Microsoft.AspNetCore.Mvc;
+using BestFor.Services.Services;
 using Microsoft.AspNetCore.Authorization;
-using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using System.Threading.Tasks;
 
 namespace BestFor.Controllers
 {
@@ -44,6 +42,7 @@ namespace BestFor.Controllers
             // Only do something is answer id is not zero
             if (answerId != 0)
             {
+                var userId = _userManager.GetUserId(User);
                 await _voteService.VoteAnswer(new AnswerVoteDto() { AnswerId = answerId, UserId = _userManager.GetUserId(User) } );
             }
 

@@ -12,6 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
 using Xunit;
+using BestFor.UnitTests.Testables;
 
 namespace BestFor.UnitTests.Services
 {
@@ -27,15 +28,23 @@ namespace BestFor.UnitTests.Services
             public FakeSuggestions FakeSuggestions;
             public Mock<ICacheManager> CacheMock;
             public Repository<Suggestion> Repository;
-            public Mock<ILoggerFactory> LoggerFactoryMock;
+            public TestLoggerFactory TestLoggerFactory;
+            // public TestLogger<SuggestionService> TestLogger;
 
             public TestSetup()
             {
                 var dataContext = new FakeDataContext();
                 Repository = new Repository<Suggestion>(dataContext);
                 CacheMock = new Mock<ICacheManager>();
-                LoggerFactoryMock = new Mock<ILoggerFactory>();
-                SuggestionService = new SuggestionService(CacheMock.Object, Repository, LoggerFactoryMock.Object);
+
+                //LoggerMock = new Mock<ILogger<SuggestionService>>();
+                //LoggerMock.Setup(x => x.LogInformation(It.IsAny<string>()));
+                // LoggerMock.Setup(x => x.LogInformation(It.IsAny<string>(), It.IsAny<object[]>()));
+
+                // TestLogger = new TestLogger<SuggestionService>();
+                TestLoggerFactory = new TestLoggerFactory();
+
+                SuggestionService = new SuggestionService(CacheMock.Object, Repository, TestLoggerFactory);
                 FakeSuggestions = dataContext.EntitySet<Suggestion>() as FakeSuggestions;
             }
         }
@@ -50,10 +59,10 @@ namespace BestFor.UnitTests.Services
 
             // Call the method we are testing
             var result = await setup.SuggestionService.AddSuggestion(suggestionDto);
-             
+
             // Check that same Phrase is returned
             Assert.Equal(result.Phrase, suggestionDto.Phrase);
-             
+
             // Verify cache get was called only once
             setup.CacheMock.Verify(x => x.Get(CacheConstants.CACHE_KEY_SUGGESTIONS_DATA), Times.Once());
             // Verify cache add to cache was called only once

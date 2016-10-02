@@ -27,7 +27,7 @@ namespace BestFor.Services.Services
         }
         #endregion
 
-        public const int TRENDING_TOP_TODAY = 9;
+        public const int TRENDING_TOP_TODAY = 15;
         public const int TRENDING_TOP_OVERALL = 9;
         public const int DEFAULT_SEARCH_RESULT_COUNT = 15;
         public const int DEFAULT_SEARCH_RESULT_FOR_EVERYTHING = 100;
@@ -624,7 +624,8 @@ namespace BestFor.Services.Services
                 // If not enough get the rest from Overall Totals
                 if (trendingToday.Count < TRENDING_TOP_TODAY)
                 {
-                    var trendingOverall = GetOverallTrendingCachedData();
+                    // Yes we do not want to go from cache here because we need more items
+                    var trendingOverall = _repository.FindAnswersTrendingOverall(TRENDING_TOP_TODAY).ToList<Answer>();
                     var trendingTodayCount = trendingToday.Count;
                     // we are going to skip the ones that are already there
                     var added = 0;

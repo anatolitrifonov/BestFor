@@ -54,7 +54,6 @@
     "copyToOutput": {
       "include": [ "ClearScriptV8*.dll", "v8-*.dll" ]
     }
-
   },
 
   "publishOptions": {

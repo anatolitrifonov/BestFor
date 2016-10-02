@@ -474,7 +474,8 @@
                                onClick={this.handleAddButtonClick} className="btn best-index-button" />
                         <input type="button" value={this.props.resourceStrings.search_capital}
                                onClick={this.doNavigationSearchFromButton} className="btn best-index-button" />
-                        <a href={linkToEverything} className="btn best-index-button best-some-padding">{this.props.resourceStrings.last_100}</a>
+                        {/* a href={linkToEverything} 
+                              className="btn best-index-button best-some-padding"{this.props.resourceStrings.last_100} */}
                     </div>
                     <span className="best-light-text">{ this.state.answerResultMessage }</span>
                     <SuggestionAnswerList answers={this.state.answers} onListClicked={this.handleOnListClicked} culture={this.props.culture} />

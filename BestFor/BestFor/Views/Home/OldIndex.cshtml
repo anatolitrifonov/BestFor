@@ -1,0 +1,121 @@
+﻿@model BestFor.Dto.HomePageDto
+@* Inject the service that generates anti forgery keys *@
+@inject Microsoft.AspNetCore.Antiforgery.IAntiforgery Xsrf
+@* Inject the service that allows searching for localized strings *@
+@inject BestFor.Services.Services.IResourcesService resourcesService
+@functions
+{
+    // Generate the token that we will use in requests sending data to server in headers.
+    public string GetAntiXsrfToken()
+    {
+        var tokens = Xsrf.GetTokens(Context);
+        return tokens.CookieToken + ":" + tokens.RequestToken;
+    }
+}
+@{
+    // Set the title
+    ViewData["Title"] = await resourcesService.GetString(ViewBag.BestForCulture, "global_site_index_title");
+}
+@section MetaKeyword {
+    <meta name="keywords" content="best opinions on thousands of questions and best products" />
+    <meta property="og:description" content="best opinions on thousands of questions and best products" />
+}
+@section TopCenter {
+    <div style="display: inline-block; padding-top:9px">
+        <span class="best-top-center-general-text">More than</span>
+        <span class="best-top-center-highlighted-text">200 000</span>
+        <span class="best-top-center-general-text">opinions on thousands of questions</span>
+    </div>
+}
+@*  Main idea: do not put the logic of localization into react control because it should not really care about it.
+    It should work with any language. This approach might not be considered clean since control "should" be selfcontained.
+    Use resource service to get dynamic json object and feed it as a property to react control.
+    Json object will be rendered as good JavaScript defined object. Refer to control jsx file for the list of expected strings.
+*@  
+<div class="row best-theme-color">
+    @* Second part of the banner message *@
+    <div class="text-center best-center-light-text">Impress the world with yours!<br /><br /></div>
+    @if (!string.IsNullOrEmpty(Model.Reason) && !string.IsNullOrWhiteSpace(Model.Reason))
+    {
+        @* Second part of the banner message *@
+        <div class="text-center col-lg-offset-3 col-sm-6 text-center best-message-light">@Model.Reason</div>
+    }
+    @* left center section *@
+    <div class="col-sm-9">
+        <div class="text-center">
+            @* This is the main ReactJS control working with answers. *@
+            @Html.React("SuggestionPanel",
+                new
+                {
+                    suggestionsUrl = "/api/suggestion",
+                    answersUrl = "/api/answer",
+                    antiForgeryHeaderName = BestFor.Controllers.BaseApiController.ANTI_FORGERY_HEADER_NAME,
+                    antiForgeryToken = GetAntiXsrfToken(),
+                    resourceStrings = await resourcesService.GetStringsAsJson(this.ViewBag.BestForCulture,
+                        new string[]
+                        {
+                            "suggestion_panel_initial_message",
+                            "suggestion_panel_no_answers_found",
+                            "suggestion_panel_x_answers_found",
+                            "suggestion_panel_error_happened_searching_answers",
+                            "suggestion_panel_you_were_the_first",
+                            "best_start_capital",
+                            "for_lower",
+                            "is_lower",
+                            "suggestion_panel_your_answer",
+                            "suggestion_panel_was_added",
+                            "suggestion_panel_this_answer_was_given",
+                            "times_lower",
+                            "suggestion_panel_extended_opinion",
+                            "add_capital",
+                            "search_capital",
+                            "last_100"
+                        }),
+                    culture = this.ViewBag.BestForCulture,
+                    debug = Model.DebugReactControls
+                })
+        </div>
+    </div>
+    @* Right side *@
+    <div class="col-sm-3">
+        @Html.Partial("NeedHelp")
+    </div>
+</div>
+@* Trending today *@
+<div class="panel panel-default">
+    <div class="panel-heading text-center best-section-header">
+        @* Culture is placed into view bag by action filter *@
+        @* This is the "normal" way of getting a localized string value *@
+        <h4>@await resourcesService.GetString(this.ViewBag.BestForCulture, "trending_today")</h4>
+    </div>
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-sm-4">@Html.Partial("AnswerCard", Model.TopToday.Answers.ElementAtOrDefault(0))</div>
+            <div class="col-sm-4">@Html.Partial("AnswerCard", Model.TopToday.Answers.ElementAtOrDefault(1))</div>
+            <div class="col-sm-4">@Html.Partial("AnswerCard", Model.TopToday.Answers.ElementAtOrDefault(2))</div>
+        </div>
+        <div class="row">
+            <div class="col-sm-4">@Html.Partial("AnswerCard", Model.TopToday.Answers.ElementAtOrDefault(3))</div>
+            <div class="col-sm-4">@Html.Partial("AnswerCard", Model.TopToday.Answers.ElementAtOrDefault(4))</div>
+            <div class="col-sm-4">@Html.Partial("AnswerCard", Model.TopToday.Answers.ElementAtOrDefault(5))</div>
+        </div>
+        <div class="row">
+            <div class="col-sm-4">@Html.Partial("AnswerCard", Model.TopToday.Answers.ElementAtOrDefault(6))</div>
+            <div class="col-sm-4">@Html.Partial("AnswerCard", Model.TopToday.Answers.ElementAtOrDefault(7))</div>
+            <div class="col-sm-4">@Html.Partial("AnswerCard", Model.TopToday.Answers.ElementAtOrDefault(8))</div>
+        </div>
+    </div>
+</div>
+@* Load react client scripts *@
+@section TopScripts {
+    @{ await Html.RenderPartialAsync("_ReactJsScriptsPartial"); }
+}
+@* Load this page specific react sripts *@
+<script src="@Url.Content("~/Scripts/SuggestionControl.jsx")"></script>
+<script src="@Url.Content("~/Scripts/SuggestionLineItem.jsx")"></script>
+<script src="@Url.Content("~/Scripts/SuggestionResultList.jsx")"></script>
+<script src="@Url.Content("~/Scripts/SuggestionTextBox.jsx")"></script>
+<script src="@Url.Content("~/Scripts/SuggestionAnswerList.jsx")"></script>
+<script src="@Url.Content("~/Scripts/SuggestionAnswerItem.jsx")"></script>
+<script src="@Url.Content("~/Scripts/SuggestionPanel.jsx")"></script>
+@Html.ReactInitJavaScript()
