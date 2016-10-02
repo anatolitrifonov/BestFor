@@ -10,6 +10,8 @@
         public static readonly string YOUR_PROFILE_WAS_REMOVED = "your_profile_was_removed";
         public static readonly string ERROR_BAD_CHARACTERS = "error_bad_characters";
         public static readonly string ERROR_PROFANITY = "error_profanity";
-        
+        public static readonly string TRENDING_TODAY = "trending_today";
+        public static readonly string SEARCH_RESULTS_FOR = "search_results_for";
+
     }
 }

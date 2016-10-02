@@ -6,6 +6,7 @@
     string addYourDescriptionString = await resourcesService.GetString(this.ViewBag.BestForCulture, "add_your_description");
     string cancelString = await resourcesService.GetString(this.ViewBag.BestForCulture, "cancel_capital");
     string youAreAddingString = await resourcesService.GetString(this.ViewBag.BestForCulture, "you_are_adding_detailed_description");
+    string searchContribute = await resourcesService.GetString(this.ViewBag.BestForCulture, "contribute_capital");
 }
 @* Culture is placed into view bag by action filter *@
 @* This template shows content of the answer with the link to content *@
@@ -15,10 +16,18 @@
     <h2>@LinkingHelper.ConvertAnswerToText(await resourcesService.GetCommonStrings(this.ViewBag.BestForCulture), Model.Answer)</h2><br /><br />
     <input type="hidden" asp-for="AnswerId" />
     <textarea asp-for="Description" rows="10" cols="100"></textarea><br /><br />
-    <button type="submit" class="btn btn-default btn-lg">@addYourDescriptionString</button>
-    <yakor y-culture="@this.ViewBag.BestForCulture" y-controller="AnswerAction" y-action="ShowAnswer"
-           y-querystring="@new { answerId = Model.Answer.Id }"
-           y-class="btn btn-default btn-lg">
-        <span class="glyphicon glyphicon glyphicon glyphicon-remove" aria-hidden="true" />&nbsp;<span class="special_glyph_anchor">@cancelString</span>
-    </yakor>
+    <div class="row">
+        <div class="col-md-8">
+            <button type="submit" class="btn btn-default btn-lg">@addYourDescriptionString</button>
+            <yakor y-culture="@this.ViewBag.BestForCulture" y-controller="AnswerAction" y-action="ShowAnswer"
+                   y-querystring="@new { answerId = Model.Answer.Id }"
+                   y-class="btn btn-default btn-lg">
+                <span class="glyphicon glyphicon glyphicon glyphicon-remove" aria-hidden="true" />&nbsp;<span class="special_glyph_anchor">@cancelString</span>
+            </yakor>
+        </div>
+        <div class="col-md-4">
+            <yakor y-culture="@this.ViewBag.BestForCulture" y-controller="Home" y-action="Contribute"
+                    y-class="btn btn-default">@searchContribute</yakor>
+        </div>
+    </div>
 </form>

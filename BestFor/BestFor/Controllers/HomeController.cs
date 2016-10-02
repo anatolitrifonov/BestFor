@@ -48,12 +48,44 @@ namespace BestFor.Controllers
         /// </summary>
         /// <returns></returns>
         // GET: /<controller>/
-        public async Task<IActionResult> Index(string reason = null)
+        public async Task<IActionResult> Index(string reason = null, string searchPhrase = null)
         {
             var model = new HomePageDto();
 
-            model.TopToday.Answers = await _answerService.FindAnswersTrendingToday();
+            // Use the search service if search phrase is passed
+            if (!string.IsNullOrEmpty(searchPhrase) && !string.IsNullOrWhiteSpace(searchPhrase))
+            {
+                model.TopToday.Answers = await _answerService.FindLastAnswers(searchPhrase);
+                model.Keyword = searchPhrase;
+                model.HeaderText = await _resourcesService.GetString(this.Culture, Lines.SEARCH_RESULTS_FOR) +
+                    ": " + searchPhrase;
+            }
+            else
+            {
+                model.TopToday.Answers = await _answerService.FindAnswersTrendingToday();
+                model.HeaderText = await _resourcesService.GetString(this.Culture, Lines.TRENDING_TODAY);
+            }
 
+            model.Reason = reason;
+
+            // Check if we need to debug react
+            model.DebugReactControls = ReadUrlParameterAsBoolean(DEBUG_REACTJS_URL_PARAMETER_NAME);
+
+            return View(model);
+        }
+
+        /// <summary>
+        /// Show the view that allows adding new opinions.
+        /// </summary>
+        /// <param name="reason"></param>
+        /// <returns></returns>
+        public IActionResult Contribute(string reason = null)
+        {
+            // async Task<IActionResult>
+            var model = new HomePageDto();
+
+            // We do not need trending today on contribute page
+            // model.TopToday.Answers = await _answerService.FindAnswersTrendingToday();
             model.Reason = reason;
 
             // Check if we need to debug react

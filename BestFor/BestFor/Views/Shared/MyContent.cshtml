@@ -27,6 +27,7 @@
     string noDescriptionLine = await resourcesService.GetString(ViewBag.BestForCulture, "no_description_or_reasoning");
     string votedForThis = await resourcesService.GetString(ViewBag.BestForCulture, "voted_for_this_opinion");
     string editString = await resourcesService.GetString(ViewBag.BestForCulture, "edit_capital");
+    string searchContribute = await resourcesService.GetString(this.ViewBag.BestForCulture, "contribute_capital");
 
     // Set it as a title
     ViewData["Title"] = Model.ThisAnswerText;
@@ -88,13 +89,15 @@ else
         {
             <yakor y-culture="@this.ViewBag.BestForCulture" y-controller="AnswerAction" y-action="Edit"
                    y-querystring="@new { id = Model.Answer.Id }"
-                   y-class="btn btn-default btn-sm"><span class="glyphicon glyphicon glyphicon-edit" aria-hidden="true"
+                   y-class="btn btn-default"><span class="glyphicon glyphicon glyphicon-edit" aria-hidden="true"
                                                           />&nbsp;<span class="special_glyph_anchor">@editString</span></yakor>
         }
         <yakor y-culture="@this.ViewBag.BestForCulture" y-controller="Flag" y-action="FlagAnswer"
                y-querystring="@new { answerId = Model.Answer.Id }"
-               y-class="btn btn-default btn-sm"><span class="glyphicon glyphicon-ban-circle" aria-hidden="true"
+               y-class="btn btn-default"><span class="glyphicon glyphicon-ban-circle" aria-hidden="true"
                                                        />&nbsp;<span class="special_glyph_anchor">@flagString</span></yakor>
+        <yakor y-culture="@this.ViewBag.BestForCulture" y-controller="Home" y-action="Contribute"
+               y-class="btn btn-default">@searchContribute</yakor>
     </div>
 </div>
 <br />
