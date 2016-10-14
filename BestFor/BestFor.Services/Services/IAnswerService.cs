@@ -1,4 +1,4 @@
-﻿using BestFor.Domain.Entities;
+﻿using BestFor.Dto.Account;
 using BestFor.Dto;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -150,6 +150,12 @@ namespace BestFor.Services.Services
         /// </summary>
         /// <returns></returns>
         Task<IEnumerable<AnswerDto>> FindLastAnswers(int count, string searchPhrase);
+
+        /// <summary>
+        /// Find top N users answer posters
+        /// </summary>
+        /// <returns></returns>
+        Task<List<ApplicationUserDto>> FindTopPosterIds();
 
     }
 }

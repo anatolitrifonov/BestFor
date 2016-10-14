@@ -11,6 +11,8 @@ namespace BestFor.UnitTests.AppSettings
         {
             var settings = Common.AppSettings.ReadSettings();
             Assert.True(settings.Value.MiscSetting == "test");
+            settings.Value.FullDomainAddress = "a";
+            Assert.Equal(settings.Value.FullDomainAddress, "a");
         }
     }
 }

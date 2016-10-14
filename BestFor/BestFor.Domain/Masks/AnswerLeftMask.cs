@@ -5,6 +5,8 @@ using BestFor.Domain.Entities;
 namespace BestFor.Domain.Masks
 {
     /// <summary>
+    /// Mask answer by left word - index by left word.
+    /// 
     /// This class masks answer object giving a different implementation 
     /// of IFirstIndex, ISecondIndex, IDtoConvertable<AnswerDto> interfaces.
     /// 

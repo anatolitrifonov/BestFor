@@ -1,0 +1,13 @@
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@model BestFor.Sturgeon.TeamsModel
+@{
+    Layout = "_SturgeonLayout.cshtml";
+    ViewData["Title"] = "Home Page";
+}
+
+Hi<br /><br />
+
+@foreach (var team in Model.Teams)
+{
+    <a asp-controller="Sturgeon" asp-action="Team" asp-route-id="@team.TeamName">@team.TeamName</a><br /><br />
+}

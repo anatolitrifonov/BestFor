@@ -7,8 +7,9 @@ namespace BestFor.Services.Services
     {
         SystemStateDto GetSystemStatus();
 
-        Task<int> InitAnswers();
-        Task<int> InitAnswerDescriptions();
+        int InitAnswers();
+
+        int InitAnswerDescriptions();
 
         int InitSuggestions();
 

@@ -1,5 +1,5 @@
 ﻿using BestFor.Domain;
-using BestFor.Domain.Entities;
+using BestFor.Domain.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System;
@@ -19,7 +19,7 @@ namespace BestFor.Fakes
         , IQueryable
         , IQueryable<TEntity>
         //, IAsyncEnumerableAccessor<TEntity>, IInfrastructure<IServiceProvider>
-        where TEntity : EntityBase, new()
+        where TEntity : class, IEntityBase, IObjectState, new()
     {
         #region Private Fields
         private readonly ObservableCollection<TEntity> _items;
@@ -49,7 +49,7 @@ namespace BestFor.Fakes
             return default(EntityEntry<TEntity>);
         }
 
-         public override EntityEntry<TEntity> Update(TEntity entity)
+        public override EntityEntry<TEntity> Update(TEntity entity)
         {
             return default(EntityEntry<TEntity>);
         }

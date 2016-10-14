@@ -73,7 +73,7 @@ namespace BestFor.UnitTests.Controllers
 
             // Setup vote service
             var voteServiceMock = new Mock<IVoteService>();
-            voteServiceMock.Setup(x => x.VoteAnswer(vote)).ReturnsAsync(1);
+            voteServiceMock.Setup(x => x.VoteAnswer(vote)).Returns(1);
 
             // Setup resource service
             var resourceServiceMock = new Mock<IResourcesService>();

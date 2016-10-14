@@ -34,23 +34,23 @@ namespace BestFor.UnitTests.Domain.Masks
         [Fact]
         public void AnswerRightMaskTests_Constractor_Creates()
         {
-            var answerLeftMask = new AnswerRightMask(_answer);
+            var answerRightMask = new AnswerRightMask(_answer);
 
             // Verify that properties are copied in constrator
-            Assert.Equal(answerLeftMask.Id, _answer.Id);
-            Assert.Equal(answerLeftMask.Count, _answer.Count);
-            Assert.Equal(answerLeftMask.Phrase, _answer.Phrase);
-            Assert.Equal(answerLeftMask.LeftWord, _answer.LeftWord);
-            Assert.Equal(answerLeftMask.RightWord, _answer.RightWord);
-            Assert.Equal(answerLeftMask.NumberOfEntries, _answer.NumberOfEntries);
+            Assert.Equal(answerRightMask.Id, _answer.Id);
+            Assert.Equal(answerRightMask.Count, _answer.Count);
+            Assert.Equal(answerRightMask.Phrase, _answer.Phrase);
+            Assert.Equal(answerRightMask.LeftWord, _answer.LeftWord);
+            Assert.Equal(answerRightMask.RightWord, _answer.RightWord);
+            Assert.Equal(answerRightMask.NumberOfEntries, _answer.NumberOfEntries);
         }
 
         [Fact]
         public void AnswerRightMaskTests_IFirstIndex_Implements()
         {
-            var answerLeftMask = new AnswerRightMask(_answer);
+            var answerRightMask = new AnswerRightMask(_answer);
 
-            var firstIndex = answerLeftMask as IFirstIndex;
+            var firstIndex = answerRightMask as IFirstIndex;
 
             // Verify first index is implemented correctly
             Assert.Equal(firstIndex.IndexKey, _answer.RightWord);
@@ -60,9 +60,9 @@ namespace BestFor.UnitTests.Domain.Masks
         [Fact]
         public void AnswerRightMaskTests_ISecondIndex_Implements()
         {
-            var answerLeftMask = new AnswerRightMask(_answer);
+            var answerRightMask = new AnswerRightMask(_answer);
 
-            var secondIndex = answerLeftMask as ISecondIndex;
+            var secondIndex = answerRightMask as ISecondIndex;
 
             // Verify that properties are copied in constrator
             Assert.Equal(secondIndex.SecondIndexKey, _answer.Id.ToString());
@@ -72,9 +72,9 @@ namespace BestFor.UnitTests.Domain.Masks
         [Fact]
         public void AnswerRightMaskTests_IDtoConvertable_ToDto()
         {
-            var answerLeftMask = new AnswerRightMask(_answer);
+            var answerRightMask = new AnswerRightMask(_answer);
 
-            var dto = answerLeftMask.ToDto();
+            var dto = answerRightMask.ToDto();
 
             // Verify that properties are copied in ToDto
             Assert.Equal(dto.Id, _answer.Id);
@@ -92,24 +92,24 @@ namespace BestFor.UnitTests.Domain.Masks
         [Fact]
         public void AnswerRightMaskTests_IDtoConvertable_FromDto()
         {
-            var answerLeftMask = new AnswerRightMask(_answer);
+            var answerRightMask = new AnswerRightMask(_answer);
 
             var dto = _answer.ToDto();
 
             // reload from dto
-            answerLeftMask.FromDto(dto);
+            answerRightMask.FromDto(dto);
 
 
             // Verify that properties are copied in ToDto
-            Assert.Equal(dto.Id, answerLeftMask.Id);
-            Assert.Equal(dto.Phrase, answerLeftMask.Phrase);
-            Assert.Equal(dto.LeftWord, answerLeftMask.LeftWord);
-            Assert.Equal(dto.RightWord, answerLeftMask.RightWord);
-            Assert.Equal(dto.Count, answerLeftMask.Count);
+            Assert.Equal(dto.Id, answerRightMask.Id);
+            Assert.Equal(dto.Phrase, answerRightMask.Phrase);
+            Assert.Equal(dto.LeftWord, answerRightMask.LeftWord);
+            Assert.Equal(dto.RightWord, answerRightMask.RightWord);
+            Assert.Equal(dto.Count, answerRightMask.Count);
 
-            answerLeftMask.NumberOfEntries = _answer.NumberOfEntries;
+            answerRightMask.NumberOfEntries = _answer.NumberOfEntries;
 
-            Assert.Equal(answerLeftMask.NumberOfEntries, _answer.NumberOfEntries);
+            Assert.Equal(answerRightMask.NumberOfEntries, _answer.NumberOfEntries);
 
         }
     }

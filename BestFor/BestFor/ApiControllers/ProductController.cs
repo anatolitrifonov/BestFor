@@ -48,7 +48,7 @@ namespace BestFor.Controllers
             // Form the parameters object. This will get smarter then just keyword eventually.
             var parameters = new ProductSearchParameters() { Keyword = keyword, Category = category };
             // Call the service
-            var product = await _productService.FindProduct(parameters);
+            var product = _productService.FindProduct(parameters);
 
             // this may be null but we are not going to do anything here no pint really. Just let the client side deal with results.
             return product;

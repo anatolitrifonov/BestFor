@@ -29,5 +29,7 @@ namespace BestFor.Dto
         public string MoreLower { get; set; } = "more";
 
         public string MoreUpper { get; set; } = "More";
+
+        public string PostersUpper { get; set; } = "Posters";
     }
 }

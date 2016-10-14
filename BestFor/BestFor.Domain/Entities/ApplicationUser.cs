@@ -1,12 +1,14 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using System;
 using System.ComponentModel.DataAnnotations;
+using BestFor.Dto.Account;
+using BestFor.Domain.Interfaces;
 
 namespace BestFor.Domain.Entities
 {
     // Add profile data for application users by adding properties to the ApplicationUser class
 
-    public class ApplicationUser : IdentityUser
+    public class ApplicationUser : IdentityUser, IDtoConvertable<ApplicationUserDto>
     {
         /// <summary>
         /// Optional display name. Username will be displayed when blank.
@@ -40,5 +42,28 @@ namespace BestFor.Domain.Entities
 
         [StringLength(1000, MinimumLength = 3)]
         public string CancellationReason { get; set; }
+
+        #region IDtoConvertable implementation
+        public ApplicationUserDto ToDto()
+        {
+            return new ApplicationUserDto()
+            {
+                UserId = Id,
+                UserName = UserName,
+                NumberOfAnswers = NumberOfAnswers,
+                DisplayName = DisplayName
+            };
+        }
+
+        public int FromDto(ApplicationUserDto dto)
+        {
+            Id = dto.UserId;
+            UserName = dto.UserName;
+            NumberOfAnswers = dto.NumberOfAnswers;
+
+            return 1;
+        }
+        #endregion
+
     }
 }

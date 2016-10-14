@@ -28,7 +28,7 @@ namespace BestFor.UnitTests.Services
         /// Check that calling amazon service works.
         /// </summary>
         [Fact]
-        public async Task AmazonProductService_FindProduct_FindsProduct()
+        public void AmazonProductService_FindProduct_FindsProduct()
         {
             // Uncomment this to actually run.
             var t = 5; if (t > 1) return;
@@ -36,7 +36,7 @@ namespace BestFor.UnitTests.Services
             var cacheMock = new Mock<ICacheManager>();
             var cache = cacheMock.Object;
             var service = new AmazonProductService(Common.AppSettings.ReadSettings(), cache);
-            var product = await service.FindProduct(new ProductSearchParameters() { Keyword = "fishing" });
+            var product = service.FindProduct(new ProductSearchParameters() { Keyword = "fishing" });
             // Amazon may return a different product on search every time, no point in checking the exact values.
             Assert.NotNull(product);
             Assert.NotNull(product.MerchantProductId);
@@ -56,7 +56,7 @@ namespace BestFor.UnitTests.Services
         {
             // Load xml from the file
             string path = @"C:\Users\atrifono\Documents\Personal\Fork\BestFor\BestFor.Services\AffiliateProgram\Amazon\";
-            FileStream myFileStream = new FileStream(path + "junk.xml", FileMode.Open);
+            FileStream myFileStream = new FileStream(path + "myxml.xml", FileMode.Open);
             var xmlDoc = new XmlDocument();
             xmlDoc.Load(myFileStream);
             // Ask service to parse it.

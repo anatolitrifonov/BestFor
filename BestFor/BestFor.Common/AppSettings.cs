@@ -38,6 +38,8 @@ namespace BestFor.Common
 
         public string FullDomainAddress { get; set; }
 
+        public string DatabaseConnectionString { get; set; }
+
         /// <summary>
         /// Used only for debugging to track when an instance of this class is created.
         /// </summary>

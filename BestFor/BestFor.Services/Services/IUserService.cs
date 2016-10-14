@@ -1,7 +1,6 @@
 ﻿using BestFor.Domain.Entities;
-using System;
+using BestFor.Dto.Account;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace BestFor.Services.Services
@@ -16,24 +15,31 @@ namespace BestFor.Services.Services
         /// </summary>
         /// <param name="displayName"></param>
         /// <returns></returns>
-        Task<ApplicationUser> FindByDisplayNameAsync(string displayName);
+        ApplicationUser FindByDisplayName(string displayName);
 
-        Task<ApplicationUser> FindByIdAsync(string id);
+        ApplicationUser FindById(string id);
 
-        Task<int> AddUserToCache(ApplicationUser user);
+        /// <summary>
+        /// Find users by a set of ids
+        /// </summary>
+        /// <param name="ids"></param>
+        /// <returns></returns>
+        List<ApplicationUserDto> FindByIds(List<string> ids);
+
+        int AddUserToCache(ApplicationUser user);
 
         /// <summary>
         /// Increase the answer count in user's cache.
         /// </summary>
         /// <param name="user"></param>
         /// <returns></returns>
-        Task<int> UpdateUserFromAnswer(Answer answer);
+        int UpdateUserFromAnswer(Answer answer);
 
         /// <summary>
         /// List all users
         /// </summary>
         /// <returns></returns>
-        Task<IEnumerable<ApplicationUser>> FindAll();
+        IEnumerable<ApplicationUser> FindAll();
 
     }
 }

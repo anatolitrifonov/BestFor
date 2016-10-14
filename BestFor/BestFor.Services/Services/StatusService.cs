@@ -91,18 +91,18 @@ namespace BestFor.Services.Services
             return result;
         }
 
-        public async Task<int> InitAnswers()
+        public int InitAnswers()
         {
             var dataSource = new KeyIndexedDataSource<Answer>();
-            await dataSource.Initialize(_answersRepository.Active());
+            dataSource.Initialize(_answersRepository.Active());
             _cacheManager.Add(CacheConstants.CACHE_KEY_ANSWERS_DATA, dataSource);
             return dataSource.Size;
         }
 
-        public async Task<int> InitAnswerDescriptions()
+        public int InitAnswerDescriptions()
         {
             var dataSource = new KeyIndexedDataSource<AnswerDescription>();
-            await dataSource.Initialize(_answersDescriptionRepository.Active());
+            dataSource.Initialize(_answersDescriptionRepository.Active());
             _cacheManager.Add(CacheConstants.CACHE_KEY_ANSWER_DESCRIPTIONS_DATA, dataSource);
             return dataSource.Size;
         }

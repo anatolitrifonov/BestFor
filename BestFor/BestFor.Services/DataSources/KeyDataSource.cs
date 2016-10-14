@@ -75,6 +75,11 @@ namespace BestFor.Services.DataSources
             return _data.Where(x => x.Key.StartsWith(key)).Select(x => x.Value);
         }
 
+        /// <summary>
+        /// Find items where key starts with <paramref name="key"/>
+        /// </summary>
+        /// <param name="key"></param>
+        /// <returns></returns>
         public IEnumerable<TEntity> FindTopItems(string key)
         {
             if (_data == null) return null;

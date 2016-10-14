@@ -35,7 +35,8 @@ namespace BestFor.UnitTests.Domain.Entities
             Assert.Equal(1, _answerDescription.Id);
             // It is the same as NumberOfEntries
             Assert.Equal("A", _answerDescription.Description);
-            Assert.Equal(3, _answerDescription.NumberOfEntries);
+            // _answerDescription.NumberOfEntries is always 1 no matter what.
+            Assert.Equal(1, _answerDescription.NumberOfEntries);
             Assert.Equal(2, _answerDescription.AnswerId);
 
             Assert.Equal(new DateTime(2016, 1, 1), _answerDescription.DateAdded);
@@ -61,7 +62,8 @@ namespace BestFor.UnitTests.Domain.Entities
             // It is the same as NumberOfEntries
             Assert.Equal(78, _answerDescription.AnswerId);
             Assert.Equal("phrase1", _answerDescription.Description);
-            Assert.Equal(4, _answerDescription.NumberOfEntries);
+            // _answerDescription.NumberOfEntries is always 1 no matter what.
+            Assert.Equal(1, _answerDescription.NumberOfEntries);
 
             Assert.Equal(new DateTime(2016, 1, 2), _answerDescription.DateAdded);
             Assert.Equal(ObjectState.Added, _answerDescription.ObjectState);
