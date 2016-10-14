@@ -61,7 +61,7 @@ namespace BestFor.Sturgeon
                     throw ex;
                 }
             }
-            return View("~/Sturgeon/Index.cshtml", model);
+            return View(model);
         }
 
         [HttpGet]
@@ -70,7 +70,7 @@ namespace BestFor.Sturgeon
             var model = new TeamModel();
             model.TeamName = id;
 
-            return View("~/Sturgeon/Team.cshtml", model);
+            return View(model);
         }
 
     }
