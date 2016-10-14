@@ -45,6 +45,12 @@ namespace BestFor.Services.DataSources
     //public class KeyIndexedDataSource<TEntity> where TEntity : EntityBase, IFirstIndex, ISecondIndex
     public class KeyIndexedDataSource<TEntity> where TEntity : IFirstIndex, ISecondIndex, IIdIndex
     {
+        public class SimpleCountPair
+        {
+            public string Key { get; set; }
+            public int Count { get; set; }
+        }
+
         private const int DEFAULT_TOP_COUNT = 10;
         /// <summary>
         /// Main index data
@@ -76,7 +82,7 @@ namespace BestFor.Services.DataSources
         /// </summary>
         /// <param name="repository"></param>
         /// <returns></returns>
-        public async Task<int> Initialize(IEnumerable<TEntity> data)
+        public int Initialize(IEnumerable<TEntity> data)
         {
             if (_initialized) throw new Exception("This index is already initialized.");
 
@@ -84,8 +90,7 @@ namespace BestFor.Services.DataSources
             _iddata = new Dictionary<int, TEntity>();
             // var howMany = repository.Active().Count();
 //            foreach (var entity in repository.Active())
-            foreach (var entity in data)
-                await Insert(entity);
+            foreach (var entity in data) Insert(entity);
             _initialized = true;
             return _data.Count;
         }
@@ -96,24 +101,49 @@ namespace BestFor.Services.DataSources
         /// <param name="key"></param>
         /// <returns></returns>
         /// <remarks>For example store all answers for the combination of left key and right key</remarks>
-        public async Task<IEnumerable<TEntity>> Find(string key)
+        public IEnumerable<TEntity> Find(string key)
         {
             if (_data == null) return null;
 
             if (!_data.ContainsKey(key)) return null;
 
             // Get all items for the key
-            return await Task.FromResult(_data[key].Values.AsEnumerable());
+            return _data[key].Values.AsEnumerable();
         }
 
-        public async Task<IEnumerable<TEntity>> FindTopItems(string key)
+        public IEnumerable<TEntity> FindTopItems(string key)
         {
             if (_data == null) return null;
 
             if (!_data.ContainsKey(key)) return null;
 
             // Get all items for the key
-            return await Task.FromResult(_data[key].Values.AsEnumerable().Take(DEFAULT_TOP_COUNT));
+            return _data[key].Values.AsEnumerable().Take(DEFAULT_TOP_COUNT);
+        }
+
+        /// <summary>
+        /// Return top first index <paramref name="count"/> keys that contain max number of items.
+        /// </summary>
+        /// <param name="count"></param>
+        /// <returns></returns>
+        public async Task<List<SimpleCountPair>> FindTopIndexKeys(int count)
+        {
+            if (count < 1)
+                throw new Exception("Invalid parameter value " + count + " passed to KeyIndexedDataSource(count)");
+            if (_data == null) return null;
+
+            // We can't get away with returning only keys because
+            // If we do not return count here then we need to load the counts in
+            // user service and store and sync the counts in database
+            // Currently I do not want to store counts in the database
+            // because I do not want to sync up the counts in users table with counts in answers table
+            // This is symply not a good idea on large numbers.
+            // We will just hope to read from cache and from database
+            var t = _data.OrderByDescending(x => x.Value.Count()).Take(count)
+                .Select(x => new SimpleCountPair() { Key = x.Key, Count = x.Value.Count }).ToList();
+
+            // Get all items for the key
+            return await Task.FromResult(t);
         }
 
         public async Task<TEntity> FindExact(string key, string secondKey)
@@ -149,7 +179,7 @@ namespace BestFor.Services.DataSources
 
         }
 
-        public async Task<TEntity> Insert(TEntity entity)
+        public TEntity Insert(TEntity entity)
         {
             var key = entity.IndexKey;
             // Add to a set of items under index value
@@ -179,7 +209,7 @@ namespace BestFor.Services.DataSources
                 throw new Exception("Something is wrong in the index by id dictionary.", ex);
             }
 
-            return await Task.FromResult(entity);
+            return entity;
         }
 
         /// <summary>

@@ -64,7 +64,8 @@ namespace BestFor.Domain.Entities
             {
                 AnswerId = AnswerId,
                 UserId = UserId,
-                Id = Id
+                Id = Id,
+                DateAdded = DateAdded
             };
         }
 
@@ -73,6 +74,11 @@ namespace BestFor.Domain.Entities
             Id = dto.Id;
             UserId = dto.UserId;
             AnswerId = dto.AnswerId;
+            // Intentionall do not do that because UI does not set date.
+            // We never update votes.
+            // Whenever new object is created and inserted we set the creation date on object instantiation
+            // Once created and saved this value is only relevant for reading.
+            // DateAdded = dto.DateAdded;
 
             return Id;
         }

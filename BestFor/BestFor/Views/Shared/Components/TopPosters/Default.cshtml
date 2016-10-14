@@ -1,0 +1,21 @@
+﻿@model BestFor.Dto.Account.ApplicationUsersDto
+@* Inject the service that allows searching for localized strings *@
+@inject BestFor.Services.Services.IResourcesService resourcesService
+@* Trending overall *@
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h4>@await resourcesService.GetString(this.ViewBag.BestForCulture, "top_posters")</h4>
+    </div>
+    <div class="panel-body">
+        <div class="best-div-fluid">
+            @{ 
+                var stringOpinions = await resourcesService.GetString(this.ViewBag.BestForCulture, "opinions_lower");
+            }
+            @foreach (var item in Model.Users)
+            {
+                var show = @item.DisplayName + " (" + @item.NumberOfAnswers + " " + stringOpinions +")";
+                <span class="best-trending-overall">@show</span>
+            }
+        </div>
+    </div>
+</div>

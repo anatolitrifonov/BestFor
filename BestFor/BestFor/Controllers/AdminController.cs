@@ -108,16 +108,16 @@ namespace BestFor.Controllers
             return View(id);
         }
 
-        public async Task<IActionResult> ListUser()
+        public IActionResult ListUser()
         {
-            var users = await _userService.FindAll();
+            var users = _userService.FindAll();
 
             return View(users.OrderBy(x => x.DisplayName).ThenBy(x => x.UserName));
         }
 
         public async Task<IActionResult> ShowUser(string id)
         {
-            var user = await _userService.FindByIdAsync(id);
+            var user = _userService.FindById(id);
 
             var answers = await _answerService.FindDirectByUserId(id);
 
@@ -133,7 +133,7 @@ namespace BestFor.Controllers
         /// <returns></returns>
         public async Task<IActionResult> ShowUserDescriptions(string id)
         {
-            var user = await _userService.FindByIdAsync(id);
+            var user = _userService.FindById(id);
 
             var answerDescriptions = await _answerDescriptionService.FindDirectByUserId(id);
 

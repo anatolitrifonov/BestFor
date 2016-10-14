@@ -43,7 +43,7 @@ namespace BestFor.Controllers
             if (answerId != 0)
             {
                 var userId = _userManager.GetUserId(User);
-                await _voteService.VoteAnswer(new AnswerVoteDto() { AnswerId = answerId, UserId = _userManager.GetUserId(User) } );
+                _voteService.VoteAnswer(new AnswerVoteDto() { AnswerId = answerId, UserId = _userManager.GetUserId(User) } );
             }
 
             // Read the reason
@@ -63,7 +63,7 @@ namespace BestFor.Controllers
             if (answerDescriptionId != 0)
             {
                 // this does return answerId
-                answerId = await _voteService.VoteAnswerDescription(
+                answerId = _voteService.VoteAnswerDescription(
                     new AnswerDescriptionVoteDto() { AnswerDescriptionId = answerDescriptionId, UserId = _userManager.GetUserId(User) }
                     );
             }

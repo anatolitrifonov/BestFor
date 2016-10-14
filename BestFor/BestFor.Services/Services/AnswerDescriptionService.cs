@@ -52,8 +52,8 @@ namespace BestFor.Services.Services
             await _repository.SaveChangesAsync();
 
             // Add to cache.
-            var cachedData = await GetCachedData();
-            await cachedData.Insert(answerDescriptionObject);
+            var cachedData = GetCachedData();
+            cachedData.Insert(answerDescriptionObject);
 
             return answerDescriptionObject;
         }
@@ -68,9 +68,9 @@ namespace BestFor.Services.Services
             // return blank list if invalid answerId
             if (answerId == 0) return await Task.FromResult(Enumerable.Empty<AnswerDescriptionDto>());
             // Get cache
-            var cachedData = await GetCachedData();
+            var cachedData = GetCachedData();
             // Get data
-            var data = await cachedData.Find(answerId.ToString());
+            var data = cachedData.Find(answerId.ToString());
             if (data == null) return null;
 
             // Return data
@@ -106,7 +106,7 @@ namespace BestFor.Services.Services
             // return blank list if invalid answerId
             if (answerDescriptionId == 0) return await Task.FromResult<AnswerDescriptionDto>(new AnswerDescriptionDto());
             // Get cache
-            var cachedData = await GetCachedData();
+            var cachedData = GetCachedData();
             // Get data
             var data = await cachedData.FindExactById(answerDescriptionId);
             if (data == null) return null;
@@ -142,13 +142,13 @@ namespace BestFor.Services.Services
         /// Get data from cache or initialize if empty
         /// </summary>
         /// <returns></returns>
-        private async Task<KeyIndexedDataSource<AnswerDescription>> GetCachedData()
+        private KeyIndexedDataSource<AnswerDescription> GetCachedData()
         {
             object data = _cacheManager.Get(CacheConstants.CACHE_KEY_ANSWER_DESCRIPTIONS_DATA);
             if (data == null)
             {
                 var dataSource = new KeyIndexedDataSource<AnswerDescription>();
-                await dataSource.Initialize(_repository.Active());
+                dataSource.Initialize(_repository.Active());
                 _cacheManager.Add(CacheConstants.CACHE_KEY_ANSWER_DESCRIPTIONS_DATA, dataSource);
                 return dataSource;
             }

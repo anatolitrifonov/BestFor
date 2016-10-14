@@ -2,6 +2,7 @@
 using BestFor.Domain.Entities;
 using BestFor.Domain.Masks;
 using BestFor.Dto;
+using BestFor.Dto.Account;
 using BestFor.Services.Cache;
 using BestFor.Services.DataSources;
 using Microsoft.Extensions.Logging;
@@ -31,6 +32,7 @@ namespace BestFor.Services.Services
         public const int TRENDING_TOP_OVERALL = 9;
         public const int DEFAULT_SEARCH_RESULT_COUNT = 15;
         public const int DEFAULT_SEARCH_RESULT_FOR_EVERYTHING = 100;
+        public const int DEFAULT_TOP_POSTER_COUNT = 5;
 
         private ICacheManager _cacheManager;
         private IAnswerRepository _repository;
@@ -58,7 +60,7 @@ namespace BestFor.Services.Services
             var cachedData = await GetCachedData();
             // This is just getting a list of answers with number of "votes" for each. Cache stored answers, not votes.
             // Each answer in cache has number of votes.
-            var result = await cachedData.Find(Answer.FormKey(leftWord, rightWord));
+            var result = cachedData.Find(Answer.FormKey(leftWord, rightWord));
             if (result == null) return Enumerable.Empty<AnswerDto>();
             return result.Select(x => x.ToDto());
         }
@@ -69,7 +71,7 @@ namespace BestFor.Services.Services
             var cachedData = await GetCachedData();
             // This is just getting a list of answers with number of "votes" for each. Cache stored answers, not votes.
             // Each answer in cache has number of votes.
-            var result = await cachedData.FindTopItems(Answer.FormKey(leftWord, rightWord));
+            var result = cachedData.FindTopItems(Answer.FormKey(leftWord, rightWord));
             if (result == null) return Enumerable.Empty<AnswerDto>();
             return result.Select(x => x.ToDto());
         }
@@ -121,15 +123,19 @@ namespace BestFor.Services.Services
 
             // Add to cache.
             var cachedData = await GetCachedData();
-            await cachedData.Insert(persistResult.Answer);
+            cachedData.Insert(persistResult.Answer);
 
             // Add to left cache
             var leftCachedData = await GetLeftCachedData();
-            await leftCachedData.Insert(new AnswerLeftMask(persistResult.Answer));
+            leftCachedData.Insert(new AnswerLeftMask(persistResult.Answer));
 
             // Add to right cache
             var rightCachedData = await GetRightCachedData();
-            await rightCachedData.Insert(new AnswerRightMask(persistResult.Answer));
+            rightCachedData.Insert(new AnswerRightMask(persistResult.Answer));
+
+            // Add to user cache
+            var userCachedData = await GetUserCachedData();
+            userCachedData.Insert(new AnswerUserMask(persistResult.Answer));
 
             // Add to trending today
             AddToTrendingToday(persistResult.Answer);
@@ -138,7 +144,7 @@ namespace BestFor.Services.Services
             AddToTrendingOverall(persistResult.Answer);
 
             // Update User if new answer
-            if (persistResult.IsNew) await _userService.UpdateUserFromAnswer(answerObject);
+            if (persistResult.IsNew) _userService.UpdateUserFromAnswer(answerObject);
 
             var result = new AddedAnswerDto() { Answer = persistResult.Answer.ToDto() };
 
@@ -257,7 +263,7 @@ namespace BestFor.Services.Services
 
             var cachedData = await GetLeftCachedData();
 
-            var result = await cachedData.Find(leftWord);
+            var result = cachedData.Find(leftWord);
 
             // This is just getting a list of answers with number of "votes" for each. Cache stored answers, not votes.
             // Each answer in cache has number of votes.
@@ -290,12 +296,95 @@ namespace BestFor.Services.Services
 
             var cachedData = await GetRightCachedData();
 
-            var result = await cachedData.Find(rightWord);
+            var result = cachedData.Find(rightWord);
 
             // This is just getting a list of answers with number of "votes" for each. Cache stored answers, not votes.
             // Each answer in cache has number of votes.
             if (result == null) return Enumerable.Empty<AnswerDto>();
             return result.Select(x => x.ToDto()).Take(count);
+        }
+
+        /// <summary>
+        /// Find the top N answers matching the user id
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        public async Task<IEnumerable<AnswerDto>> FindUserAnswers(string userId)
+        {
+            return await FindUserAnswers(userId, DEFAULT_SEARCH_RESULT_COUNT);
+        }
+
+        /// <summary>
+        /// Find top <paramref name="count"/> answers matching the user id
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="count"></param>
+        /// <returns></returns>
+        public async Task<IEnumerable<AnswerDto>> FindUserAnswers(string userId, int count)
+        {
+            if (string.IsNullOrEmpty(userId) || string.IsNullOrWhiteSpace(userId))
+                throw new Exception("Invalid userId parameter passed to AnswerService.FindUserAnswers");
+            if (count < 1)
+                throw new Exception("Invalid count parameter passed to AnswerService.FindUserAnswers");
+
+            var cachedData = await GetUserCachedData();
+
+            var result = cachedData.Find(userId);
+
+            // This is just getting a list of answers with number of "votes" for each. Cache stored answers, not votes.
+            // Each answer in cache has number of votes.
+            if (result == null) return Enumerable.Empty<AnswerDto>();
+            return result.Select(x => x.ToDto()).Take(count);
+        }
+
+        /// <summary>
+        /// Find top N users answer posters
+        /// </summary>
+        /// <returns></returns>
+        public async Task<List<ApplicationUserDto>> FindTopPosterIds()
+        {
+            var cachedData = await GetUserCachedData();
+
+            // I know this whole thing is a bit twisted but the main idea is to rely
+            // on the index in answers cache, not on cache of users, and not to count answers in user service
+            // and not to read count of answers by user from database
+            // I am hoping to read all answers once and then manipulate cache rather than read anything else from db again.
+
+            // this is a simple set of keys and counts
+            var result = await cachedData.FindTopIndexKeys(DEFAULT_TOP_POSTER_COUNT);
+
+            // Get just userIds
+            var userIds = result.Select(x => x.Key).ToList();
+
+            // Find all users by ids
+            var users = _userService.FindByIds(userIds);
+
+            // Put in counts
+            foreach (var user in users)
+                user.NumberOfAnswers = result.First(x => x.Key == user.UserId).Count;
+
+            return users;
+        }
+
+
+        /// <summary>
+        /// Return the cached number of user answers.
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        public async Task<int> CountUserAnswers(string userId)
+        {
+            if (string.IsNullOrEmpty(userId) || string.IsNullOrWhiteSpace(userId))
+                throw new Exception("Invalid userId parameter passed to AnswerService.FindUserAnswers");
+
+            var cachedData = await GetUserCachedData();
+
+            var result = cachedData.Find(userId);
+
+            // This is just getting a list of answers with number of "votes" for each. Cache stored answers, not votes.
+            // Each answer in cache has number of votes.
+            if (result == null) return 0;
+            return result.Count();
         }
 
         /// <summary>
@@ -560,7 +649,7 @@ namespace BestFor.Services.Services
             if (data == null)
             {
                 var dataSource = new KeyIndexedDataSource<Answer>();
-                await dataSource.Initialize(_repository.Active());
+                 dataSource.Initialize(_repository.Active());
                 _cacheManager.Add(CacheConstants.CACHE_KEY_ANSWERS_DATA, dataSource);
                 return dataSource;
             }
@@ -582,7 +671,7 @@ namespace BestFor.Services.Services
                 var dataSource = await GetCachedData();
                 var allItems = await dataSource.All();
                 var leftDataSource = new KeyIndexedDataSource<AnswerLeftMask>();
-                await leftDataSource.Initialize(allItems.Select(x => new AnswerLeftMask(x)));
+                leftDataSource.Initialize(allItems.Select(x => new AnswerLeftMask(x)));
                 _cacheManager.Add(CacheConstants.CACHE_KEY_LEFT_ANSWERS_DATA, leftDataSource);
                 return leftDataSource;
             }
@@ -604,11 +693,36 @@ namespace BestFor.Services.Services
                 var dataSource = await GetCachedData();
                 var allItems = await dataSource.All();
                 var rightDataSource = new KeyIndexedDataSource<AnswerRightMask>();
-                await rightDataSource.Initialize(allItems.Select(x => new AnswerRightMask(x)));
+                rightDataSource.Initialize(allItems.Select(x => new AnswerRightMask(x)));
                 _cacheManager.Add(CacheConstants.CACHE_KEY_RIGHT_ANSWERS_DATA, rightDataSource);
                 return rightDataSource;
             }
             return (KeyIndexedDataSource<AnswerRightMask>)data;
+        }
+
+
+        /// <summary>
+        /// Get data indexed on the user id
+        /// 
+        /// Load from normally cached data if empty.
+        /// </summary>
+        /// <returns></returns>
+        private async Task<KeyIndexedDataSource<AnswerUserMask>> GetUserCachedData()
+        {
+            object data = _cacheManager.Get(CacheConstants.CACHE_KEY_USER_ANSWERS_DATA);
+            if (data == null)
+            {
+                // Initialize from answers
+                var dataSource = await GetCachedData();
+                var allItems = await dataSource.All();
+                var userDataSource = new KeyIndexedDataSource<AnswerUserMask>();
+                userDataSource.Initialize(allItems
+                    .Where(x => x.UserId != null)
+                    .Select(x => new AnswerUserMask(x)));
+                _cacheManager.Add(CacheConstants.CACHE_KEY_USER_ANSWERS_DATA, userDataSource);
+                return userDataSource;
+            }
+            return (KeyIndexedDataSource<AnswerUserMask>)data;
         }
 
         /// <summary>

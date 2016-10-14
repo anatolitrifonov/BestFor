@@ -21,6 +21,12 @@ namespace BestFor.Services.Services
     /// </remarks>
     public class ResourcesService : IResourcesService
     {
+        public class CommonStrings
+        {
+            public CommonStringsDto Strings;
+
+            public Dictionary<string, string> Translations;
+        }
         /// <summary>
         /// Store services for between the calls.
         /// </summary>
@@ -30,7 +36,7 @@ namespace BestFor.Services.Services
         /// <summary>
         /// Save data between calls. This object might be needed several times. No need to go to cache every time.
         /// </summary>
-        private CommonStringsDto _commonStrings;
+        private CommonStrings _commonStrings;
 
         public ResourcesService(ICacheManager cacheManager, IRepository<ResourceString> repository)
         {
@@ -47,12 +53,12 @@ namespace BestFor.Services.Services
         public async Task<CommonStringsDto> GetCommonStrings(string culture)
         {
             // See if we got the strings already
-            if (_commonStrings != null) return _commonStrings;
+            if (_commonStrings != null) return _commonStrings.Strings;
             // Well ... nothing we can do ... load from cache.
             var resourceStrings = GetCachedData();
             // Setup common strings so that we do not have to touch cache with no need.
             _commonStrings = LoadCommonStrings(culture, resourceStrings);
-            return await Task.FromResult(_commonStrings);
+            return await Task.FromResult(_commonStrings.Strings);
         }
 
         /// <summary>
@@ -77,7 +83,9 @@ namespace BestFor.Services.Services
             // Setup common strings so that we do not have to touch cache with no need.
             if (_commonStrings == null) _commonStrings = LoadCommonStrings(culture, resourceStrings);
             // Get the string for this culture
-            return await Task.FromResult(FindOneString(culture, key, resourceStrings));
+            string result = FindOneString(culture, key, resourceStrings);
+            result = ReplacePatterns(result, _commonStrings.Translations);
+            return await Task.FromResult(result);
         }
 
         /// <summary>
@@ -154,7 +162,7 @@ namespace BestFor.Services.Services
         }
 
         /// <summary>
-        /// Load all known common strings.
+        /// Load all known common strings for all cultures.
         /// </summary>
         /// <returns></returns>
         public async Task<Dictionary<string, CommonStringsDto>> GetCommonStringsForAllCultures()
@@ -163,7 +171,7 @@ namespace BestFor.Services.Services
             var result = new Dictionary<string, CommonStringsDto>();
             var cultures = data.Select(x => x.CultureName).Distinct();
             foreach (var culture in cultures)
-                result.Add(culture, LoadCommonStrings(culture, data));
+                result.Add(culture, LoadCommonStrings(culture, data).Strings);
             return await Task.FromResult(result);
         }
 
@@ -187,6 +195,22 @@ namespace BestFor.Services.Services
         }
 
         /// <summary>
+        /// Loop through all common strings and replace the pattern.
+        /// </summary>
+        /// <param name="input"></param>
+        /// <param name="commonStrings"></param>
+        /// <returns></returns>
+        private string ReplacePatterns(string input, Dictionary<string, string> commonStringTranslations)
+        {
+            if (string.IsNullOrEmpty(input) || string.IsNullOrWhiteSpace(input)) return input;
+            // no patterens -> exit
+            if (input.IndexOf("{{") < 0) return input;
+            foreach (string key in commonStringTranslations.Keys)
+                input = input.Replace("{{" + key + "}}", commonStringTranslations[key]);
+            return input;
+        }
+
+        /// <summary>
         /// Get data from cache. Load into cache from repo if needed.
         /// </summary>
         /// <returns></returns>
@@ -204,20 +228,35 @@ namespace BestFor.Services.Services
             return (List<ResourceString>)data;
         }
 
-        private CommonStringsDto LoadCommonStrings(string culture, List<ResourceString> resourceStrings)
+        private CommonStrings LoadCommonStrings(string culture, List<ResourceString> resourceStrings)
         {
-            var result = new CommonStringsDto();
-            result.Best = FindOneString(culture, "best_start_capital", resourceStrings);
-            result.For = FindOneString(culture, "for_lower", resourceStrings);
-            result.Is = FindOneString(culture, "is_lower", resourceStrings);
-            result.FlagLower = FindOneString(culture, "flag_lower", resourceStrings);
-            result.FlagUpper = FindOneString(culture, "flag_upper", resourceStrings);
-            result.VoteLower = FindOneString(culture, "vote_lower", resourceStrings);
-            result.VoteUpper = FindOneString(culture, "vote_upper", resourceStrings);
-            result.DescribeLower = FindOneString(culture, "describe_lower", resourceStrings);
-            result.DescribeUpper = FindOneString(culture, "describe_upper", resourceStrings);
-            result.MoreLower = FindOneString(culture, "more_lower", resourceStrings);
-            result.MoreUpper = FindOneString(culture, "more_upper", resourceStrings);
+            var result = new CommonStrings();
+            result.Strings = new CommonStringsDto();
+            result.Translations = new Dictionary<string, string>();
+            result.Strings.Best = FindOneString(culture, "best_start_capital", resourceStrings);
+            result.Translations.Add("best_start_capital", result.Strings.Best);
+            result.Strings.For = FindOneString(culture, "for_lower", resourceStrings);
+            result.Translations.Add("for_lower", result.Strings.For);
+            result.Strings.Is = FindOneString(culture, "is_lower", resourceStrings);
+            result.Translations.Add("is_lower", result.Strings.Is);
+            result.Strings.FlagLower = FindOneString(culture, "flag_lower", resourceStrings);
+            result.Translations.Add("flag_lower", result.Strings.FlagLower);
+            result.Strings.FlagUpper = FindOneString(culture, "flag_upper", resourceStrings);
+            result.Translations.Add("flag_upper", result.Strings.FlagUpper);
+            result.Strings.VoteLower = FindOneString(culture, "vote_lower", resourceStrings);
+            result.Translations.Add("vote_lower", result.Strings.VoteLower);
+            result.Strings.VoteUpper = FindOneString(culture, "vote_upper", resourceStrings);
+            result.Translations.Add("vote_upper", result.Strings.VoteUpper);
+            result.Strings.DescribeLower = FindOneString(culture, "describe_lower", resourceStrings);
+            result.Translations.Add("describe_lower", result.Strings.DescribeLower);
+            result.Strings.DescribeUpper = FindOneString(culture, "describe_upper", resourceStrings);
+            result.Translations.Add("describe_upper", result.Strings.DescribeUpper);
+            result.Strings.MoreLower = FindOneString(culture, "more_lower", resourceStrings);
+            result.Translations.Add("more_lower", result.Strings.MoreLower);
+            result.Strings.MoreUpper = FindOneString(culture, "more_upper", resourceStrings);
+            result.Translations.Add("more_upper", result.Strings.MoreUpper);
+            result.Strings.PostersUpper = FindOneString(culture, "posters_capital", resourceStrings);
+            result.Translations.Add("posters_capital", result.Strings.PostersUpper);
             return result;
         }
         #endregion

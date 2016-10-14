@@ -147,7 +147,7 @@ namespace BestFor.Controllers
             {
                 foreach (var description in descriptions)
                 {
-                    description.UserDisplayName = await GetUserDisplayName(description.UserId, userService);
+                    description.UserDisplayName = GetUserDisplayName(description.UserId, userService);
                 }
             }
 
@@ -157,8 +157,8 @@ namespace BestFor.Controllers
                 Answer = answer,
                 CommonStrings = await resourcesService.GetCommonStrings(culture),
                 Descriptions = descriptions,
-                UserDisplayName = await GetUserDisplayName(answer.UserId, userService),
-                NumberVotes = await voteService.CountAnswerVotes(answer.Id)
+                UserDisplayName = GetUserDisplayName(answer.UserId, userService),
+                NumberVotes = voteService.CountAnswerVotes(answer.Id)
             };
 
             // Fill in link to this page and other usefull data.
@@ -176,14 +176,14 @@ namespace BestFor.Controllers
         /// <param name="userId"></param>
         /// <param name="userService"></param>
         /// <returns></returns>
-        private static async Task<string> GetUserDisplayName(string userId, IUserService userService)
+        private static string GetUserDisplayName(string userId, IUserService userService)
         {
             var result = "Anonymous";
             if (userId == null || userService == null) return result;
             if (string.IsNullOrEmpty(userId)) return result;
             if (string.IsNullOrWhiteSpace(userId)) return result;
             // Get user details.
-            var user = await userService.FindByIdAsync(userId);
+            var user = userService.FindById(userId);
             if (user == null) return result;
             if (user.DisplayName == null) return user.UserName;
             if (user.DisplayName == string.Empty) return user.UserName;

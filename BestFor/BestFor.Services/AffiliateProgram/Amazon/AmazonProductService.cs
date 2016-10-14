@@ -125,7 +125,7 @@ namespace BestFor.Services.AffiliateProgram.Amazon
         /// </summary>
         /// <param name="parameters"></param>
         /// <returns></returns>
-        public async Task<AffiliateProductDto> FindProduct(ProductSearchParameters parameters)
+        public AffiliateProductDto FindProduct(ProductSearchParameters parameters)
         {
             // Check parameters. Do not throw expection if blank, just say that nothing found since this is an interface implementation. :)
             if (parameters == null || string.IsNullOrEmpty(parameters.Keyword) || string.IsNullOrWhiteSpace(parameters.Keyword)) return null;
@@ -147,7 +147,7 @@ namespace BestFor.Services.AffiliateProgram.Amazon
             var fullUrl = BuildProductSearchUrl(parameters);
 
             // Search for product. Takes time.
-            product = await CallProductSearch(fullUrl);
+            product = CallProductSearch(fullUrl);
 
             // Would be strange that amazon did not find anything but ok.
             if (product == null) return null;
@@ -188,16 +188,20 @@ namespace BestFor.Services.AffiliateProgram.Amazon
         /// </summary>
         /// <param name="url"></param>
         /// <returns></returns>
-        public async Task<AffiliateProductDto> CallProductSearch(string url)
+        public AffiliateProductDto CallProductSearch(string url)
         {
             if (string.IsNullOrEmpty(url) || string.IsNullOrWhiteSpace(url))
                 throw new Exception("AmazonProductService CallProductSearch function is called with empty url.");
 
             using (var client = new HttpClient(new HttpClientHandler { AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate }))
             {
-                HttpResponseMessage response = await client.GetAsync(new Uri(url));
+                var task = client.GetAsync(new Uri(url));
+                task.Wait();
+                HttpResponseMessage response = task.Result;
                 // response.EnsureSuccessStatusCode();
-                string result = await response.Content.ReadAsStringAsync();
+                var readTask = response.Content.ReadAsStringAsync();
+                readTask.Wait();
+                string result = readTask.Result;
                 // try loading result into xml
                 var reader = new StringReader(result);
                 var xmlDoc = new XmlDocument();

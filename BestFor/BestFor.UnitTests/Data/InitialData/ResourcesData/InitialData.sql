@@ -564,5 +564,41 @@ if not exists(select * from ResourceStrings where CultureName = 'ru-RU' and [Key
 	insert ResourceStrings(CultureName, [Key], Value, DateAdded) values('ru-RU', 'contribute_capital', N'Добавить', getDate());
 GO
 
+if not exists(select * from ResourceStrings where CultureName = 'en-US' and [Key] = 'poster_lower')
+	insert ResourceStrings(CultureName, [Key], Value, DateAdded) values('en-US', 'poster_lower', N'apinioner', getDate());
+if not exists(select * from ResourceStrings where CultureName = 'ru-RU' and [Key] = 'poster_lower')
+	insert ResourceStrings(CultureName, [Key], Value, DateAdded) values('ru-RU', 'poster_lower', N'мнитель', getDate());
+GO
+
+if not exists(select * from ResourceStrings where CultureName = 'en-US' and [Key] = 'poster_capital')
+	insert ResourceStrings(CultureName, [Key], Value, DateAdded) values('en-US', 'poster_capital', N'Apinioner', getDate());
+if not exists(select * from ResourceStrings where CultureName = 'ru-RU' and [Key] = 'poster_capital')
+	insert ResourceStrings(CultureName, [Key], Value, DateAdded) values('ru-RU', 'poster_capital', N'Мнитель', getDate());
+GO
+
+if not exists(select * from ResourceStrings where CultureName = 'en-US' and [Key] = 'posters_lower')
+	insert ResourceStrings(CultureName, [Key], Value, DateAdded) values('en-US', 'posters_lower', N'apinioners', getDate());
+if not exists(select * from ResourceStrings where CultureName = 'ru-RU' and [Key] = 'posters_lower')
+	insert ResourceStrings(CultureName, [Key], Value, DateAdded) values('ru-RU', 'posters_lower', N'мнители', getDate());
+GO
+
+if not exists(select * from ResourceStrings where CultureName = 'en-US' and [Key] = 'posters_capital')
+	insert ResourceStrings(CultureName, [Key], Value, DateAdded) values('en-US', 'posters_capital', N'Apinioners', getDate());
+if not exists(select * from ResourceStrings where CultureName = 'ru-RU' and [Key] = 'posters_capital')
+	insert ResourceStrings(CultureName, [Key], Value, DateAdded) values('ru-RU', 'posters_capital', N'Мнители', getDate());
+GO
+
+if not exists(select * from ResourceStrings where CultureName = 'en-US' and [Key] = 'top_posters')
+	insert ResourceStrings(CultureName, [Key], Value, DateAdded) values('en-US', 'top_posters', N'Top {{posters_capital}}', getDate());
+if not exists(select * from ResourceStrings where CultureName = 'ru-RU' and [Key] = 'top_posters')
+	insert ResourceStrings(CultureName, [Key], Value, DateAdded) values('ru-RU', 'top_posters', N'Топ {{posters_capital}}', getDate());
+GO
+
+if not exists(select * from ResourceStrings where CultureName = 'en-US' and [Key] = 'opinions_lower')
+	insert ResourceStrings(CultureName, [Key], Value, DateAdded) values('en-US', 'opinions_lower', N'opinions', getDate());
+if not exists(select * from ResourceStrings where CultureName = 'ru-RU' and [Key] = 'opinions_lower')
+	insert ResourceStrings(CultureName, [Key], Value, DateAdded) values('ru-RU', 'opinions_lower', N'мнений', getDate());
+GO
+
 
 -- delete from ResourceStrings where [key] in ('help_others', 'add_your_opinion', 'if_search_is_not_sufficient')

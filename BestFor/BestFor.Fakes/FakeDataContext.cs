@@ -7,16 +7,18 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
+using System.Linq;
 
 namespace BestFor.Fakes
 {
-    public class FakeDataContext : IDataContext, IUserStore<ApplicationUser>
+    public class FakeDataContext : IDataContext, IUserStore<ApplicationUser>, IQueryableUserStore<ApplicationUser>
     {
         #region Private Fields
         /// <summary>
         /// Stores all fake db sets
         /// </summary>
         private readonly Dictionary<Type, object> _fakeDbSets;
+
         #endregion Private Fields
 
         public FakeDataContext()
@@ -26,6 +28,11 @@ namespace BestFor.Fakes
             AddFakeDbSet<BadWord, FakeBadWords>();
             AddFakeDbSet<Suggestion, FakeSuggestions>();
             AddFakeDbSet<AnswerDescription, FakeAnswerDescriptions>();
+            AddFakeDbSet<AnswerVote, FakeAnswerVotes>();
+            AddFakeDbSet<AnswerDescriptionVote, FakeAnswerDescriptionVotes>();
+            
+            // Have to deal with users separately
+            _fakeDbSets.Add(typeof(ApplicationUser), new FakeApplicationUsers());
         }
 
         public virtual DbSet<TEntity> EntitySet<TEntity>() where TEntity : class
@@ -114,6 +121,17 @@ namespace BestFor.Fakes
         public void Dispose()
         {
             throw new NotImplementedException();
+        }
+        #endregion
+
+        #region IUserStore<ApplicationUser> implementation
+        public IQueryable<ApplicationUser> Users
+        {
+            get
+            {
+                var users = (FakeApplicationUsers)_fakeDbSets[typeof(ApplicationUser)];
+                return users.Users;
+            }
         }
         #endregion
     }

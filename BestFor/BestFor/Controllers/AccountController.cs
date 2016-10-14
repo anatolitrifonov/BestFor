@@ -160,7 +160,7 @@ namespace BestFor.Controllers
             if (!await IsEmailUnique(model.Email, null)) return View(model);
 
             // Check display name is unique.
-            if (!await IsDisplayNameUnique(model.DisplayName, null)) return View(model);
+            if (!IsDisplayNameUnique(model.DisplayName, null)) return View(model);
 
             // Username will be checked by user manager.
             var user = new ApplicationUser
@@ -184,7 +184,7 @@ namespace BestFor.Controllers
                 _logger.LogInformation(3, "User created a new account with password.");
 
                 // Add user to cache
-                await _userService.AddUserToCache(user);
+                _userService.AddUserToCache(user);
 
                 return RedirectToAction(nameof(HomeController.Index), "Home");
             }
@@ -314,7 +314,7 @@ namespace BestFor.Controllers
             // User manager will go to database to find info about the user.
             // Let's go to cache.
             // we are authenticated so currentUserId will be there.
-            var user = await _userService.FindByIdAsync(currentUserId);
+            var user = _userService.FindById(currentUserId);
 
             // var user = await _userManager.FindByIdAsync(currentUserId);
             if (user == null)
@@ -408,7 +408,7 @@ namespace BestFor.Controllers
             if (!await IsEmailUnique(model.Email, user.Id)) return View(model);
 
             // Check display name is unique.
-            if (!await IsDisplayNameUnique(model.DisplayName, user.Id)) return View(model);
+            if (!IsDisplayNameUnique(model.DisplayName, user.Id)) return View(model);
 
             var updateResult = await _userManager.UpdateAsync(user);
 
@@ -596,11 +596,11 @@ namespace BestFor.Controllers
         /// <param name="displayName"></param>
         /// <param name="userId">existing userid to skip</param>
         /// <returns></returns>
-        private async Task<bool> IsDisplayNameUnique(string displayName, string userId)
+        private bool IsDisplayNameUnique(string displayName, string userId)
         {
             // blank Display name is OK
             if (string.IsNullOrEmpty(displayName) || string.IsNullOrWhiteSpace(displayName)) return true;
-            var user = await _userService.FindByDisplayNameAsync(displayName);
+            var user = _userService.FindByDisplayName(displayName);
             if (user != null)
             {
                 if (userId == user.Id)
