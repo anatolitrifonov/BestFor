@@ -6,70 +6,89 @@
 }
 
 <h4>Hi team @Model.TeamName!</h4>
+<span class="red">@Model.ErrorMessage</span><br />
 
 <form asp-action="Team" method="post" role="form">
     <input type="hidden" asp-for="TeamName" />
     <table class="score_table">
         <tr>
-            <td>Slot 1</td>
+            <td>Slot</td>
+            <td>Shaker</td>
+            <td>Slot</td>
+            <td>Oversize</td>
+            <td>Score</td>
+        </tr>
+        <tr>
+            <td>Entry # 1</td>
             <td>Shaker <input type="radio" asp-for="Slot1" value="3" /></td>
             <td>Slot <input type="radio" asp-for="Slot1" value="7" /></td>
             <td>Oversize <input type="radio" asp-for="Slot1" value="5" /></td>
+            <td>@Model.Slot1</td>
         </tr>
         <tr>
-            <td>Slot 2</td>
+            <td>Entry # 2</td>
             <td>Shaker <input type="radio" asp-for="Slot2" value="3" /></td>
             <td>Slot <input type="radio" asp-for="Slot2" value="7" /></td>
             <td>Oversize <input type="radio" asp-for="Slot2" value="5" /></td>
+            <td>@Model.Slot2</td>
         </tr>
         <tr>
-            <td>Slot 3</td>
+            <td>Entry # 3</td>
             <td>Shaker <input type="radio" asp-for="Slot3" value="3" /></td>
             <td>Slot <input type="radio" asp-for="Slot3" value="7" /></td>
             <td>Oversize <input type="radio" asp-for="Slot3" value="5" /></td>
+            <td>@Model.Slot3</td>
         </tr>
         <tr>
-            <td>Slot 4</td>
+            <td>Entry # 4</td>
             <td>Shaker <input type="radio" asp-for="Slot4" value="3" /></td>
             <td>Slot <input type="radio" asp-for="Slot4" value="7" /></td>
             <td>Oversize <input type="radio" asp-for="Slot4" value="5" /></td>
+            <td>@Model.Slot4</td>
         </tr>
         <tr>
-            <td>Slot 5</td>
+            <td>Entry # 5</td>
             <td>Shaker <input type="radio" asp-for="Slot5" value="3" /></td>
             <td>Slot <input type="radio" asp-for="Slot5" value="7" /></td>
             <td>Oversize <input type="radio" asp-for="Slot5" value="5" /></td>
+            <td>@Model.Slot5</td>
         </tr>
         <tr>
-            <td>Slot 6</td>
+            <td>Entry # 6</td>
             <td>Shaker <input type="radio" asp-for="Slot6" value="3" /></td>
             <td>Slot <input type="radio" asp-for="Slot6" value="7" /></td>
             <td>Oversize <input type="radio" asp-for="Slot6" value="5" /></td>
+            <td>@Model.Slot6</td>
         </tr>
         <tr>
-            <td>Slot 7</td>
+            <td>Entry # 7</td>
             <td>Shaker <input type="radio" asp-for="Slot7" value="3" /></td>
             <td>Slot <input type="radio" asp-for="Slot7" value="7" /></td>
             <td>Oversize <input type="radio" asp-for="Slot7" value="5" /></td>
+            <td>@Model.Slot7</td>
         </tr>
         <tr>
-            <td>Slot 8</td>
+            <td>Entry # 8</td>
             <td>Shaker <input type="radio" asp-for="Slot8" value="3" /></td>
             <td>Slot <input type="radio" asp-for="Slot8" value="7" /></td>
             <td>Oversize <input type="radio" asp-for="Slot8" value="5" /></td>
+            <td>@Model.Slot8</td>
         </tr>
         <tr>
-            <td>Slot 9</td>
+            <td>Entry # 9</td>
             <td>Shaker <input type="radio" asp-for="Slot9" value="3" /></td>
             <td>Slot <input type="radio" asp-for="Slot9" value="7" /></td>
             <td>Oversize <input type="radio" asp-for="Slot9" value="5" /></td>
+            <td>@Model.Slot9</td>
         </tr>
         <tr>
             <td>Passsword</td>
-            <td colspan="3"><input asp-for="Password" type="password" /></td>
+            <td colspan="2"><input asp-for="Password" type="password" /></td>
+            <td>Total</td>
+            <td>@Model.Score</td>
         </tr>
         <tr>
-            <td colspan="4">
+            <td colspan="5">
                 <button type="submit">Submit</button>
             </td>
         </tr>

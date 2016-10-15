@@ -8,7 +8,7 @@
 Hello Teams.<br /><br />
 
 <table class="score_table">
-    <tr><td>Team</td><td>Score</td></tr>
+    <tr><td>Team</td><td>Score</td><td>Password</td></tr>
     @foreach (var team in Model.Teams)
     {
         <tr>
@@ -17,6 +17,9 @@ Hello Teams.<br /><br />
             </td>
             <td>
                 @team.Score
+            </td>
+            <td>
+                @team.Password
             </td>
         </tr>
     }

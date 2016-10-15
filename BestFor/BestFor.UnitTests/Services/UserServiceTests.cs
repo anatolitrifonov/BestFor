@@ -84,6 +84,37 @@ namespace BestFor.UnitTests.Services
             Assert.Equal(all.Count(), FakeApplicationUsers.DEFAUL_NUMBER_USERS);
         }
 
+        [Fact]
+        public void UserServiceTests_UpdateUserFromAnswer_UpdatesUser()
+        {
+            // Setup
+            var setup = new TestSetup();
+
+            var answer = new Answer();
+
+            var result = setup.UserService.UpdateUserFromAnswer(answer);
+
+            // result should be zero since there is no user id
+            Assert.Equal(result, 0);
+
+            // Set some random userid. And we should get zero again because random user is not in cache.
+            answer.UserId = "asdasdasd";
+            result = setup.UserService.UpdateUserFromAnswer(answer);
+            // result should be zero since random user is not in cache.
+            Assert.Equal(result, 0);
+
+            // Fakes loads user with id DEFAUL_USER_ID
+            answer.UserId = FakeApplicationUsers.DEFAUL_USER_ID;
+            var user = setup.UserService.FindById(FakeApplicationUsers.DEFAUL_USER_ID);
+            var currentCount = user.NumberOfAnswers;
+            currentCount++;
+            result = setup.UserService.UpdateUserFromAnswer(answer);
+            Assert.Equal(result, 1);
+            // We are verifying two things.
+            // The fact that user object is the same in cache and that current is incremented.
+            Assert.Equal(user.NumberOfAnswers, currentCount);
+        }
+
         //[Fact]
         //public void VoteService_VoteAnswerNullData_ThrowsException()
         //{
