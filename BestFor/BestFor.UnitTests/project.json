@@ -25,5 +25,9 @@
     "net452": {}
   },
 
-  "buildOptions": {"copyToOutput": { "include": "appsettings.json"}}
+  "buildOptions": {
+    "copyToOutput": {
+      "include": [ "appsettings.json", "appsettings.secret.json" ]
+    }
+  }
 }

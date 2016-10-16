@@ -57,7 +57,8 @@ namespace BestFor.Common
         {
             var builder = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("appsettings.json");
+                .AddJsonFile("appsettings.json")
+                .AddJsonFile("appsettings.secret.json");
             var appSettings = new AppSettings();
 
             builder.Build().GetSection("AppSettings").Bind(appSettings);

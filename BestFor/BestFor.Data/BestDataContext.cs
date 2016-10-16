@@ -67,10 +67,14 @@ namespace BestFor.Data
             if (!string.IsNullOrEmpty(computerName))
             {
                 string alterConnectionString = configuration["Data:" + computerName + "Connection:ConnectionString"];
-                //throw new System.Exception("klsdjlsdfkjsdf " + alterConnectionString);
                 if (!string.IsNullOrEmpty(alterConnectionString))
                     connectionString = alterConnectionString;
             }
+            // See if we can override from anothe env variable.
+            string conectionStringFromEnv = System.Environment.GetEnvironmentVariable("main_database_connection");
+            if (!string.IsNullOrEmpty(conectionStringFromEnv))
+                connectionString = conectionStringFromEnv;
+
             optionsBuilder.UseSqlServer(connectionString);
         }
 
